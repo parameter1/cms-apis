@@ -17,7 +17,7 @@ x-node-service: &node-service
     <<: *node-env
 
 x-env-mongodb: &mongodb-env
-  MONGO_URL: ${MONGO_URL-mongodb://root:password123@mongodb-primary:27017,mongodb-secondary:27017/?replicaSet=cmsapis&authSource=admin&readPreference=primary}
+  MONGO_URL: ${MONGO_URL-mongodb://root:password123@mongodb-primary:27017,mongodb-secondary:27017/?authSource=admin&readPreference=primary}
 
 x-env-legacy-mongodb: &legacy-mongodb-env
   LEGACY_MONGO_URL: ${LEGACY_MONGO_URL-mongodb://mongodb-legacy:27017}
