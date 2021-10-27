@@ -1,0 +1,19 @@
+{
+  "name": "cms-apis",
+  "author": "Jacob Bare <jacob@parameter1.com>",
+  "private": true,
+  "repository": "https://github.com/parameter1/cms-apis.git",
+  "license": "MIT",
+  "scripts": {
+    "test": "lerna run test",
+    "lint": "lerna run lint",
+    "lerna": "lerna"
+  },
+  "workspaces": [
+    "graphql",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}
