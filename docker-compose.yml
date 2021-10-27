@@ -29,11 +29,11 @@ services:
     command: ["dev"]
     environment:
       <<: *node-env
-      EXPOSED_HOST: graphql-cms-apis.dev.parameter1.com
+      EXPOSED_HOST: cms-apis-graphql.dev.parameter1.com
       EXPOSED_PORT: 11760
-      HOST: graphql-cms-apis.dev.parameter1.com
+      HOST: cms-apis-graphql.dev.parameter1.com
       SHUTDOWN_GRACE_PERIOD: 0
-    hostname: graphql-cms-apis.dev.parameter1.com
+    hostname: cms-apis-graphql.dev.parameter1.com
     ports:
       - "11760:80"
 
