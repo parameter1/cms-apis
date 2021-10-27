@@ -16,6 +16,9 @@ x-node-service: &node-service
   environment:
     <<: *node-env
 
+x-env-mongodb: &mongodb-env
+  MONGO_URL: ${MONGO_URL-mongodb://root:password123@mongodb-primary:27017,mongodb-secondary:27017/?replicaSet=cmsapis&authSource=admin&readPreference=primary}
+
 x-env-legacy-mongodb: &legacy-mongodb-env
   LEGACY_MONGO_URL: ${LEGACY_MONGO_URL-mongodb://mongodb-legacy:27017}
 
@@ -51,6 +54,33 @@ services:
     ports:
       - "11660:27017"
 
+  mongodb-primary:
+    image: bitnami/mongodb:5.0
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-primary
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_KEY=cmsapis
+    volumes:
+      - mongodb-primary:/bitnami
+    ports:
+      - "11661:27017"
+
+  mongodb-secondary:
+    image: bitnami/mongodb:5.0
+    depends_on:
+      - mongodb-primary
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-secondary
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_PRIMARY_HOST=mongodb-primary
+      - MONGODB_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_KEY=cmsapis
+    volumes:
+      - mongodb-secondary:/bitnami
+
 volumes:
+  mongodb-primary: {}
+  mongodb-secondary: {}
   mongodb-legacy: {}
   yarn-cache: {}
