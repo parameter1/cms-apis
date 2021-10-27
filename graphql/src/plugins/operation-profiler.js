@@ -24,7 +24,7 @@ export default function OperationProfilerPlugin({ enabled = true, logToTerminal 
           start = process.hrtime();
         },
         willSendResponse: (requestContext) => {
-          if (!shouldProfile(requestContext)) return;
+          if (!shouldProfile(requestContext) || !start) return;
           const { operationName: name, response } = requestContext;
           const { http } = response;
           const [secs, ns] = process.hrtime(start);
