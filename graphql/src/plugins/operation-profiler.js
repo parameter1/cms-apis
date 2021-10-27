@@ -16,14 +16,11 @@ export default function OperationProfilerPlugin({ enabled = true, logToTerminal 
     /**
      *
      */
-    requestDidStart: () => {
+    requestDidStart(rq) {
       let start;
+      if (shouldProfile(rq)) start = process.hrtime();
       return {
-        executionDidStart: (requestContext) => {
-          if (!shouldProfile(requestContext)) return;
-          start = process.hrtime();
-        },
-        willSendResponse: (requestContext) => {
+        willSendResponse(requestContext) {
           if (!shouldProfile(requestContext) || !start) return;
           const { operationName: name, response } = requestContext;
           const { http } = response;
