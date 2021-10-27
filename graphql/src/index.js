@@ -6,6 +6,7 @@ import {
   HOST,
   PORT,
 } from './env.js';
+import legacyMongo from './mongodb/legacy-client.js';
 
 const immediatelyThrow = (e) => setImmediate(() => { throw e; });
 
@@ -16,14 +17,23 @@ const { log } = console;
 (async () => {
   log(`Booting ${pkg.name} v${pkg.version}...`);
   // start services here
+  log('Connecting to Legacy MongoDB...');
+  await legacyMongo.connect();
+  log(`Legacy MongoDB connected to ${legacyMongo.url}`);
 
   const server = await createServer({
     fastify: {
       trustProxy: ['loopback', 'linklocal', 'uniquelocal'],
     },
-    onHealthCheck: async () => true,
+    onHealthCheck: async () => {
+      await legacyMongo.ping({ id: pkg.name });
+      return true;
+    },
     onShutdown: async () => {
       // stop services here
+      log('Closing MongoDB instances...');
+      await legacyMongo.close();
+      log('MongoDB instances closed.');
     },
   });
 

@@ -16,8 +16,8 @@ x-node-service: &node-service
   environment:
     <<: *node-env
 
-x-env-base-platform-mongodb: &base-platform-mongodb-env
-  BASE_PLATFORM_MONGO_URL: ${BASE_PLATFORM_MONGO_URL-mongodb://mongodb-base-platform:27017}
+x-env-legacy-mongodb: &legacy-mongodb-env
+  LEGACY_MONGO_URL: ${LEGACY_MONGO_URL-mongodb://mongodb-legacy:27017}
 
 services:
   commands:
@@ -32,6 +32,7 @@ services:
     command: ["dev"]
     environment:
       <<: *node-env
+      <<: *legacy-mongodb-env
       EXPOSED_HOST: cms-apis-graphql.dev.parameter1.com
       EXPOSED_PORT: 11760
       HOST: cms-apis-graphql.dev.parameter1.com
@@ -39,15 +40,17 @@ services:
     hostname: cms-apis-graphql.dev.parameter1.com
     ports:
       - "11760:80"
+    depends_on:
+      - mongodb-legacy
 
-  mongodb-base-platform:
+  mongodb-legacy:
     tty: true
     image: mongo:3.4
     volumes:
-      - mongodb-base-platform:/data/db
+      - mongodb-legacy:/data/db
     ports:
       - "11660:27017"
 
 volumes:
-  mongodb-base-platform: {}
+  mongodb-legacy: {}
   yarn-cache: {}
