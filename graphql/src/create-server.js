@@ -5,7 +5,12 @@ import {
   ApolloServerPluginLandingPageDisabled,
 } from 'apollo-server-core';
 import fastify from 'fastify';
-import { CloseFastifyPlugin, OnShutdownPlugin, OperationProfilerPlugin } from './plugins/index.js';
+import {
+  CloseFastifyPlugin,
+  CorePlugin,
+  OnShutdownPlugin,
+  OperationProfilerPlugin,
+} from './plugins/index.js';
 import schema from './schema.js';
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -23,6 +28,7 @@ export default async (options = {}) => {
         : ApolloServerPluginLandingPageGraphQLPlayground(),
       OperationProfilerPlugin({ logToTerminal: isDevelopment }),
       CloseFastifyPlugin(app),
+      CorePlugin(),
       ApolloServerPluginDrainHttpServer({
         httpServer: app.server,
         stopGracePeriodMillis: process.env.SHUTDOWN_GRACE_PERIOD,
