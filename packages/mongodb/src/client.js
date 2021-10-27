@@ -45,7 +45,7 @@ export default class MongoDBClient {
    * @return {Promise<MongoClient>}
    */
   async connect() {
-    if (!this.promise) this.promise = this.client.connect(this.url, this.options);
+    if (!this.promise) this.promise = this.client.connect();
     return this.promise;
   }
 
