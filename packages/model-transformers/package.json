@@ -1,0 +1,33 @@
+{
+  "name": "@cms-apis/model-transformers",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Legacy DB model transformers.",
+  "author": "Jacob Bare <jacob@parameter1.com>",
+  "homepage": "https://github.com/parameter1/cms-apis/tree/main/packages/model-transformers#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parameter1/cms-apis.git",
+    "directory": "packages/model-transformers"
+  },
+  "private": true,
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint --ext .js ./",
+    "test": "yarn lint"
+  },
+  "engines": {
+    "node": ">=14.0"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "dependencies": {
+    "@cms-apis/mongodb": "^0.0.0",
+    "@cms-apis/utils": "^0.0.0",
+    "envalid": "^7.2.2"
+  }
+}
