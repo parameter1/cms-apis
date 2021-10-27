@@ -40,6 +40,21 @@ export default class MongoDBClient {
   }
 
   /**
+   * Execute a command.
+   *
+   * @param {object} params
+   * @param {string} command The command name/hash.
+   * @param {object} [params.options] Options to pass to the `Db.command` method
+   * @param {string} [params.dbName=test] The database name
+   * @param {object} [params.dbOptions]
+   * @return {Promise}
+   */
+  async command(command, { options, dbName = 'test', dbOptions } = {}) {
+    const db = await this.db({ name: dbName, options: dbOptions });
+    return db.command(command, options);
+  }
+
+  /**
    * Connects to the server.
    *
    * @return {Promise<MongoClient>}
@@ -60,5 +75,19 @@ export default class MongoDBClient {
   async db({ name, options } = {}) {
     await this.connect();
     return this.client.db(name, options);
+  }
+
+  /**
+   * Pings the connection for both read and write.
+   *
+   * @param {objects} params
+   * @param {string} params.id The identifier to apply to the write ping.
+   */
+  async ping({ id } = {}) {
+    const coll = await this.collection({ dbName: 'test', name: 'pings' });
+    return Promise.all([
+      this.command({ ping: 1 }),
+      coll.updateOne({ _id: id }, { $set: { last: new Date() } }, { upsert: true }),
+    ]);
   }
 }
