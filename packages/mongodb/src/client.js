@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb';
+import filterURL from './utils/filter-url.js';
 
 export default class MongoDBClient {
   /**
@@ -8,9 +9,8 @@ export default class MongoDBClient {
    * @param {MongoClientOptions} [params.options={}] Options to pass to `MongoClient.connect`
    */
   constructor({ url, options } = {}) {
-    this.url = url;
-    this.options = options;
     this.client = new MongoClient(url, options);
+    this.url = filterURL(this.client);
   }
 
   /**
