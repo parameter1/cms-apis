@@ -1,4 +1,4 @@
-import pkg from '../package.js';
+import { immediatelyThrow } from '@cms-apis/utils';
 import createServer from './create-server.js';
 import {
   EXPOSED_HOST,
@@ -7,12 +7,10 @@ import {
   PORT,
 } from './env.js';
 import legacyMongo from './mongodb/legacy-client.js';
-
-const immediatelyThrow = (e) => setImmediate(() => { throw e; });
-
-process.on('unhandledRejection', immediatelyThrow);
+import pkg from '../package.js';
 
 const { log } = console;
+process.on('unhandledRejection', immediatelyThrow);
 
 (async () => {
   log(`Booting ${pkg.name} v${pkg.version}...`);
