@@ -16,6 +16,9 @@ x-node-service: &node-service
   environment:
     <<: *node-env
 
+x-env-base-platform-mongodb: &base-platform-mongodb-env
+  BASE_PLATFORM_MONGO_URL: ${BASE_PLATFORM_MONGO_URL-mongodb://mongodb-base-platform:27017}
+
 services:
   commands:
     <<: *node-service
@@ -37,5 +40,14 @@ services:
     ports:
       - "11760:80"
 
+  mongodb-base-platform:
+    tty: true
+    image: mongo:3.4
+    volumes:
+      - mongodb-base-platform:/data/db
+    ports:
+      - "11660:27017"
+
 volumes:
+  mongodb-base-platform: {}
   yarn-cache: {}
