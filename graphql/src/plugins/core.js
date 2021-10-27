@@ -13,12 +13,14 @@ export default function CorePlugin() {
           if (isIntrospectionQuery(requestContext)) return;
 
           const tenant = headers.get('x-tenant-key');
+          const siteId = headers.get('x-site-id');
           if (!tenant) throw new UserInputError('You must provide a tenant via the `x-tenant-key` header.');
+          if (siteId && !/^[a-f0-9]{24}$/i.test(siteId)) {
+            throw new UserInputError('The provided `x-site-id` header value is invalid.');
+          }
 
           context.tenant = tenant;
-          context.siteId = headers.get('x-site-id');
-
-          console.log(context);
+          context.siteId = siteId;
         },
       };
     },
