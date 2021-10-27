@@ -7,9 +7,9 @@
  */
 export default function filterURL(client) {
   const { url, options } = client.s;
-  const { auth } = options;
-  if (!auth) return url;
-  const { username, password } = auth;
+  const { credentials } = options;
+  if (!credentials) return url;
+  const { username, password } = credentials;
   if (username || password) return `${url}`.replace(username, '*****').replace(password, '*****');
   return url;
 }
