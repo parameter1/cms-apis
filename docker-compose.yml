@@ -1,0 +1,41 @@
+version: '3.7'
+
+x-node-env: &node-env
+  NODE_ENV: development
+  YARN_CACHE_FOLDER: /.yarn-cache
+
+x-node-service: &node-service
+  tty: true
+  init: true
+  image: node:16.12-alpine
+  working_dir: /cms-apis
+  volumes:
+    - .:/cms-apis:cached
+    - ./node_modules:/cms-apis/node_modules:delegated
+    - yarn-cache:/.yarn-cache
+  environment:
+    <<: *node-env
+
+services:
+  commands:
+    <<: *node-service
+    entrypoint: ["tail"]
+    command: ["-f", "/dev/null"]
+
+  graphql:
+    <<: *node-service
+    working_dir: /cms-apis/graphql
+    entrypoint: ["yarn"]
+    command: ["dev"]
+    environment:
+      <<: *node-env
+      EXPOSED_HOST: graphql-cms-apis.dev.parameter1.com
+      EXPOSED_PORT: 11760
+      HOST: graphql-cms-apis.dev.parameter1.com
+      SHUTDOWN_GRACE_PERIOD: 0
+    hostname: graphql-cms-apis.dev.parameter1.com
+    ports:
+      - "11760:80"
+
+volumes:
+  yarn-cache: {}
