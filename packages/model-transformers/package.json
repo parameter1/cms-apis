@@ -28,6 +28,13 @@
   "dependencies": {
     "@cms-apis/db": "^0.0.0",
     "@cms-apis/utils": "^0.0.0",
-    "envalid": "^7.2.2"
+    "@graphql-tools/schema": "^8.3.1",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link-schema": "^1.2.5",
+    "envalid": "^7.2.2",
+    "graphql": "^15.7.2",
+    "graphql-tag": "^2.12.5",
+    "lodash.merge": "^4.6.2"
   }
 }
