@@ -26,6 +26,7 @@
     "win32"
   ],
   "dependencies": {
+    "@cms-apis/clean-string": "^0.0.0",
     "@cms-apis/db": "^0.0.0",
     "@cms-apis/graphql": "^0.0.0",
     "@cms-apis/object-path": "^0.0.0",
