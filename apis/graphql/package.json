@@ -1,14 +1,14 @@
 {
-  "name": "@cms-apis/graphql",
+  "name": "@cms-apis/graphql-api",
   "version": "0.0.0",
   "type": "module",
   "description": "CMS GraphQL API.",
   "author": "Jacob Bare <jacob@parameter1.com>",
-  "homepage": "https://github.com/parameter1/cms-apis/tree/main/graphql#readme",
+  "homepage": "https://github.com/parameter1/cms-apis/tree/main/apis/graphql#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/parameter1/cms-apis.git",
-    "directory": "graphql"
+    "directory": "apis/graphql"
   },
   "private": true,
   "license": "MIT",

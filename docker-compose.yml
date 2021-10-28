@@ -30,7 +30,7 @@ services:
 
   graphql:
     <<: *node-service
-    working_dir: /cms-apis/graphql
+    working_dir: /cms-apis/apis/graphql
     entrypoint: ["yarn"]
     command: ["dev"]
     environment:
