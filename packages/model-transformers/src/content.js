@@ -24,6 +24,14 @@ query TransformContentById($input: QueryContentInterfaceByIdInput!) {
       magazine
       website
     }
+    primaryWebsiteSectionEdge {
+      node {
+        _id
+        name
+        alias
+        canonicalPath
+      }
+    }
   }
 }
 

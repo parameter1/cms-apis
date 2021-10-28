@@ -12,6 +12,8 @@ interface ContentInterface {
   name: ContentInterfaceName!
   teaser: ContentInterfaceTeaser!
   body: ContentInterfaceBody!
+
+  primaryWebsiteSectionEdge: ContentInterfacePrimaryWebsiteSectionEdge!
 }
 
 type ContentInterfaceName {
@@ -19,6 +21,10 @@ type ContentInterfaceName {
   email: String
   magazine: String
   website: String
+}
+
+type ContentInterfacePrimaryWebsiteSectionEdge {
+  node: WebsiteSection!
 }
 
 type ContentInterfaceTeaser {

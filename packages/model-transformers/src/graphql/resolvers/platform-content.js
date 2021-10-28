@@ -1,11 +1,11 @@
 import { get } from '@cms-apis/object-path';
+import { trim } from '@cms-apis/utils';
 
 const resolveType = async ({ type }) => `Content${type}`;
 
 const getMutatedValue = ({ content, mutation, field }) => {
   const value = get(content, `mutations.${mutation}.${field}`);
-  if (!value) return null;
-  return value.trim() || null;
+  return trim(value);
 };
 
 export default {
@@ -13,35 +13,20 @@ export default {
    *
    */
   ContentInterface: {
-    /**
-     *
-     */
     __resolveType: resolveType,
-
-    /**
-     *
-     */
     _type(content) {
-      return content.type;
+      return trim(content.type);
     },
-
-    /**
-     *
-     */
     body(content) {
       return content;
     },
-
-    /**
-     *
-     */
     name(content) {
       return content;
     },
-
-    /**
-     *
-     */
+    async primaryWebsiteSectionEdge(content, _, { loaders }) {
+      const node = await loaders.get('website.Section').load(get(content, 'mutations.Website.primarySection.oid'));
+      return { node };
+    },
     teaser(content) {
       return content;
     },
@@ -52,7 +37,7 @@ export default {
    */
   ContentInterfaceBody: {
     default({ body }) {
-      return (body || '').trim() || null;
+      return trim(body);
     },
     email(content) {
       return getMutatedValue({ content, mutation: 'Email', field: 'body' });
@@ -70,7 +55,7 @@ export default {
    */
   ContentInterfaceName: {
     default({ name }) {
-      return (name || '').trim();
+      return trim(name);
     },
     email(content) {
       return getMutatedValue({ content, mutation: 'Email', field: 'name' });
@@ -88,7 +73,7 @@ export default {
    */
   ContentInterfaceTeaser: {
     default({ teaser }) {
-      return (teaser || '').trim() || null;
+      return trim(teaser);
     },
     email(content) {
       return getMutatedValue({ content, mutation: 'Email', field: 'teaser' });
