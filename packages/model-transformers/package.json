@@ -26,7 +26,7 @@
     "win32"
   ],
   "dependencies": {
-    "@cms-apis/mongodb": "^0.0.0",
+    "@cms-apis/db": "^0.0.0",
     "@cms-apis/utils": "^0.0.0",
     "envalid": "^7.2.2"
   }

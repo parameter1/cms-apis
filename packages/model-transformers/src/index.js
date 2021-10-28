@@ -1,5 +1,6 @@
 import { immediatelyThrow } from '@cms-apis/utils';
 import { mongoDB, legacyMongoDB } from './mongodb/clients.js';
+import createDBs from './mongodb/create-dbs.js';
 
 const { log } = console;
 process.on('unhandledRejection', immediatelyThrow);
@@ -17,6 +18,11 @@ process.on('unhandledRejection', immediatelyThrow);
       log(`Legacy MongoDB connected to ${legacyMongoDB.url}`);
     })(),
   ]);
+
+  const tenant = 'acbm_fcp';
+  const dbs = createDBs({ tenant });
+
+  log(dbs);
 
   log('Closing MongoDB clients...');
   await Promise.all([mongoDB.close(), legacyMongoDB.close()]);

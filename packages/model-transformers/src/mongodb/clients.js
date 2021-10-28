@@ -1,4 +1,4 @@
-import { MongoDBClient } from '@cms-apis/mongodb';
+import { MongoDBClient } from '@cms-apis/db';
 import { LEGACY_MONGO_URL, MONGO_URL } from '../env.js';
 import pkg from '../../package.js';
 
