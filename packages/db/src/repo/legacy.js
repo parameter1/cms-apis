@@ -1,4 +1,6 @@
-import { MongoDBClient, Repo } from '@cms-apis/mongodb';
+import { MongoDBClient, Repo, ObjectId } from '@cms-apis/mongodb';
+import { isObject } from '@cms-apis/utils';
+import { get } from '@cms-apis/object-path';
 import resources from '../resources.js';
 
 export default class LegacyDB {
@@ -41,5 +43,51 @@ export default class LegacyDB {
     const repo = models.get(model);
     if (!repo) throw new Error(`No model found for ${namespace}.${model}`);
     return repo;
+  }
+
+  /**
+   * Coerces a string ID to either a MongoDB ObjectID or an integer.
+   *
+   * If the `id` value is not a string, or does not match the requirements for
+   * the above, the `id` value will be returned as-is.
+   *
+   * @param {*} id
+   */
+  static coerceId(id) {
+    if (typeof id !== 'string') return id;
+    if (/^[a-f0-9]{24}$/.test(id)) return new ObjectId(id);
+    if (/^\d+$/.test(id)) return parseInt(id, 10);
+    return id;
+  }
+
+  /**
+   * Gets a Mongo ID from either a complex (DBRef) or simple (ID) reference.
+   *
+   * @param {*} ref The reference value.
+   */
+  static extractRefId(ref) {
+    const id = isObject(ref) && ref.oid ? ref.oid : ref;
+    return LegacyDB.coerceId(id) || null;
+  }
+
+  static extractRefIdFromPath(obj, path) {
+    const ref = get(obj, path);
+    return LegacyDB.extractRefId(ref);
+  }
+
+  /**
+   * Gets an array of Mongo IDs from an array
+   * of either complex (DBRef) or simple (ID) references.
+   *
+   * @param {array} refs
+   */
+  static extractRefIds(refs) {
+    if (!Array.isArray(refs) || !refs.length) return [];
+    return refs.map((ref) => LegacyDB.extractRefId(ref)).filter((id) => id);
+  }
+
+  static extractRefIdsFromPath(obj, path) {
+    const refs = get(obj, path);
+    return LegacyDB.extractRefIds(refs);
   }
 }

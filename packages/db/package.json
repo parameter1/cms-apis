@@ -26,6 +26,8 @@
     "win32"
   ],
   "dependencies": {
-    "@cms-apis/mongodb": "^0.0.0"
+    "@cms-apis/mongodb": "^0.0.0",
+    "@cms-apis/object-path": "^0.0.0",
+    "@cms-apis/utils": "^0.0.0"
   }
 }
