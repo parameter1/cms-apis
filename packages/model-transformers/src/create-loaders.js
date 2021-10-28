@@ -1,11 +1,13 @@
 import DataLoader from 'dataloader';
+import { isFunction as isFn } from '@cms-apis/utils';
 
-export default ({ legacyDB } = {}) => {
+export default ({ legacyDB, logger } = {}) => {
   const loaders = new Map();
   legacyDB.namespaces.forEach((repos, namespace) => {
     loaders.set(namespace, new Map());
     repos.forEach((repo, name) => {
       loaders.get(namespace).set(name, new DataLoader(async (keys) => {
+        if (isFn(logger)) logger({ namespace, name, keys });
         const query = { _id: { $in: keys } };
         const cursor = await repo.find({ query });
         const docs = await cursor.toArray();
