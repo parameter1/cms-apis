@@ -2,8 +2,8 @@ import gql from '@cms-apis/graphql/tag';
 
 const query = gql`
 
-query TransformContentById($input: QueryContentByIdInput!) {
-  transformed: contentById(input: $input) {
+query TransformContentById($input: QueryContentInterfaceByIdInput!) {
+  transformed: contentInterfaceById(input: $input) {
     _id
     _type
   }

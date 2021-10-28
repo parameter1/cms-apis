@@ -1,19 +1,15 @@
 import gql from '@cms-apis/graphql/tag';
 
+import platformContent from './platform-content.js';
+
 export default gql`
+
+directive @interfaceFields on OBJECT
 
 type Query {
   ping: String!
-  contentById(input: QueryContentByIdInput!): Content
 }
 
-type Content {
-  _id: Int!
-  _type: String!
-}
-
-input QueryContentByIdInput {
-  id: Int!
-}
+${platformContent}
 
 `;

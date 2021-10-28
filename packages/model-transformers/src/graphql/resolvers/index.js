@@ -1,5 +1,7 @@
 import merge from 'lodash.merge';
 
+import platformContent from './platform-content.js';
+
 export default merge({
   /**
    *
@@ -8,25 +10,8 @@ export default merge({
     /**
      *
      */
-    contentById(_, { input }, { dbs }) {
-      const { id } = input;
-      return dbs.legacy.repo('platform.Content').findById({ id });
-    },
-
-    /**
-     *
-     */
     ping() {
       return 'pong';
     },
   },
-
-  /**
-   *
-   */
-  Content: {
-    _type(content) {
-      return content.type;
-    },
-  },
-});
+}, platformContent);
