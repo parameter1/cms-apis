@@ -1,5 +1,15 @@
 import { asArray, cleanPath, trim } from '@cms-apis/utils';
+import { LegacyDB } from '@cms-apis/db';
 import cleanString from '@cms-apis/clean-string';
+
+const loadHierarchy = async (section, loaders, sections = []) => {
+  const parentId = LegacyDB.extractRefId(section.parent);
+  if (!parentId) return sections;
+  const parent = await loaders.get('website.Section').load(parentId);
+  if (!parent) return sections;
+  sections.push(parent);
+  return loadHierarchy(parent, loaders, sections);
+};
 
 export default {
   /**
@@ -19,6 +29,10 @@ export default {
     },
     fullName({ fullName }) {
       return trim(fullName);
+    },
+    async hierarchy(section, _, { loaders }) {
+      const sections = await loadHierarchy(section, loaders, [section]);
+      return sections.reverse();
     },
     isRoot({ parent }) {
       return !parent;

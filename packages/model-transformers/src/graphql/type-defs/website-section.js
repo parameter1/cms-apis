@@ -21,6 +21,7 @@ type WebsiteSection {
 
   canonicalPath: String!
   redirectTo: String!
+  hierarchy: [WebsiteSection!]!
 
   isRoot: Boolean!
 }

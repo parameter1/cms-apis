@@ -30,6 +30,12 @@ query TransformContentById($input: QueryContentInterfaceByIdInput!) {
         name
         alias
         canonicalPath
+        hierarchy {
+          _id
+          name
+          alias
+          canonicalPath
+        }
       }
     }
   }
