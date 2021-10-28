@@ -12,7 +12,7 @@ export default {
     canonicalPath({ alias }) {
       const cleaned = cleanPath(alias);
       if (cleaned === 'home') return '/';
-      return cleaned || null;
+      return `/${cleaned}` || null;
     },
     description({ description }) {
       return trim(description);
