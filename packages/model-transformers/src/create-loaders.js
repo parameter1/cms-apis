@@ -12,11 +12,11 @@ export default ({ legacyDB, logger } = {}) => {
         const cursor = await repo.find({ query });
         const docs = await cursor.toArray();
         const mapped = docs.reduce((map, doc) => {
-          map.set(doc._id, doc);
+          map.set(`${doc._id}`, doc);
           return map;
         }, new Map());
         return keys.map((key) => {
-          const doc = mapped.get(key);
+          const doc = mapped.get(`${key}`);
           if (!doc) throw new Error(`No result for ${namespace}.${name} key ${key}`);
           return doc;
         });
