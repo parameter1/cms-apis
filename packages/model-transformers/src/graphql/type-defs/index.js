@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from '@cms-apis/graphql/tag';
 
 export default gql`
 

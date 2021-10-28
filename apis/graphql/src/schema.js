@@ -1,4 +1,4 @@
-import { makeExecutableSchema } from '@graphql-tools/schema';
+import { makeExecutableSchema } from '@cms-apis/graphql/schema';
 import resolvers from './resolvers/index.js';
 import typeDefs from './definitions/index.js';
 import { enumDefaultValuesTransformer } from './enums.js';

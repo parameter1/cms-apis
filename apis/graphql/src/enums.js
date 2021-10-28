@@ -1,5 +1,5 @@
 import { get, getAsArray } from '@cms-apis/object-path';
-import { mapSchema, MapperKind } from '@graphql-tools/utils';
+import { mapSchema, MapperKind } from '@cms-apis/graphql/utils';
 
 export const enums = {};
 

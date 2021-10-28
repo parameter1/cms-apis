@@ -1,20 +1,27 @@
 {
-  "name": "@cms-apis/graphql-api",
+  "name": "@cms-apis/graphql",
   "version": "0.0.0",
   "type": "module",
-  "description": "CMS GraphQL API.",
+  "description": "Common GraphQL tools.",
   "author": "Jacob Bare <jacob@parameter1.com>",
-  "homepage": "https://github.com/parameter1/cms-apis/tree/main/apis/graphql#readme",
+  "homepage": "https://github.com/parameter1/cms-apis/tree/main/packages/graphql#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/parameter1/cms-apis.git",
-    "directory": "apis/graphql"
+    "directory": "packages/graphql"
   },
   "private": true,
   "license": "MIT",
   "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./directives": "./src/directives/index.js",
+    "./projection": "./src/projection/index.js",
+    "./schema": "./src/schema.js",
+    "./tag": "./src/tag.js",
+    "./utils": "./src/utils.js"
+  },
   "scripts": {
-    "dev": "gulp",
     "lint": "eslint --ext .js ./",
     "test": "yarn lint"
   },
@@ -27,18 +34,11 @@
     "win32"
   ],
   "dependencies": {
-    "@cms-apis/graphql": "^0.0.0",
-    "@cms-apis/mongodb": "^0.0.0",
     "@cms-apis/object-path": "^0.0.0",
     "@cms-apis/utils": "^0.0.0",
-    "apollo-server-core": "^3.4.0",
-    "apollo-server-fastify": "^3.4.0",
-    "envalid": "^7.2.2",
-    "fastify": "^3.22.1",
+    "@graphql-tools/schema": "^8.3.1",
+    "@graphql-tools/utils": "^8.5.1",
     "graphql": "^15.7.2",
-    "lodash.merge": "^4.6.2"
-  },
-  "devDependencies": {
-    "@parameter1/gulp": "^1.2.0"
+    "graphql-tag": "^2.12.5"
   }
 }
