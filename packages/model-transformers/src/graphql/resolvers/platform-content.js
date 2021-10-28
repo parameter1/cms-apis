@@ -1,5 +1,6 @@
 import { get } from '@cms-apis/object-path';
 import { trim } from '@cms-apis/utils';
+import { LegacyDB } from '@cms-apis/db';
 
 const resolveType = async ({ type }) => `Content${type}`;
 
@@ -24,7 +25,9 @@ export default {
       return content;
     },
     async primaryWebsiteSectionEdge(content, _, { loaders }) {
-      const node = await loaders.get('website.Section').load(get(content, 'mutations.Website.primarySection.oid'));
+      const id = LegacyDB.extractRefIdFromPath(content, 'mutations.Website.primarySection');
+      if (!id) throw new Error(`Unabled to load a primary section ID for content ID ${content._id}`);
+      const node = await loaders.get('website.Section').load(id);
       return { node };
     },
     teaser(content) {

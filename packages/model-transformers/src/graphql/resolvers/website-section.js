@@ -58,7 +58,9 @@ export default {
       const description = cleanString(section.description);
       if (description) return description;
       if (alias === 'home') {
-        const site = await loaders.get('platform.Product').load(section.site.oid);
+        const siteId = LegacyDB.extractRefId(section.site);
+        if (!siteId) throw new Error(`Unable to extract a site ID for section ID ${section._id}`);
+        const site = await loaders.get('platform.Product').load(siteId);
         const siteDescription = cleanString(site.description);
         if (siteDescription) return siteDescription;
         return `Articles, news, products, blogs and videos from ${site.name}.`;
