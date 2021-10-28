@@ -7,11 +7,11 @@ const { ApolloClient } = apolloClient;
 const { InMemoryCache } = apolloCache;
 const { SchemaLink } = link;
 
-export default ({ dbs } = {}) => new ApolloClient({
+export default ({ dbs, loaders } = {}) => new ApolloClient({
   ssrMode: true,
   cache: new InMemoryCache(),
   link: new SchemaLink({
     schema,
-    context: { dbs },
+    context: { dbs, loaders },
   }),
 });

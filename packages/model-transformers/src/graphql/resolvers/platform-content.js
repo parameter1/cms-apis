@@ -25,9 +25,9 @@ export default {
     /**
      *
      */
-    contentInterfaceById(_, { input }, { dbs }) {
+    contentInterfaceById(_, { input }, { loaders }) {
       const { id } = input;
-      return dbs.legacy.repo('platform.Content').findById({ id });
+      return loaders.get('platform.Content').load(id);
     },
   },
 };

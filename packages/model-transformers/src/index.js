@@ -2,6 +2,7 @@ import { immediatelyThrow } from '@cms-apis/utils';
 import { mongoDB, legacyMongoDB } from './mongodb/clients.js';
 import createDBs from './mongodb/create-dbs.js';
 import createGraphQLClient from './graphql/create-client.js';
+import createLoaders from './create-loaders.js';
 import transformContent from './content.js';
 
 const { log } = console;
@@ -23,7 +24,9 @@ process.on('unhandledRejection', immediatelyThrow);
 
   const tenant = 'acbm_fcp';
   const dbs = createDBs({ tenant });
-  const graphql = createGraphQLClient({ dbs });
+  const loaders = createLoaders({ legacyDB: dbs.legacy });
+
+  const graphql = createGraphQLClient({ dbs, loaders });
 
   await transformContent({ id: 21627001, graphql });
 
