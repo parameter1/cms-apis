@@ -9,14 +9,46 @@ extend type Query {
 interface ContentInterface {
   _id: Int!
   _type: String!
+  name: ContentInterfaceName!
+  teaser: ContentInterfaceTeaser!
+  body: ContentInterfaceBody!
 }
 
-type ContentArticle implements ContentInterface @interfaceFields {
-  _id: Int!
+type ContentInterfaceName {
+  default: String!
+  email: String
+  magazine: String
+  website: String
+}
+
+type ContentInterfaceTeaser {
+  default: String
+  email: String
+  magazine: String
+  website: String
+}
+
+type ContentInterfaceBody {
+  default: String
+  email: String
+  magazine: String
+  website: String
 }
 
 input QueryContentInterfaceByIdInput {
   id: Int!
+}
+
+
+
+
+# CONTENT TYPES
+type ContentArticle implements ContentInterface @interfaceFields {
+  _id: Int!
+}
+
+type ContentCompany implements ContentInterface @interfaceFields {
+  _id: Int!
 }
 
 `;

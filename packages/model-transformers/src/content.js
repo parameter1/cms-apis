@@ -6,6 +6,24 @@ query TransformContentById($input: QueryContentInterfaceByIdInput!) {
   transformed: contentInterfaceById(input: $input) {
     _id
     _type
+    name {
+      default
+      email
+      magazine
+      website
+    }
+    teaser {
+      default
+      email
+      magazine
+      website
+    }
+    body {
+      default
+      email
+      magazine
+      website
+    }
   }
 }
 
