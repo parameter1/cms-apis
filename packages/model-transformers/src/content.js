@@ -32,5 +32,5 @@ query TransformContentById($input: QueryContentInterfaceByIdInput!) {
 export default async ({ id, graphql }) => {
   const input = { id };
   const { data } = await graphql.query({ query, variables: { input } });
-  console.log(data);
+  return data.transformed;
 };

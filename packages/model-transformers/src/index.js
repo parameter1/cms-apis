@@ -24,11 +24,12 @@ process.on('unhandledRejection', immediatelyThrow);
 
   const tenant = 'acbm_fcp';
   const dbs = createDBs({ tenant });
-  const loaders = createLoaders({ legacyDB: dbs.legacy });
+  const loaders = createLoaders({ legacyDB: dbs.legacy, logger: log });
 
   const graphql = createGraphQLClient({ dbs, loaders });
 
-  await transformContent({ id: 21627001, graphql });
+  const transformed = await transformContent({ id: 21627001, graphql });
+  log(transformed._id);
 
   log('Closing MongoDB clients...');
   await Promise.all([mongoDB.close(), legacyMongoDB.close()]);
