@@ -1,6 +1,7 @@
 import merge from 'lodash.merge';
 
 import platformContent from './platform-content.js';
+import websiteSection from './website-section.js';
 
 export default merge({
   /**
@@ -14,4 +15,4 @@ export default merge({
       return 'pong';
     },
   },
-}, platformContent);
+}, platformContent, websiteSection);
