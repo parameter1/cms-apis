@@ -1,12 +1,8 @@
 import { LegacyDB } from '@cms-apis/db';
-import mapObject, { mapObjectSkip } from 'map-obj';
+import cleanNode from './clean-node.js';
 
-export default (transformed) => {
-  const filter = { _id: LegacyDB.coerceId(transformed._id) };
-  const replacement = mapObject(transformed, (key, value) => {
-    if (key === '__typename') return mapObjectSkip;
-    if (key === '_id') return [key, LegacyDB.coerceId(value), { shouldRecurse: false }];
-    return [key, value];
-  }, { deep: true });
+export default (node) => {
+  const filter = { _id: LegacyDB.coerceId(node._id) };
+  const replacement = cleanNode(node);
   return { replaceOne: { filter, replacement, upsert: true } };
 };
