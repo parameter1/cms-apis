@@ -65,8 +65,10 @@ export default {
     slug({ slug }) {
       return trim(slug);
     },
-    status({ status }) {
-      return parseInt(status, 10) || null;
+    status(section) {
+      const status = parseInt(section.status, 10);
+      if (status === 0) return 0;
+      return status || null;
     },
     async websiteEdge(section, _, { loaders }) {
       const siteId = LegacyDB.extractRefId(section.site);
