@@ -30,9 +30,10 @@ export default {
     fullName({ fullName }) {
       return trim(fullName);
     },
-    async hierarchy(section, _, { loaders }) {
+    async hierarchyConnection(section, _, { loaders }) {
       const sections = await loadHierarchy(section, loaders, [section]);
-      return sections.reverse();
+      const edges = sections.reverse().map((node) => ({ node }));
+      return { edges };
     },
     isRoot({ parent }) {
       return !parent;

@@ -30,11 +30,21 @@ query TransformContentById($input: QueryContentInterfaceByIdInput!) {
         name
         alias
         canonicalPath
-        hierarchy {
-          _id
-          name
-          alias
-          canonicalPath
+        hierarchyConnection {
+          edges {
+            node {
+              _id
+              name
+              alias
+              canonicalPath
+            }
+          }
+        }
+        websiteEdge {
+          node {
+            _id
+            name
+          }
         }
       }
     }

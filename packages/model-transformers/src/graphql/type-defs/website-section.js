@@ -21,11 +21,19 @@ type WebsiteSection {
 
   canonicalPath: String!
   redirectTo: String!
-  hierarchy: [WebsiteSection!]!
+  hierarchyConnection: WebsiteSectionHierarchyConnection!
 
   isRoot: Boolean!
 
   websiteEdge: WebsiteSectionWebsiteEdge!
+}
+
+type WebsiteSectionHierarchyConnection {
+  edges: [WebsiteSectionHierarchyConnectionEdge!]!
+}
+
+type WebsiteSectionHierarchyConnectionEdge {
+  node: WebsiteSection!
 }
 
 type WebsiteSectionMetadata {
