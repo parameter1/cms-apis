@@ -19,6 +19,16 @@ const query = gql`
         image
       }
       origin
+      date {
+        timezone
+        format
+        locale
+      }
+      language {
+        code
+        primaryCode
+        subCode
+      }
     }
   }
 `;
