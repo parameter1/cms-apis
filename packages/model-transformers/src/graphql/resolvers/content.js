@@ -26,7 +26,7 @@ export default {
     },
     async primaryWebsiteSectionEdge(content, _, { loaders }) {
       const id = LegacyDB.extractRefIdFromPath(content, 'mutations.Website.primarySection');
-      if (!id) throw new Error(`Unabled to load a primary section ID for content ID ${content._id}`);
+      if (!id) throw new Error(`Unable to load a primary section ID for content ID ${content._id}`);
       const node = await loaders.get('website.Section').load(id);
       return { node };
     },
