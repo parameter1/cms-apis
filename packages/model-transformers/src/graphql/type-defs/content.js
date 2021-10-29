@@ -13,6 +13,8 @@ interface ContentInterface {
   teaser: ContentInterfaceTeaser!
   body: ContentInterfaceBody!
 
+  status: Int!
+
   primaryWebsiteSectionEdge: ContentInterfacePrimaryWebsiteSectionEdge!
 }
 

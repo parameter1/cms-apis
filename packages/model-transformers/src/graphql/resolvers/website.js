@@ -1,5 +1,5 @@
 import { asObject, trim } from '@cms-apis/utils';
-import shortById from '../utils/short-by-id.js';
+import { formatStatus, shortById } from '../utils/index.js';
 import { CDN_ASSET_HOSTNAME, CDN_IMAGE_HOSTNAME } from '../../env.js';
 
 const defaults = {
@@ -62,7 +62,7 @@ export default {
       return trim(shortName);
     },
     status({ status }) {
-      return parseInt(status, 10) || null;
+      return formatStatus(status);
     },
     tagLine({ tagLine }) {
       return trim(tagLine);

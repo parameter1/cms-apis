@@ -1,6 +1,7 @@
 import { asArray, cleanPath, trim } from '@cms-apis/utils';
 import { LegacyDB } from '@cms-apis/db';
 import cleanString from '@cms-apis/clean-string';
+import { formatStatus } from '../utils/index.js';
 
 const loadAncestors = async (section, loaders, sections = []) => {
   const parentId = LegacyDB.extractRefId(section.parent);
@@ -65,10 +66,8 @@ export default {
     slug({ slug }) {
       return trim(slug);
     },
-    status(section) {
-      const status = parseInt(section.status, 10);
-      if (status === 0) return 0;
-      return status || null;
+    status({ status }) {
+      return formatStatus(status);
     },
     async websiteEdge(section, _, { loaders }) {
       const siteId = LegacyDB.extractRefId(section.site);
