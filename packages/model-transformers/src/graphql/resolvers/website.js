@@ -1,5 +1,5 @@
 import { asObject, trim } from '@cms-apis/utils';
-import { formatStatus, shortById } from '../utils/index.js';
+import { formatStatus, primeLoader, shortById } from '../utils/index.js';
 import { CDN_ASSET_HOSTNAME, CDN_IMAGE_HOSTNAME } from '../../env.js';
 
 const defaults = {
@@ -53,9 +53,9 @@ export default {
     async rootSectionConnection(site, _, { dbs, loaders }) {
       const query = { parent: { $exists: false }, 'site.$id': site._id };
       const cursor = await dbs.legacy.repo('website.Section').find({ query });
-      const sections = await cursor.toArray();
-      sections.forEach((section) => loaders.get('website.Section').prime(`${section._id}`, section));
-      const edges = shortById(sections).map((node) => ({ node }));
+      const docs = await cursor.toArray();
+      primeLoader({ loader: loaders.get('website.Section'), docs });
+      const edges = shortById(docs).map((node) => ({ node }));
       return { edges };
     },
     shortName({ shortName }) {
