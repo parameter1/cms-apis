@@ -1,0 +1,31 @@
+{
+  "name": "@cms-apis/immutable",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Wrapper for the ImmutableJS library.",
+  "author": "Jacob Bare <jacob@parameter1.com>",
+  "homepage": "https://github.com/parameter1/cms-apis/tree/main/packages/immutable#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parameter1/cms-apis.git",
+    "directory": "packages/immutable"
+  },
+  "private": true,
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint --ext .js ./",
+    "test": "yarn lint"
+  },
+  "engines": {
+    "node": ">=14.0"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "dependencies": {
+    "immutable": "^4.0.0"
+  }
+}
