@@ -61,6 +61,12 @@ export default {
     status({ status }) {
       return parseInt(status, 10) || null;
     },
+    async websiteEdge(section, _, { loaders }) {
+      const siteId = LegacyDB.extractRefId(section.site);
+      if (!siteId) throw new Error(`Unable to load a website ID for section ID ${section._id}`);
+      const node = await loaders.get('platform.Product').load(siteId);
+      return { node };
+    },
   },
 
   /**

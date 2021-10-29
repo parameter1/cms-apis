@@ -24,11 +24,17 @@ type WebsiteSection {
   hierarchy: [WebsiteSection!]!
 
   isRoot: Boolean!
+
+  websiteEdge: WebsiteSectionWebsiteEdge!
 }
 
 type WebsiteSectionMetadata {
   title: String!
   description: String
+}
+
+type WebsiteSectionWebsiteEdge {
+  node: Website!
 }
 
 `;
