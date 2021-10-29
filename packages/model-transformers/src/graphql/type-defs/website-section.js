@@ -21,7 +21,7 @@ type WebsiteSection {
 
   canonicalPath: String!
   redirectTo: String!
-  hierarchyConnection: WebsiteSectionHierarchyConnection!
+  ancestorConnection: WebsiteSectionAncestorConnection!
 
   isRoot: Boolean!
 
@@ -29,11 +29,11 @@ type WebsiteSection {
   websiteEdge: WebsiteSectionWebsiteEdge!
 }
 
-type WebsiteSectionHierarchyConnection {
-  edges: [WebsiteSectionHierarchyConnectionEdge!]!
+type WebsiteSectionAncestorConnection {
+  edges: [WebsiteSectionAncestorConnectionEdge!]!
 }
 
-type WebsiteSectionHierarchyConnectionEdge {
+type WebsiteSectionAncestorConnectionEdge {
   node: WebsiteSection!
 }
 

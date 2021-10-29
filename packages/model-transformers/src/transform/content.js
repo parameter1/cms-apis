@@ -30,7 +30,7 @@ query TransformContentById($input: QueryContentInterfaceByIdInput!) {
         name
         alias
         canonicalPath
-        hierarchyConnection {
+        ancestorConnection {
           edges {
             node {
               _id

@@ -2,13 +2,13 @@ import { asArray, cleanPath, trim } from '@cms-apis/utils';
 import { LegacyDB } from '@cms-apis/db';
 import cleanString from '@cms-apis/clean-string';
 
-const loadHierarchy = async (section, loaders, sections = []) => {
+const loadAncestors = async (section, loaders, sections = []) => {
   const parentId = LegacyDB.extractRefId(section.parent);
   if (!parentId) return sections;
   const parent = await loaders.get('website.Section').load(parentId);
   if (!parent) return sections;
   sections.push(parent);
-  return loadHierarchy(parent, loaders, sections);
+  return loadAncestors(parent, loaders, sections);
 };
 
 export default {
@@ -30,8 +30,8 @@ export default {
     fullName({ fullName }) {
       return trim(fullName);
     },
-    async hierarchyConnection(section, _, { loaders }) {
-      const sections = await loadHierarchy(section, loaders, [section]);
+    async ancestorConnection(section, _, { loaders }) {
+      const sections = await loadAncestors(section, loaders, [section]);
       const edges = sections.reverse().map((node) => ({ node }));
       return { edges };
     },
