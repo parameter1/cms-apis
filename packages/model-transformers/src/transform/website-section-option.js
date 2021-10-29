@@ -10,7 +10,7 @@ const query = gql`
       websiteEdge {
         node {
           _id
-          name # global website search field
+          name # global website sort field
           status # rel query input
         }
       }
