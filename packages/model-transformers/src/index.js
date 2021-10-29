@@ -4,8 +4,9 @@ import { mongoDB, legacyMongoDB } from './mongodb/clients.js';
 import createDBs from './mongodb/create-dbs.js';
 import createGraphQLClient from './graphql/create-client.js';
 import createLoaders from './create-loaders.js';
-// import transformContent from './transform/content.js';
-import transformWebsite from './transform/website.js';
+import transformContent from './transform/content.js';
+// import transformWebsite from './transform/website.js';
+// import transformWebsiteSectionOption from './transform/website-section-option.js';
 
 const { log } = console;
 process.on('unhandledRejection', immediatelyThrow);
@@ -30,11 +31,14 @@ process.on('unhandledRejection', immediatelyThrow);
 
   const graphql = createGraphQLClient({ dbs, loaders });
 
-  // const transformed = await transformContent({ id: 21627001, graphql });
+  const transformed = await transformContent({ id: 21627001, graphql });
+  log(inspect(transformed, { colors: true, depth: 10 }));
+
+  // const transformed = await transformWebsite({ id: '53ca8d671784f8066eb2c949', graphql });
   // log(inspect(transformed, { colors: true, depth: 10 }));
 
-  const transformed = await transformWebsite({ id: '53ca8d671784f8066eb2c949', graphql });
-  log(inspect(transformed, { colors: true, depth: 10 }));
+  // const transformed = await transformWebsiteSectionOption({ id: 40149, graphql });
+  // log(inspect(transformed, { colors: true, depth: 10 }));
 
   log('Closing MongoDB clients...');
   await Promise.all([mongoDB.close(), legacyMongoDB.close()]);
