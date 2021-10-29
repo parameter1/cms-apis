@@ -17,6 +17,12 @@ type Query {
   ping: String!
 }
 
+type PageInfo {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  endCursor: Cursor
+}
+
 ${content}
 ${website}
 ${websiteSection}
