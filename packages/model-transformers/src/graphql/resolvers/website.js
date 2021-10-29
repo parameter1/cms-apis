@@ -1,4 +1,5 @@
 import { asObject, trim } from '@cms-apis/utils';
+import shortById from '../utils/short-by-id.js';
 import { CDN_ASSET_HOSTNAME, CDN_IMAGE_HOSTNAME } from '../../env.js';
 
 const defaults = {
@@ -48,6 +49,14 @@ export default {
     origin(site) {
       const host = trim(site.host);
       return host ? `https://${host}` : null;
+    },
+    async rootSectionConnection(site, _, { dbs, loaders }) {
+      const query = { parent: { $exists: false }, 'site.$id': site._id };
+      const cursor = await dbs.legacy.repo('website.Section').find({ query });
+      const sections = await cursor.toArray();
+      sections.forEach((section) => loaders.get('website.Section').prime(`${section._id}`, section));
+      const edges = shortById(sections).map((node) => ({ node }));
+      return { edges };
     },
     shortName({ shortName }) {
       return trim(shortName);

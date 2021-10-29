@@ -24,6 +24,8 @@ type Website {
   origin: String!
   date: WebsiteDate!
   language: WebsiteLanguage!
+
+  rootSectionConnection: WebsiteRootSectionConnection!
 }
 
 type WebsiteDate {
@@ -42,6 +44,14 @@ type WebsiteLanguage {
   code: String!
   primaryCode: String! # ISO 639-1
   subCode: String # https://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+}
+
+type WebsiteRootSectionConnection {
+  edges: [WebsiteRootSectionEdge!]!
+}
+
+type WebsiteRootSectionEdge {
+  node: WebsiteSection!
 }
 
 input QueryWebsiteByIdInput {

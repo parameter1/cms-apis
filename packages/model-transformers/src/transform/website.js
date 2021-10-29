@@ -29,6 +29,16 @@ const query = gql`
         primaryCode
         subCode
       }
+      rootSectionConnection {
+        edges {
+          node {
+            _id
+            alias
+            name
+            status
+          }
+        }
+      }
     }
   }
 `;
