@@ -15,18 +15,20 @@ export default class LegacyDB {
     if (!(client instanceof MongoDBClient)) throw new Error('A MongoDBClient instance is required.');
     this.tenant = tenant.trim();
     this.client = client;
-    this.namespaces = resources.reduce((m, { namespace, models }) => {
-      if (!m.has(namespace)) m.set(namespace, new Map());
-      models.forEach(({ legacy: name }) => {
-        m.get(namespace).set(name, new Repo({
-          client: this.client,
-          name: `${namespace}.${name}`,
-          dbName: `${this.tenant}_${namespace}`,
-          collectionName: name,
-        }));
-      });
-      return m;
-    }, new Map());
+    this.namespaces = new Map();
+    resources.forEach((resource) => {
+      const namespace = resource.getIn(['legacy', 'namespace']);
+      const model = resource.getIn(['legacy', 'model']);
+      if (!this.namespaces.has(namespace)) this.namespaces.set(namespace, new Map());
+      const map = this.namespaces.get(namespace);
+      if (map.has(model)) return;
+      map.set(model, new Repo({
+        client: this.client,
+        name: `${namespace}.${model}`,
+        dbName: `${this.tenant}_${namespace}`,
+        collectionName: model,
+      }));
+    });
   }
 
   /**
@@ -38,9 +40,9 @@ export default class LegacyDB {
   repo(key) {
     const [namespace, model] = key.split('.');
     if (!namespace || !model) throw new Error('Invalid repo key. The key must contain a namespace and a model, e.g. `platform.Content`');
-    const models = this.namespaces.get(namespace);
-    if (!models) throw new Error(`No namespace is registered for ${namespace}`);
-    const repo = models.get(model);
+    const repos = this.namespaces.get(namespace);
+    if (!repos) throw new Error(`No namespace is registered for ${namespace}`);
+    const repo = repos.get(model);
     if (!repo) throw new Error(`No model found for ${namespace}.${model}`);
     return repo;
   }

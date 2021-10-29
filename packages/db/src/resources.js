@@ -1,40 +1,104 @@
-export default [
+import { fromJS } from '@cms-apis/immutable';
+
+export default fromJS([
   {
-    namespace: 'email',
-    models: [
-      { legacy: 'Campaign', name: 'campaigns' },
-      { legacy: 'Schedule', name: 'schedules' },
-      { legacy: 'Section', name: 'sections' },
-    ],
+    name: 'asset',
+    collection: 'assets',
+    legacy: { namespace: 'platform', model: 'Asset' },
   },
   {
-    namespace: 'magazine',
-    models: [
-      { legacy: 'Issue', name: 'issues' },
-      { legacy: 'Schedule', name: 'schedules' },
-      { legacy: 'Section', name: 'sections' },
-    ],
+    name: 'auth token',
+    collection: 'auth-tokens',
+    legacy: { namespace: 'platform', model: 'AuthToken' },
   },
   {
-    namespace: 'platform',
-    models: [
-      { legacy: 'Asset', name: 'assets' },
-      { legacy: 'AuthToken', name: 'auth-tokens' },
-      { legacy: 'Content', name: 'content' },
-      { legacy: 'ModelHistory', name: 'model-history' },
-      { legacy: 'Product', name: 'products' },
-      { legacy: 'Taxonomy', name: 'taxonomies' },
-      { legacy: 'User', name: 'users' },
-    ],
+    name: 'content',
+    collection: 'content',
+    legacy: { namespace: 'platform', model: 'Content' },
   },
   {
-    namespace: 'website',
-    models: [
-      { legacy: 'InquirySubmission', name: 'inquiry-submissions' },
-      { legacy: 'Option', name: 'options' },
-      { legacy: 'Redirects', name: 'redirects' },
-      { legacy: 'Schedule', name: 'schedules' },
-      { legacy: 'Section', name: 'sections' },
-    ],
+    name: 'magazine',
+    collection: 'magazines',
+    legacy: { namespace: 'platform', model: 'Product' },
   },
-].slice();
+  {
+    name: 'magazine issue',
+    collection: 'magazine-issues',
+    legacy: { namespace: 'magazine', model: 'Issue' },
+  },
+  {
+    name: 'magazine schedule',
+    collection: 'magazine-schedules',
+    legacy: { namespace: 'magazine', model: 'Schedule' },
+  },
+  {
+    name: 'magazine section',
+    collection: 'magazine-sections',
+    legacy: { namespace: 'magazine', model: 'Section' },
+  },
+  {
+    name: 'model history',
+    collection: 'model-history',
+    legacy: { namespace: 'platform', model: 'ModelHistory' },
+  },
+  {
+    name: 'newsletter campaign',
+    collection: 'newsletter-campaigns',
+    legacy: { namespace: 'email', model: 'Campaign' },
+  },
+  {
+    name: 'newsletter schedule',
+    collection: 'newsletter-schedules',
+    legacy: { namespace: 'email', model: 'Schedule' },
+  },
+  {
+    name: 'newsletter section',
+    collection: 'newsletter-sections',
+    legacy: { namespace: 'email', model: 'Section' },
+  },
+  {
+    name: 'newsletter',
+    collection: 'newsletters',
+    legacy: { namespace: 'platform', model: 'Product' },
+  },
+  {
+    name: 'taxonomy',
+    collection: 'taxonomies',
+    legacy: { namespace: 'platform', model: 'Taxonomy' },
+  },
+  {
+    name: 'user',
+    collection: 'users',
+    legacy: { namespace: 'platform', model: 'User' },
+  },
+  {
+    name: 'website inquiry submission',
+    collection: 'website-inquiry-submissions',
+    legacy: { namespace: 'website', model: 'InquirySubmission' },
+  },
+  {
+    name: 'website option',
+    collection: 'website-options',
+    legacy: { namespace: 'website', model: 'Option' },
+  },
+  {
+    name: 'website redirect',
+    collection: 'website-redirects',
+    legacy: { namespace: 'website', model: 'Redirects' },
+  },
+  {
+    name: 'website schedule',
+    collection: 'website-schedules',
+    legacy: { namespace: 'website', model: 'Schedule' },
+  },
+  {
+    name: 'website section',
+    collection: 'website-sections',
+    legacy: { namespace: 'website', model: 'Section' },
+  },
+  {
+    name: 'website',
+    collection: 'websites',
+    legacy: { namespace: 'platform', model: 'Product' },
+  },
+]);

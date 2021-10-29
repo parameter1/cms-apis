@@ -13,18 +13,15 @@ export default class DB {
     if (!(client instanceof MongoDBClient)) throw new Error('A MongoDBClient instance is required.');
     this.tenant = tenant.trim().replace('_', '-');
     this.client = client;
-    this.repos = resources.reduce((m, { namespace, models }) => {
-      models.forEach(({ name }) => {
-        const collectionName = `${namespace}-${name}`;
-        m.set(collectionName, new Repo({
-          client: this.client,
-          name: `${namespace} ${name}`,
-          dbName: `cms-${this.tenant}`,
-          collectionName,
-        }));
-      });
-      return m;
-    }, new Map());
+    this.repos = new Map();
+    resources.forEach((resource) => {
+      this.repos.set(resource.get('collection'), new Repo({
+        client: this.client,
+        name: resource.get('name'),
+        dbName: `cms-${this.tenant}`,
+        collectionName: resource.get('collection'),
+      }));
+    });
   }
 
   /**
