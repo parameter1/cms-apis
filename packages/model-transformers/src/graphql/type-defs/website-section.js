@@ -25,6 +25,7 @@ type WebsiteSection {
 
   isRoot: Boolean!
 
+  parentEdge: WebsiteSectionParentEdge
   websiteEdge: WebsiteSectionWebsiteEdge!
 }
 
@@ -39,6 +40,10 @@ type WebsiteSectionHierarchyConnectionEdge {
 type WebsiteSectionMetadata {
   title: String!
   description: String
+}
+
+type WebsiteSectionParentEdge {
+  node: WebsiteSection!
 }
 
 type WebsiteSectionWebsiteEdge {

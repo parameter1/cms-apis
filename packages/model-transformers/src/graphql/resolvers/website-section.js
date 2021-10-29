@@ -47,6 +47,12 @@ export default {
     name({ name }) {
       return trim(name);
     },
+    async parentEdge(section, _, { loaders }) {
+      const parentId = LegacyDB.extractRefId(section.parent);
+      if (!parentId) return null;
+      const node = await loaders.get('website.Section').load(parentId);
+      return { node };
+    },
     redirectTo() {
       return null; // placeholder. used for consistency with content.
     },
