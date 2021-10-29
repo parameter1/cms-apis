@@ -1,8 +1,12 @@
 import gql from '@cms-apis/graphql/tag';
+import batchReplace from '../batch-replace.js';
 
-const query = gql`
-  query TransformWebsiteSectionOptionById($input: QueryWebsiteSectionOptionByIdInput!) {
-    transformed: websiteSectionOptionById(input: $input) {
+export default async ({ dbs, graphql }) => batchReplace({
+  graphql,
+  operation: 'websiteSectionOptions',
+  upsertTo: dbs.main.repo('website-section-options'),
+  fragment: gql`
+    fragment TransformWebsiteSectionOptionFragment on WebsiteSectionOption {
       _id
       name
       description
@@ -15,11 +19,5 @@ const query = gql`
         }
       }
     }
-  }
-`;
-
-export default async ({ id, graphql }) => {
-  const input = { id };
-  const { data } = await graphql.query({ query, variables: { input } });
-  return data.transformed;
-};
+  `,
+});
