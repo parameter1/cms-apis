@@ -7,6 +7,8 @@ export default gql`
 
 directive @interfaceFields on OBJECT
 
+scalar ObjectID
+
 type Query {
   ping: String!
 }
