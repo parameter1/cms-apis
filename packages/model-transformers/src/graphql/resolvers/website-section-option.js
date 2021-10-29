@@ -59,7 +59,7 @@ export default {
       primeLoader({ loader: loaders.get('website.Option'), docs });
 
       const hasNextPage = docs.length > limit;
-      const lastDoc = hasNextPage ? docs.pop() : null;
+      if (hasNextPage) docs.pop(); // remove the peeked record
 
       return {
         edges: () => docs.map((node) => ({
@@ -71,7 +71,7 @@ export default {
             query: { ...(countAnd.length && { $and: countAnd }) },
           }),
           hasNextPage,
-          endCursor: lastDoc ? lastDoc._id : null,
+          endCursor: hasNextPage ? docs[docs.length - 1]._id : null,
         },
       };
     },
