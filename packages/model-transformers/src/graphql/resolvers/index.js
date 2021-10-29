@@ -5,6 +5,7 @@ import { ObjectId } from '@cms-apis/db';
 import content from './content.js';
 import website from './website.js';
 import websiteSection from './website-section.js';
+import websiteSectionOption from './website-section-option.js';
 
 export default merge({
   ObjectID: GraphQLObjectID(ObjectId),
@@ -20,4 +21,4 @@ export default merge({
       return 'pong';
     },
   },
-}, content, website, websiteSection);
+}, content, website, websiteSection, websiteSectionOption);
