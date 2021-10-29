@@ -1,6 +1,6 @@
 import gql from '@cms-apis/graphql/tag';
 
-import platformContent from './platform-content.js';
+import content from './content.js';
 import websiteSection from './website-section.js';
 
 export default gql`
@@ -13,7 +13,7 @@ type Query {
   ping: String!
 }
 
-${platformContent}
+${content}
 ${websiteSection}
 
 `;
