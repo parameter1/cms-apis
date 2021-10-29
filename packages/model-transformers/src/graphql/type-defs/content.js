@@ -20,8 +20,8 @@ interface ContentInterface {
 
 type ContentInterfaceName {
   default: String!
-  email: String
   magazine: String
+  newsletter: String
   website: String
 }
 
@@ -31,15 +31,15 @@ type ContentInterfacePrimaryWebsiteSectionEdge {
 
 type ContentInterfaceTeaser {
   default: String
-  email: String
   magazine: String
+  newsletter: String
   website: String
 }
 
 type ContentInterfaceBody {
   default: String
-  email: String
   magazine: String
+  newsletter: String
   website: String
 }
 

@@ -20,10 +20,20 @@ export default {
       return trim(content.type);
     },
     body(content) {
-      return content;
+      return {
+        default: trim(content.body),
+        magazine: getMutatedValue({ content, mutation: 'Magazine', field: 'body' }),
+        newsletter: getMutatedValue({ content, mutation: 'Email', field: 'body' }),
+        website: getMutatedValue({ content, mutation: 'Website', field: 'body' }),
+      };
     },
     name(content) {
-      return content;
+      return {
+        default: trim(content.name),
+        magazine: getMutatedValue({ content, mutation: 'Magazine', field: 'name' }),
+        newsletter: getMutatedValue({ content, mutation: 'Email', field: 'name' }),
+        website: getMutatedValue({ content, mutation: 'Website', field: 'name' }),
+      };
     },
     async primaryWebsiteSectionEdge(content, _, { loaders }) {
       const id = LegacyDB.extractRefIdFromPath(content, 'mutations.Website.primarySection');
@@ -35,61 +45,12 @@ export default {
       return formatStatus(status);
     },
     teaser(content) {
-      return content;
-    },
-  },
-
-  /**
-   *
-   */
-  ContentInterfaceBody: {
-    default({ body }) {
-      return trim(body);
-    },
-    email(content) {
-      return getMutatedValue({ content, mutation: 'Email', field: 'body' });
-    },
-    magazine(content) {
-      return getMutatedValue({ content, mutation: 'Magazine', field: 'body' });
-    },
-    website(content) {
-      return getMutatedValue({ content, mutation: 'Website', field: 'body' });
-    },
-  },
-
-  /**
-   *
-   */
-  ContentInterfaceName: {
-    default({ name }) {
-      return trim(name);
-    },
-    email(content) {
-      return getMutatedValue({ content, mutation: 'Email', field: 'name' });
-    },
-    magazine(content) {
-      return getMutatedValue({ content, mutation: 'Magazine', field: 'name' });
-    },
-    website(content) {
-      return getMutatedValue({ content, mutation: 'Website', field: 'name' });
-    },
-  },
-
-  /**
-   *
-   */
-  ContentInterfaceTeaser: {
-    default({ teaser }) {
-      return trim(teaser);
-    },
-    email(content) {
-      return getMutatedValue({ content, mutation: 'Email', field: 'teaser' });
-    },
-    magazine(content) {
-      return getMutatedValue({ content, mutation: 'Magazine', field: 'teaser' });
-    },
-    website(content) {
-      return getMutatedValue({ content, mutation: 'Website', field: 'teaser' });
+      return {
+        default: trim(content.teaser),
+        magazine: getMutatedValue({ content, mutation: 'Magazine', field: 'teaser' }),
+        newsletter: getMutatedValue({ content, mutation: 'Email', field: 'teaser' }),
+        website: getMutatedValue({ content, mutation: 'Website', field: 'teaser' }),
+      };
     },
   },
 

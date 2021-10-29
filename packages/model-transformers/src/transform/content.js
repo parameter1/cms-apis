@@ -8,20 +8,20 @@ query TransformContentById($input: QueryContentInterfaceByIdInput!) {
     _type
     name {
       default
-      email
       magazine
+      newsletter
       website
     }
     teaser {
       default
-      email
       magazine
+      newsletter
       website
     }
     body {
       default
-      email
       magazine
+      newsletter
       website
     }
     primaryWebsiteSectionEdge {
