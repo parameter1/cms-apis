@@ -77,11 +77,6 @@ export default fromJS([
     legacy: { namespace: 'website', model: 'InquirySubmission' },
   },
   {
-    name: 'website option',
-    collection: 'website-options',
-    legacy: { namespace: 'website', model: 'Option' },
-  },
-  {
     name: 'website redirect',
     collection: 'website-redirects',
     legacy: { namespace: 'website', model: 'Redirects' },
@@ -95,6 +90,11 @@ export default fromJS([
     name: 'website section',
     collection: 'website-sections',
     legacy: { namespace: 'website', model: 'Section' },
+  },
+  {
+    name: 'website section option',
+    collection: 'website-section-options',
+    legacy: { namespace: 'website', model: 'Option' },
   },
   {
     name: 'website',
