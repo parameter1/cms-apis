@@ -19,7 +19,7 @@
     "./projection": "./src/projection/index.js",
     "./schema": "./src/schema.js",
     "./tag": "./src/tag.js",
-    "./types": "./src/types.js",
+    "./types": "./src/types/index.js",
     "./utils": "./src/utils.js"
   },
   "scripts": {
