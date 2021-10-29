@@ -9,6 +9,7 @@ export default gql`
 
 directive @interfaceFields on OBJECT
 
+scalar EJSONObject
 scalar ObjectID
 
 type Query {
