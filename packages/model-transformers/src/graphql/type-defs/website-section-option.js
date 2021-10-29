@@ -4,7 +4,7 @@ export default gql`
 
 extend type Query {
   websiteSectionOptionById(input: QueryWebsiteSectionOptionByIdInput!): WebsiteSectionOption
-  websiteSectionOptions(input: QueryWebsiteSectionOptionsInput = {}): QueryWebsiteSectionOptionsConnection!
+  websiteSectionOptions(input: PaginatedQueryInput = {}): QueryWebsiteSectionOptionsConnection!
 }
 
 type WebsiteSectionOption {
@@ -31,12 +31,6 @@ type QueryWebsiteSectionOptionsConnectionEdge {
 
 input QueryWebsiteSectionOptionByIdInput {
   id: Int!
-}
-
-input QueryWebsiteSectionOptionsInput {
-  query: EJSONObject
-  after: Cursor
-  limit: Int! = 250
 }
 
 `;

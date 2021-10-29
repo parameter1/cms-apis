@@ -23,6 +23,12 @@ type PageInfo {
   endCursor: Cursor
 }
 
+input PaginatedQueryInput {
+  query: EJSONObject
+  after: Cursor
+  limit: Int! = 250
+}
+
 ${content}
 ${website}
 ${websiteSection}
