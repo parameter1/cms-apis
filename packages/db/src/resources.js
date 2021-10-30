@@ -2,8 +2,8 @@ import { fromJS } from '@cms-apis/immutable';
 
 export default fromJS([
   {
-    name: 'asset document',
-    collection: 'asset-documents',
+    name: 'document asset',
+    collection: 'document-assets',
     legacy: {
       namespace: 'platform',
       model: 'Asset',
@@ -12,8 +12,8 @@ export default fromJS([
     },
   },
   {
-    name: 'asset image',
-    collection: 'asset-images',
+    name: 'image asset',
+    collection: 'image-assets',
     legacy: {
       namespace: 'platform',
       model: 'Asset',
