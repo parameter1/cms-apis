@@ -1,4 +1,3 @@
-import { trim } from '@cms-apis/utils';
 import { LegacyDB } from '@cms-apis/db';
 import { formatStatus, primeLoader } from '../utils/index.js';
 
@@ -7,12 +6,6 @@ export default {
    *
    */
   WebsiteOption: {
-    description({ description }) {
-      return trim(description);
-    },
-    name({ name }) {
-      return trim(name);
-    },
     status({ status }) {
       return formatStatus(status);
     },

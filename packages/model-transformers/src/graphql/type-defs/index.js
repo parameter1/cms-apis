@@ -8,6 +8,7 @@ import websiteSite from './website-site.js';
 export default gql`
 
 directive @interfaceFields on OBJECT
+directive @trim(field: String, default: String) on FIELD_DEFINITION
 
 scalar Cursor
 scalar EJSONObject

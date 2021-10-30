@@ -8,18 +8,18 @@ extend type Query {
 
 type WebsiteSite {
   _id: ObjectID!
-  name: String!
-  fullName: String!
-  tagLine: String
-  description: String
-  logo: String
+  name: String! @trim
+  fullName: String! @trim
+  tagLine: String @trim
+  description: String @trim
+  logo: String @trim
 
   status: Int!
 
-  url: String
+  url: String @trim
 
   title: String!
-  shortName: String
+  shortName: String @trim
   hosts: WebsiteSiteHosts!
   origin: String!
   date: WebsiteSiteDate!

@@ -4,9 +4,9 @@ export default gql`
 
 type WebsiteSection {
   _id: Int!
-  name: String!
-  description: String
-  fullName: String!
+  name: String! @trim
+  description: String @trim
+  fullName: String! @trim
   labels: [String!]!
 
   status: Int!
@@ -15,7 +15,7 @@ type WebsiteSection {
 
   alias: String!
   redirects: [String!]!
-  slug: String
+  slug: String @trim
 
   metadata: WebsiteSectionMetadata!
 

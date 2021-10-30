@@ -9,8 +9,8 @@ extend type Query {
 
 type WebsiteOption {
   _id: Int!
-  name: String!
-  description: String
+  name: String! @trim
+  description: String @trim
   status: Int!
   siteEdge: WebsiteOptionSiteEdge!
 }

@@ -8,7 +8,7 @@ extend type Query {
 
 interface ContentInterface {
   _id: Int!
-  _type: String!
+  _type: String! @trim(field: "type")
   name: ContentInterfaceName!
   teaser: ContentInterfaceTeaser!
   body: ContentInterfaceBody!

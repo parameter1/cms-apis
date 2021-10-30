@@ -25,12 +25,6 @@ export default {
       if (cleaned === 'home') return '/';
       return `/${cleaned}` || null;
     },
-    description({ description }) {
-      return trim(description);
-    },
-    fullName({ fullName }) {
-      return trim(fullName);
-    },
     async ancestorConnection(section, _, { loaders }) {
       const sections = await loadAncestors(section, loaders, [section]);
       const edges = sections.reverse().map((node) => ({ node }));
@@ -44,9 +38,6 @@ export default {
     },
     metadata(section) {
       return section;
-    },
-    name({ name }) {
-      return trim(name);
     },
     async parentEdge(section, _, { loaders }) {
       const parentId = LegacyDB.extractRefId(section.parent);
@@ -62,9 +53,6 @@ export default {
     },
     sequence({ sequence }) {
       return parseInt(sequence, 10) || 0;
-    },
-    slug({ slug }) {
-      return trim(slug);
     },
     status({ status }) {
       return formatStatus(status);

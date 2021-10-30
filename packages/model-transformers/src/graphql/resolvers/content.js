@@ -16,9 +16,6 @@ export default {
    */
   ContentInterface: {
     __resolveType: resolveType,
-    _type(content) {
-      return trim(content.type);
-    },
     body(content) {
       return {
         default: trim(content.body),

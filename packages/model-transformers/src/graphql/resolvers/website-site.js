@@ -22,12 +22,6 @@ export default {
     date({ date }) {
       return { ...defaults.date, ...asObject(date) };
     },
-    description({ description }) {
-      return trim(description);
-    },
-    fullName({ fullName }) {
-      return trim(fullName);
-    },
     hosts(content) {
       const image = trim(content.imageHost);
       const asset = trim(content.assetHost);
@@ -39,12 +33,6 @@ export default {
     },
     language({ language }) {
       return { ...defaults.language, ...asObject(language) };
-    },
-    logo({ logo }) {
-      return trim(logo);
-    },
-    name({ name }) {
-      return trim(name);
     },
     origin(site) {
       const host = trim(site.host);
@@ -58,23 +46,14 @@ export default {
       const edges = shortById(docs).map((node) => ({ node }));
       return { edges };
     },
-    shortName({ shortName }) {
-      return trim(shortName);
-    },
     status({ status }) {
       return formatStatus(status);
-    },
-    tagLine({ tagLine }) {
-      return trim(tagLine);
     },
     title(site) {
       const name = trim(site.name);
       const shortName = trim(site.shortName);
       if (!shortName) return name;
       return name ? `${name} (${shortName})` : null;
-    },
-    url({ url }) {
-      return trim(url);
     },
   },
 
