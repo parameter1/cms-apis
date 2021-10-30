@@ -17,16 +17,26 @@ export default class LegacyDB {
     this.client = client;
     this.namespaces = new Map();
     resources.forEach((resource) => {
-      const namespace = resource.getIn(['legacy', 'namespace']);
-      const model = resource.getIn(['legacy', 'model']);
+      const target = resource.getIn(['legacy', 'target']);
+
+      const namespace = target ? target.get('namespace') : resource.getIn(['legacy', 'namespace']);
+      const model = target ? target.get('model') : resource.getIn(['legacy', 'model']);
+      const globalFindCriteria = resource.getIn(['legacy', 'query']);
+
+      // must use the "core" namespace, not the target namespace, for the db name.
+      const dbName = `${this.tenant}_${resource.getIn(['legacy', 'namespace'])}`;
+      // must use the "core" model, not the target model, for the collection name.
+      const collectionName = resource.getIn(['legacy', 'model']);
+
       if (!this.namespaces.has(namespace)) this.namespaces.set(namespace, new Map());
       const map = this.namespaces.get(namespace);
       if (map.has(model)) return;
       map.set(model, new Repo({
         client: this.client,
         name: `${namespace}.${model}`,
-        dbName: `${this.tenant}_${namespace}`,
-        collectionName: model,
+        dbName,
+        collectionName,
+        ...(globalFindCriteria && { globalFindCriteria: globalFindCriteria.toJS() }),
       }));
     });
   }

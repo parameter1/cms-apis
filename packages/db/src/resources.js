@@ -17,9 +17,14 @@ export default fromJS([
     legacy: { namespace: 'platform', model: 'Content' },
   },
   {
-    name: 'magazine',
-    collection: 'magazines',
-    legacy: { namespace: 'platform', model: 'Product' },
+    name: 'magazine publications',
+    collection: 'magazine-publications',
+    legacy: {
+      namespace: 'platform',
+      model: 'Product',
+      target: { namespace: 'magazine', model: 'Publication' },
+      query: { type: 'Publication' },
+    },
   },
   {
     name: 'magazine issue',
@@ -42,24 +47,29 @@ export default fromJS([
     legacy: { namespace: 'platform', model: 'ModelHistory' },
   },
   {
-    name: 'newsletter campaign',
-    collection: 'newsletter-campaigns',
+    name: 'email campaign',
+    collection: 'email-campaigns',
     legacy: { namespace: 'email', model: 'Campaign' },
   },
   {
-    name: 'newsletter schedule',
-    collection: 'newsletter-schedules',
+    name: 'email schedule',
+    collection: 'email-schedules',
     legacy: { namespace: 'email', model: 'Schedule' },
   },
   {
-    name: 'newsletter section',
-    collection: 'newsletter-sections',
+    name: 'email section',
+    collection: 'email-sections',
     legacy: { namespace: 'email', model: 'Section' },
   },
   {
-    name: 'newsletter',
-    collection: 'newsletters',
-    legacy: { namespace: 'platform', model: 'Product' },
+    name: 'email newsletter',
+    collection: 'email-newsletters',
+    legacy: {
+      namespace: 'platform',
+      model: 'Product',
+      target: { namespace: 'email', model: 'Newsletter' },
+      query: { type: 'Newsletter' },
+    },
   },
   {
     name: 'taxonomy',
@@ -92,13 +102,18 @@ export default fromJS([
     legacy: { namespace: 'website', model: 'Section' },
   },
   {
-    name: 'website section option',
-    collection: 'website-section-options',
+    name: 'website option',
+    collection: 'website-options',
     legacy: { namespace: 'website', model: 'Option' },
   },
   {
-    name: 'website',
-    collection: 'websites',
-    legacy: { namespace: 'platform', model: 'Product' },
+    name: 'website site',
+    collection: 'website-sites',
+    legacy: {
+      namespace: 'platform',
+      model: 'Product',
+      target: { namespace: 'website', model: 'Site' },
+      query: { type: 'Site' },
+    },
   },
 ]);
