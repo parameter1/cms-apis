@@ -6,6 +6,7 @@ export default async function findMany({
   limit,
   query,
   requiredFields = [],
+  prime = true,
 } = {}, { dbs, loaders } = {}) {
   const ands = { query: [], count: [] };
   const and = (q, { count = true } = {}) => {
@@ -27,7 +28,7 @@ export default async function findMany({
     options: { sort: { _id: 1 }, limit: limit + 1 },
   });
   const docs = await cursor.toArray();
-  primeLoader({ loader: loaders.get(resource), docs });
+  if (prime) primeLoader({ loader: loaders.get(resource), docs });
 
   const hasNextPage = docs.length > limit;
   if (hasNextPage) docs.pop(); // remove the peeked record
