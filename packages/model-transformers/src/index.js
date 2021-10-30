@@ -4,11 +4,8 @@ import createDBs from './mongodb/create-dbs.js';
 import createGraphQLClient from './graphql/create-client.js';
 import createLoaders from './create-loaders.js';
 // import transformContent from './transform/content.js';
-// import transformWebsite from './transform/website.js';
-import transformWebsiteOption from './transform/website-option.js';
-
-// import batch from './batch.js';
-// import createReplaceOp from './create-replace-op.js';
+// import transformWebsiteOptions from './transform/website-options.js';
+import transformWebsiteSites from './transform/website-sites.js';
 
 const { log } = console;
 process.on('unhandledRejection', immediatelyThrow);
@@ -36,22 +33,8 @@ process.on('unhandledRejection', immediatelyThrow);
 
   const graphql = createGraphQLClient({ dbs, loaders });
 
-  // await batch({
-  //   repo: dbs.legacy.repo('website.Option'),
-  //   limit: 1,
-  // });
-
-  // const transformed = await transformContent({ id: 21627001, graphql });
-  // log(inspect(transformed, { colors: true, depth: 10 }));
-
-  // const transformed = await transformWebsite({ id: '53ca8d671784f8066eb2c949', graphql });
-  // log(inspect(transformed, { colors: true, depth: 10 }));
-
-  await transformWebsiteOption({ dbs, graphql });
-  // log(inspect(transformed, { colors: true, depth: 10 }));
-
-  // const op = createReplaceOp(transformed);
-  // log(inspect(op, { colors: true, depth: 10 }));
+  // await transformWebsiteOptions({ dbs, graphql });
+  await transformWebsiteSites({ dbs, graphql });
 
   log('Closing MongoDB clients...');
   await Promise.all([mongoDB.close(), legacyMongoDB.close()]);

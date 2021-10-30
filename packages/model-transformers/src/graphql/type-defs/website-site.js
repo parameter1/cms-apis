@@ -4,6 +4,17 @@ export default gql`
 
 extend type Query {
   websiteSiteById(input: QueryWebsiteSiteByIdInput!): WebsiteSite
+  websiteSites(input: PaginatedQueryInput = {}): QueryWebsiteSitesConnection!
+}
+
+type QueryWebsiteSitesConnection {
+  edges: [QueryWebsiteSitesConnectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type QueryWebsiteSitesConnectionEdge {
+  node: WebsiteSite!
+  cursor: Cursor!
 }
 
 type WebsiteSite {
@@ -25,7 +36,7 @@ type WebsiteSite {
   date: WebsiteSiteDate!
   language: WebsiteSiteLanguage!
 
-  rootSectionConnection: WebsiteSiteRootSectionConnection!
+  childSections: [WebsiteSiteChildSectionConnectionEdge!]!
 }
 
 type WebsiteSiteDate {
@@ -46,11 +57,7 @@ type WebsiteSiteLanguage {
   subCode: String # https://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
 }
 
-type WebsiteSiteRootSectionConnection {
-  edges: [WebsiteSiteRootSectionEdge!]!
-}
-
-type WebsiteSiteRootSectionEdge {
+type WebsiteSiteChildSectionConnectionEdge {
   node: WebsiteSection!
 }
 

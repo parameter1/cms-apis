@@ -1,6 +1,7 @@
 import { asObject, trim } from '@cms-apis/utils';
-import { primeLoader, shortById } from '../utils/index.js';
+import { primeLoader, sortBy } from '../utils/index.js';
 import { CDN_ASSET_HOSTNAME, CDN_IMAGE_HOSTNAME } from '../../env.js';
+import findMany from './utils/find-many.js';
 
 const defaults = {
   date: {
@@ -38,13 +39,12 @@ export default {
       const host = trim(site.host);
       return host ? `https://${host}` : null;
     },
-    async rootSectionConnection(site, _, { dbs, loaders }) {
+    async childSections(site, _, { dbs, loaders }) {
       const query = { parent: { $exists: false }, 'site.$id': site._id };
       const cursor = await dbs.legacy.repo('website.Section').find({ query });
       const docs = await cursor.toArray();
       primeLoader({ loader: loaders.get('website.Section'), docs });
-      const edges = shortById(docs).map((node) => ({ node }));
-      return { edges };
+      return sortBy(docs, 'name').map((node) => ({ node }));
     },
     title(site) {
       const name = trim(site.name);
@@ -83,6 +83,16 @@ export default {
     async websiteSiteById(_, { input }, { loaders }) {
       const { id } = input;
       return loaders.get('website.Site').load(id);
+    },
+
+    async websiteSites(_, { input }, { dbs, loaders }) {
+      const { after, limit, query } = input;
+      return findMany({
+        resource: 'website.Site',
+        after,
+        limit,
+        query,
+      }, { dbs, loaders });
     },
   },
 };
