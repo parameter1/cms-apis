@@ -1,6 +1,7 @@
 import gql from '@cms-apis/graphql/tag';
 
 import content from './content.js';
+import imageAsset from './image-asset.js';
 import websiteOption from './website-option.js';
 import websiteSection from './website-section.js';
 import websiteSite from './website-site.js';
@@ -32,6 +33,7 @@ input PaginatedQueryInput {
 }
 
 ${content}
+${imageAsset}
 ${websiteOption}
 ${websiteSection}
 ${websiteSite}
