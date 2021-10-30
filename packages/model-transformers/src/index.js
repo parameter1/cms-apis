@@ -4,6 +4,7 @@ import createDBs from './mongodb/create-dbs.js';
 import createGraphQLClient from './graphql/create-client.js';
 import createLoaders from './create-loaders.js';
 // import transformContent from './transform/content.js';
+import transformImageAssets from './transform/image-assets.js';
 import transformWebsiteSections from './transform/website-sections.js';
 import transformWebsiteOptions from './transform/website-options.js';
 import transformWebsiteSites from './transform/website-sites.js';
@@ -34,9 +35,10 @@ process.on('unhandledRejection', immediatelyThrow);
 
   const graphql = createGraphQLClient({ dbs, loaders });
 
-  await transformWebsiteOptions({ dbs, graphql });
-  await transformWebsiteSections({ dbs, graphql });
-  await transformWebsiteSites({ dbs, graphql });
+  await transformImageAssets({ dbs, graphql });
+  // await transformWebsiteOptions({ dbs, graphql });
+  // await transformWebsiteSections({ dbs, graphql });
+  // await transformWebsiteSites({ dbs, graphql });
 
   log('Closing MongoDB clients...');
   await Promise.all([mongoDB.close(), legacyMongoDB.close()]);
