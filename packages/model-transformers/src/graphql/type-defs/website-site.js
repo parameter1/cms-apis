@@ -33,17 +33,11 @@ type WebsiteSite {
   shortName: String @trim
   hosts: WebsiteSiteHosts!
   origin: String!
-  date: WebsiteSiteDate!
-  language: WebsiteSiteLanguage!
+
+  settings: WebsiteSiteSettings!
 
   options: [WebsiteSiteOptionEdge!]!
   sections: [WebsiteSiteSectionEdge!]!
-}
-
-type WebsiteSiteDate {
-  timezone: String! # tz database format, e.g. America/Chicago
-  format: String! # dayjs.format()
-  locale: String! # dayjs.locale()
 }
 
 type WebsiteSiteHosts {
@@ -52,18 +46,29 @@ type WebsiteSiteHosts {
   asset: String!
 }
 
-type WebsiteSiteLanguage {
-  code: String!
-  primaryCode: String! # ISO 639-1
-  subCode: String # https://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
-}
-
 type WebsiteSiteSectionEdge {
   node: WebsiteSection!
 }
 
 type WebsiteSiteOptionEdge {
   node: WebsiteOption!
+}
+
+type WebsiteSiteSettings {
+  date: WebsiteSiteSettingsDate!
+  language: WebsiteSiteSettingsLanguage!
+}
+
+type WebsiteSiteSettingsDate {
+  timezone: String! # tz database format, e.g. America/Chicago
+  format: String! # dayjs.format()
+  locale: String! # dayjs.locale()
+}
+
+type WebsiteSiteSettingsLanguage {
+  code: String!
+  primaryCode: String! # ISO 639-1
+  subCode: String # https://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
 }
 
 input QueryWebsiteSiteByIdInput {

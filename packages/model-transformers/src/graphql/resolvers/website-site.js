@@ -20,9 +20,6 @@ export default {
    *
    */
   WebsiteSite: {
-    date({ date }) {
-      return { ...defaults.date, ...asObject(date) };
-    },
     hosts(content) {
       const image = trim(content.imageHost);
       const asset = trim(content.assetHost);
@@ -31,9 +28,6 @@ export default {
         image: image || CDN_IMAGE_HOSTNAME,
         asset: asset || CDN_ASSET_HOSTNAME,
       };
-    },
-    language({ language }) {
-      return { ...defaults.language, ...asObject(language) };
     },
     origin(site) {
       const host = trim(site.host);
@@ -53,6 +47,12 @@ export default {
       primeLoader({ loader: loaders.get('website.Section'), docs });
       return sortBy(docs, 'fullName').map((node) => ({ node }));
     },
+    settings({ date, language }) {
+      return {
+        date: { ...defaults.date, ...asObject(date) },
+        language: { ...defaults.language, ...asObject(language) },
+      };
+    },
     title(site) {
       const name = trim(site.name);
       const shortName = trim(site.shortName);
@@ -67,7 +67,7 @@ export default {
   /**
    *
    */
-  WebsiteSiteLanguage: {
+  WebsiteSiteSettingsLanguage: {
     code(language) {
       const { primaryCode, subCode } = language;
       const primary = primaryCode.toLowerCase();

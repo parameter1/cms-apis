@@ -17,21 +17,11 @@ export default async ({ dbs, graphql }) => batchReplace({
       url
       title
       shortName
-      hosts {
-        root
-        asset
-        image
-      }
+      hosts { root asset image }
       origin
-      date {
-        timezone
-        format
-        locale
-      }
-      language {
-        code
-        primaryCode
-        subCode
+      settings {
+        date { timezone format locale }
+        language { code primaryCode subCode }
       }
       sections {
         node {
