@@ -11,7 +11,7 @@ export default async ({ dbs, graphql }) => batchReplace({
       name
       description
       status
-      siteEdge {
+      site {
         node {
           _id
           name # global website sort field

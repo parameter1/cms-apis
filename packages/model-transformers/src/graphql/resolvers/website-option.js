@@ -6,7 +6,7 @@ export default {
    *
    */
   WebsiteOption: {
-    async siteEdge(option, _, { loaders }) {
+    async site(option, _, { loaders }) {
       const siteId = LegacyDB.extractRefId(option.site);
       if (!siteId) throw new Error(`Unable to load a site ID for option ID ${option._id}`);
       const node = await loaders.get('website.Site').load(siteId);

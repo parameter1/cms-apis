@@ -12,7 +12,7 @@ type WebsiteOption {
   name: String! @trim
   description: String @trim
   status: Int! @formatStatus
-  siteEdge: WebsiteOptionSiteEdge!
+  site: WebsiteOptionSiteEdge!
 }
 
 type WebsiteOptionSiteEdge {
