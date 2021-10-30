@@ -1,9 +1,9 @@
 import gql from '@cms-apis/graphql/tag';
 
 import content from './content.js';
-import website from './website.js';
+import websiteOption from './website-option.js';
 import websiteSection from './website-section.js';
-import websiteSectionOption from './website-section-option.js';
+import websiteSite from './website-site.js';
 
 export default gql`
 
@@ -30,8 +30,8 @@ input PaginatedQueryInput {
 }
 
 ${content}
-${website}
+${websiteOption}
 ${websiteSection}
-${websiteSectionOption}
+${websiteSite}
 
 `;

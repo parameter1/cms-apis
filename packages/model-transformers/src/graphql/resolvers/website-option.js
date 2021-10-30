@@ -6,7 +6,7 @@ export default {
   /**
    *
    */
-  WebsiteSectionOption: {
+  WebsiteOption: {
     description({ description }) {
       return trim(description);
     },
@@ -16,10 +16,10 @@ export default {
     status({ status }) {
       return formatStatus(status);
     },
-    async websiteEdge(option, _, { loaders }) {
+    async siteEdge(option, _, { loaders }) {
       const siteId = LegacyDB.extractRefId(option.site);
-      if (!siteId) throw new Error(`Unable to load a website ID for option ID ${option._id}`);
-      const node = await loaders.get('platform.Product').load(siteId);
+      if (!siteId) throw new Error(`Unable to load a site ID for option ID ${option._id}`);
+      const node = await loaders.get('website.Site').load(siteId);
       return { node };
     },
   },
@@ -28,12 +28,12 @@ export default {
    *
    */
   Query: {
-    async websiteSectionOptionById(_, { input }, { loaders }) {
+    async websiteOptionById(_, { input }, { loaders }) {
       const { id } = input;
       return loaders.get('website.Option').load(id);
     },
 
-    async websiteSectionOptions(_, { input }, { dbs, loaders }) {
+    async websiteOptions(_, { input }, { dbs, loaders }) {
       const { after, limit, query } = input;
 
       const required = { name: { $exists: true }, 'site.$id': { $exists: true } };

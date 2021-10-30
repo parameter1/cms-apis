@@ -3,10 +3,10 @@ import gql from '@cms-apis/graphql/tag';
 export default gql`
 
 extend type Query {
-  websiteById(input: QueryWebsiteByIdInput!): Website
+  websiteSiteById(input: QueryWebsiteSiteByIdInput!): WebsiteSite
 }
 
-type Website {
+type WebsiteSite {
   _id: ObjectID!
   name: String!
   fullName: String!
@@ -20,41 +20,41 @@ type Website {
 
   title: String!
   shortName: String
-  hosts: WebsiteHosts!
+  hosts: WebsiteSiteHosts!
   origin: String!
-  date: WebsiteDate!
-  language: WebsiteLanguage!
+  date: WebsiteSiteDate!
+  language: WebsiteSiteLanguage!
 
-  rootSectionConnection: WebsiteRootSectionConnection!
+  rootSectionConnection: WebsiteSiteRootSectionConnection!
 }
 
-type WebsiteDate {
+type WebsiteSiteDate {
   timezone: String! # tz database format, e.g. America/Chicago
   format: String! # dayjs.format()
   locale: String! # dayjs.locale()
 }
 
-type WebsiteHosts {
+type WebsiteSiteHosts {
   root: String!
   image: String!
   asset: String!
 }
 
-type WebsiteLanguage {
+type WebsiteSiteLanguage {
   code: String!
   primaryCode: String! # ISO 639-1
   subCode: String # https://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
 }
 
-type WebsiteRootSectionConnection {
-  edges: [WebsiteRootSectionEdge!]!
+type WebsiteSiteRootSectionConnection {
+  edges: [WebsiteSiteRootSectionEdge!]!
 }
 
-type WebsiteRootSectionEdge {
+type WebsiteSiteRootSectionEdge {
   node: WebsiteSection!
 }
 
-input QueryWebsiteByIdInput {
+input QueryWebsiteSiteByIdInput {
   id: ObjectID!
 }
 

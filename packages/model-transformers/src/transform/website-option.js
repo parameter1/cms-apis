@@ -3,15 +3,15 @@ import batchReplace from '../batch-replace.js';
 
 export default async ({ dbs, graphql }) => batchReplace({
   graphql,
-  operation: 'websiteSectionOptions',
-  upsertTo: dbs.main.repo('website-section-options'),
+  operation: 'websiteOptions',
+  upsertTo: dbs.main.repo('website-options'),
   fragment: gql`
-    fragment TransformWebsiteSectionOptionFragment on WebsiteSectionOption {
+    fragment TransformWebsiteOptionFragment on WebsiteOption {
       _id
       name
       description
       status
-      websiteEdge {
+      siteEdge {
         node {
           _id
           name # global website sort field

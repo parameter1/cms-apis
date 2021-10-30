@@ -5,7 +5,7 @@ import createGraphQLClient from './graphql/create-client.js';
 import createLoaders from './create-loaders.js';
 // import transformContent from './transform/content.js';
 // import transformWebsite from './transform/website.js';
-import transformWebsiteSectionOption from './transform/website-section-option.js';
+import transformWebsiteOption from './transform/website-option.js';
 
 // import batch from './batch.js';
 // import createReplaceOp from './create-replace-op.js';
@@ -47,7 +47,7 @@ process.on('unhandledRejection', immediatelyThrow);
   // const transformed = await transformWebsite({ id: '53ca8d671784f8066eb2c949', graphql });
   // log(inspect(transformed, { colors: true, depth: 10 }));
 
-  await transformWebsiteSectionOption({ dbs, graphql });
+  await transformWebsiteOption({ dbs, graphql });
   // log(inspect(transformed, { colors: true, depth: 10 }));
 
   // const op = createReplaceOp(transformed);

@@ -18,7 +18,7 @@ export default {
   /**
    *
    */
-  Website: {
+  WebsiteSite: {
     date({ date }) {
       return { ...defaults.date, ...asObject(date) };
     },
@@ -84,7 +84,7 @@ export default {
   /**
    *
    */
-  WebsiteLanguage: {
+  WebsiteSiteLanguage: {
     code(language) {
       const { primaryCode, subCode } = language;
       const primary = primaryCode.toLowerCase();
@@ -104,11 +104,9 @@ export default {
    *
    */
   Query: {
-    async websiteById(_, { input }, { loaders }) {
+    async websiteSiteById(_, { input }, { loaders }) {
       const { id } = input;
-      const product = await loaders.get('platform.Product').load(id);
-      if (product.type !== 'Site') throw new Error(`The product returned for ID ${id} is not a website.`);
-      return product;
+      return loaders.get('website.Site').load(id);
     },
   },
 };

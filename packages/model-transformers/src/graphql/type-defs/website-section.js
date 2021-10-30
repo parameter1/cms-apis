@@ -26,7 +26,7 @@ type WebsiteSection {
   isRoot: Boolean!
 
   parentEdge: WebsiteSectionParentEdge
-  websiteEdge: WebsiteSectionWebsiteEdge!
+  siteEdge: WebsiteSectionSiteEdge!
 }
 
 type WebsiteSectionAncestorConnection {
@@ -46,8 +46,8 @@ type WebsiteSectionParentEdge {
   node: WebsiteSection!
 }
 
-type WebsiteSectionWebsiteEdge {
-  node: Website!
+type WebsiteSectionSiteEdge {
+  node: WebsiteSite!
 }
 
 `;

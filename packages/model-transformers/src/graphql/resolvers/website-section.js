@@ -69,10 +69,10 @@ export default {
     status({ status }) {
       return formatStatus(status);
     },
-    async websiteEdge(section, _, { loaders }) {
+    async siteEdge(section, _, { loaders }) {
       const siteId = LegacyDB.extractRefId(section.site);
-      if (!siteId) throw new Error(`Unable to load a website ID for section ID ${section._id}`);
-      const node = await loaders.get('platform.Product').load(siteId);
+      if (!siteId) throw new Error(`Unable to load a site ID for section ID ${section._id}`);
+      const node = await loaders.get('website.Site').load(siteId);
       return { node };
     },
   },
@@ -88,7 +88,7 @@ export default {
       if (alias === 'home') {
         const siteId = LegacyDB.extractRefId(section.site);
         if (!siteId) throw new Error(`Unable to extract a site ID for section ID ${section._id}`);
-        const site = await loaders.get('platform.Product').load(siteId);
+        const site = await loaders.get('website.Site').load(siteId);
         const siteDescription = cleanString(site.description);
         if (siteDescription) return siteDescription;
         return `Articles, news, products, blogs and videos from ${site.name}.`;
