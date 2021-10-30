@@ -29,6 +29,7 @@
     "@cms-apis/clean-string": "^0.0.0",
     "@cms-apis/db": "^0.0.0",
     "@cms-apis/graphql": "^0.0.0",
+    "@cms-apis/image": "^0.0.0",
     "@cms-apis/object-path": "^0.0.0",
     "@cms-apis/utils": "^0.0.0",
     "apollo-cache-inmemory": "^1.6.6",

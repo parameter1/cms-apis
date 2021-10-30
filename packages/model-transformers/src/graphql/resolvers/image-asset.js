@@ -1,7 +1,7 @@
 import { get } from '@cms-apis/object-path';
+import { cropRectangle } from '@cms-apis/image';
 import { cleanPath, isObject, trim } from '@cms-apis/utils';
 import findMany from './utils/find-many.js';
-import cropRectangle from './utils/crop-rectangle.js';
 
 export default {
   /**
