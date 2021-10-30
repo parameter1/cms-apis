@@ -42,6 +42,13 @@ export default {
         node,
       }));
     },
+    async coverImage(section, _, { loaders }) {
+      const imageId = LegacyDB.extractRefId(section.coverImage);
+      if (!imageId) return null;
+      const node = await loaders.get('platform.Image').load(imageId);
+      if (!node) return null;
+      return { node };
+    },
     depth(section) {
       return getDepthFor(section);
     },
@@ -55,6 +62,13 @@ export default {
     },
     labels({ labels }) {
       return asArray(labels).map(trim).filter((v) => v);
+    },
+    async logo(section, _, { loaders }) {
+      const imageId = LegacyDB.extractRefId(section.logo);
+      if (!imageId) return null;
+      const node = await loaders.get('platform.Image').load(imageId);
+      if (!node) return null;
+      return { node };
     },
     metadata(section) {
       return section;

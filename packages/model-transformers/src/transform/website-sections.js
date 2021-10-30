@@ -52,6 +52,38 @@ export default async ({ dbs, graphql }) => batchReplace({
           status # rel query input
         }
       }
+      logo {
+        node {
+          _id
+          name
+          caption
+          credit
+          alt
+          file { name path }
+          width
+          height
+          crop {
+            dimensions { x1 x2 y1 y2 }
+            rectangle { x y width height }
+          }
+        }
+      }
+      coverImage {
+        node {
+          _id
+          name
+          caption
+          credit
+          alt
+          file { name path }
+          width
+          height
+          crop {
+            dimensions { x1 x2 y1 y2 }
+            rectangle { x y width height }
+          }
+        }
+      }
     }
   `,
 });

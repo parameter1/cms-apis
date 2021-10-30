@@ -40,6 +40,9 @@ type WebsiteSection {
 
   parent: WebsiteSectionParentEdge
   site: WebsiteSectionSiteEdge!
+
+  logo: WebsiteSectionLogoEdge
+  coverImage: WebsiteSectionCoverImageEdge
 }
 
 type WebsiteSectionAncestorEdge {
@@ -50,6 +53,14 @@ type WebsiteSectionAncestorEdge {
 type WebsiteSectionDescendantEdge {
   node: WebsiteSection!
   depth: Int!
+}
+
+type WebsiteSectionLogoEdge {
+  node: ImageAsset!
+}
+
+type WebsiteSectionCoverImageEdge {
+  node: ImageAsset!
 }
 
 type WebsiteSectionMetadata {
