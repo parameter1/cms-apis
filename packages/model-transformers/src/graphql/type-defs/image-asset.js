@@ -9,9 +9,9 @@ extend type Query {
 
 type ImageAsset {
   _id: ObjectID!
-  name: String @trim
+  "Name now uses display name. No need for the name to also be the file name"
+  name: String @trim(field: "displayName")
 
-  displayName: String @trim
   caption: String @trim
   credit: String @trim
   isLogo: Boolean

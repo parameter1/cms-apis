@@ -9,7 +9,6 @@ export default async ({ dbs, graphql }) => batchReplace({
     fragment TransformImageAssetFragment on ImageAsset {
       _id
       name
-      displayName
       caption
       credit
       isLogo
