@@ -6,6 +6,7 @@ import { GraphQLCursor, GraphQLEJSONObject } from '../types/index.js';
 import content from './content.js';
 import imageAsset from './image-asset.js';
 import websiteOption from './website-option.js';
+import websiteRedirect from './website-redirect.js';
 import websiteSection from './website-section.js';
 import websiteSite from './website-site.js';
 
@@ -25,4 +26,4 @@ export default merge({
       return 'pong';
     },
   },
-}, content, imageAsset, websiteOption, websiteSection, websiteSite);
+}, content, imageAsset, websiteOption, websiteRedirect, websiteSection, websiteSite);
