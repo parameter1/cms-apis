@@ -1,0 +1,47 @@
+import { primeLoader } from '../../utils/index.js';
+
+export default async function findMany({
+  resource,
+  after,
+  limit,
+  query,
+  requiredFields = [],
+} = {}, { dbs, loaders } = {}) {
+  const ands = { query: [], count: [] };
+  const and = (q, { count = true } = {}) => {
+    ands.query.push(q);
+    if (count) ands.count.push(q);
+  };
+
+  const required = requiredFields.reduce((o, path) => ({
+    ...o, [path]: { $exists: true, $ne: null },
+  }), {});
+
+  if (Object.keys(required).length) and(required);
+  if (query) and(query);
+  if (after) and({ _id: { $gt: after } }, { count: false });
+
+  const repo = dbs.legacy.repo(resource);
+  const cursor = await repo.find({
+    query: { ...(ands.query.length && { $and: ands.query }) },
+    options: { sort: { _id: 1 }, limit: limit + 1 },
+  });
+  const docs = await cursor.toArray();
+  primeLoader({ loader: loaders.get(resource), docs });
+
+  const hasNextPage = docs.length > limit;
+  if (hasNextPage) docs.pop(); // remove the peeked record
+  return {
+    edges: () => docs.map((node) => ({
+      node,
+      cursor: node._id,
+    })),
+    pageInfo: {
+      totalCount: () => repo.countDocuments({
+        query: { ...(ands.count.length && { $and: ands.count }) },
+      }),
+      hasNextPage,
+      endCursor: hasNextPage ? docs[docs.length - 1]._id : null,
+    },
+  };
+}
