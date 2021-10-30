@@ -1,7 +1,6 @@
 import { asArray, cleanPath, trim } from '@cms-apis/utils';
 import { LegacyDB } from '@cms-apis/db';
 import cleanString from '@cms-apis/clean-string';
-import { formatStatus } from '../utils/index.js';
 
 const loadAncestors = async (section, loaders, sections = []) => {
   const parentId = LegacyDB.extractRefId(section.parent);
@@ -53,9 +52,6 @@ export default {
     },
     sequence({ sequence }) {
       return parseInt(sequence, 10) || 0;
-    },
-    status({ status }) {
-      return formatStatus(status);
     },
     async siteEdge(section, _, { loaders }) {
       const siteId = LegacyDB.extractRefId(section.site);

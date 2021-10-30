@@ -1,7 +1,6 @@
 import { get } from '@cms-apis/object-path';
 import { trim } from '@cms-apis/utils';
 import { LegacyDB } from '@cms-apis/db';
-import { formatStatus } from '../utils/index.js';
 
 const resolveType = async ({ type }) => `Content${type}`;
 
@@ -37,9 +36,6 @@ export default {
       if (!id) throw new Error(`Unable to load a primary section ID for content ID ${content._id}`);
       const node = await loaders.get('website.Section').load(id);
       return { node };
-    },
-    status({ status }) {
-      return formatStatus(status);
     },
     teaser(content) {
       return {

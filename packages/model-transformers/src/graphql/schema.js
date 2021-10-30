@@ -1,5 +1,6 @@
 import { makeExecutableSchema } from '@cms-apis/graphql/schema';
 import {
+  formatStatusDirectiveTransformer,
   interfaceFieldsDirectiveTransformer,
   trimDirectiveTransformer,
 } from './directives/index.js';
@@ -14,5 +15,6 @@ const schema = makeExecutableSchema({
 // interface fields must be copied to each type _before_ applying projection
 const withInterfaceFields = interfaceFieldsDirectiveTransformer(schema);
 const withTrim = trimDirectiveTransformer(withInterfaceFields);
+const withFormatStatus = formatStatusDirectiveTransformer(withTrim);
 
-export default withTrim;
+export default withFormatStatus;

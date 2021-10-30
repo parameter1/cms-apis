@@ -1,14 +1,11 @@
 import { LegacyDB } from '@cms-apis/db';
-import { formatStatus, primeLoader } from '../utils/index.js';
+import { primeLoader } from '../utils/index.js';
 
 export default {
   /**
    *
    */
   WebsiteOption: {
-    status({ status }) {
-      return formatStatus(status);
-    },
     async siteEdge(option, _, { loaders }) {
       const siteId = LegacyDB.extractRefId(option.site);
       if (!siteId) throw new Error(`Unable to load a site ID for option ID ${option._id}`);

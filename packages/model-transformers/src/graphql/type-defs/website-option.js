@@ -11,7 +11,7 @@ type WebsiteOption {
   _id: Int!
   name: String! @trim
   description: String @trim
-  status: Int!
+  status: Int! @formatStatus
   siteEdge: WebsiteOptionSiteEdge!
 }
 

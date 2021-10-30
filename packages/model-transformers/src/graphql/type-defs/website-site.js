@@ -14,7 +14,7 @@ type WebsiteSite {
   description: String @trim
   logo: String @trim
 
-  status: Int!
+  status: Int! @formatStatus
 
   url: String @trim
 

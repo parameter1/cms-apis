@@ -1,5 +1,5 @@
 import { asObject, trim } from '@cms-apis/utils';
-import { formatStatus, primeLoader, shortById } from '../utils/index.js';
+import { primeLoader, shortById } from '../utils/index.js';
 import { CDN_ASSET_HOSTNAME, CDN_IMAGE_HOSTNAME } from '../../env.js';
 
 const defaults = {
@@ -45,9 +45,6 @@ export default {
       primeLoader({ loader: loaders.get('website.Section'), docs });
       const edges = shortById(docs).map((node) => ({ node }));
       return { edges };
-    },
-    status({ status }) {
-      return formatStatus(status);
     },
     title(site) {
       const name = trim(site.name);

@@ -9,7 +9,7 @@ type WebsiteSection {
   fullName: String! @trim
   labels: [String!]!
 
-  status: Int!
+  status: Int! @formatStatus
 
   sequence: Int!
 

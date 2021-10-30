@@ -7,6 +7,7 @@ import websiteSite from './website-site.js';
 
 export default gql`
 
+directive @formatStatus(field: String) on FIELD_DEFINITION
 directive @interfaceFields on OBJECT
 directive @trim(field: String, default: String) on FIELD_DEFINITION
 
