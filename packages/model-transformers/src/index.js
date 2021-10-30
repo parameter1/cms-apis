@@ -4,7 +4,8 @@ import createDBs from './mongodb/create-dbs.js';
 import createGraphQLClient from './graphql/create-client.js';
 import createLoaders from './create-loaders.js';
 // import transformContent from './transform/content.js';
-// import transformWebsiteOptions from './transform/website-options.js';
+import transformWebsiteSections from './transform/website-sections.js';
+import transformWebsiteOptions from './transform/website-options.js';
 import transformWebsiteSites from './transform/website-sites.js';
 
 const { log } = console;
@@ -33,7 +34,8 @@ process.on('unhandledRejection', immediatelyThrow);
 
   const graphql = createGraphQLClient({ dbs, loaders });
 
-  // await transformWebsiteOptions({ dbs, graphql });
+  await transformWebsiteOptions({ dbs, graphql });
+  await transformWebsiteSections({ dbs, graphql });
   await transformWebsiteSites({ dbs, graphql });
 
   log('Closing MongoDB clients...');

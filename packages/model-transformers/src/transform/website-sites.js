@@ -41,7 +41,7 @@ export default async ({ dbs, graphql }) => batchReplace({
           fullName # global website section sort field
           sequence # global website section sort field
           status # rel query input
-          isRoot # rel query input
+          depth # rel query input
         }
       }
       options {
