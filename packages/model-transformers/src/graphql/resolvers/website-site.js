@@ -39,12 +39,19 @@ export default {
       const host = trim(site.host);
       return host ? `https://${host}` : null;
     },
-    async childSections(site, _, { dbs, loaders }) {
-      const query = { parent: { $exists: false }, 'site.$id': site._id };
+    async options(site, _, { dbs, loaders }) {
+      const query = { 'site.$id': site._id };
+      const cursor = await dbs.legacy.repo('website.Option').find({ query });
+      const docs = await cursor.toArray();
+      primeLoader({ loader: loaders.get('website.Option'), docs });
+      return sortBy(docs, '_id').map((node) => ({ node }));
+    },
+    async sections(site, _, { dbs, loaders }) {
+      const query = { 'site.$id': site._id };
       const cursor = await dbs.legacy.repo('website.Section').find({ query });
       const docs = await cursor.toArray();
       primeLoader({ loader: loaders.get('website.Section'), docs });
-      return sortBy(docs, 'name').map((node) => ({ node }));
+      return sortBy(docs, 'fullName').map((node) => ({ node }));
     },
     title(site) {
       const name = trim(site.name);

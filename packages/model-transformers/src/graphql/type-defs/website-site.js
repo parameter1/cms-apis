@@ -36,7 +36,8 @@ type WebsiteSite {
   date: WebsiteSiteDate!
   language: WebsiteSiteLanguage!
 
-  childSections: [WebsiteSiteChildSectionConnectionEdge!]!
+  options: [WebsiteSiteOptionEdge!]!
+  sections: [WebsiteSiteSectionEdge!]!
 }
 
 type WebsiteSiteDate {
@@ -57,8 +58,12 @@ type WebsiteSiteLanguage {
   subCode: String # https://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
 }
 
-type WebsiteSiteChildSectionConnectionEdge {
+type WebsiteSiteSectionEdge {
   node: WebsiteSection!
+}
+
+type WebsiteSiteOptionEdge {
+  node: WebsiteOption!
 }
 
 input QueryWebsiteSiteByIdInput {

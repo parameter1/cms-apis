@@ -33,12 +33,21 @@ export default async ({ dbs, graphql }) => batchReplace({
         primaryCode
         subCode
       }
-      childSections {
+      sections {
         node {
           _id
+          alias # rel query input
           name # global website section sort field
           fullName # global website section sort field
           sequence # global website section sort field
+          status # rel query input
+          isRoot # rel query input
+        }
+      }
+      options {
+        node {
+          _id
+          name # global website option sort field
           status # rel query input
         }
       }
