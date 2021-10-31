@@ -20,17 +20,13 @@ type QueryWebsiteSitesConnectionEdge {
 type WebsiteSite {
   _id: ObjectID!
   name: String! @trim
-  fullName: String! @trim
   tagLine: String @trim
   description: String @trim
   logo: String @trim
 
   status: Int! @formatStatus
 
-  url: String @trim
-
-  title: String!
-  shortName: String @trim
+  abbreviation: String @trim(field: "shortName")
   hosts: WebsiteSiteHosts!
   origin: String!
 

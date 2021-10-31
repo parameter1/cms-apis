@@ -53,12 +53,6 @@ export default {
         language: { ...defaults.language, ...asObject(language) },
       };
     },
-    title(site) {
-      const name = trim(site.name);
-      const shortName = trim(site.shortName);
-      if (!shortName) return name;
-      return name ? `${name} (${shortName})` : null;
-    },
   },
 
   /**

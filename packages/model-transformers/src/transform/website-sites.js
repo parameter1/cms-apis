@@ -9,14 +9,11 @@ export default async ({ dbs, graphql }) => batchReplace({
     fragment TransformWebsiteSiteFragment on WebsiteSite {
       _id
       name
-      fullName
       tagLine
       description
       logo
       status
-      url
-      title
-      shortName
+      abbreviation
       hosts { root asset image }
       origin
       settings {
