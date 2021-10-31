@@ -1,5 +1,6 @@
 import merge from 'lodash.merge';
 import { GraphQLObjectID } from '@cms-apis/graphql/types';
+import { GraphQLJSONObject } from 'graphql-type-json';
 import { ObjectId } from '@cms-apis/db';
 import { GraphQLCursor, GraphQLEJSONObject } from '../types/index.js';
 
@@ -16,6 +17,7 @@ export default merge(
   {
     Cursor: GraphQLCursor,
     EJSONObject: GraphQLEJSONObject,
+    JSONObject: GraphQLJSONObject,
     ObjectID: GraphQLObjectID(ObjectId),
     Query: {
       ping() {

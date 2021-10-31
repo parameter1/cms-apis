@@ -17,6 +17,7 @@ directive @trim(field: String, default: String) on FIELD_DEFINITION
 
 scalar Cursor
 scalar EJSONObject
+scalar JSONObject
 scalar ObjectID
 
 type Query {
