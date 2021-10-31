@@ -2,7 +2,7 @@ import merge from 'lodash.merge';
 import { GraphQLObjectID } from '@cms-apis/graphql/types';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { ObjectId } from '@cms-apis/db';
-import { GraphQLCursor, GraphQLEJSONObject } from '../types/index.js';
+import { GraphQLCursor, GraphQLDateTime, GraphQLEJSONObject } from '../types/index.js';
 
 import content from './content.js';
 import imageAsset from './image-asset.js';
@@ -16,6 +16,7 @@ import websiteScheduleOption from './website-schedule-option.js';
 export default merge(
   {
     Cursor: GraphQLCursor,
+    DateTime: GraphQLDateTime,
     EJSONObject: GraphQLEJSONObject,
     JSONObject: GraphQLJSONObject,
     ObjectID: GraphQLObjectID(ObjectId),

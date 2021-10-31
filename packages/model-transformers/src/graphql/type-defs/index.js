@@ -16,6 +16,7 @@ directive @interfaceFields on OBJECT
 directive @trim(field: String, default: String) on FIELD_DEFINITION
 
 scalar Cursor
+scalar DateTime
 scalar EJSONObject
 scalar JSONObject
 scalar ObjectID
