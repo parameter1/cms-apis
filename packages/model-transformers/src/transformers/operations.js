@@ -115,6 +115,26 @@ export default new Map([
       }
     `,
   }],
+  ['newsletterSchedules', {
+    collection: 'newsletter-schedules',
+    fragment: gql`
+      fragment TransformNewsletterScheduleFragment on NewsletterSchedule {
+        _id
+        deploymentDate
+        status
+        sequence
+        content { node { _id _type status } }
+        section {
+          node {
+            _id
+            name
+            status
+            newsletter { node { _id name status } }
+          }
+        }
+      }
+    `,
+  }],
   ['newsletterSections', {
     collection: 'newsletter-sections',
     fragment: gql`
