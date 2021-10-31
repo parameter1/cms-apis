@@ -117,8 +117,8 @@ export default fromJS([
     legacy: { namespace: 'website', model: 'Section' },
   },
   {
-    name: 'website section option',
-    collection: 'website-section-options',
+    name: 'website schedule option',
+    collection: 'website-schedule-options',
     legacy: { namespace: 'website', model: 'Option' },
   },
   {

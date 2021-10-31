@@ -5,7 +5,7 @@ export default {
   /**
    *
    */
-  WebsiteSectionOption: {
+  WebsiteScheduleOption: {
     async website(option, _, { loaders }) {
       const siteId = LegacyDB.extractRefId(option.site);
       if (!siteId) throw new Error(`Unable to load a site ID for option ID ${option._id}`);
@@ -18,12 +18,12 @@ export default {
    *
    */
   Query: {
-    async websiteSectionOptionById(_, { input }, { loaders }) {
+    async websiteScheduleOptionById(_, { input }, { loaders }) {
       const { id } = input;
       return loaders.get('website.Option').load(id);
     },
 
-    async websiteSectionOptions(_, { input }, { dbs, loaders }) {
+    async websiteScheduleOptions(_, { input }, { dbs, loaders }) {
       const { after, limit, query } = input;
       return findMany({
         resource: 'website.Option',

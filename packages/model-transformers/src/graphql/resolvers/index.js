@@ -10,7 +10,7 @@ import newsletterSection from './newsletter-section.js';
 import website from './website.js';
 import websiteRedirect from './website-redirect.js';
 import websiteSection from './website-section.js';
-import websiteSectionOption from './website-section-option.js';
+import websiteScheduleOption from './website-schedule-option.js';
 
 export default merge(
   {
@@ -29,6 +29,6 @@ export default merge(
   newsletterSection,
   website,
   websiteRedirect,
+  websiteScheduleOption,
   websiteSection,
-  websiteSectionOption,
 );

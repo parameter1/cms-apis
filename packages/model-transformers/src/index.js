@@ -8,8 +8,8 @@ import transformImageAssets from './transform/image-assets.js';
 import transformNewsletters from './transform/newsletters.js';
 import transformNewsletterSections from './transform/newsletter-sections.js';
 import transformWebsiteRedirects from './transform/website-redirects.js';
+import transformWebsiteScheduleOptions from './transform/website-schedule-options.js';
 import transformWebsiteSections from './transform/website-sections.js';
-import transformWebsiteSectionOptions from './transform/website-section-options.js';
 import transformWebsites from './transform/websites.js';
 
 const { log } = console;
@@ -43,8 +43,8 @@ process.on('unhandledRejection', immediatelyThrow);
   await transformNewsletterSections({ dbs, graphql });
   await transformWebsites({ dbs, graphql });
   await transformWebsiteRedirects({ dbs, graphql });
+  await transformWebsiteScheduleOptions({ dbs, graphql });
   await transformWebsiteSections({ dbs, graphql });
-  await transformWebsiteSectionOptions({ dbs, graphql });
 
   log('Closing MongoDB clients...');
   await Promise.all([mongoDB.close(), legacyMongoDB.close()]);

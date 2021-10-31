@@ -6,8 +6,8 @@ import newsletter from './newsletter.js';
 import newsletterSection from './newsletter-section.js';
 import website from './website.js';
 import websiteRedirect from './website-redirect.js';
+import websiteScheduleOption from './website-schedule-option.js';
 import websiteSection from './website-section.js';
-import websiteSectionOption from './website-section-option.js';
 
 export default gql`
 
@@ -41,7 +41,7 @@ ${newsletter}
 ${newsletterSection}
 ${website}
 ${websiteRedirect}
+${websiteScheduleOption}
 ${websiteSection}
-${websiteSectionOption}
 
 `;

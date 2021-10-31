@@ -32,7 +32,7 @@ type Website {
 
   settings: WebsiteSettings!
 
-  sectionOptions: [WebsiteSectionOptionEdge!]!
+  scheduleOptions: [WebsiteScheduleOptionEdge!]!
   sections: [WebsiteSectionEdge!]!
 }
 
@@ -46,8 +46,8 @@ type WebsiteSectionEdge {
   node: WebsiteSection!
 }
 
-type WebsiteSectionOptionEdge {
-  node: WebsiteSectionOption!
+type WebsiteScheduleOptionEdge {
+  node: WebsiteScheduleOption!
 }
 
 type WebsiteSettings {

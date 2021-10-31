@@ -31,7 +31,7 @@ export default async ({ dbs, graphql }) => batchReplace({
           depth # rel query input
         }
       }
-      sectionOptions {
+      scheduleOptions {
         node {
           _id
           name # global website option sort field

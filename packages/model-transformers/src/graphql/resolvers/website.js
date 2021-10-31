@@ -33,7 +33,7 @@ export default {
       const host = trim(site.host);
       return host ? `https://${host}` : null;
     },
-    async sectionOptions(site, _, { dbs, loaders }) {
+    async scheduleOptions(site, _, { dbs, loaders }) {
       const query = { 'site.$id': site._id };
       const cursor = await dbs.legacy.repo('website.Option').find({ query });
       const docs = await cursor.toArray();
