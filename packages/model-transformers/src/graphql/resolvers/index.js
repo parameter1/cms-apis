@@ -13,6 +13,7 @@ import newsletterSchedule from './newsletter-schedule.js';
 import newsletterSection from './newsletter-section.js';
 import user from './user.js';
 import website from './website.js';
+import websiteInquirySubmission from './website-inquiry-submission.js';
 import websiteRedirect from './website-redirect.js';
 import websiteSection from './website-section.js';
 import websiteScheduleOption from './website-schedule-option.js';
@@ -39,6 +40,7 @@ export default merge(
   newsletterSection,
   user,
   website,
+  websiteInquirySubmission,
   websiteRedirect,
   websiteScheduleOption,
   websiteSection,

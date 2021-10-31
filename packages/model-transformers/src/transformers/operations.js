@@ -232,6 +232,18 @@ export default new Map([
       }
     `,
   }],
+  ['websiteInquirySubmissions', {
+    collection: 'website-inquiry-submissions',
+    fragment: gql`
+      fragment TransformWebsiteInquirySubmissionFragment on WebsiteInquirySubmission {
+        _id
+        payload
+        addresses { from to cc bcc }
+        dates { created }
+        content { node { _id _type status } }
+      }
+    `,
+  }],
   ['websiteRedirects', {
     collection: 'website-redirects',
     fragment: gql`
