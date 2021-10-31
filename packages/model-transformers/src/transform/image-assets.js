@@ -1,10 +1,11 @@
 import gql from '@cms-apis/graphql/tag';
 import batchReplace from '../batch-replace.js';
 
-export default async ({ dbs, graphql }) => batchReplace({
+export default async ({ dbs, graphql, query }) => batchReplace({
   graphql,
   operation: 'imageAssets',
   upsertTo: dbs.main.repo('image-assets'),
+  query,
   fragment: gql`
     fragment TransformImageAssetFragment on ImageAsset {
       _id
@@ -15,6 +16,7 @@ export default async ({ dbs, graphql }) => batchReplace({
       body
       width
       height
+      touched
       alt
       primaryImageDisplay
       file { name path }

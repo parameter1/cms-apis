@@ -17,6 +17,8 @@ type ImageAsset {
   isLogo: Boolean
   body: String @trim
 
+  touched: DateTime
+
   width: Int
   height: Int
 
