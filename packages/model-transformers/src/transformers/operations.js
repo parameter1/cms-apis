@@ -13,9 +13,9 @@ export default new Map([
         body
         width
         height
-        touched
         alt
         primaryImageDisplay
+        dates { touched }
         file { name path }
         approvedFor { website magazine }
         crop {

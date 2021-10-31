@@ -32,6 +32,9 @@ export default {
         },
       };
     },
+    dates({ touched }) {
+      return { touched };
+    },
     file(image) {
       const name = trim(image.fileName);
       const path = cleanPath(image.filePath) || null;

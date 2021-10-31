@@ -17,7 +17,6 @@ type ImageAsset {
   isLogo: Boolean
   body: String @trim
 
-  touched: DateTime
 
   width: Int
   height: Int
@@ -30,6 +29,7 @@ type ImageAsset {
   # for now, it's being left as-is
   primaryImageDisplay: String!
 
+  dates: ImageAssetDates!
   file: ImageAssetFile!
   approvedFor: ImageAssetApprovedFor!
   crop: ImageAssetCrop!
@@ -55,6 +55,10 @@ type ImageAssetCropRectangle {
   y: Int!
   width: Int!
   height: Int!
+}
+
+type ImageAssetDates {
+  touched: DateTime
 }
 
 type ImageAssetFile {
