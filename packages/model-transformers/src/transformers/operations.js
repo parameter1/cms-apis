@@ -75,6 +75,46 @@ export default new Map([
       }
     `,
   }],
+  ['newsletterCampaigns', {
+    collection: 'newsletter-campaigns',
+    fragment: gql`
+      fragment TransformNewsletterCampaignFragment on NewsletterCampaign {
+        _id
+        name
+        status
+        externalId
+        fromName
+        html
+        locked
+        subjectLine
+        dates {
+          created
+          updated
+          touched
+          deployment
+          scheduled
+          html
+        }
+        list { identifier message status }
+        createdBy {
+          node {
+            _id
+            name
+            email
+            username
+          }
+        }
+        newsletter {
+          node {
+            _id
+            name # global newsletter sort field
+            status # rel query input
+            website { node { _id name } }
+          }
+        }
+      }
+    `,
+  }],
   ['newsletterSections', {
     collection: 'newsletter-sections',
     fragment: gql`
@@ -100,7 +140,6 @@ export default new Map([
     `,
   }],
   ['users', {
-    operation: 'users',
     collection: 'users',
     fragment: gql`
       fragment TransformUserFragment on User {

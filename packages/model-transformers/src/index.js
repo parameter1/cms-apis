@@ -32,7 +32,7 @@ process.on('unhandledRejection', immediatelyThrow);
   const graphql = createGraphQLClient({ dbs, loaders });
 
   const transformers = new Transformers({ dbs, graphql });
-  await transformers.replace({ operation: 'websites' });
+  await transformers.replace({ operation: 'newsletterCampaigns' });
 
   log('Closing MongoDB clients...');
   await Promise.all([mongoDB.close(), legacyMongoDB.close()]);
