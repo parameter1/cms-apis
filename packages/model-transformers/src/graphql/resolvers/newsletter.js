@@ -1,3 +1,5 @@
+import { trim } from '@cms-apis/utils';
+import { getAsArray } from '@cms-apis/object-path';
 import { primeLoader, sortBy } from '../utils/index.js';
 import findMany from './utils/find-many.js';
 
@@ -6,6 +8,13 @@ export default {
    *
    */
   Newsletter: {
+    defaults(newsletter) {
+      return {
+        fromName: trim(newsletter.defaultFromName),
+        subjectLine: trim(newsletter.defaultFromName),
+        testers: getAsArray(newsletter.defaultTesters),
+      };
+    },
     async sections(newsletter, _, { dbs, loaders }) {
       const query = { 'deployment.$id': newsletter._id };
       const cursor = await dbs.legacy.repo('email.Section').find({ query });

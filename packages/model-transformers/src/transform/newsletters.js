@@ -10,10 +10,31 @@ export default async ({ dbs, graphql }) => batchReplace({
       _id
       name
       alias
+      teaser
       tagLine
       description
       logo
       status
+      usesDeploymentDates
+      defaults {
+        fromName
+        subjectLine
+        testers {
+          firstName
+          lastName
+          email
+        }
+      }
+      provider {
+        type
+        providerId
+        attributes
+      }
+      sourceProvider {
+        handlerKey
+        host
+        path
+      }
       sections {
         node {
           _id

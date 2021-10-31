@@ -10,6 +10,7 @@ extend type Query {
 type Newsletter {
   _id: ObjectID!
   name: String! @trim
+  teaser: String @trim
   alias: String! @trim
   tagLine: String @trim
   description: String @trim
@@ -20,10 +21,40 @@ type Newsletter {
   website: NewsletterWebsiteEdge!
 
   sections: [NewsletterSectionEdge!]!
+
+  defaults: NewsletterDefaults!
+  usesDeploymentDates: Boolean
+
+  provider: NewsletterProvider
+  sourceProvider: NewsletterSourceProvider
+}
+
+type NewsletterDefaults {
+  fromName: String
+  subjectLine: String
+  testers: [NewsletterDefaultTester!]!
+}
+
+type NewsletterDefaultTester {
+  firstName: String @trim
+  lastName: String @trim
+  email: String @trim
+}
+
+type NewsletterProvider {
+  type: String @trim
+  providerId: String @trim
+  attributes: JSONObject
 }
 
 type NewsletterSectionEdge {
   node: NewsletterSection!
+}
+
+type NewsletterSourceProvider {
+  handlerKey: String @trim
+  host: String @trim
+  path: String @trim
 }
 
 type NewsletterWebsiteEdge {
