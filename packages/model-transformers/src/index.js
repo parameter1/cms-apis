@@ -3,14 +3,7 @@ import { mongoDB, legacyMongoDB } from './mongodb/clients.js';
 import createDBs from './mongodb/create-dbs.js';
 import createGraphQLClient from './graphql/create-client.js';
 import createLoaders from './create-loaders.js';
-// import transformContent from './transform/content.js';
-import transformImageAssets from './transform/image-assets.js';
-import transformNewsletters from './transform/newsletters.js';
-import transformNewsletterSections from './transform/newsletter-sections.js';
-import transformWebsiteRedirects from './transform/website-redirects.js';
-import transformWebsiteScheduleOptions from './transform/website-schedule-options.js';
-import transformWebsiteSections from './transform/website-sections.js';
-import transformWebsites from './transform/websites.js';
+import Transformers from './transformers/index.js';
 
 const { log } = console;
 process.on('unhandledRejection', immediatelyThrow);
@@ -38,13 +31,8 @@ process.on('unhandledRejection', immediatelyThrow);
 
   const graphql = createGraphQLClient({ dbs, loaders });
 
-  await transformImageAssets({ dbs, graphql });
-  await transformNewsletters({ dbs, graphql });
-  await transformNewsletterSections({ dbs, graphql });
-  await transformWebsites({ dbs, graphql });
-  await transformWebsiteRedirects({ dbs, graphql });
-  await transformWebsiteScheduleOptions({ dbs, graphql });
-  await transformWebsiteSections({ dbs, graphql });
+  const transformers = new Transformers({ dbs, graphql });
+  await transformers.replace({ operation: 'websites' });
 
   log('Closing MongoDB clients...');
   await Promise.all([mongoDB.close(), legacyMongoDB.close()]);
