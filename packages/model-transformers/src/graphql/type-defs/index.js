@@ -4,6 +4,7 @@ import content from './content.js';
 import imageAsset from './image-asset.js';
 import newsletter from './newsletter.js';
 import newsletterSection from './newsletter-section.js';
+import user from './user.js';
 import website from './website.js';
 import websiteRedirect from './website-redirect.js';
 import websiteScheduleOption from './website-schedule-option.js';
@@ -41,6 +42,7 @@ ${content}
 ${imageAsset}
 ${newsletter}
 ${newsletterSection}
+${user}
 ${website}
 ${websiteRedirect}
 ${websiteScheduleOption}
