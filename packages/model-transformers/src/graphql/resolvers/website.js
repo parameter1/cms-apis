@@ -19,7 +19,7 @@ export default {
   /**
    *
    */
-  WebsiteSite: {
+  Website: {
     hosts(content) {
       const image = trim(content.imageHost);
       const asset = trim(content.assetHost);
@@ -33,7 +33,7 @@ export default {
       const host = trim(site.host);
       return host ? `https://${host}` : null;
     },
-    async options(site, _, { dbs, loaders }) {
+    async sectionOptions(site, _, { dbs, loaders }) {
       const query = { 'site.$id': site._id };
       const cursor = await dbs.legacy.repo('website.Option').find({ query });
       const docs = await cursor.toArray();
@@ -61,7 +61,7 @@ export default {
   /**
    *
    */
-  WebsiteSiteSettingsLanguage: {
+  WebsiteSettingsLanguage: {
     code(language) {
       const { primaryCode, subCode } = language;
       const primary = primaryCode.toLowerCase();
@@ -81,12 +81,12 @@ export default {
    *
    */
   Query: {
-    async websiteSiteById(_, { input }, { loaders }) {
+    async websiteById(_, { input }, { loaders }) {
       const { id } = input;
       return loaders.get('website.Site').load(id);
     },
 
-    async websiteSites(_, { input }, { dbs, loaders }) {
+    async websites(_, { input }, { dbs, loaders }) {
       const { after, limit, query } = input;
       return findMany({
         resource: 'website.Site',

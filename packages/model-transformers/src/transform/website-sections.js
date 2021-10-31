@@ -45,7 +45,7 @@ export default async ({ dbs, graphql }) => batchReplace({
           status # rel query input
         }
       }
-      site {
+      website {
         node {
           _id
           name # global website sort field

@@ -39,7 +39,7 @@ type WebsiteSection {
   descendants: [WebsiteSectionDescendantEdge!]!
 
   parent: WebsiteSectionParentEdge
-  site: WebsiteSectionSiteEdge!
+  website: WebsiteSectionWebsiteEdge!
 
   logo: WebsiteSectionLogoEdge
   coverImage: WebsiteSectionCoverImageEdge
@@ -72,8 +72,8 @@ type WebsiteSectionParentEdge {
   node: WebsiteSection!
 }
 
-type WebsiteSectionSiteEdge {
-  node: WebsiteSite!
+type WebsiteSectionWebsiteEdge {
+  node: Website!
 }
 
 input QueryWebsiteSectionByIdInput {

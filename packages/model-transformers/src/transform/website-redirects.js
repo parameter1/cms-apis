@@ -11,7 +11,7 @@ export default async ({ dbs, graphql }) => batchReplace({
       from
       to
       code
-      site {
+      website {
         node {
           _id
           name # global website sort field

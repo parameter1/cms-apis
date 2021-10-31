@@ -6,10 +6,10 @@ import { GraphQLCursor, GraphQLEJSONObject } from '../types/index.js';
 import content from './content.js';
 import emailNewsletter from './email-newsletter.js';
 import imageAsset from './image-asset.js';
-import websiteOption from './website-option.js';
+import website from './website.js';
 import websiteRedirect from './website-redirect.js';
 import websiteSection from './website-section.js';
-import websiteSite from './website-site.js';
+import websiteSectionOption from './website-section-option.js';
 
 export default merge(
   {
@@ -25,8 +25,8 @@ export default merge(
   content,
   emailNewsletter,
   imageAsset,
-  websiteOption,
+  website,
   websiteRedirect,
   websiteSection,
-  websiteSite,
+  websiteSectionOption,
 );

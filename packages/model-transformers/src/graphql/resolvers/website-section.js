@@ -86,7 +86,7 @@ export default {
     sequence({ sequence }) {
       return parseInt(sequence, 10) || 0;
     },
-    async site(section, _, { loaders }) {
+    async website(section, _, { loaders }) {
       const siteId = LegacyDB.extractRefId(section.site);
       if (!siteId) throw new Error(`Unable to load a site ID for section ID ${section._id}`);
       const node = await loaders.get('website.Site').load(siteId);

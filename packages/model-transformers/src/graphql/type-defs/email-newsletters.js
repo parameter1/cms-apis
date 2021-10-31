@@ -17,11 +17,11 @@ type EmailNewsletter {
 
   status: Int! @formatStatus
 
-  site: EmailNewsletterSiteEdge!
+  website: EmailNewsletterWebsiteEdge!
 }
 
-type EmailNewsletterSiteEdge {
-  node: WebsiteSite!
+type EmailNewsletterWebsiteEdge {
+  node: Website!
 }
 
 type QueryEmailNewslettersConnection {

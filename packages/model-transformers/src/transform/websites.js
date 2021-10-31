@@ -3,10 +3,10 @@ import batchReplace from '../batch-replace.js';
 
 export default async ({ dbs, graphql }) => batchReplace({
   graphql,
-  operation: 'websiteSites',
-  upsertTo: dbs.main.repo('website-sites'),
+  operation: 'websites',
+  upsertTo: dbs.main.repo('websites'),
   fragment: gql`
-    fragment TransformWebsiteSiteFragment on WebsiteSite {
+    fragment TransformWebsiteFragment on Website {
       _id
       name
       tagLine
@@ -31,7 +31,7 @@ export default async ({ dbs, graphql }) => batchReplace({
           depth # rel query input
         }
       }
-      options {
+      sectionOptions {
         node {
           _id
           name # global website option sort field

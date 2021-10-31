@@ -14,7 +14,7 @@ export default async ({ dbs, graphql }) => batchReplace({
       description
       logo
       status
-      site {
+      website {
         node {
           _id
           name # global website sort field

@@ -12,11 +12,11 @@ type WebsiteRedirect {
   from: String!
   to: String!
   code: Int!
-  site: WebsiteRedirectSiteEdge!
+  website: WebsiteRedirectWebsiteEdge!
 }
 
-type WebsiteRedirectSiteEdge {
-  node: WebsiteSite!
+type WebsiteRedirectWebsiteEdge {
+  node: Website!
 }
 
 type QueryWebsiteRedirectsConnection {

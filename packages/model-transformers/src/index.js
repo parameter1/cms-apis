@@ -6,10 +6,10 @@ import createLoaders from './create-loaders.js';
 // import transformContent from './transform/content.js';
 import transformEmailNewsletters from './transform/email-newsletters.js';
 import transformImageAssets from './transform/image-assets.js';
-import transformWebsiteOptions from './transform/website-options.js';
 import transformWebsiteRedirects from './transform/website-redirects.js';
 import transformWebsiteSections from './transform/website-sections.js';
-import transformWebsiteSites from './transform/website-sites.js';
+import transformWebsiteSectionOptions from './transform/website-section-options.js';
+import transformWebsites from './transform/websites.js';
 
 const { log } = console;
 process.on('unhandledRejection', immediatelyThrow);
@@ -39,10 +39,10 @@ process.on('unhandledRejection', immediatelyThrow);
 
   await transformEmailNewsletters({ dbs, graphql });
   await transformImageAssets({ dbs, graphql });
-  await transformWebsiteOptions({ dbs, graphql });
+  await transformWebsites({ dbs, graphql });
   await transformWebsiteRedirects({ dbs, graphql });
   await transformWebsiteSections({ dbs, graphql });
-  await transformWebsiteSites({ dbs, graphql });
+  await transformWebsiteSectionOptions({ dbs, graphql });
 
   log('Closing MongoDB clients...');
   await Promise.all([mongoDB.close(), legacyMongoDB.close()]);

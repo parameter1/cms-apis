@@ -13,7 +13,7 @@ export default {
     code({ code }) {
       return [301, 302].includes(code) ? code : 301;
     },
-    async site(redirect, _, { loaders }) {
+    async website(redirect, _, { loaders }) {
       const { siteId } = redirect;
       if (!siteId) throw new Error(`Unable to load a site ID for redirect ID ${redirect._id}`);
       const node = await loaders.get('website.Site').load(siteId);

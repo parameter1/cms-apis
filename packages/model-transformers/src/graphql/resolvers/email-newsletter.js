@@ -5,7 +5,7 @@ export default {
    *
    */
   EmailNewsletter: {
-    async site(newsletter, _, { loaders }) {
+    async website(newsletter, _, { loaders }) {
       const { siteId } = newsletter;
       if (!siteId) throw new Error(`Unable to load a site ID for newsletter ID ${newsletter._id}`);
       const node = await loaders.get('website.Site').load(siteId);

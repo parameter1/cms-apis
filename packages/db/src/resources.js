@@ -117,13 +117,13 @@ export default fromJS([
     legacy: { namespace: 'website', model: 'Section' },
   },
   {
-    name: 'website option',
-    collection: 'website-options',
+    name: 'website section option',
+    collection: 'website-section-options',
     legacy: { namespace: 'website', model: 'Option' },
   },
   {
-    name: 'website site',
-    collection: 'website-sites',
+    name: 'website',
+    collection: 'websites',
     legacy: {
       namespace: 'platform',
       model: 'Product',
