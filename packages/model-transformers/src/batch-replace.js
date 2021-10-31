@@ -1,6 +1,7 @@
 import gql from '@cms-apis/graphql/tag';
 import { extractFragmentData } from '@cms-apis/graphql/fragments';
 import { ucFirst } from '@cms-apis/utils';
+import { EJSON } from 'bson';
 import createReplaceOp from './create-replace-op.js';
 
 const { log } = console;
@@ -16,7 +17,7 @@ export default async function batchReplace({
   after,
   limit = 250,
 } = {}) {
-  log(`Running ${limit} node replacement batch for ${operation}${after ? ` after cursor ${after}` : ''}${query ? ` using query ${query}` : ''}`);
+  log(`Running ${limit} node replacement batch for ${operation}${after ? ` after cursor ${after}` : ''}${query ? ` using query ${EJSON.stringify(query)}` : ''}`);
   const { spreadFragmentName, processedFragment } = extractFragmentData(fragment);
   const QUERY = gql`
     query Transform${ucFirst(operation)}($input: PaginatedQueryInput = {}) {
