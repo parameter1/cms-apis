@@ -42,6 +42,18 @@ export default ({ width, height, cropDimensions }) => {
       height,
     });
   }
+
+  const coords = ['x1', 'x2', 'y1', 'y2'];
+  // ensure all coordinates are present
+  if (coords.every((coord) => cropDimensions[coord] == null)) {
+    return new CropRectangle({
+      x: 0,
+      y: 0,
+      width,
+      height,
+    });
+  }
+
   // @see Cygnus\ApplicationBundle\Apps\Management\Controller::cropImageAction
   const scale = width / 640;
   const {
@@ -49,7 +61,7 @@ export default ({ width, height, cropDimensions }) => {
     x2,
     y1,
     y2,
-  } = ['x1', 'x2', 'y1', 'y2'].reduce((o, key) => {
+  } = coords.reduce((o, key) => {
     const v = Math.round(cropDimensions[key] * scale);
     return { ...o, [key]: v };
   }, {});
