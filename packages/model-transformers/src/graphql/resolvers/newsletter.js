@@ -1,3 +1,4 @@
+import { primeLoader, sortBy } from '../utils/index.js';
 import findMany from './utils/find-many.js';
 
 export default {
@@ -5,6 +6,13 @@ export default {
    *
    */
   Newsletter: {
+    async sections(newsletter, _, { dbs, loaders }) {
+      const query = { 'deployment.$id': newsletter._id };
+      const cursor = await dbs.legacy.repo('email.Section').find({ query });
+      const docs = await cursor.toArray();
+      primeLoader({ loader: loaders.get('email.Section'), docs });
+      return sortBy(docs, 'name').map((node) => ({ node }));
+    },
     async website(newsletter, _, { loaders }) {
       const { siteId } = newsletter;
       if (!siteId) throw new Error(`Unable to load a site ID for newsletter ID ${newsletter._id}`);

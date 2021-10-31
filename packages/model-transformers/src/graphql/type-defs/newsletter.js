@@ -18,6 +18,12 @@ type Newsletter {
   status: Int! @formatStatus
 
   website: NewsletterWebsiteEdge!
+
+  sections: [NewsletterSectionEdge!]!
+}
+
+type NewsletterSectionEdge {
+  node: NewsletterSection!
 }
 
 type NewsletterWebsiteEdge {

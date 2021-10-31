@@ -38,13 +38,13 @@ process.on('unhandledRejection', immediatelyThrow);
 
   const graphql = createGraphQLClient({ dbs, loaders });
 
-  // await transformImageAssets({ dbs, graphql });
-  // await transformNewsletters({ dbs, graphql });
+  await transformImageAssets({ dbs, graphql });
+  await transformNewsletters({ dbs, graphql });
   await transformNewsletterSections({ dbs, graphql });
-  // await transformWebsites({ dbs, graphql });
-  // await transformWebsiteRedirects({ dbs, graphql });
-  // await transformWebsiteSections({ dbs, graphql });
-  // await transformWebsiteSectionOptions({ dbs, graphql });
+  await transformWebsites({ dbs, graphql });
+  await transformWebsiteRedirects({ dbs, graphql });
+  await transformWebsiteSections({ dbs, graphql });
+  await transformWebsiteSectionOptions({ dbs, graphql });
 
   log('Closing MongoDB clients...');
   await Promise.all([mongoDB.close(), legacyMongoDB.close()]);

@@ -14,6 +14,13 @@ export default async ({ dbs, graphql }) => batchReplace({
       description
       logo
       status
+      sections {
+        node {
+          _id
+          name
+          status
+        }
+      }
       website {
         node {
           _id
