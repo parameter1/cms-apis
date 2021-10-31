@@ -6,6 +6,7 @@ import { GraphQLCursor, GraphQLDateTime, GraphQLEJSONObject } from '../types/ind
 
 import content from './content.js';
 import imageAsset from './image-asset.js';
+import magazine from './magazine.js';
 import newsletter from './newsletter.js';
 import newsletterCampaign from './newsletter-campaign.js';
 import newsletterSchedule from './newsletter-schedule.js';
@@ -31,6 +32,7 @@ export default merge(
   },
   content,
   imageAsset,
+  magazine,
   newsletter,
   newsletterCampaign,
   newsletterSchedule,

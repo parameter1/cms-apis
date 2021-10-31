@@ -26,6 +26,41 @@ export default new Map([
       }
     `,
   }],
+  ['magazines', {
+    collection: 'magazines',
+    fragment: gql`
+      fragment TransformMagazineFragment on Magazine {
+        _id
+        name
+        tagLine
+        description
+        logo
+        status
+        urls {
+          subscribe
+          renewal
+          reprints
+          einquiry
+        }
+        coverImage {
+          node {
+            _id
+            name
+            caption
+            credit
+            alt
+            file { name path }
+            width
+            height
+            crop {
+              dimensions { x1 x2 y1 y2 }
+              rectangle { x y width height }
+            }
+          }
+        }
+      }
+    `,
+  }],
   ['newsletters', {
     collection: 'newsletters',
     fragment: gql`

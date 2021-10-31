@@ -32,8 +32,8 @@ export default fromJS([
     legacy: { namespace: 'platform', model: 'Content' },
   },
   {
-    name: 'magazine publications',
-    collection: 'magazine-publications',
+    name: 'magazine',
+    collection: 'magazines',
     legacy: {
       namespace: 'platform',
       model: 'Product',
