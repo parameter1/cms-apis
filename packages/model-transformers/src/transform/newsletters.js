@@ -3,10 +3,10 @@ import batchReplace from '../batch-replace.js';
 
 export default async ({ dbs, graphql }) => batchReplace({
   graphql,
-  operation: 'emailNewsletters',
-  upsertTo: dbs.main.repo('email-newsletters'),
+  operation: 'newsletters',
+  upsertTo: dbs.main.repo('newsletters'),
   fragment: gql`
-    fragment TransformEmailNewsletterFragment on EmailNewsletter {
+    fragment TransformNewsletterFragment on Newsletter {
       _id
       name
       alias

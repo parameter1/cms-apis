@@ -62,23 +62,23 @@ export default fromJS([
     legacy: { namespace: 'platform', model: 'ModelHistory' },
   },
   {
-    name: 'email campaign',
-    collection: 'email-campaigns',
+    name: 'newsletter campaign',
+    collection: 'newsletter-campaigns',
     legacy: { namespace: 'email', model: 'Campaign' },
   },
   {
-    name: 'email schedule',
-    collection: 'email-schedules',
+    name: 'newsletter schedule',
+    collection: 'newsletter-schedules',
     legacy: { namespace: 'email', model: 'Schedule' },
   },
   {
-    name: 'email section',
-    collection: 'email-sections',
+    name: 'newsletter section',
+    collection: 'newsletter-sections',
     legacy: { namespace: 'email', model: 'Section' },
   },
   {
-    name: 'email newsletter',
-    collection: 'email-newsletters',
+    name: 'newsletter',
+    collection: 'newsletters',
     legacy: {
       namespace: 'platform',
       model: 'Product',

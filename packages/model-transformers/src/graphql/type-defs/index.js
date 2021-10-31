@@ -1,8 +1,8 @@
 import gql from '@cms-apis/graphql/tag';
 
 import content from './content.js';
-import emailNewsletters from './email-newsletters.js';
 import imageAsset from './image-asset.js';
+import newsletter from './newsletter.js';
 import website from './website.js';
 import websiteRedirect from './website-redirect.js';
 import websiteSection from './website-section.js';
@@ -35,8 +35,8 @@ input PaginatedQueryInput {
 }
 
 ${content}
-${emailNewsletters}
 ${imageAsset}
+${newsletter}
 ${website}
 ${websiteRedirect}
 ${websiteSection}

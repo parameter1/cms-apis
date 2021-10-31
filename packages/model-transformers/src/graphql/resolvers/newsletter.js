@@ -4,7 +4,7 @@ export default {
   /**
    *
    */
-  EmailNewsletter: {
+  Newsletter: {
     async website(newsletter, _, { loaders }) {
       const { siteId } = newsletter;
       if (!siteId) throw new Error(`Unable to load a site ID for newsletter ID ${newsletter._id}`);
@@ -17,12 +17,12 @@ export default {
    *
    */
   Query: {
-    async emailNewsletterById(_, { input }, { loaders }) {
+    async newsletterById(_, { input }, { loaders }) {
       const { id } = input;
       return loaders.get('email.Newsletter').load(id);
     },
 
-    async emailNewsletters(_, { input }, { dbs, loaders }) {
+    async newsletters(_, { input }, { dbs, loaders }) {
       const { after, limit, query } = input;
       return findMany({
         resource: 'email.Newsletter',

@@ -4,8 +4,8 @@ import { ObjectId } from '@cms-apis/db';
 import { GraphQLCursor, GraphQLEJSONObject } from '../types/index.js';
 
 import content from './content.js';
-import emailNewsletter from './email-newsletter.js';
 import imageAsset from './image-asset.js';
+import newsletter from './newsletter.js';
 import website from './website.js';
 import websiteRedirect from './website-redirect.js';
 import websiteSection from './website-section.js';
@@ -23,8 +23,8 @@ export default merge(
     },
   },
   content,
-  emailNewsletter,
   imageAsset,
+  newsletter,
   website,
   websiteRedirect,
   websiteSection,

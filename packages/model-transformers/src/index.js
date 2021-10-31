@@ -4,8 +4,8 @@ import createDBs from './mongodb/create-dbs.js';
 import createGraphQLClient from './graphql/create-client.js';
 import createLoaders from './create-loaders.js';
 // import transformContent from './transform/content.js';
-import transformEmailNewsletters from './transform/email-newsletters.js';
 import transformImageAssets from './transform/image-assets.js';
+import transformNewsletters from './transform/newsletters.js';
 import transformWebsiteRedirects from './transform/website-redirects.js';
 import transformWebsiteSections from './transform/website-sections.js';
 import transformWebsiteSectionOptions from './transform/website-section-options.js';
@@ -37,8 +37,8 @@ process.on('unhandledRejection', immediatelyThrow);
 
   const graphql = createGraphQLClient({ dbs, loaders });
 
-  await transformEmailNewsletters({ dbs, graphql });
   await transformImageAssets({ dbs, graphql });
+  await transformNewsletters({ dbs, graphql });
   await transformWebsites({ dbs, graphql });
   await transformWebsiteRedirects({ dbs, graphql });
   await transformWebsiteSections({ dbs, graphql });
