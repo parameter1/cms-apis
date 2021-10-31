@@ -6,6 +6,7 @@ export default async function findMany({
   limit,
   query,
   requiredFields = [],
+  requiredQuery,
   prime = true,
 } = {}, { dbs, loaders } = {}) {
   const ands = { query: [], count: [] };
@@ -19,6 +20,7 @@ export default async function findMany({
   }), {});
 
   if (Object.keys(required).length) and(required);
+  if (requiredQuery) and(requiredQuery);
   if (query) and(query);
   if (after) and({ _id: { $gt: after } }, { count: false });
 
