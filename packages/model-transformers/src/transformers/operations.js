@@ -1,4 +1,5 @@
 import gql from '@cms-apis/graphql/tag';
+import { COMMON_IMAGE_ASSET_REL } from './fragments.js';
 
 export default new Map([
   ['imageAssets', {
@@ -36,29 +37,10 @@ export default new Map([
         description
         logo
         status
-        urls {
-          subscribe
-          renewal
-          reprints
-          einquiry
-        }
-        coverImage {
-          node {
-            _id
-            name
-            caption
-            credit
-            alt
-            file { name path }
-            width
-            height
-            crop {
-              dimensions { x1 x2 y1 y2 }
-              rectangle { x y width height }
-            }
-          }
-        }
+        urls { subscribe renewal reprints einquiry }
+        coverImage { node { ...CommonImageAssetRelFragment } }
       }
+      ${COMMON_IMAGE_ASSET_REL}
     `,
   }],
   ['newsletters', {
@@ -334,39 +316,10 @@ export default new Map([
             status # rel query input
           }
         }
-        logo {
-          node {
-            _id
-            name
-            caption
-            credit
-            alt
-            file { name path }
-            width
-            height
-            crop {
-              dimensions { x1 x2 y1 y2 }
-              rectangle { x y width height }
-            }
-          }
-        }
-        coverImage {
-          node {
-            _id
-            name
-            caption
-            credit
-            alt
-            file { name path }
-            width
-            height
-            crop {
-              dimensions { x1 x2 y1 y2 }
-              rectangle { x y width height }
-            }
-          }
-        }
+        logo { node { ...CommonImageAssetRelFragment } }
+        coverImage { node { ...CommonImageAssetRelFragment } }
       }
+      ${COMMON_IMAGE_ASSET_REL}
     `,
   }],
 ]);
