@@ -99,6 +99,25 @@ export default new Map([
       }
     `,
   }],
+  ['users', {
+    operation: 'users',
+    collection: 'users',
+    fragment: gql`
+      fragment TransformUserFragment on User {
+        _id
+        email
+        name
+        firstName
+        lastName
+        username
+        roles
+        password
+        lastLoggedIn
+        enabled
+        mustChangePassword
+      }
+    `,
+  }],
   ['websites', {
     collection: 'websites',
     fragment: gql`
