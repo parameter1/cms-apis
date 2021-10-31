@@ -43,6 +43,32 @@ export default new Map([
       ${COMMON_IMAGE_ASSET_REL}
     `,
   }],
+  ['magazineIssues', {
+    collection: 'magazine-issues',
+    fragment: gql`
+      fragment TransformMagazineIssueFragment on MagazineIssue {
+        _id
+        name
+        description
+        dedication
+        coverDescription
+        credit
+        redirects
+        status
+        dates { mailed }
+        urls { digitalEdition }
+        coverImage { node { ...CommonImageAssetRelFragment } }
+        magazine {
+          node {
+            _id
+            name
+            status
+          }
+        }
+      }
+      ${COMMON_IMAGE_ASSET_REL}
+    `,
+  }],
   ['newsletters', {
     collection: 'newsletters',
     fragment: gql`

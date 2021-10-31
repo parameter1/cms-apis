@@ -3,6 +3,7 @@ import gql from '@cms-apis/graphql/tag';
 import content from './content.js';
 import imageAsset from './image-asset.js';
 import magazine from './magazine.js';
+import magazineIssue from './magazine-issue.js';
 import newsletter from './newsletter.js';
 import newsletterCampaign from './newsletter-campaign.js';
 import newsletterSchedule from './newsletter-schedule.js';
@@ -45,6 +46,7 @@ input PaginatedQueryInput {
 ${content}
 ${imageAsset}
 ${magazine}
+${magazineIssue}
 ${newsletter}
 ${newsletterCampaign}
 ${newsletterSchedule}
