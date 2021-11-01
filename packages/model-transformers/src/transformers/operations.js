@@ -109,6 +109,33 @@ export default new Map([
       ${COMMON_IMAGE_ASSET_REL}
     `,
   }],
+  ['magazineSchedules', {
+    collection: 'magazine-schedules',
+    fragment: gql`
+      fragment TransformMagazineScheduleFragment on MagazineSchedule {
+        _id
+        status
+        content {
+          node {
+            _id
+            _type
+            status
+            primaryImage { node { _id } }
+          }
+        }
+        section {
+          node {
+            _id
+            name
+            fullName
+            status
+            issue { node { _id name status } }
+            magazine { node { _id name status } }
+          }
+        }
+      }
+    `,
+  }],
   ['magazineSections', {
     collection: 'magazine-sections',
     fragment: gql`
