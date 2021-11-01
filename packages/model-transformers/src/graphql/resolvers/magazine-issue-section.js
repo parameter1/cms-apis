@@ -1,4 +1,5 @@
 import { LegacyDB } from '@cms-apis/db';
+import { trim } from '@cms-apis/utils';
 import findMany from './utils/find-many.js';
 
 export default {
@@ -11,6 +12,9 @@ export default {
       if (!issueId) throw new Error(`Unable to load an issue ID for section ID ${section._id}`);
       const node = await loaders.get('magazine.Issue').load(issueId);
       return { node };
+    },
+    name({ name }) {
+      return trim(name) || 'Default';
     },
     sequence({ sequence }) {
       return parseInt(sequence, 10) || 0;
@@ -33,7 +37,6 @@ export default {
         after,
         limit,
         query,
-        requiredFields: ['name'],
       }, { dbs, loaders });
     },
   },
