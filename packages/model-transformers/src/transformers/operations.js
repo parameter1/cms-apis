@@ -89,6 +89,24 @@ export default new Map([
       }
     `,
   }],
+  ['magazineSections', {
+    collection: 'magazine-sections',
+    fragment: gql`
+      fragment TransformMagazineSectionFragment on MagazineSection {
+        _id
+        name
+        description
+        status
+        sequence
+        magazine {
+          node {
+            _id
+            name
+          }
+        }
+      }
+    `,
+  }],
   ['newsletters', {
     collection: 'newsletters',
     fragment: gql`
