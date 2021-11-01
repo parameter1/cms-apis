@@ -48,9 +48,9 @@ export default {
       if (!node) return null;
       return { node };
     },
-    async primaryWebsiteSection(content, _, { loaders }) {
+    async primaryWebsiteSection(content, _, { defaults, loaders }) {
       const id = LegacyDB.extractRefIdFromPath(content, 'mutations.Website.primarySection');
-      if (!id) throw new Error(`Unable to load a primary section ID for content ID ${content._id}`);
+      if (!id) return { node: defaults.websiteSection };
       const node = await loaders.get('website.Section').load(id);
       return { node };
     },

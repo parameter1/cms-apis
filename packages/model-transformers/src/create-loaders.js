@@ -1,6 +1,8 @@
 import DataLoader from 'dataloader';
 import { isFunction as isFn } from '@cms-apis/utils';
 
+const { warn } = console;
+
 export default ({ legacyDB, logger } = {}) => {
   const loaders = new Map();
   legacyDB.namespaces.forEach((repos, namespace) => {
@@ -16,8 +18,8 @@ export default ({ legacyDB, logger } = {}) => {
           return map;
         }, new Map());
         return keys.map((key) => {
-          const doc = mapped.get(`${key}`);
-          if (!doc) throw new Error(`No result for ${namespace}.${name} key ${key}`);
+          const doc = mapped.get(`${key}`) || null;
+          if (!doc) warn(`WARNING: No result for ${namespace}.${name} key ${key}`);
           return doc;
         });
       }));
