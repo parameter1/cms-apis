@@ -4,6 +4,7 @@ import content from './content.js';
 import imageAsset from './image-asset.js';
 import magazine from './magazine.js';
 import magazineIssue from './magazine-issue.js';
+import magazineIssueSection from './magazine-issue-section.js';
 import newsletter from './newsletter.js';
 import newsletterCampaign from './newsletter-campaign.js';
 import newsletterSchedule from './newsletter-schedule.js';
@@ -47,6 +48,7 @@ ${content}
 ${imageAsset}
 ${magazine}
 ${magazineIssue}
+${magazineIssueSection}
 ${newsletter}
 ${newsletterCampaign}
 ${newsletterSchedule}
