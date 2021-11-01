@@ -15,10 +15,10 @@ type MagazineIssueSection {
 
   sequence: Int!
 
-  magazineIssue: MagazineIssueSectionMagazineIssueEdge!
+  issue: MagazineIssueSectionIssueEdge!
 }
 
-type MagazineIssueSectionMagazineIssueEdge {
+type MagazineIssueSectionIssueEdge {
   node: MagazineIssue!
 }
 

@@ -78,7 +78,7 @@ export default new Map([
         description
         status
         sequence
-        magazineIssue {
+        issue {
           node {
             _id
             name

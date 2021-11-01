@@ -6,7 +6,7 @@ export default {
    *
    */
   MagazineIssueSection: {
-    async magazineIssue(section, _, { loaders }) {
+    async issue(section, _, { loaders }) {
       const issueId = LegacyDB.extractRefId(section.issue);
       if (!issueId) throw new Error(`Unable to load an issue ID for section ID ${section._id}`);
       const node = await loaders.get('magazine.Issue').load(issueId);
