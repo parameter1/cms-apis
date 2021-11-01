@@ -18,7 +18,7 @@ export default {
     body(content) {
       return {
         default: trim(content.body),
-        email: getMutatedValue({ content, mutation: 'Email', field: 'body' }),
+        newsletter: getMutatedValue({ content, mutation: 'Email', field: 'body' }),
         magazine: getMutatedValue({ content, mutation: 'Magazine', field: 'body' }),
         website: getMutatedValue({ content, mutation: 'Website', field: 'body' }),
       };
@@ -35,7 +35,7 @@ export default {
     name(content) {
       return {
         default: trim(content.name),
-        email: getMutatedValue({ content, mutation: 'Email', field: 'name' }),
+        newsletter: getMutatedValue({ content, mutation: 'Email', field: 'name' }),
         magazine: getMutatedValue({ content, mutation: 'Magazine', field: 'name' }),
         website: getMutatedValue({ content, mutation: 'Website', field: 'name' }),
       };
@@ -49,7 +49,7 @@ export default {
     teaser(content) {
       return {
         default: trim(content.teaser),
-        email: getMutatedValue({ content, mutation: 'Email', field: 'teaser' }),
+        newsletter: getMutatedValue({ content, mutation: 'Email', field: 'teaser' }),
         magazine: getMutatedValue({ content, mutation: 'Magazine', field: 'teaser' }),
         website: getMutatedValue({ content, mutation: 'Website', field: 'teaser' }),
       };

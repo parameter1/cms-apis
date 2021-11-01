@@ -30,7 +30,7 @@ type ContentInterfaceDates {
 
 type ContentInterfaceName {
   default: String!
-  email: String
+  newsletter: String
   magazine: String
   website: String
 }
@@ -41,14 +41,14 @@ type ContentInterfacePrimaryWebsiteSectionEdge {
 
 type ContentInterfaceTeaser {
   default: String
-  email: String
+  newsletter: String
   magazine: String
   website: String
 }
 
 type ContentInterfaceBody {
   default: String
-  email: String
+  newsletter: String
   magazine: String
   website: String
 }
