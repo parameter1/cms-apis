@@ -2,6 +2,36 @@ import gql from '@cms-apis/graphql/tag';
 import { COMMON_IMAGE_ASSET_REL } from './fragments.js';
 
 export default new Map([
+  ['contentInterfaces', {
+    collection: 'content',
+    fragment: gql`
+      fragment TransformContentFragment on ContentInterface {
+        _id
+        _type
+        name { default newsletter magazine website }
+        teaser { default newsletter magazine website }
+        body { default newsletter magazine website }
+        status
+        dates { expired published created updated touched }
+        primaryImage { node { ...CommonImageAssetRelFragment } }
+        primaryWebsiteSection {
+          node {
+            _id
+            name
+            alias
+            ancestors {
+              node {
+                _id
+                name
+                alias
+              }
+            }
+          }
+        }
+      }
+      ${COMMON_IMAGE_ASSET_REL}
+    `,
+  }],
   ['imageAssets', {
     collection: 'image-assets',
     fragment: gql`
