@@ -32,8 +32,8 @@ type Website {
 
   settings: WebsiteSettings!
 
-  scheduleOptions: [WebsiteScheduleOptionEdge!]!
-  sections: [WebsiteSectionEdge!]!
+  scheduleOptions: [WebsiteScheduleOptionsEdge!]!
+  sections: [WebsiteSectionsEdge!]!
 }
 
 type WebsiteHosts {
@@ -42,11 +42,11 @@ type WebsiteHosts {
   asset: String!
 }
 
-type WebsiteSectionEdge {
+type WebsiteSectionsEdge {
   node: WebsiteSection!
 }
 
-type WebsiteScheduleOptionEdge {
+type WebsiteScheduleOptionsEdge {
   node: WebsiteScheduleOption!
 }
 
