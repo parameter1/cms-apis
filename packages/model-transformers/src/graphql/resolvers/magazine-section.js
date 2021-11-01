@@ -2,10 +2,23 @@ import { LegacyDB } from '@cms-apis/db';
 import { trim } from '@cms-apis/utils';
 import findMany from './utils/find-many.js';
 
+const loadIssueFor = async (section, { loaders, shouldError = false }) => {
+  const issueId = LegacyDB.extractRefId(section.issue);
+  if (!issueId) {
+    if (shouldError) throw new Error(`Unable to load an issue ID for section ID ${section._id}`);
+    return null;
+  }
+  return loaders.get('magazine.Issue').load(issueId);
+};
+
 const loadPubFor = async (section, { loaders }) => {
   const publicationId = LegacyDB.extractRefId(section.publication);
-  if (!publicationId) throw new Error(`Unable to load a publication ID for section ID ${section._id}`);
-  return loaders.get('magazine.Publication').load(publicationId);
+  if (publicationId) return loaders.get('magazine.Publication').load(publicationId);
+  // attempt to load pub from issue
+  const issue = await loadIssueFor(section, { loaders, shouldError: true });
+  const issuePubId = LegacyDB.extractRefId(issue.publication);
+  if (!issuePubId) throw new Error(`Unable to load an issue publication for section ID ${section._id}`);
+  return loaders.get('magazine.Publication').load(issuePubId);
 };
 
 export default {
@@ -14,8 +27,26 @@ export default {
    */
   MagazineSection: {
     async fullName(section, _, { loaders }) {
-      const pub = await loadPubFor(section, { loaders });
-      return [pub.name, trim(section.name) || 'Default'].map(trim).filter((v) => v).join(' > ');
+      const [issue, pub] = await Promise.all([
+        loadIssueFor(section, { loaders }),
+        loadPubFor(section, { loaders }),
+      ]);
+      const hasIssue = Boolean(issue);
+      const isGlobal = !hasIssue;
+      const name = `${trim(section.name) || 'Default'}${isGlobal ? '  (Global)' : ''}`;
+      const parts = [pub.name];
+      if (hasIssue) parts.push(issue.name);
+      parts.push(name);
+      return parts.map(trim).filter((v) => v).join(' > ');
+    },
+    async issue(section, _, { loaders }) {
+      const node = await loadIssueFor(section, { loaders });
+      return node ? { node } : null;
+    },
+    async isGlobal(section, _, { loaders }) {
+      const issue = await loadIssueFor(section, { loaders });
+      const hasIssue = Boolean(issue);
+      return !hasIssue;
     },
     async magazine(section, _, { loaders }) {
       const node = await loadPubFor(section, { loaders });
@@ -35,13 +66,13 @@ export default {
   Query: {
     async magazineSectionById(_, { input }, { loaders }) {
       const { id } = input;
-      return loaders.get('magazine.PublicationSection').load(id);
+      return loaders.get('magazine.Section').load(id);
     },
 
     async magazineSections(_, { input }, { dbs, loaders }) {
       const { after, limit, query } = input;
       return findMany({
-        resource: 'magazine.PublicationSection',
+        resource: 'magazine.Section',
         after,
         limit,
         query,

@@ -16,7 +16,14 @@ type MagazineSection {
 
   sequence: Int!
 
+  isGlobal: Boolean!
+
+  issue: MagazineSectionIssueEdge
   magazine: MagazineSectionMagazineEdge!
+}
+
+type MagazineSectionIssueEdge {
+  node: MagazineIssue!
 }
 
 type MagazineSectionMagazineEdge {

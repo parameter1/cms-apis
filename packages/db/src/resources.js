@@ -52,24 +52,9 @@ export default fromJS([
     legacy: { namespace: 'magazine', model: 'Schedule' },
   },
   {
-    name: 'magazine issue section',
-    collection: 'magazine-issue-sections',
-    legacy: {
-      namespace: 'magazine',
-      model: 'Section',
-      target: { namespace: 'magazine', model: 'IssueSection' },
-      query: { 'issue.$id': { $exists: true }, 'publication.$id': { $exists: false } },
-    },
-  },
-  {
     name: 'magazine section',
     collection: 'magazine-sections',
-    legacy: {
-      namespace: 'magazine',
-      model: 'Section',
-      target: { namespace: 'magazine', model: 'PublicationSection' },
-      query: { 'issue.$id': { $exists: false }, 'publication.$id': { $exists: true } },
-    },
+    legacy: { namespace: 'magazine', model: 'Section' },
   },
   {
     name: 'model history',
