@@ -15,7 +15,17 @@ interface ContentInterface {
 
   status: Int! @formatStatus
 
+  dates: ContentInterfaceDates!
+
   primaryWebsiteSection: ContentInterfacePrimaryWebsiteSectionEdge!
+}
+
+type ContentInterfaceDates {
+  expired: DateTime
+  published: DateTime
+  created: DateTime
+  updated: DateTime
+  touched: DateTime
 }
 
 type ContentInterfaceName {

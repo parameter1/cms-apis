@@ -23,6 +23,15 @@ export default {
         website: getMutatedValue({ content, mutation: 'Website', field: 'body' }),
       };
     },
+    dates(content) {
+      return {
+        expired: content.unpublished,
+        published: content.published,
+        created: content.created,
+        updated: content.updated,
+        touched: content.touched,
+      };
+    },
     name(content) {
       return {
         default: trim(content.name),
