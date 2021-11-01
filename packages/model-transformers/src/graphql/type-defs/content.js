@@ -18,6 +18,7 @@ interface ContentInterface {
 
   dates: ContentInterfaceDates!
 
+  primaryImage: ContentInterfacePrimaryImageEdge
   primaryWebsiteSection: ContentInterfacePrimaryWebsiteSectionEdge!
 }
 
@@ -34,6 +35,10 @@ type ContentInterfaceName {
   newsletter: String
   magazine: String
   website: String
+}
+
+type ContentInterfacePrimaryImageEdge {
+  node: ImageAsset!
 }
 
 type ContentInterfacePrimaryWebsiteSectionEdge {

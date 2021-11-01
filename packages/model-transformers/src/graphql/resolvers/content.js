@@ -41,6 +41,13 @@ export default {
         website: getMutatedValue({ content, mutation: 'Website', field: 'name' }),
       };
     },
+    async primaryImage(content, _, { loaders }) {
+      const imageId = LegacyDB.extractRefId(content.primaryImage);
+      if (!imageId) return null;
+      const node = await loaders.get('platform.Image').load(imageId);
+      if (!node) return null;
+      return { node };
+    },
     async primaryWebsiteSection(content, _, { loaders }) {
       const id = LegacyDB.extractRefIdFromPath(content, 'mutations.Website.primarySection');
       if (!id) throw new Error(`Unable to load a primary section ID for content ID ${content._id}`);
