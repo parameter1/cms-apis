@@ -10,6 +10,7 @@ extend type Query {
 type MagazineIssueSection {
   _id: Int!
   name: String!
+  fullName: String!
   description: String @trim
   status: Int! @formatStatus
 

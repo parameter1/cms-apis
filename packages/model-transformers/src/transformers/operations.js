@@ -58,6 +58,7 @@ export default new Map([
       fragment TransformMagazineIssueFragment on MagazineIssue {
         _id
         name
+        fullName
         description
         dedication
         coverDescription
@@ -84,6 +85,7 @@ export default new Map([
       fragment TransformMagazineIssueSectionFragment on MagazineIssueSection {
         _id
         name
+        fullName
         description
         status
         sequence
@@ -104,6 +106,7 @@ export default new Map([
       fragment TransformMagazineSectionFragment on MagazineSection {
         _id
         name
+        fullName
         description
         status
         sequence
