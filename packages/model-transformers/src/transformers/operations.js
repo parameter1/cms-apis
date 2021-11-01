@@ -381,6 +381,36 @@ export default new Map([
       }
     `,
   }],
+  ['websiteSchedules', {
+    collection: 'website-schedules',
+    fragment: gql`
+      fragment TransformWebsiteScheduleFragment on WebsiteSchedule {
+        _id
+        status
+        dates { start end }
+        content {
+          node {
+            _id
+            _type
+            status
+            primaryImage { node { _id } }
+            dates { published expired }
+            primaryWebsiteSection { node { _id name alias status } }
+          }
+        }
+        section {
+          node {
+            _id
+            alias
+            name
+            status
+            website { node { _id name } }
+          }
+        }
+        option { node { _id name status } }
+      }
+    `,
+  }],
   ['websiteScheduleOptions', {
     collection: 'website-schedule-options',
     fragment: gql`

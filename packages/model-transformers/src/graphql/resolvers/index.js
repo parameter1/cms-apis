@@ -18,8 +18,9 @@ import user from './user.js';
 import website from './website.js';
 import websiteInquirySubmission from './website-inquiry-submission.js';
 import websiteRedirect from './website-redirect.js';
-import websiteSection from './website-section.js';
+import websiteSchedule from './website-schedule.js';
 import websiteScheduleOption from './website-schedule-option.js';
+import websiteSection from './website-section.js';
 
 export default merge(
   {
@@ -48,6 +49,7 @@ export default merge(
   website,
   websiteInquirySubmission,
   websiteRedirect,
+  websiteSchedule,
   websiteScheduleOption,
   websiteSection,
 );
