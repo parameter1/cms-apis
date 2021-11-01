@@ -15,7 +15,7 @@ interface ContentInterface {
 
   status: Int! @formatStatus
 
-  primaryWebsiteSectionEdge: ContentInterfacePrimaryWebsiteSectionEdge!
+  primaryWebsiteSection: ContentInterfacePrimaryWebsiteSectionEdge!
 }
 
 type ContentInterfaceName {
