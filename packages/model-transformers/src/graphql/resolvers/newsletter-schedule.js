@@ -43,6 +43,7 @@ export default {
         after,
         limit,
         query,
+        prime: false,
         requiredQuery: { section: { $in: sectionIds }, 'content.$id': { $in: contentIds } },
       }, { dbs, loaders });
     },
