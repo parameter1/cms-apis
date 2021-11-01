@@ -39,6 +39,15 @@ export default new Map([
         status
         urls { subscribe renewal reprints einquiry }
         coverImage { node { ...CommonImageAssetRelFragment } }
+        issues {
+          node {
+            _id
+            name
+            dates { mailed }
+            coverImage { node { _id } }
+          }
+        }
+        sections { node { _id name } }
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,

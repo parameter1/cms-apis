@@ -18,10 +18,21 @@ type Magazine {
 
   urls: MagazineUrls!
   coverImage: MagazineCoverImageEdge
+
+  issues: [MagazineIssuesEdge!]!
+  sections: [MagazineSectionsEdge!]!
 }
 
 type MagazineCoverImageEdge {
   node: ImageAsset!
+}
+
+type MagazineIssuesEdge {
+  node: MagazineIssue!
+}
+
+type MagazineSectionsEdge {
+  node: MagazineSection!
 }
 
 type MagazineUrls {

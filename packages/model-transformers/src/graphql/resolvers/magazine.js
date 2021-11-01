@@ -1,4 +1,5 @@
 import { LegacyDB } from '@cms-apis/db';
+import { primeLoader, sortBy } from '../utils/index.js';
 import findMany from './utils/find-many.js';
 
 export default {
@@ -12,6 +13,20 @@ export default {
       const node = await loaders.get('platform.Image').load(imageId);
       if (!node) return null;
       return { node };
+    },
+    async issues(magazine, _, { dbs, loaders }) {
+      const query = { 'publication.$id': magazine._id };
+      const cursor = await dbs.legacy.repo('magazine.Issue').find({ query });
+      const docs = await cursor.toArray();
+      primeLoader({ loader: loaders.get('magazine.Issue'), docs });
+      return sortBy(docs, '_id').map((node) => ({ node }));
+    },
+    async sections(magazine, _, { dbs, loaders }) {
+      const query = { 'publication.$id': magazine._id };
+      const cursor = await dbs.legacy.repo('magazine.PublicationSection').find({ query });
+      const docs = await cursor.toArray();
+      primeLoader({ loader: loaders.get('magazine.PublicationSection'), docs });
+      return sortBy(docs, '_id').map((node) => ({ node }));
     },
     urls(magazine) {
       return {
