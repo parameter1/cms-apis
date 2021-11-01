@@ -58,7 +58,7 @@ export default class Repo {
    * @param {object} params.query The query criteria
    * @param {object} [params.options] Options to pass to the `collection.findOne` call
    */
-  async findOne({ query, options = {} } = {}) {
+  async findOne({ query = {}, options = {} } = {}) {
     const { strict, ...opts } = options;
     const collection = await this.collection();
     const { globalFindCriteria } = this;
@@ -75,7 +75,7 @@ export default class Repo {
    * @param {object} params.query The query criteria
    * @param {object} [params.options] Options to pass to the `collection.find` call
    */
-  async find({ query, options } = {}) {
+  async find({ query = {}, options } = {}) {
     const collection = await this.collection();
     const { globalFindCriteria } = this;
     const q = globalFindCriteria ? { $and: [query, globalFindCriteria] } : query;
