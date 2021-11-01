@@ -1,6 +1,7 @@
 import { get } from '@cms-apis/object-path';
 import { trim } from '@cms-apis/utils';
 import { LegacyDB } from '@cms-apis/db';
+import findMany from './utils/find-many.js';
 
 const resolveType = async ({ type }) => `Content${type}`;
 
@@ -66,6 +67,17 @@ export default {
     contentInterfaceById(_, { input }, { loaders }) {
       const { id } = input;
       return loaders.get('platform.Content').load(id);
+    },
+
+    async contentInterfaces(_, { input }, { dbs, loaders }) {
+      const { after, limit, query } = input;
+      return findMany({
+        resource: 'platform.Content',
+        after,
+        limit,
+        query,
+        prime: false,
+      }, { dbs, loaders });
     },
   },
 };

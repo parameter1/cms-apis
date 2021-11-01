@@ -4,6 +4,7 @@ export default gql`
 
 extend type Query {
   contentInterfaceById(input: QueryContentInterfaceByIdInput!): ContentInterface
+  contentInterfaces(input: PaginatedQueryInput = {}): QueryContentInterfacesConnection!
 }
 
 interface ContentInterface {
@@ -55,6 +56,16 @@ type ContentInterfaceBody {
 
 input QueryContentInterfaceByIdInput {
   id: Int!
+}
+
+type QueryContentInterfacesConnection {
+  edges: [QueryContentInterfacesConnectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type QueryContentInterfacesConnectionEdge {
+  node: ContentInterface!
+  cursor: Cursor!
 }
 
 
