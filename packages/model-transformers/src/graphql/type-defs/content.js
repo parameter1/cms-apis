@@ -14,12 +14,47 @@ interface ContentInterface {
   teaser: ContentInterfaceTeaser!
   body: ContentInterfaceBody!
 
+  shortName: String @trim
+  fullName: String! @trim
+  hash: String @trim
+
+  deck: String @trim
+
   status: Int! @formatStatus
+
+  notes: String @trim
 
   dates: ContentInterfaceDates!
 
+  seoTitle: String! @trim(field: "mutations.Website.seoTitle")
+  seoDescription: String @trim(field: "mutations.Website.seoDescription")
+  alias: String @trim(field: "mutations.Website.alias")
+  slug: String @trim(field: "mutations.Website.slug")
+  redirects: [String!]!
+
+
+  createdBy: ContentInterfaceCreatedByEdge
+  updatedBy: ContentInterfaceUpdatedByEdge
+  company: ContentInterfaceCompanyEdge
   primaryImage: ContentInterfacePrimaryImageEdge
   primaryWebsiteSection: ContentInterfacePrimaryWebsiteSectionEdge!
+  images: [ContentInterfaceImagesEdge!]!
+  relatedTo: [ContentInterfaceRelatedToEdge!]!
+}
+
+type ContentInterfaceBody {
+  default: String
+  newsletter: String
+  magazine: String
+  website: String
+}
+
+type ContentInterfaceCompanyEdge {
+  node: ContentCompany!
+}
+
+type ContentInterfaceCreatedByEdge {
+  node: User!
 }
 
 type ContentInterfaceDates {
@@ -28,6 +63,10 @@ type ContentInterfaceDates {
   created: DateTime
   updated: DateTime
   touched: DateTime
+}
+
+type ContentInterfaceImagesEdge {
+  node: ImageAsset!
 }
 
 type ContentInterfaceName {
@@ -45,6 +84,10 @@ type ContentInterfacePrimaryWebsiteSectionEdge {
   node: WebsiteSection!
 }
 
+type ContentInterfaceRelatedToEdge {
+  node: ContentInterface!
+}
+
 type ContentInterfaceTeaser {
   default: String
   newsletter: String
@@ -52,11 +95,8 @@ type ContentInterfaceTeaser {
   website: String
 }
 
-type ContentInterfaceBody {
-  default: String
-  newsletter: String
-  magazine: String
-  website: String
+type ContentInterfaceUpdatedByEdge {
+  node: User!
 }
 
 input QueryContentInterfaceByIdInput {

@@ -14,6 +14,11 @@ export default new Map([
         status
         dates { expired published created updated touched }
         primaryImage { node { ...CommonImageAssetRelFragment } }
+        images { node { ...CommonImageAssetRelFragment } }
+        createdBy { node { _id name username email } }
+        updatedBy { node { _id name username email } }
+        company { node { _id name { default website } status dates { published expired } } }
+        relatedTo { node { _id _type name { default website } status dates { published expired } } }
         primaryWebsiteSection {
           node {
             _id

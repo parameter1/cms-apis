@@ -29,10 +29,10 @@ process.on('unhandledRejection', immediatelyThrow);
     // logger: log,
   });
 
-  const graphql = createGraphQLClient({ dbs, loaders });
+  const graphql = await createGraphQLClient({ dbs, loaders });
 
   const transformers = new Transformers({ dbs, graphql });
-  await transformers.replace({ operation: 'websiteSchedules' });
+  await transformers.replace({ operation: 'contentInterfaces' });
 
   log('Closing MongoDB clients...');
   await Promise.all([mongoDB.close(), legacyMongoDB.close()]);

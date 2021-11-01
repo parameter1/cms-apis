@@ -1,6 +1,7 @@
-import { get } from '@cms-apis/object-path';
-import { trim } from '@cms-apis/utils';
+import { get, getAsArray } from '@cms-apis/object-path';
+import { trim, cleanPath } from '@cms-apis/utils';
 import { LegacyDB } from '@cms-apis/db';
+import { sortBy } from '../utils/index.js';
 import findMany from './utils/find-many.js';
 
 const resolveType = async ({ type }) => `Content${type}`;
@@ -24,6 +25,19 @@ export default {
         website: getMutatedValue({ content, mutation: 'Website', field: 'body' }),
       };
     },
+    async company(content, _, { loaders }) {
+      const companyId = LegacyDB.extractRefId(content.company);
+      if (!companyId) return null;
+      const node = await loaders.get('platform.Content').load(companyId);
+      if (!node || node.type !== 'Company') return null;
+      return { node };
+    },
+    async createdBy(content, _, { loaders }) {
+      const userId = LegacyDB.extractRefId(content.createdBy);
+      if (!userId) return null;
+      const node = await loaders.get('platform.User').load(userId);
+      return node ? { node } : null;
+    },
     dates(content) {
       return {
         expired: content.unpublished,
@@ -33,9 +47,15 @@ export default {
         touched: content.touched,
       };
     },
+    async images(content, _, { loaders }) {
+      const imageIds = LegacyDB.extractRefIds(content.images);
+      if (!imageIds.length) return [];
+      const docs = await loaders.get('platform.Image').loadMany(imageIds);
+      return sortBy(docs, '_id').map((node) => ({ node }));
+    },
     name(content) {
       return {
-        default: trim(content.name),
+        default: trim(content.name, ''),
         newsletter: getMutatedValue({ content, mutation: 'Email', field: 'name' }),
         magazine: getMutatedValue({ content, mutation: 'Magazine', field: 'name' }),
         website: getMutatedValue({ content, mutation: 'Website', field: 'name' }),
@@ -54,6 +74,15 @@ export default {
       const node = await loaders.get('website.Section').load(id);
       return { node };
     },
+    async relatedTo(content, _, { loaders }) {
+      const relatedToIds = LegacyDB.extractRefIds(content.relatedTo);
+      if (!relatedToIds.length) return [];
+      const docs = await loaders.get('platform.Content').loadMany(relatedToIds);
+      return sortBy(docs, '_id').map((node) => ({ node }));
+    },
+    redirects(content) {
+      return getAsArray(content, 'mutations.Website.redirects').map(cleanPath).filter((v) => v);
+    },
     teaser(content) {
       return {
         default: trim(content.teaser),
@@ -61,6 +90,12 @@ export default {
         magazine: getMutatedValue({ content, mutation: 'Magazine', field: 'teaser' }),
         website: getMutatedValue({ content, mutation: 'Website', field: 'teaser' }),
       };
+    },
+    async updatedBy(content, _, { loaders }) {
+      const userId = LegacyDB.extractRefId(content.createdBy);
+      if (!userId) return null;
+      const node = await loaders.get('platform.User').load(userId);
+      return node ? { node } : null;
     },
   },
 
