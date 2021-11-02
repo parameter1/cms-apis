@@ -19,6 +19,7 @@ export default new Map([
         alias
         slug
         redirects
+        labels
 
         createdBy { node { _id name username email } }
         updatedBy { node { _id name username email } }
@@ -69,8 +70,12 @@ export default new Map([
         contactInfo {
           phones { default tollfree fax mobile }
           emails { default public }
-          website
           person { name firstName lastName title }
+        }
+        links {
+          external { key url label }
+          website
+          social { provider url label }
         }
       }
       ${COMMON_IMAGE_ASSET_REL}

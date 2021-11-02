@@ -12,6 +12,17 @@ const getMutatedValue = ({ content, mutation, field }) => {
 
 const mediaTypes = new Set(['Document', 'Infographic', 'Podcast', 'Video', 'Webinar', 'Whitepaper']);
 
+const socialProviders = new Map([
+  ['FACEBOOK', 'Facebook'],
+  ['INSTAGRAM', 'Instagram'],
+  ['LINKEDIN', 'LinkedIn'],
+  ['PINTEREST', 'Pinterest'],
+  ['TIKTOK', 'TikTok'],
+  ['TWITTER', 'Twitter'],
+  ['YOUTUBE', 'YouTube'],
+  ['OTHER', 'Other'],
+]);
+
 export default {
   /**
    *
@@ -97,7 +108,7 @@ export default {
         ['emails', emails],
         ['phones', phones],
         ['person', person],
-        ['website', cleanWebsite(content.website)],
+        // ['website', cleanWebsite(content.website)],
       ]);
     },
     async contacts(content, _, { loaders }) {
@@ -155,6 +166,49 @@ export default {
       if (!imageIds.length) return [];
       const docs = await loaders.get('platform.Image').loadMany(imageIds);
       return sortBy(docs, '_id').map((node) => ({ node }));
+    },
+    labels(content) {
+      return getAsArray(content, 'labels').map(trim).filter((v) => v);
+    },
+    links(content) {
+      const external = getAsArray(content, 'externalLinks').map((link) => {
+        const url = cleanWebsite(link.url);
+        if (!url) return null;
+        return { key: trim(link.key), url, label: trim(link.label) };
+      }).filter((v) => v);
+
+      const urlFieldMap = new Map([
+        ['productUrl', { key: 'product', label: 'Product URL' }],
+        ['iTunesUrl', { key: 'itunes', label: 'iTunes' }],
+        ['googlePlayUrl', { key: 'googleplay', label: 'Google Play' }],
+        ['downloadUrl', { key: 'download', label: 'Download URL' }],
+      ]);
+
+      urlFieldMap.forEach(({ key, label }, field) => {
+        const url = cleanWebsite(content[field]);
+        if (!url) return;
+        external.push({ key, url, label });
+      });
+
+      return {
+        external,
+        social: getAsArray(content, 'socialLinks').map((link) => {
+          if (!link) return null;
+          const url = cleanWebsite(link.url);
+          if (!url) return null;
+
+          let label = trim(link.label);
+          let provider = trim(link.provider);
+          if ((!provider || provider.toUpperCase() === 'OTHER') && label && socialProviders.has(label.toUpperCase())) {
+            provider = label;
+          }
+          if (!provider) provider = 'Other';
+          provider = provider.toUpperCase();
+          if (!label && provider !== 'OTHER') label = socialProviders.get(provider);
+          return { provider, url, label };
+        }).filter((v) => v),
+        website: cleanWebsite(content.website),
+      };
     },
     async primaryImage(content, _, { loaders }) {
       const imageId = LegacyDB.extractRefId(content.primaryImage);

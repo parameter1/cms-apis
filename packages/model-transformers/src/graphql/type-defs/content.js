@@ -44,6 +44,17 @@ enum ContentContactTypeEnum {
   OTHER
 }
 
+enum ContentLinkSocialProviderEnum {
+  FACEBOOK
+  INSTAGRAM
+  LINKEDIN
+  PINTEREST
+  TIKTOK
+  TWITTER
+  YOUTUBE
+  OTHER
+}
+
 type Content {
   _id: Int!
   _type: ContentTypeEnum! @trim(field: "type")
@@ -69,6 +80,8 @@ type Content {
   images: [ContentImagesEdge!]!
   relatedTo: [ContentRelatedToEdge!]!
 
+  labels: [String!]!
+
   sidebars: [ContentSidebar!]!
 
   # was the Addressable interface: applied to company, contact, event, supplier, top-100, venue
@@ -77,7 +90,8 @@ type Content {
   contactInfo: ContentContactInfo
   # combines Authorable, OrganizationContactable, Media.contacts and ContentWhitepaper.editors
   contacts: [ContentContactsEdge!]!
-  # combines SocialLinkable, Contactable.website,
+  # combines SocialLinkable, Contactable.website, Content.externalLinks, Company.[xxx]Url fields
+  links: ContentLinks!
 
   seo: ContentSEO
 }
@@ -114,7 +128,6 @@ type ContentContactInfo {
   phones: ContentContactInfoPhones
   emails: ContentContactInfoEmails
   person: ContentContactInfoPerson
-  website: String
 }
 
 type ContentContactInfoEmails {
@@ -155,6 +168,24 @@ type ContentDates {
 
 type ContentImagesEdge {
   node: ImageAsset!
+}
+
+type ContentLinks {
+  external: [ContentLinkExternal!]!
+  social: [ContentLinkSocial!]!
+  website: String
+}
+
+type ContentLinkExternal {
+  key: String
+  url: String!
+  label: String
+}
+
+type ContentLinkSocial {
+  provider: ContentLinkSocialProviderEnum!
+  url: String!
+  label: String
 }
 
 type ContentPrimaryImageEdge {
