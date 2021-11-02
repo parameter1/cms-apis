@@ -2,23 +2,30 @@ import gql from '@cms-apis/graphql/tag';
 import { COMMON_IMAGE_ASSET_REL } from './fragments.js';
 
 export default new Map([
-  ['contentInterfaces', {
+  ['allContent', {
     collection: 'content',
     fragment: gql`
-      fragment TransformContentFragment on ContentInterface {
+      fragment TransformContentFragment on Content {
         _id
         _type
-        name { default newsletter magazine website }
-        teaser { default newsletter magazine website }
-        body { default newsletter magazine website }
+        names { default newsletter magazine website short full }
+        teasers { default newsletter magazine website deck }
+        bodies { default newsletter magazine website original }
+        hash
+        notes
         status
         dates { expired published created updated touched }
-        primaryImage { node { ...CommonImageAssetRelFragment } }
-        images { node { ...CommonImageAssetRelFragment } }
+        seo { title description }
+        alias
+        slug
+        redirects
+
         createdBy { node { _id name username email } }
         updatedBy { node { _id name username email } }
-        company { node { _id name { default website } status dates { published expired } } }
-        relatedTo { node { _id _type name { default website } status dates { published expired } } }
+        company { node { _id names { default website short } status dates { published expired } } }
+        primaryImage { node { ...CommonImageAssetRelFragment } }
+        images { node { ...CommonImageAssetRelFragment } }
+        relatedTo { node { _id _type names { default website short } status dates { published expired } } }
         primaryWebsiteSection {
           node {
             _id
@@ -33,15 +40,27 @@ export default new Map([
             }
           }
         }
-        ... on ContentAddressableInterface {
-          address1
-          address2
+        sidebars {
+          body
+          name
+          label
+          sequence
+        }
+        address {
+          street
+          streetExtra
           city
           region
           postalCode
           country
-          location { latitude longitude }
+          location { type coordinates }
           cityRegionPostalCode
+        }
+        contactInfo {
+          phones { default tollfree fax mobile }
+          emails { default public }
+          website
+          person { firstName lastName title }
         }
       }
       ${COMMON_IMAGE_ASSET_REL}

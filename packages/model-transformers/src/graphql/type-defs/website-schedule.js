@@ -12,13 +12,13 @@ type WebsiteSchedule {
   status: Int! @formatStatus
 
   dates: WebsiteScheduleDates!
-  content: WebsiteScheduleContentInterfaceEdge!
+  content: WebsiteScheduleContentEdge!
   section: WebsiteScheduleSectionEdge!
   option: WebsiteScheduleOptionEdge!
 }
 
-type WebsiteScheduleContentInterfaceEdge {
-  node: ContentInterface!
+type WebsiteScheduleContentEdge {
+  node: Content!
 }
 
 type WebsiteScheduleDates {

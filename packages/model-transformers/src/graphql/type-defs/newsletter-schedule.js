@@ -15,12 +15,12 @@ type NewsletterSchedule {
 
   sequence: Int!
 
-  content: NewsletterScheduleContentInterfaceEdge!
+  content: NewsletterScheduleContentEdge!
   section: NewsletterScheduleSectionEdge!
 }
 
-type NewsletterScheduleContentInterfaceEdge {
-  node: ContentInterface!
+type NewsletterScheduleContentEdge {
+  node: Content!
 }
 
 type NewsletterScheduleSectionEdge {

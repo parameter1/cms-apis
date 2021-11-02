@@ -1,10 +1,9 @@
-import { get, getAsArray, getAsObject } from '@cms-apis/object-path';
-import { trim, cleanPath } from '@cms-apis/utils';
+import { get, getAsArray } from '@cms-apis/object-path';
+import { trim, cleanPath, parseNumber } from '@cms-apis/utils';
 import { LegacyDB } from '@cms-apis/db';
+import { cleanWebsite } from '@cms-apis/clean-string';
 import { sortBy } from '../utils/index.js';
-import findMany from './utils/find-many.js';
-
-const resolveType = async ({ type }) => `Content${type}`;
+import { buildObjValues, findMany } from './utils/index.js';
 
 const getMutatedValue = ({ content, mutation, field }) => {
   const value = get(content, `mutations.${mutation}.${field}`);
@@ -15,15 +14,55 @@ export default {
   /**
    *
    */
-  ContentInterface: {
-    __resolveType: resolveType,
-    body(content) {
-      return {
-        default: trim(content.body),
-        newsletter: getMutatedValue({ content, mutation: 'Email', field: 'body' }),
-        magazine: getMutatedValue({ content, mutation: 'Magazine', field: 'body' }),
-        website: getMutatedValue({ content, mutation: 'Website', field: 'body' }),
-      };
+  Content: {
+    address(content) {
+      const city = trim(content.city);
+      const region = trim(content.state);
+      const postalCode = trim(content.zip);
+      const cityRegionPostalCode = (() => {
+        let out = '';
+        if (city && region) {
+          out = `${city}, ${region}`;
+        } else if (city) {
+          out = `${city}`;
+        } else if (region) {
+          out = `${region}`;
+        }
+        if (postalCode) out = `${out} ${postalCode}`;
+        return out || null;
+      })();
+      const location = buildObjValues([
+        ['latitude', parseNumber(get(content, 'location.latitude'), { type: 'float' })],
+        ['longitude', parseNumber(get(content, 'location.longitude'), { type: 'float' })],
+      ]);
+      let geo;
+      if (location && location.longitude && location.latitude) {
+        geo = { type: 'Point', coordinates: [location.longitude, location.latitude] };
+      }
+      return buildObjValues([
+        ['street', trim(content.address1)],
+        ['streetExtra', trim(content.address2)],
+        ['city', city],
+        ['region', region],
+        ['postalCode', postalCode],
+        ['country', trim(content.country)],
+        ['location', geo],
+        ['cityRegionPostalCode', cityRegionPostalCode],
+      ]);
+    },
+    alias(content) {
+      const alias = getMutatedValue({ content, mutation: 'Website', field: 'alias' });
+      if (!alias || /^http[s]?:/i.test(alias)) return null;
+      return cleanPath(alias);
+    },
+    bodies(content) {
+      return buildObjValues([
+        ['default', trim(content.body)],
+        ['newsletter', getMutatedValue({ content, mutation: 'Email', field: 'body' })],
+        ['magazine', getMutatedValue({ content, mutation: 'Magazine', field: 'body' })],
+        ['website', getMutatedValue({ content, mutation: 'Website', field: 'body' })],
+        ['original', trim(content.bodyOriginal)],
+      ]);
     },
     async company(content, _, { loaders }) {
       const companyId = LegacyDB.extractRefId(content.company);
@@ -32,6 +71,29 @@ export default {
       if (!node || node.type !== 'Company') return null;
       return { node };
     },
+    contactInfo(content) {
+      const emails = buildObjValues([
+        ['default', trim(content.email)],
+        ['public', trim(content.publicEmail)],
+      ]);
+      const phones = buildObjValues([
+        ['default', trim(content.phone)],
+        ['tollfree', trim(content.tollfree)],
+        ['fax', trim(content.fax)],
+        ['mobile', trim(content.mobile)],
+      ]);
+      const person = buildObjValues([
+        ['firstName', trim(content.firstName)],
+        ['lastName', trim(content.lastName)],
+        ['title', trim(content.title)],
+      ]);
+      return buildObjValues([
+        ['emails', emails],
+        ['phones', phones],
+        ['person', person],
+        ['website', cleanWebsite(content.website)],
+      ]);
+    },
     async createdBy(content, _, { loaders }) {
       const userId = LegacyDB.extractRefId(content.createdBy);
       if (!userId) return null;
@@ -39,13 +101,13 @@ export default {
       return node ? { node } : null;
     },
     dates(content) {
-      return {
-        expired: content.unpublished,
-        published: content.published,
-        created: content.created,
-        updated: content.updated,
-        touched: content.touched,
-      };
+      return buildObjValues([
+        ['expired', content.unpublished],
+        ['published', content.published],
+        ['created', content.created],
+        ['updated', content.updated],
+        ['touched', content.touched],
+      ]);
     },
     async images(content, _, { loaders }) {
       const imageIds = LegacyDB.extractRefIds(content.images);
@@ -53,9 +115,11 @@ export default {
       const docs = await loaders.get('platform.Image').loadMany(imageIds);
       return sortBy(docs, '_id').map((node) => ({ node }));
     },
-    name(content) {
+    names(content) {
       return {
         default: trim(content.name, ''),
+        short: trim(content.shortName),
+        full: trim(content.fullName),
         newsletter: getMutatedValue({ content, mutation: 'Email', field: 'name' }),
         magazine: getMutatedValue({ content, mutation: 'Magazine', field: 'name' }),
         website: getMutatedValue({ content, mutation: 'Website', field: 'name' }),
@@ -83,13 +147,29 @@ export default {
     redirects(content) {
       return getAsArray(content, 'mutations.Website.redirects').map(cleanPath).filter((v) => v);
     },
-    teaser(content) {
-      return {
-        default: trim(content.teaser),
-        newsletter: getMutatedValue({ content, mutation: 'Email', field: 'teaser' }),
-        magazine: getMutatedValue({ content, mutation: 'Magazine', field: 'teaser' }),
-        website: getMutatedValue({ content, mutation: 'Website', field: 'teaser' }),
-      };
+    seo(content) {
+      const title = getMutatedValue({ content, mutation: 'Website', field: 'seoTitle' })
+        || getMutatedValue({ content, mutation: 'Website', field: 'name' })
+        || trim(content.name);
+      const description = getMutatedValue({ content, mutation: 'Website', field: 'seoDescription' })
+        || getMutatedValue({ content, mutation: 'Website', field: 'teaser' })
+        || trim(content.teaser);
+      return buildObjValues([
+        ['title', title],
+        ['description', description],
+      ]);
+    },
+    sidebars(content) {
+      return getAsArray(content, 'sidebars');
+    },
+    teasers(content) {
+      return buildObjValues([
+        ['default', trim(content.teaser)],
+        ['deck', getMutatedValue({ content, mutation: 'Magazine', field: 'deck' })],
+        ['newsletter', getMutatedValue({ content, mutation: 'Email', field: 'teaser' })],
+        ['magazine', getMutatedValue({ content, mutation: 'Magazine', field: 'teaser' })],
+        ['website', getMutatedValue({ content, mutation: 'Website', field: 'teaser' })],
+      ]);
     },
     async updatedBy(content, _, { loaders }) {
       const userId = LegacyDB.extractRefId(content.createdBy);
@@ -102,26 +182,9 @@ export default {
   /**
    *
    */
-  ContentAddressableInterface: {
-    __resolveType: resolveType,
-    cityRegionPostalCode(content) {
-      const city = trim(content.city);
-      const state = trim(content.state);
-      const zip = trim(content.zip);
-
-      let out = '';
-      if (city && state) {
-        out = `${city}, ${state}`;
-      } else if (city) {
-        out = `${city}`;
-      } else if (state) {
-        out = `${state}`;
-      }
-      if (zip) out = `${out} ${zip}`;
-      return out || null;
-    },
-    location(content) {
-      return getAsObject(content, 'location');
+  ContentSidebar: {
+    sequence({ sequence }) {
+      return parseInt(sequence, 10) || 0;
     },
   },
 
@@ -132,12 +195,12 @@ export default {
     /**
      *
      */
-    contentInterfaceById(_, { input }, { loaders }) {
+    contentById(_, { input }, { loaders }) {
       const { id } = input;
       return loaders.get('platform.Content').load(id);
     },
 
-    async contentInterfaces(_, { input }, { dbs, loaders }) {
+    async allContent(_, { input }, { dbs, loaders }) {
       const { after, limit, query } = input;
       return findMany({
         resource: 'platform.Content',

@@ -14,7 +14,7 @@ type WebsiteInquirySubmission {
   addresses: WebsiteInquirySubmissionAddresses!
 
   dates: WebsiteInquirySubmissionDates!
-  content: WebsiteInquirySubmissionContentInterfaceEdge!
+  content: WebsiteInquirySubmissionContentEdge!
 }
 
 type WebsiteInquirySubmissionAddresses {
@@ -24,8 +24,8 @@ type WebsiteInquirySubmissionAddresses {
   from: String! @trim
 }
 
-type WebsiteInquirySubmissionContentInterfaceEdge {
-  node: ContentInterface!
+type WebsiteInquirySubmissionContentEdge {
+  node: Content!
 }
 
 type WebsiteInquirySubmissionDates {

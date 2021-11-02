@@ -3,79 +3,129 @@ import gql from '@cms-apis/graphql/tag';
 export default gql`
 
 extend type Query {
-  contentInterfaceById(input: QueryContentInterfaceByIdInput!): ContentInterface
-  contentInterfaces(input: PaginatedQueryInput = {}): QueryContentInterfacesConnection!
+  contentById(input: QueryContentByIdInput!): Content
+  allContent(input: PaginatedQueryInput = {}): QueryAllContentConnection!
 }
 
-interface ContentInterface {
+enum ContentTypeEnum {
+  Article
+  Blog
+  Collection
+  Company
+  Contact
+  Document
+  EBook
+  Event
+  Job
+  MediaGallery
+  News
+  Page
+  Podcast
+  PressRelease
+  Product
+  Promotion
+  Space
+  Supplier
+  TextAd
+  Venue
+  Video
+  Webinar
+  Whitepaper
+}
+
+type Content {
   _id: Int!
-  _type: String! @trim(field: "type")
-  name: ContentInterfaceName!
-  teaser: ContentInterfaceTeaser!
-  body: ContentInterfaceBody!
-
-  shortName: String @trim
-  fullName: String! @trim
+  _type: ContentTypeEnum! @trim(field: "type")
+  names: ContentNames!
+  teasers: ContentTeasers
+  bodies: ContentBodies
   hash: String @trim
-
-  deck: String @trim
+  notes: String @trim
 
   status: Int! @formatStatus
 
-  notes: String @trim
+  dates: ContentDates
 
-  dates: ContentInterfaceDates!
-
-  seoTitle: String! @trim(field: "mutations.Website.seoTitle")
-  seoDescription: String @trim(field: "mutations.Website.seoDescription")
-  alias: String @trim(field: "mutations.Website.alias")
+  alias: String
   slug: String @trim(field: "mutations.Website.slug")
   redirects: [String!]!
 
+  createdBy: ContentCreatedByEdge
+  updatedBy: ContentUpdatedByEdge
+  company: ContentCompanyEdge
+  primaryImage: ContentPrimaryImageEdge
+  primaryWebsiteSection: ContentPrimaryWebsiteSectionEdge!
+  images: [ContentImagesEdge!]!
+  relatedTo: [ContentRelatedToEdge!]!
 
-  createdBy: ContentInterfaceCreatedByEdge
-  updatedBy: ContentInterfaceUpdatedByEdge
-  company: ContentInterfaceCompanyEdge
-  primaryImage: ContentInterfacePrimaryImageEdge
-  primaryWebsiteSection: ContentInterfacePrimaryWebsiteSectionEdge!
-  images: [ContentInterfaceImagesEdge!]!
-  relatedTo: [ContentInterfaceRelatedToEdge!]!
+  sidebars: [ContentSidebar!]!
+
+  # was the Addressable interface: applied to company, contact, event, supplier, top-100, venue
+  address: ContentAddress
+  # was the Contactable interface: applied to company, contact, event, supplier, venue
+  contactInfo: ContentContactInfo
+
+  seo: ContentSEO
 }
 
-# company, contact, event, supplier, top-100, venue
-interface ContentAddressableInterface {
-  address1: String @trim
-  address2: String @trim
+type ContentAddress {
+  street: String
+  streetExtra: String
   city: String @trim
   region: String @trim(field: "state")
   postalCode: String @trim(field: "zip")
   country: String @trim
-  location: ContentAddressableInterfaceLocation!
+  location: ContentAddressLocation
   cityRegionPostalCode: String
 }
 
-type ContentAddressableInterfaceLocation {
-  latitude: Float
-  longitude: Float
+type ContentAddressLocation {
+  type: String!
+  coordinates: [Float!]!
 }
 
-
-type ContentInterfaceBody {
+type ContentBodies {
   default: String
   newsletter: String
   magazine: String
   website: String
+  original: String
 }
 
-type ContentInterfaceCompanyEdge {
-  node: ContentCompany!
+type ContentCompanyEdge {
+  node: Content!
 }
 
-type ContentInterfaceCreatedByEdge {
+type ContentContactInfo {
+  phones: ContentContactInfoPhones
+  emails: ContentContactInfoEmails
+  person: ContentContactInfoPerson
+  website: String
+}
+
+type ContentContactInfoEmails {
+  default: String
+  public: String
+}
+
+type ContentContactInfoPerson {
+  firstName: String
+  lastName: String
+  title: String
+}
+
+type ContentContactInfoPhones {
+  default: String
+  tollfree: String
+  fax: String
+  mobile: String
+}
+
+type ContentCreatedByEdge {
   node: User!
 }
 
-type ContentInterfaceDates {
+type ContentDates {
   expired: DateTime
   published: DateTime
   created: DateTime
@@ -83,148 +133,67 @@ type ContentInterfaceDates {
   touched: DateTime
 }
 
-type ContentInterfaceImagesEdge {
+type ContentImagesEdge {
   node: ImageAsset!
 }
 
-type ContentInterfaceName {
+type ContentNames {
   default: String!
   newsletter: String
   magazine: String
   website: String
+  short: String
+  full: String
 }
 
-type ContentInterfacePrimaryImageEdge {
+type ContentPrimaryImageEdge {
   node: ImageAsset!
 }
 
-type ContentInterfacePrimaryWebsiteSectionEdge {
+type ContentPrimaryWebsiteSectionEdge {
   node: WebsiteSection!
 }
 
-type ContentInterfaceRelatedToEdge {
-  node: ContentInterface!
+type ContentRelatedToEdge {
+  node: Content!
 }
 
-type ContentInterfaceTeaser {
+type ContentSEO {
+  title: String!
+  description: String
+}
+
+type ContentSidebar {
+  body: String! @trim(default: "")
+  name: String @trim
+  label: String @trim
+  sequence: Int!
+}
+
+type ContentTeasers {
   default: String
   newsletter: String
   magazine: String
   website: String
+  deck: String
 }
 
-type ContentInterfaceUpdatedByEdge {
+type ContentUpdatedByEdge {
   node: User!
 }
 
-input QueryContentInterfaceByIdInput {
+input QueryContentByIdInput {
   id: Int!
 }
 
-type QueryContentInterfacesConnection {
-  edges: [QueryContentInterfacesConnectionEdge!]!
+type QueryAllContentConnection {
+  edges: [QueryAllContentConnectionEdge!]!
   pageInfo: PageInfo!
 }
 
-type QueryContentInterfacesConnectionEdge {
-  node: ContentInterface!
+type QueryAllContentConnectionEdge {
+  node: Content!
   cursor: Cursor!
-}
-
-
-
-
-# CONTENT TYPES
-type ContentArticle implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentBlog implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentCollection implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentCompany implements ContentInterface & ContentAddressableInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentContact implements ContentInterface & ContentAddressableInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentDocument implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentEBook implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentEvent implements ContentInterface & ContentAddressableInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentJob implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentMediaGallery implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentNews implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentPage implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentPodcast implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentPressRelease implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentProduct implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentPromotion implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentSpace implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentSupplier implements ContentInterface & ContentAddressableInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentTextAd implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentVenue implements ContentInterface & ContentAddressableInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentVideo implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentWebinar implements ContentInterface @interfaceFields {
-  _id: Int!
-}
-
-type ContentWhitepaper implements ContentInterface @interfaceFields {
-  _id: Int!
 }
 
 `;
