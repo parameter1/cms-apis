@@ -98,6 +98,40 @@ export default {
         ['website', cleanWebsite(content.website)],
       ]);
     },
+    async contacts(content, _, { loaders }) {
+      const typeMap = new Map([
+        ['authors', 'Author'],
+        ['contributors', 'Contributor'],
+        ['photographers', 'Photographer'],
+        ['listingContacts', 'Listing'],
+        ['publicContacts', 'Public'],
+        ['salesContacts', 'Sales'],
+        ['marketingContacts', 'Marketing'],
+        ['contacts', 'Other'],
+        ['editors', 'Editor'],
+      ]);
+      const idMap = [...typeMap.keys()].reduce((map, field) => {
+        const ids = LegacyDB.extractRefIds(getAsArray(content, field));
+        if (!ids.length) return map;
+        ids.forEach((id) => {
+          if (!map.has(id)) map.set(id, new Set());
+          map.get(id).add(field);
+        });
+        return map;
+      }, new Map());
+
+      const ids = [...idMap.keys()];
+      if (!ids.length) return [];
+      const contacts = await loaders.get('platform.Content').loadMany(ids);
+
+      return contacts.filter((c) => c && c.type === 'Contact').reduce((arr, node) => {
+        idMap.get(node._id).forEach((field) => {
+          const type = typeMap.get(field) || 'Other';
+          arr.push({ type, node });
+        });
+        return arr;
+      }, []);
+    },
     async createdBy(content, _, { loaders }) {
       const userId = LegacyDB.extractRefId(content.createdBy);
       if (!userId) return null;

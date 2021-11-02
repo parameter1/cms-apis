@@ -33,6 +33,18 @@ enum ContentTypeEnum {
   Whitepaper
 }
 
+enum ContentContactTypeEnum {
+  Author
+  Contributor
+  Photographer
+  Listing
+  Public
+  Sales
+  Marketing
+  Editor
+  Other
+}
+
 type Content {
   _id: Int!
   _type: ContentTypeEnum! @trim(field: "type")
@@ -64,6 +76,8 @@ type Content {
   address: ContentAddress
   # was the Contactable interface: applied to company, contact, event, supplier, venue
   contactInfo: ContentContactInfo
+
+  contacts: [ContentContactsEdge!]!
 
   seo: ContentSEO
 }
@@ -120,6 +134,11 @@ type ContentContactInfoPhones {
   tollfree: String
   fax: String
   mobile: String
+}
+
+type ContentContactsEdge {
+  type: ContentContactTypeEnum!
+  node: Content!
 }
 
 type ContentCreatedByEdge {

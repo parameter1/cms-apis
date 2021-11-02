@@ -40,6 +40,16 @@ export default new Map([
             }
           }
         }
+        contacts {
+          type
+          node {
+            _id
+            titles { default website short }
+            status
+            dates { published expired }
+            contactInfo { person { name firstName lastName title } }
+          }
+        }
         sidebars {
           body
           name
