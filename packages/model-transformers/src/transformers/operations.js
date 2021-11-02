@@ -33,6 +33,16 @@ export default new Map([
             }
           }
         }
+        ... on ContentAddressableInterface {
+          address1
+          address2
+          city
+          region
+          postalCode
+          country
+          location { latitude longitude }
+          cityRegionPostalCode
+        }
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,

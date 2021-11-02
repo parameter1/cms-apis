@@ -42,6 +42,24 @@ interface ContentInterface {
   relatedTo: [ContentInterfaceRelatedToEdge!]!
 }
 
+# company, contact, event, supplier, top-100, venue
+interface ContentAddressableInterface {
+  address1: String @trim
+  address2: String @trim
+  city: String @trim
+  region: String @trim(field: "state")
+  postalCode: String @trim(field: "zip")
+  country: String @trim
+  location: ContentAddressableInterfaceLocation!
+  cityRegionPostalCode: String
+}
+
+type ContentAddressableInterfaceLocation {
+  latitude: Float
+  longitude: Float
+}
+
+
 type ContentInterfaceBody {
   default: String
   newsletter: String
@@ -129,11 +147,11 @@ type ContentCollection implements ContentInterface @interfaceFields {
   _id: Int!
 }
 
-type ContentCompany implements ContentInterface @interfaceFields {
+type ContentCompany implements ContentInterface & ContentAddressableInterface @interfaceFields {
   _id: Int!
 }
 
-type ContentContact implements ContentInterface @interfaceFields {
+type ContentContact implements ContentInterface & ContentAddressableInterface @interfaceFields {
   _id: Int!
 }
 
@@ -145,7 +163,7 @@ type ContentEBook implements ContentInterface @interfaceFields {
   _id: Int!
 }
 
-type ContentEvent implements ContentInterface @interfaceFields {
+type ContentEvent implements ContentInterface & ContentAddressableInterface @interfaceFields {
   _id: Int!
 }
 
@@ -185,7 +203,7 @@ type ContentSpace implements ContentInterface @interfaceFields {
   _id: Int!
 }
 
-type ContentSupplier implements ContentInterface @interfaceFields {
+type ContentSupplier implements ContentInterface & ContentAddressableInterface @interfaceFields {
   _id: Int!
 }
 
@@ -193,7 +211,7 @@ type ContentTextAd implements ContentInterface @interfaceFields {
   _id: Int!
 }
 
-type ContentVenue implements ContentInterface @interfaceFields {
+type ContentVenue implements ContentInterface & ContentAddressableInterface @interfaceFields {
   _id: Int!
 }
 

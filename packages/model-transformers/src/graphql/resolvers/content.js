@@ -1,4 +1,4 @@
-import { get, getAsArray } from '@cms-apis/object-path';
+import { get, getAsArray, getAsObject } from '@cms-apis/object-path';
 import { trim, cleanPath } from '@cms-apis/utils';
 import { LegacyDB } from '@cms-apis/db';
 import { sortBy } from '../utils/index.js';
@@ -96,6 +96,32 @@ export default {
       if (!userId) return null;
       const node = await loaders.get('platform.User').load(userId);
       return node ? { node } : null;
+    },
+  },
+
+  /**
+   *
+   */
+  ContentAddressableInterface: {
+    __resolveType: resolveType,
+    cityRegionPostalCode(content) {
+      const city = trim(content.city);
+      const state = trim(content.state);
+      const zip = trim(content.zip);
+
+      let out = '';
+      if (city && state) {
+        out = `${city}, ${state}`;
+      } else if (city) {
+        out = `${city}`;
+      } else if (state) {
+        out = `${state}`;
+      }
+      if (zip) out = `${out} ${zip}`;
+      return out || null;
+    },
+    location(content) {
+      return getAsObject(content, 'location');
     },
   },
 
