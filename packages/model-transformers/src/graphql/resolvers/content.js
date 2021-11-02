@@ -247,6 +247,13 @@ export default {
     sidebars(content) {
       return getAsArray(content, 'sidebars');
     },
+    syndication(content) {
+      if (content.type !== 'News') return null;
+      return buildObjValues([
+        ['source', trim(content.source)],
+        ['byline', trim(content.byline)],
+      ]);
+    },
     teasers(content) {
       return buildObjValues([
         ['default', trim(content.teaser)],

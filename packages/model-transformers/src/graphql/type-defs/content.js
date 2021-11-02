@@ -92,6 +92,9 @@ type Content {
   contacts: [ContentContactsEdge!]!
   # combines SocialLinkable, Contactable.website, Content.externalLinks, Company.[xxx]Url fields
   links: ContentLinks!
+  # From ContentNews.source ContentNews.byline Contents.importSource
+  syndication: ContentSyndication
+
 
   seo: ContentSEO
 }
@@ -210,6 +213,11 @@ type ContentSidebar {
   name: String @trim
   label: String @trim
   sequence: Int!
+}
+
+type ContentSyndication {
+  source: String
+  byline: String
 }
 
 type ContentTeasers {

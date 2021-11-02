@@ -77,6 +77,7 @@ export default new Map([
           website
           social { provider url label }
         }
+        syndication { source byline }
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,
