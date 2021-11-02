@@ -52,7 +52,7 @@ export default {
     },
     alias(content) {
       const alias = getMutatedValue({ content, mutation: 'Website', field: 'alias' });
-      if (!alias || /^http[s]?:/i.test(alias)) return null;
+      if (!alias || /^http[s]?:/i.test(alias) || /^www\./i.test(alias)) return null;
       return cleanPath(alias);
     },
     bodies(content) {
@@ -82,9 +82,13 @@ export default {
         ['fax', trim(content.fax)],
         ['mobile', trim(content.mobile)],
       ]);
+      const firstName = trim(content.firstName);
+      const lastName = trim(content.lastName);
+      const name = [firstName, lastName].filter((v) => v).join(' ') || null;
       const person = buildObjValues([
-        ['firstName', trim(content.firstName)],
-        ['lastName', trim(content.lastName)],
+        ['name', name],
+        ['firstName', firstName],
+        ['lastName', lastName],
         ['title', trim(content.title)],
       ]);
       return buildObjValues([
@@ -114,16 +118,6 @@ export default {
       if (!imageIds.length) return [];
       const docs = await loaders.get('platform.Image').loadMany(imageIds);
       return sortBy(docs, '_id').map((node) => ({ node }));
-    },
-    names(content) {
-      return {
-        default: trim(content.name, ''),
-        short: trim(content.shortName),
-        full: trim(content.fullName),
-        newsletter: getMutatedValue({ content, mutation: 'Email', field: 'name' }),
-        magazine: getMutatedValue({ content, mutation: 'Magazine', field: 'name' }),
-        website: getMutatedValue({ content, mutation: 'Website', field: 'name' }),
-      };
     },
     async primaryImage(content, _, { loaders }) {
       const imageId = LegacyDB.extractRefId(content.primaryImage);
@@ -169,6 +163,17 @@ export default {
         ['newsletter', getMutatedValue({ content, mutation: 'Email', field: 'teaser' })],
         ['magazine', getMutatedValue({ content, mutation: 'Magazine', field: 'teaser' })],
         ['website', getMutatedValue({ content, mutation: 'Website', field: 'teaser' })],
+      ]);
+    },
+    titles(content) {
+      return buildObjValues([
+        ['default', trim(content.name)],
+        ['short', trim(content.shortName)],
+        ['full', trim(content.fullName)],
+        ['headline', getMutatedValue({ content, mutation: 'Magazine', field: 'headline' })],
+        ['newsletter', getMutatedValue({ content, mutation: 'Email', field: 'name' })],
+        ['magazine', getMutatedValue({ content, mutation: 'Magazine', field: 'name' })],
+        ['website', getMutatedValue({ content, mutation: 'Website', field: 'name' })],
       ]);
     },
     async updatedBy(content, _, { loaders }) {

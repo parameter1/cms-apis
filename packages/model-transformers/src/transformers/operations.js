@@ -8,7 +8,7 @@ export default new Map([
       fragment TransformContentFragment on Content {
         _id
         _type
-        names { default newsletter magazine website short full }
+        titles { default newsletter magazine website short full headline }
         teasers { default newsletter magazine website deck }
         bodies { default newsletter magazine website original }
         hash
@@ -22,10 +22,10 @@ export default new Map([
 
         createdBy { node { _id name username email } }
         updatedBy { node { _id name username email } }
-        company { node { _id names { default website short } status dates { published expired } } }
+        company { node { _id titles { default website short } status dates { published expired } } }
         primaryImage { node { ...CommonImageAssetRelFragment } }
         images { node { ...CommonImageAssetRelFragment } }
-        relatedTo { node { _id _type names { default website short } status dates { published expired } } }
+        relatedTo { node { _id _type titles { default website short } status dates { published expired } } }
         primaryWebsiteSection {
           node {
             _id
@@ -60,7 +60,7 @@ export default new Map([
           phones { default tollfree fax mobile }
           emails { default public }
           website
-          person { firstName lastName title }
+          person { name firstName lastName title }
         }
       }
       ${COMMON_IMAGE_ASSET_REL}

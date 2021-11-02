@@ -36,7 +36,7 @@ enum ContentTypeEnum {
 type Content {
   _id: Int!
   _type: ContentTypeEnum! @trim(field: "type")
-  names: ContentNames!
+  titles: ContentTitles
   teasers: ContentTeasers
   bodies: ContentBodies
   hash: String @trim
@@ -109,6 +109,7 @@ type ContentContactInfoEmails {
 }
 
 type ContentContactInfoPerson {
+  name: String
   firstName: String
   lastName: String
   title: String
@@ -135,15 +136,6 @@ type ContentDates {
 
 type ContentImagesEdge {
   node: ImageAsset!
-}
-
-type ContentNames {
-  default: String!
-  newsletter: String
-  magazine: String
-  website: String
-  short: String
-  full: String
 }
 
 type ContentPrimaryImageEdge {
@@ -176,6 +168,16 @@ type ContentTeasers {
   magazine: String
   website: String
   deck: String
+}
+
+type ContentTitles {
+  default: String
+  newsletter: String
+  magazine: String
+  website: String
+  short: String
+  full: String
+  headline: String
 }
 
 type ContentUpdatedByEdge {
