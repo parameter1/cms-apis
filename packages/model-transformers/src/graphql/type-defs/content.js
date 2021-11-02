@@ -42,6 +42,7 @@ enum ContentContactTypeEnum {
   Sales
   Marketing
   Editor
+  Media # where type in document, infographic, podcast, video, webinar, whitepaper and contacts field exists
   Other
 }
 
@@ -76,7 +77,7 @@ type Content {
   address: ContentAddress
   # was the Contactable interface: applied to company, contact, event, supplier, venue
   contactInfo: ContentContactInfo
-
+  # combines Authorable, OrganizationContactable, Media.contacts and ContentWhitepaper.editors
   contacts: [ContentContactsEdge!]!
 
   seo: ContentSEO

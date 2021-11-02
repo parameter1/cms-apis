@@ -10,6 +10,8 @@ const getMutatedValue = ({ content, mutation, field }) => {
   return trim(value);
 };
 
+const mediaTypes = new Set(['Document', 'Infographic', 'Podcast', 'Video', 'Webinar', 'Whitepaper']);
+
 export default {
   /**
    *
@@ -126,7 +128,8 @@ export default {
 
       return contacts.filter((c) => c && c.type === 'Contact').reduce((arr, node) => {
         idMap.get(node._id).forEach((field) => {
-          const type = typeMap.get(field) || 'Other';
+          let type = typeMap.get(field) || 'Other';
+          if (type === 'Other' && mediaTypes.has(content.type)) type = 'Media';
           arr.push({ type, node });
         });
         return arr;
