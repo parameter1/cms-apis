@@ -26,6 +26,7 @@
     "win32"
   ],
   "dependencies": {
+    "@cms-apis/utils": "^0.0.0",
     "html-entities": "^2.3.2",
     "striptags": "^3.2.0"
   }
