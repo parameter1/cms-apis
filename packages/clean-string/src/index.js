@@ -1,5 +1,6 @@
 import stripTags from 'striptags';
 import { decode } from 'html-entities';
+import { trim as trimUtil } from '@cms-apis/utils';
 
 const { isArray } = Array;
 
@@ -16,10 +17,11 @@ export default function clean(value, {
   trim = true,
   stripHtmlTags = true,
   decodeEntities = true,
+  defaultValue = null,
 } = {}) {
-  if (!value) return '';
+  if (!value) return defaultValue;
   const str = `${value}`;
-  const trimmed = trim ? str.trim() : str;
+  const trimmed = trim ? trimUtil(str, defaultValue) : str;
   if (!trimmed) return '';
   const preserveTags = isArray(stripHtmlTags) ? stripHtmlTags : [];
   const stripped = stripHtmlTags ? stripTags(trimmed, preserveTags) : trimmed;
