@@ -8,42 +8,40 @@ extend type Query {
 }
 
 enum ContentTypeEnum {
-  Article
-  Blog
-  Collection
-  Company
-  Contact
-  Document
-  EBook
-  Event
-  Job
-  MediaGallery
-  News
-  Page
-  Podcast
-  PressRelease
-  Product
-  Promotion
-  Space
-  Supplier
-  TextAd
-  Venue
-  Video
-  Webinar
-  Whitepaper
+  ARTICLE
+  BLOG
+  COMPANY
+  CONTACT
+  DOCUMENT
+  EVENT
+  JOB
+  MEDIA_GALLERY
+  NEWS
+  PAGE
+  PODCAST
+  PRESS_RELEASE
+  PRODUCT
+  PROMOTION
+  SPACE
+  SUPPLIER
+  TEXT_AD
+  VENUE
+  VIDEO
+  WEBINAR
+  WHITEPAPER
 }
 
 enum ContentContactTypeEnum {
-  Author
-  Contributor
-  Photographer
-  Listing
-  Public
-  Sales
-  Marketing
-  Editor
-  Media # where type in document, infographic, podcast, video, webinar, whitepaper and contacts field exists
-  Other
+  AUTHOR
+  CONTRIBUTOR
+  PHOTOGRAPHER
+  LISTING
+  PUBLIC
+  SALES
+  MARKETING
+  EDITOR # from whitepaper
+  MEDIA # where type in document, infographic, podcast, video, webinar, whitepaper and contacts field exists
+  OTHER
 }
 
 type Content {
@@ -79,6 +77,7 @@ type Content {
   contactInfo: ContentContactInfo
   # combines Authorable, OrganizationContactable, Media.contacts and ContentWhitepaper.editors
   contacts: [ContentContactsEdge!]!
+  # combines SocialLinkable, Contactable.website,
 
   seo: ContentSEO
 }

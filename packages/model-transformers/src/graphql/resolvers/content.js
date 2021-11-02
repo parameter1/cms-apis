@@ -233,6 +233,49 @@ export default {
   /**
    *
    */
+  ContentTypeEnum: {
+    ARTICLE: 'Article',
+    BLOG: 'Blog',
+    COMPANY: 'Company',
+    CONTACT: 'Contact',
+    DOCUMENT: 'Document',
+    EVENT: 'Event',
+    JOB: 'Job',
+    MEDIA_GALLERY: 'MediaGallery',
+    NEWS: 'News',
+    PAGE: 'Page',
+    PODCAST: 'Podcast',
+    PRESS_RELEASE: 'PressRelease',
+    PRODUCT: 'Product',
+    PROMOTION: 'Promotion',
+    SPACE: 'Space',
+    SUPPLIER: 'Supplier',
+    TEXT_AD: 'TextAd',
+    VENUE: 'Venue',
+    VIDEO: 'Video',
+    WEBINAR: 'Webinar',
+    WHITEPAPER: 'Whitepaper',
+  },
+
+  /**
+   *
+   */
+  ContentContactTypeEnum: {
+    AUTHOR: 'Author',
+    CONTRIBUTOR: 'Contributor',
+    PHOTOGRAPHER: 'Photographer',
+    LISTING: 'Listing',
+    PUBLIC: 'Public',
+    SALES: 'Sales',
+    MARKETING: 'Marketing',
+    EDITOR: 'Editor',
+    MEDIA: 'Media',
+    OTHER: 'Other',
+  },
+
+  /**
+   *
+   */
   Query: {
     /**
      *
