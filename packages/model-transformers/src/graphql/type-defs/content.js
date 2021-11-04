@@ -95,6 +95,8 @@ type Content {
   # From ContentNews.source ContentNews.byline Contents.importSource
   syndication: ContentSyndication
 
+  # from Media plus "media-like" content fields
+  media: ContentMedia
 
   seo: ContentSEO
 }
@@ -189,6 +191,24 @@ type ContentLinkSocial {
   provider: ContentLinkSocialProviderEnum!
   url: String!
   label: String
+}
+
+type ContentMedia {
+  file: ContentMediaFile
+  duration: Float
+  source: ContentMediaSoure
+  embedCode: String
+  credit: String
+}
+
+type ContentMediaFile {
+  name: String!
+  path: String!
+}
+
+type ContentMediaSoure {
+  id: String
+  key: String
 }
 
 type ContentPrimaryImageEdge {

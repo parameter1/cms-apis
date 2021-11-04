@@ -78,6 +78,8 @@ export default new Map([
           social { provider url label }
         }
         syndication { source byline }
+        inquiry { isEnabled }
+        media { file { name path } source { id key } duration embedCode credit }
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,

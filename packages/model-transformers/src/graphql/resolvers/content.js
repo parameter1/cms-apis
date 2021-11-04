@@ -10,7 +10,7 @@ const getMutatedValue = ({ content, mutation, field }) => {
   return trim(value);
 };
 
-const mediaTypes = new Set(['Document', 'Infographic', 'Podcast', 'Video', 'Webinar', 'Whitepaper']);
+const mediaTypes = new Set(['Document', 'Infographic', 'Podcast', 'PressRelease', 'Video', 'Webinar', 'Whitepaper']);
 
 const socialProviders = new Map([
   ['FACEBOOK', 'Facebook'],
@@ -209,6 +209,24 @@ export default {
         }).filter((v) => v),
         website: cleanWebsite(content.website),
       };
+    },
+    media(content) {
+      if (!mediaTypes.has(content.type)) return null;
+      const file = buildObjValues([
+        ['name', trim(content.fileName)],
+        ['path', cleanPath(content.filePath)],
+      ]);
+      const source = buildObjValues([
+        ['id', trim(`${content.sourceId || ''}`)],
+        ['key', trim(content.source)],
+      ]);
+      return buildObjValues([
+        ['file', file],
+        ['source', source],
+        ['duration', parseNumber(content.duration, { type: 'float' })],
+        ['embedCode', trim(content.embedCode)],
+        ['credit', trim(content.credit)],
+      ]);
     },
     async primaryImage(content, _, { loaders }) {
       const imageId = LegacyDB.extractRefId(content.primaryImage);
