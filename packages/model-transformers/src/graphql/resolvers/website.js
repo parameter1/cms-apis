@@ -20,11 +20,32 @@ export default {
    *
    */
   Website: {
-    hosts(content) {
-      const image = trim(content.imageHost);
-      const asset = trim(content.assetHost);
+    _connection(site, _, { dbs, loaders }) {
       return {
-        root: trim(content.host),
+        async scheduleOptions() {
+          const query = { 'site.$id': site._id };
+          const cursor = await dbs.legacy.repo('website.Option').find({ query });
+          const docs = await cursor.toArray();
+          primeLoader({ loader: loaders.get('website.Option'), docs });
+          return sortBy(docs, '_id').map((node) => ({ node }));
+        },
+        async sections() {
+          const query = { 'site.$id': site._id };
+          const cursor = await dbs.legacy.repo('website.Section').find({ query });
+          const docs = await cursor.toArray();
+          primeLoader({ loader: loaders.get('website.Section'), docs });
+          return sortBy(docs, 'fullName').map((node) => ({ node }));
+        },
+      };
+    },
+    _sync() {
+      return {};
+    },
+    host(site) {
+      const image = trim(site.imageHost);
+      const asset = trim(site.assetHost);
+      return {
+        root: trim(site.host),
         image: image || CDN_IMAGE_HOSTNAME,
         asset: asset || CDN_ASSET_HOSTNAME,
       };
@@ -32,20 +53,6 @@ export default {
     origin(site) {
       const host = trim(site.host);
       return host ? `https://${host}` : null;
-    },
-    async scheduleOptions(site, _, { dbs, loaders }) {
-      const query = { 'site.$id': site._id };
-      const cursor = await dbs.legacy.repo('website.Option').find({ query });
-      const docs = await cursor.toArray();
-      primeLoader({ loader: loaders.get('website.Option'), docs });
-      return sortBy(docs, '_id').map((node) => ({ node }));
-    },
-    async sections(site, _, { dbs, loaders }) {
-      const query = { 'site.$id': site._id };
-      const cursor = await dbs.legacy.repo('website.Section').find({ query });
-      const docs = await cursor.toArray();
-      primeLoader({ loader: loaders.get('website.Section'), docs });
-      return sortBy(docs, 'fullName').map((node) => ({ node }));
     },
     settings({ date, language }) {
       return {

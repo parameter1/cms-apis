@@ -7,16 +7,23 @@ export default {
    *
    */
   WebsiteInquirySubmission: {
+    _edge(submission, _, { loaders }) {
+      return {
+        async content() {
+          const { contentId } = submission;
+          if (!contentId) throw new Error(`Unable to load a content ID for submission ID ${submission._id}`);
+          const node = await loaders.get('platform.Content').load(contentId);
+          return { node };
+        },
+      };
+    },
+    _sync() {
+      return {};
+    },
     addresses(submission) {
       return getAsObject(submission, 'addresses');
     },
-    async content(submission, _, { loaders }) {
-      const { contentId } = submission;
-      if (!contentId) throw new Error(`Unable to load a content ID for submission ID ${submission._id}`);
-      const node = await loaders.get('platform.Content').load(contentId);
-      return { node };
-    },
-    async dates({ created }) {
+    async date({ created }) {
       return { created };
     },
     payload(submission) {
@@ -52,6 +59,7 @@ export default {
         after,
         limit,
         query,
+        prime: false,
       }, { dbs, loaders });
     },
   },

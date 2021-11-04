@@ -9,11 +9,14 @@ extend type Query {
 
 type WebsiteInquirySubmission {
   _id: ObjectID!
-  payload: JSONObject
-
+  _edge: WebsiteInquirySubmission_Edge!
+  _sync: SyncInfo!
   addresses: WebsiteInquirySubmissionAddresses!
+  date: WebsiteInquirySubmissionDate!
+  payload: JSONObject
+}
 
-  dates: WebsiteInquirySubmissionDates!
+type WebsiteInquirySubmission_Edge {
   content: WebsiteInquirySubmissionContentEdge!
 }
 
@@ -28,7 +31,7 @@ type WebsiteInquirySubmissionContentEdge {
   node: Content!
 }
 
-type WebsiteInquirySubmissionDates {
+type WebsiteInquirySubmissionDate {
   created: DateTime
 }
 

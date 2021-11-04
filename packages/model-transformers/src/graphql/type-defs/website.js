@@ -19,24 +19,25 @@ type QueryWebsitesConnectionEdge {
 
 type Website {
   _id: ObjectID!
-  name: String! @trim
-  tagLine: String @trim
-  description: String @trim
-  logo: String @trim
-
-  status: Int! @formatStatus
-
+  _connection: Website_Connection!
+  _sync: SyncInfo!
   abbreviation: String @trim(field: "shortName")
-  hosts: WebsiteHosts!
+  description: String @trim
+  host: WebsiteHost!
+  logo: String @trim
+  name: String! @trim
   origin: String!
-
   settings: WebsiteSettings!
+  status: Int! @formatStatus
+  tagLine: String @trim
+}
 
+type Website_Connection {
   scheduleOptions: [WebsiteScheduleOptionsEdge!]!
   sections: [WebsiteSectionsEdge!]!
 }
 
-type WebsiteHosts {
+type WebsiteHost {
   root: String!
   image: String!
   asset: String!

@@ -6,18 +6,25 @@ export default {
    *
    */
   WebsiteRedirect: {
-    from(redirect) {
-      const from = cleanPath(redirect.from);
-      return from ? `/${from}` : null;
+    _edge(redirect, _, { loaders }) {
+      return {
+        async website() {
+          const { siteId } = redirect;
+          if (!siteId) throw new Error(`Unable to load a site ID for redirect ID ${redirect._id}`);
+          const node = await loaders.get('website.Site').load(siteId);
+          return { node };
+        },
+      };
+    },
+    _sync() {
+      return {};
     },
     code({ code }) {
       return [301, 302].includes(code) ? code : 301;
     },
-    async website(redirect, _, { loaders }) {
-      const { siteId } = redirect;
-      if (!siteId) throw new Error(`Unable to load a site ID for redirect ID ${redirect._id}`);
-      const node = await loaders.get('website.Site').load(siteId);
-      return { node };
+    from(redirect) {
+      const from = cleanPath(redirect.from);
+      return from ? `/${from}` : null;
     },
     to(redirect) {
       const to = trim(redirect.to);
@@ -44,6 +51,7 @@ export default {
         after,
         limit,
         query,
+        prime: false,
       }, { dbs, loaders });
     },
   },

@@ -9,14 +9,24 @@ extend type Query {
 
 type WebsiteScheduleOption {
   _id: Int!
-  name: String! @trim
+  _edge: WebsiteScheduleOption_Edge!
+  _sync: SyncInfo!
   description: String @trim
+  name: WebsiteScheduleOptionName!
   status: Int! @formatStatus
+}
+
+type WebsiteScheduleOption_Edge {
   website: WebsiteScheduleOptionWebsiteEdge!
 }
 
 type WebsiteScheduleOptionWebsiteEdge {
   node: Website!
+}
+
+type WebsiteScheduleOptionName {
+  default: String!
+  full: String!
 }
 
 type QueryWebsiteScheduleOptionsConnection {

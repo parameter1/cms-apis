@@ -419,36 +419,29 @@ export default new Map([
     fragment: gql`
       fragment TransformWebsiteFragment on Website {
         _id
-        name
-        tagLine
-        description
-        logo
-        status
+        _connection {
+          sections {
+            node {
+              _id
+              alias # rel query input
+              name { default full } # global website section sort field
+              sequence # global website section sort field
+              status # rel query input
+              depth # rel query input
+            }
+          }
+          scheduleOptions { node { _id name { default } status } }
+        }
+        _sync { date }
         abbreviation
-        hosts { root asset image }
+        description
+        host { root asset image }
+        logo
+        name
         origin
-        settings {
-          date { timezone format locale }
-          language { code primaryCode subCode }
-        }
-        sections {
-          node {
-            _id
-            alias # rel query input
-            name # global website section sort field
-            fullName # global website section sort field
-            sequence # global website section sort field
-            status # rel query input
-            depth # rel query input
-          }
-        }
-        scheduleOptions {
-          node {
-            _id
-            name # global website option sort field
-            status # rel query input
-          }
-        }
+        settings { date { timezone format locale } language { code primaryCode subCode } }
+        status
+        tagLine
       }
     `,
   }],
@@ -457,10 +450,11 @@ export default new Map([
     fragment: gql`
       fragment TransformWebsiteInquirySubmissionFragment on WebsiteInquirySubmission {
         _id
-        payload
+        _edge { content { node { _id _type status } } }
+        _sync { date }
         addresses { from to cc bcc }
-        dates { created }
-        content { node { _id _type status } }
+        date { created }
+        payload
       }
     `,
   }],
@@ -469,15 +463,11 @@ export default new Map([
     fragment: gql`
       fragment TransformWebsiteRedirectFragment on WebsiteRedirect {
         _id
+        _edge { website { node { _id name } } }
+        _sync { date }
+        code
         from
         to
-        code
-        website {
-          node {
-            _id
-            name # global website sort field
-          }
-        }
       }
     `,
   }],
@@ -486,28 +476,33 @@ export default new Map([
     fragment: gql`
       fragment TransformWebsiteScheduleFragment on WebsiteSchedule {
         _id
+        _edge {
+          content {
+            node {
+              _id
+              _edge {
+                primaryImage { node { _id } }
+                primaryWebsiteSection { node { _id name { default full } alias status } }
+              }
+              _type
+              date { published expired }
+              status
+            }
+          }
+          option { node { _id name { default } status } }
+          section {
+            node {
+              _id
+              _edge { website { node { _id name } } }
+              alias
+              name { default full }
+              status
+            }
+          }
+        }
+        _sync { date }
+        date { started ended }
         status
-        dates { start end }
-        content {
-          node {
-            _id
-            _type
-            status
-            primaryImage { node { _id } }
-            dates { published expired }
-            primaryWebsiteSection { node { _id name alias status } }
-          }
-        }
-        section {
-          node {
-            _id
-            alias
-            name
-            status
-            website { node { _id name } }
-          }
-        }
-        option { node { _id name status } }
       }
     `,
   }],
@@ -516,16 +511,11 @@ export default new Map([
     fragment: gql`
       fragment TransformWebsiteScheduleOptionFragment on WebsiteScheduleOption {
         _id
-        name
+        _edge { website { node { _id name status } } }
+        _sync { date }
         description
+        name { default full }
         status
-        website {
-          node {
-            _id
-            name # global website sort field
-            status # rel query input
-          }
-        }
       }
     `,
   }],

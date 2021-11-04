@@ -32,8 +32,13 @@ process.on('unhandledRejection', immediatelyThrow);
   const graphql = await createGraphQLClient({ dbs, loaders });
 
   const transformers = new Transformers({ dbs, graphql });
-  // await transformers.replace({ operation: 'allContent', after: 'MTA0NDEzODM' });
+  await transformers.replace({ operation: 'allContent' });
+  await transformers.replace({ operation: 'websites' });
   await transformers.replace({ operation: 'websiteSections' });
+  await transformers.replace({ operation: 'websiteScheduleOptions' });
+  await transformers.replace({ operation: 'websiteSchedules' });
+  await transformers.replace({ operation: 'websiteRedirects' });
+  await transformers.replace({ operation: 'websiteInquirySubmissions' });
 
   log('Closing MongoDB clients...');
   await Promise.all([mongoDB.close(), legacyMongoDB.close()]);

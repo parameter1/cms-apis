@@ -9,9 +9,14 @@ extend type Query {
 
 type WebsiteRedirect {
   _id: ObjectID!
+  _edge: WebsiteRedirect_Edge
+  _sync: SyncInfo!
+  code: Int!
   from: String!
   to: String!
-  code: Int!
+}
+
+type WebsiteRedirect_Edge {
   website: WebsiteRedirectWebsiteEdge!
 }
 

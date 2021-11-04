@@ -9,9 +9,13 @@ extend type Query {
 
 type WebsiteSchedule {
   _id: ObjectID!
+  _edge: WebsiteSchedule_Edge!
+  _sync: SyncInfo!
+  date: WebsiteScheduleDate!
   status: Int! @formatStatus
+}
 
-  dates: WebsiteScheduleDates!
+type WebsiteSchedule_Edge {
   content: WebsiteScheduleContentEdge!
   section: WebsiteScheduleSectionEdge!
   option: WebsiteScheduleOptionEdge!
@@ -21,9 +25,9 @@ type WebsiteScheduleContentEdge {
   node: Content!
 }
 
-type WebsiteScheduleDates {
-  start: DateTime!
-  end: DateTime
+type WebsiteScheduleDate {
+  started: DateTime!
+  ended: DateTime
 }
 
 type WebsiteScheduleOptionEdge {

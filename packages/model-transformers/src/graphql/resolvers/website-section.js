@@ -32,11 +32,55 @@ export default {
    *
    */
   WebsiteSection: {
-    _connection(section) {
-      return section;
+    _connection(section, _, { dbs, loaders }) {
+      return {
+        async ancestors() {
+          const sections = await loadAncestors(section, loaders, []);
+          return sections.reverse().map((node) => ({
+            depth: getDepthFor(node),
+            node,
+          }));
+        },
+        async descendants() {
+          const currentDepth = getDepthFor(section);
+          const sections = await loadDescendants(section, dbs.legacy.repo('website.Section'), []);
+          return sortBy(sections, 'fullName').map((node) => ({
+            depth: getDepthFor(node) - currentDepth,
+            node,
+          }));
+        },
+      };
     },
-    _edge(section) {
-      return section;
+    _edge(section, _, { loaders }) {
+      return {
+        async coverImage() {
+          const imageId = LegacyDB.extractRefId(section.coverImage);
+          if (!imageId) return null;
+          const node = await loaders.get('platform.Image').load(imageId);
+          if (!node) return null;
+          return { node };
+        },
+        async logo() {
+          const imageId = LegacyDB.extractRefId(section.logo);
+          if (!imageId) return null;
+          const node = await loaders.get('platform.Image').load(imageId);
+          if (!node) return null;
+          return { node };
+        },
+        async parent() {
+          const parentId = LegacyDB.extractRefId(section.parent);
+          if (!parentId) return null;
+          const node = await loaders.get('website.Section').load(parentId);
+          if (!node) return null;
+          return { node };
+        },
+        async website() {
+          const siteId = LegacyDB.extractRefId(section.site);
+          if (!siteId) throw new Error(`Unable to load a site ID for section ID ${section._id}`);
+          const node = await loaders.get('website.Site').load(siteId);
+          return { node };
+        },
+      };
     },
     _sync() {
       return {};
@@ -64,60 +108,6 @@ export default {
     },
     sequence({ sequence }) {
       return parseInt(sequence, 10) || 0;
-    },
-  },
-
-  /**
-   *
-   */
-  WebsiteSection_Connection: {
-    async ancestors(section, _, { loaders }) {
-      const sections = await loadAncestors(section, loaders, []);
-      return sections.reverse().map((node) => ({
-        depth: getDepthFor(node),
-        node,
-      }));
-    },
-    async descendants(section, _, { dbs }) {
-      const currentDepth = getDepthFor(section);
-      const sections = await loadDescendants(section, dbs.legacy.repo('website.Section'), []);
-      return sortBy(sections, 'fullName').map((node) => ({
-        depth: getDepthFor(node) - currentDepth,
-        node,
-      }));
-    },
-  },
-
-  /**
-   *
-   */
-  WebsiteSection_Edge: {
-    async coverImage(section, _, { loaders }) {
-      const imageId = LegacyDB.extractRefId(section.coverImage);
-      if (!imageId) return null;
-      const node = await loaders.get('platform.Image').load(imageId);
-      if (!node) return null;
-      return { node };
-    },
-    async logo(section, _, { loaders }) {
-      const imageId = LegacyDB.extractRefId(section.logo);
-      if (!imageId) return null;
-      const node = await loaders.get('platform.Image').load(imageId);
-      if (!node) return null;
-      return { node };
-    },
-    async parent(section, _, { loaders }) {
-      const parentId = LegacyDB.extractRefId(section.parent);
-      if (!parentId) return null;
-      const node = await loaders.get('website.Section').load(parentId);
-      if (!node) return null;
-      return { node };
-    },
-    async website(section, _, { loaders }) {
-      const siteId = LegacyDB.extractRefId(section.site);
-      if (!siteId) throw new Error(`Unable to load a site ID for section ID ${section._id}`);
-      const node = await loaders.get('website.Site').load(siteId);
-      return { node };
     },
   },
 
