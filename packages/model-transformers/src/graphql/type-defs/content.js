@@ -24,8 +24,9 @@ enum ContentTypeEnum {
   PROMOTION
   SPACE
   SUPPLIER
+  TOP_LIST
   TEXT_AD
-  VENUE
+  VENUE # @todo Entity/Venue + ContentVenue (set "spaces" as an array field)
   VIDEO
   WEBINAR
   WHITEPAPER
