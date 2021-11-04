@@ -11,6 +11,7 @@
 - [ ] `userRegistration` field
 - [ ] `redirectTo` field (if needed?)
 - [ ] core canonical URL field
+- [ ] core `noIndex` field
 
 ## Content Interfaces
 - [x] Addressable
@@ -39,7 +40,7 @@
   - [x] `startDate` and `endDate` fields
   - [x] `allDay` flag
   - [x] `cost`, `eventType`, and `beneficiary` fields
-  - [ ]`venue` and `organization` Entity references
+  - [ ] `venue` and `organization` Entity references
 - [x] Job
   - [x] job specific fields, such as `jobType`, `salary` etc...
 - [x] MediaGallery
@@ -49,19 +50,19 @@
 - [x] PressRelease
 - [x] Product
   - [x] `modelNumber` and `contentStatus` fields
-- [ ] Promotion
-  - [ ] `linkText` and `linkUrl` fields
+- [x] Promotion
+  - [x] `linkText` and `linkUrl` fields (handled by `links.primary.url` and `links.primary.label`)
 - [x] Supplier
-- [ ] TextAd
-  - [ ] `linkText` and `linkUrl` fields
+- [x] TextAd
+  - [x] `linkText` and `linkUrl` fields
 - [x] TopList
 - [x] Venue
   - [x] `spaces` field
   - [x] `totalCapacity` field
 - [ ] Video
   - [ ] determine if `embedSrc` needs to be added
-- [ ] Webinar
-  - [ ] `sponsors` field
+- [x] Webinar
+  - [x] `sponsors` field
   - [x] `startDate` field
-  - [ ] `linkUrl` field
+  - [x] `linkUrl` field
 - [x] Whitepaper

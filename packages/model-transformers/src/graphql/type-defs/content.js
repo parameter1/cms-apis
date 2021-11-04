@@ -186,6 +186,7 @@ type ContentInquiry {
 }
 
 type ContentLinks {
+  primary: ContentLinkPrimary # was linkUrl and linkText fields
   external: [ContentLinkExternal!]!
   social: [ContentLinkSocial!]!
   website: String
@@ -195,6 +196,11 @@ type ContentLinkExternal {
   key: String
   url: String!
   label: String
+}
+
+type ContentLinkPrimary {
+  label: String # was linkText
+  url: String! # was linkUrl
 }
 
 type ContentLinkSocial {

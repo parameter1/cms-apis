@@ -20,6 +20,12 @@ export default new Map([
         slug
         redirects
         labels
+        links {
+          primary { url label }
+          external { key url label }
+          website
+          social { provider url label }
+        }
 
         connections {
           contacts {
@@ -73,11 +79,6 @@ export default new Map([
           phones { default tollfree fax mobile }
           emails { default public }
           person { name firstName lastName title }
-        }
-        links {
-          external { key url label }
-          website
-          social { provider url label }
         }
         syndication { source byline }
         inquiry { isEnabled }

@@ -176,6 +176,12 @@ export default {
           return { provider, url, label };
         }).filter((v) => v),
         website: cleanWebsite(content.website),
+        primary: (() => {
+          const linkUrl = cleanPath(content.linkUrl);
+          if (!linkUrl) return null;
+          const url = /^http[s]?:/i.test(linkUrl) ? linkUrl : `/${linkUrl}`;
+          return { url, label: trim(content.linkText) };
+        })(),
       };
     },
     media(content) {
