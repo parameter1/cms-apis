@@ -1,39 +1,53 @@
 import { LegacyDB } from '@cms-apis/db';
-import findMany from './utils/find-many.js';
+import { trim } from '@cms-apis/utils';
+import { buildObjValues, findMany } from './utils/index.js';
 
 export default {
   /**
    *
    */
   NewsletterCampaign: {
-    async createdBy(campaign, _, { loaders }) {
-      const userId = LegacyDB.extractRefId(campaign.createdBy);
-      if (!userId) return null;
-      const node = await loaders.get('platform.User').load(userId);
-      return node ? { node } : null;
+    _sync() {
+      return {};
     },
-    dates(campaign) {
+    _edge(campaign, _, { loaders }) {
+      return {
+        async createdBy() {
+          const userId = LegacyDB.extractRefId(campaign.createdBy);
+          if (!userId) return null;
+          const node = await loaders.get('platform.User').load(userId);
+          return node ? { node } : null;
+        },
+        async newsletter() {
+          const productId = LegacyDB.extractRefId(campaign.product);
+          if (!productId) throw new Error(`Unable to load a product ID for campaign ID ${campaign._id}`);
+          const node = await loaders.get('email.Newsletter').load(productId);
+          return { node };
+        },
+      };
+    },
+    date(campaign) {
       return {
         created: campaign.created,
         touched: campaign.touched,
         updated: campaign.updated,
-        deployment: campaign.deploymentDate,
+        deployed: campaign.deploymentDate,
         scheduled: campaign.scheduled,
-        html: campaign.htmlDate,
+        htmlUpdated: campaign.htmlDate,
       };
+    },
+    isLocked({ locked }) {
+      return Boolean(locked);
     },
     list({ listId, listMessage, listStatus }) {
-      return {
-        identifier: listId,
-        message: listMessage,
-        status: listStatus,
-      };
+      return buildObjValues([
+        ['identifier', trim(listId)],
+        ['message', trim(listMessage)],
+        ['status', trim(listStatus)],
+      ]);
     },
-    async newsletter(campaign, _, { loaders }) {
-      const productId = LegacyDB.extractRefId(campaign.product);
-      if (!productId) throw new Error(`Unable to load a product ID for campaign ID ${campaign._id}`);
-      const node = await loaders.get('email.Newsletter').load(productId);
-      return { node };
+    name({ name, fromName }) {
+      return { default: trim(name), from: trim(fromName) };
     },
   },
 

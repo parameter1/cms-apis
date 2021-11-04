@@ -294,38 +294,19 @@ export default new Map([
     fragment: gql`
       fragment TransformNewsletterCampaignFragment on NewsletterCampaign {
         _id
-        name
-        status
+        _edge {
+          createdBy { node { _id name email username } }
+          newsletter { node { _id name status _edge { website { node { _id name } } }  } }
+        }
+        _sync { date }
+        date { created updated touched deployed scheduled htmlUpdated }
         externalId
-        fromName
         html
-        locked
-        subjectLine
-        dates {
-          created
-          updated
-          touched
-          deployment
-          scheduled
-          html
-        }
+        isLocked
         list { identifier message status }
-        createdBy {
-          node {
-            _id
-            name
-            email
-            username
-          }
-        }
-        newsletter {
-          node {
-            _id
-            name # global newsletter sort field
-            status # rel query input
-            website { node { _id name } }
-          }
-        }
+        name { default from }
+        status
+        subjectLine
       }
     `,
   }],

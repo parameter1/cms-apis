@@ -9,18 +9,19 @@ extend type Query {
 
 type NewsletterCampaign {
   _id: ObjectID!
-  name: String! @trim
-  status: Int! @formatStatus
-
+  _edge: NewsletterCampaign_Edge!
+  _sync: SyncInfo!
+  date: NewsletterCampaignDate!
   externalId: String @trim
-  fromName: String @trim
   html: String @trim
-  locked: Boolean
+  isLocked: Boolean
+  list: NewsletterCampaignList
+  name: NewsletterCampaignName!
+  status: Int! @formatStatus
   subjectLine: String @trim
+}
 
-  dates: NewsletterCampaignDates!
-  list: NewsletterCampaignList!
-
+type NewsletterCampaign_Edge {
   createdBy: NewsletterCampaignCreatedByEdge
   newsletter: NewsletterCampaignNewsletterEdge!
 }
@@ -29,19 +30,24 @@ type NewsletterCampaignCreatedByEdge {
   node: User!
 }
 
-type NewsletterCampaignDates {
+type NewsletterCampaignDate {
   created: DateTime
   touched: DateTime
   updated: DateTime
-  deployment: DateTime
+  deployed: DateTime
   scheduled: DateTime
-  html: DateTime
+  htmlUpdated: DateTime
 }
 
 type NewsletterCampaignList {
-  identifier: String @trim
-  message: String @trim
-  status: String @trim
+  identifier: String
+  message: String
+  status: String
+}
+
+type NewsletterCampaignName {
+  default: String!
+  from: String
 }
 
 type NewsletterCampaignNewsletterEdge {
