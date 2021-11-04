@@ -55,10 +55,9 @@
 - [ ] TextAd
   - [ ] `linkText` and `linkUrl` fields
 - [x] TopList
-- [ ] Venue
-  - [ ] `spaces` field
-  - [ ] `totalCapacity` field
-  - [ ] determine if this should be merged with `EntityVenue`
+- [x] Venue
+  - [x] `spaces` field
+  - [x] `totalCapacity` field
 - [ ] Video
   - [ ] determine if `embedSrc` needs to be added
 - [ ] Webinar

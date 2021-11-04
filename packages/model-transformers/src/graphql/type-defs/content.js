@@ -225,6 +225,7 @@ type ContentMeta {
   event: ContentMetaEvent
   job: ContentMetaJob
   product: ContentMetaProduct
+  venue: ContentMetaVenue
 }
 
 type ContentMetaCompany {
@@ -263,6 +264,29 @@ type ContentMetaJob {
 type ContentMetaProduct {
   modelNumber: String
   status: String
+}
+
+type ContentMetaVenue {
+  totalCapacity: String
+  spaces: [ContentMetaVenueSpace!]!
+}
+
+type ContentMetaVenueSpace {
+  _id: Int!
+  name: String
+  area: String
+  capacity: ContentMetaVenueSpaceCapacity
+  floorPlanImage: ContentMetaVenueSpaceFloorPlanImageEdge
+}
+
+type ContentMetaVenueSpaceCapacity {
+  min: String
+  maxSeated: String
+  maxStanding: String
+}
+
+type ContentMetaVenueSpaceFloorPlanImageEdge {
+  node: ImageAsset!
 }
 
 type ContentNames {

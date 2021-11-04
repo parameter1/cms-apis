@@ -196,7 +196,7 @@ export default {
         ['credit', trim(content.credit)],
       ]);
     },
-    meta(content) {
+    async meta(content, _, { dbs }) {
       const statesServed = getAsArray(content.statesServed).map(trim).filter((v) => v);
       const company = content.type === 'Company' ? buildObjValues([
         ['type', trim(content.companyType)],
@@ -236,11 +236,43 @@ export default {
         ['modelNumber', trim(content.modelNumber)],
         ['status', trim(content.contentStatus)],
       ]) : null;
+
+      let venue = null;
+      if (content.type === 'Venue') {
+        const cursor = await dbs.legacy.repo('platform.Content').find({
+          query: { venue: content._id, type: 'Space' },
+          projection: {
+            capacityMin: 1,
+            capacityMaxSeated: 1,
+            capacityMaxStanding: 1,
+            area: 1,
+
+            floorPlanImage: 1,
+          },
+        });
+        const spaces = await cursor.toArray();
+        venue = buildObjValues([
+          ['totalCapacity', trim(content.totalCapacity)],
+          ['spaces', sortBy(spaces.map((space) => buildObjValues([
+            ['_id', space._id],
+            ['name', trim(space.name)],
+            ['area', trim(space.area)],
+            ['capacity', buildObjValues([
+              ['min', trim(space.capacityMin)],
+              ['maxSeated', trim(space.capacityMaxSeated)],
+              ['maxStanding', trim(space.capacityMaxStanding)],
+            ])],
+            ['floorPlanImage', LegacyDB.extractRefId(space.floorPlanImage)],
+          ])), '_id')],
+        ]);
+      }
+
       return buildObjValues([
         ['company', company],
         ['event', event],
         ['job', job],
         ['product', product],
+        ['venue', venue],
       ]);
     },
     names(content) {
@@ -387,6 +419,16 @@ export default {
       if (!userId) return null;
       const node = await loaders.get('platform.User').load(userId);
       return node ? { node } : null;
+    },
+  },
+
+  /**
+   *
+   */
+  ContentMetaVenueSpaceFloorPlanImageEdge: {
+    node(imageId, _, { loaders }) {
+      if (!imageId) return null;
+      return loaders.get('platform.Image').load(imageId);
     },
   },
 

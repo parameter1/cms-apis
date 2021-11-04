@@ -108,6 +108,16 @@ export default new Map([
             sourceUrl
           }
           product { modelNumber status }
+          venue {
+            totalCapacity
+            spaces {
+              _id
+              name
+              area
+              capacity { min maxSeated maxStanding }
+              floorPlanImage { node { ...CommonImageAssetRelFragment } }
+            }
+          }
         }
       }
       ${COMMON_IMAGE_ASSET_REL}
