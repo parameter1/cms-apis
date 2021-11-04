@@ -14,7 +14,7 @@ export default new Map([
         hash
         notes
         status
-        dates { expired published created updated touched }
+        dates { expired published created updated touched start end }
         seo { title description }
         alias
         slug
@@ -95,6 +95,7 @@ export default new Map([
             serviceInformation
             warrantyInformation
           }
+          event { type cost beneficiary allDay }
           job {
             type
             salary

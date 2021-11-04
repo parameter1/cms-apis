@@ -120,6 +120,8 @@ export default {
         ['created', content.created],
         ['updated', content.updated],
         ['touched', content.touched],
+        ['start', content.startDate],
+        ['end', content.endDate],
       ]);
     },
     edges(content) {
@@ -211,6 +213,12 @@ export default {
           'warrantyInformation',
         ].map((field) => [field, trim(content[field])]),
       ]) : null;
+      const event = content.type === 'Event' ? buildObjValues([
+        ['type', trim(content.eventType)],
+        ['cost', trim(content.cost)],
+        ['beneficiary', trim(content.beneficiary)],
+        ['allDay', content.allDay == null ? null : content.allDay],
+      ]) : null;
       const job = content.type === 'Job' ? buildObjValues([
         ['type', trim(content.jobType)],
         ...[
@@ -230,6 +238,7 @@ export default {
       ]) : null;
       return buildObjValues([
         ['company', company],
+        ['event', event],
         ['job', job],
         ['product', product],
       ]);

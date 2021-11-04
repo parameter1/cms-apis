@@ -159,6 +159,8 @@ type ContentDates {
   created: DateTime
   updated: DateTime
   touched: DateTime
+  start: DateTime
+  end: DateTime
 }
 
 type ContentEdges {
@@ -220,6 +222,7 @@ type ContentMediaSoure {
 
 type ContentMeta {
   company: ContentMetaCompany
+  event: ContentMetaEvent
   job: ContentMetaJob
   product: ContentMetaProduct
 }
@@ -236,6 +239,13 @@ type ContentMetaCompany {
   productSummary: String
   serviceInformation: String
   warrantyInformation: String
+}
+
+type ContentMetaEvent {
+  type: String
+  cost: String
+  beneficiary: String
+  allDay: Boolean
 }
 
 type ContentMetaJob {
