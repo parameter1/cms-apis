@@ -81,6 +81,33 @@ export default new Map([
         syndication { source byline }
         inquiry { isEnabled }
         media { file { name path } source { id key } duration embedCode credit }
+        meta {
+          company {
+            type
+            statesServed
+            numberOfEmployees
+            trainingInformation
+            yearsInOperation
+            salesRegion
+            servicesProvided
+            salesChannels
+            productSummary
+            serviceInformation
+            warrantyInformation
+          }
+          job {
+            type
+            salary
+            city
+            state
+            email
+            information
+            phone
+            website
+            sourceUrl
+          }
+          product { modelNumber status }
+        }
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,

@@ -70,6 +70,7 @@ type Content {
   labels: [String!]!
   links: ContentLinks! # combines SocialLinkable, Contactable.website, Content.externalLinks, Company.[xxx]Url fields
   media: ContentMedia # from Media plus "media-like" content fields
+  meta: ContentMeta
   names: ContentNames
   notes: String @trim
   redirects: [String!]!
@@ -216,6 +217,44 @@ type ContentMediaSoure {
   id: String
   key: String
 }
+
+type ContentMeta {
+  company: ContentMetaCompany
+  job: ContentMetaJob
+  product: ContentMetaProduct
+}
+
+type ContentMetaCompany {
+  type: String
+  statesServed: [String!]
+  numberOfEmployees: String
+  trainingInformation: String
+  yearsInOperation: String
+  salesRegion: String
+  servicesProvided: String
+  salesChannels: String
+  productSummary: String
+  serviceInformation: String
+  warrantyInformation: String
+}
+
+type ContentMetaJob {
+  type: String
+  salary: String
+  city: String
+  state: String
+  email: String
+  information: String
+  phone: String
+  website: String
+  sourceUrl: String
+}
+
+type ContentMetaProduct {
+  modelNumber: String
+  status: String
+}
+
 type ContentNames {
   default: String
   newsletter: String

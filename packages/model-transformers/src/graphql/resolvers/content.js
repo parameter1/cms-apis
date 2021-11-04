@@ -194,6 +194,46 @@ export default {
         ['credit', trim(content.credit)],
       ]);
     },
+    meta(content) {
+      const statesServed = getAsArray(content.statesServed).map(trim).filter((v) => v);
+      const company = content.type === 'Company' ? buildObjValues([
+        ['type', trim(content.companyType)],
+        ['statesServed', statesServed.length ? statesServed : null],
+        ...[
+          'numberOfEmployees',
+          'trainingInformation',
+          'yearsInOperation',
+          'salesRegion',
+          'servicesProvided',
+          'salesChannels',
+          'productSummary',
+          'serviceInformation',
+          'warrantyInformation',
+        ].map((field) => [field, trim(content[field])]),
+      ]) : null;
+      const job = content.type === 'Job' ? buildObjValues([
+        ['type', trim(content.jobType)],
+        ...[
+          'salary',
+          'city',
+          'state',
+          'email',
+          'information',
+          'phone',
+          'website',
+          'sourceUrl',
+        ].map((field) => [field, trim(content[field])]),
+      ]) : null;
+      const product = content.type === 'Product' ? buildObjValues([
+        ['modelNumber', trim(content.modelNumber)],
+        ['status', trim(content.contentStatus)],
+      ]) : null;
+      return buildObjValues([
+        ['company', company],
+        ['job', job],
+        ['product', product],
+      ]);
+    },
     names(content) {
       return buildObjValues([
         ['default', trim(content.name)],
