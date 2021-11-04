@@ -23,19 +23,21 @@ input QueryUserByIdInput {
 
 type User {
   _id: ObjectID!
+  _sync: SyncInfo!
+  date: UserDate
   email: String @trim
-  name: String
   firstName: String @trim
+  isEnabled: Boolean!
   lastName: String @trim
-  username: String @trim
-  roles: [String!]!
-
-  password: String @trim
-
-  lastLoggedIn: DateTime
-
-  enabled: Boolean!
   mustChangePassword: Boolean!
+  name: String
+  password: String @trim
+  roles: [String!]!
+  username: String @trim
+}
+
+type UserDate {
+  lastLoggedIn: DateTime
 }
 
 `;

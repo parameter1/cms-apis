@@ -1,19 +1,27 @@
 import { asArray, trim } from '@cms-apis/utils';
-import findMany from './utils/find-many.js';
+import { buildObjValues, findMany } from './utils/index.js';
 
 export default {
   /**
    *
    */
   User: {
-    enabled({ enabled }) {
-      return Boolean(enabled);
+    _sync() {
+      return {};
     },
-    mustChangePassword({ mustChange }) {
-      return Boolean(mustChange);
+    date({ lastLoggedIn }) {
+      return buildObjValues([
+        ['lastLoggedIn', lastLoggedIn],
+      ]);
+    },
+    isEnabled({ enabled }) {
+      return Boolean(enabled);
     },
     name({ firstName, lastName }) {
       return [trim(firstName), trim(lastName)].filter((v) => v).join(' ') || null;
+    },
+    mustChangePassword({ mustChange }) {
+      return Boolean(mustChange);
     },
     roles({ roles }) {
       return asArray(roles).map(trim).filter((v) => v);

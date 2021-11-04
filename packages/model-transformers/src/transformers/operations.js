@@ -401,16 +401,17 @@ export default new Map([
     fragment: gql`
       fragment TransformUserFragment on User {
         _id
+        _sync { date }
+        date { lastLoggedIn }
         email
-        name
         firstName
+        isEnabled
         lastName
-        username
-        roles
-        password
-        lastLoggedIn
-        enabled
         mustChangePassword
+        name
+        password
+        roles
+        username
       }
     `,
   }],
