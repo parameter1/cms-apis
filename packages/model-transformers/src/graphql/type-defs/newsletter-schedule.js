@@ -9,18 +9,24 @@ extend type Query {
 
 type NewsletterSchedule {
   _id: ObjectID!
-
-  deploymentDate: DateTime!
-  status: Int! @formatStatus
-
+  _edge: NewsletterSchedule_Edge!
+  _sync: SyncInfo!
+  date: NewsletterScheduleDate!
   sequence: Int!
+  status: Int! @formatStatus
+}
 
+type NewsletterSchedule_Edge {
   content: NewsletterScheduleContentEdge!
   section: NewsletterScheduleSectionEdge!
 }
 
 type NewsletterScheduleContentEdge {
   node: Content!
+}
+
+type NewsletterScheduleDate {
+  deployed: DateTime!
 }
 
 type NewsletterScheduleSectionEdge {

@@ -315,18 +315,14 @@ export default new Map([
     fragment: gql`
       fragment TransformNewsletterScheduleFragment on NewsletterSchedule {
         _id
-        deploymentDate
-        status
-        sequence
-        content { node { _id _type status } }
-        section {
-          node {
-            _id
-            name
-            status
-            newsletter { node { _id name status } }
-          }
+        _edge {
+          content { node { _id _type status } }
+          section { node { _id name { default } status _edge { newsletter { node { _id name status } } } } }
         }
+        _sync { date }
+        date { deployed }
+        sequence
+        status
       }
     `,
   }],

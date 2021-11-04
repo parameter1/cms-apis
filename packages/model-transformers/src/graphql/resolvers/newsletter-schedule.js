@@ -6,17 +6,27 @@ export default {
    *
    */
   NewsletterSchedule: {
-    async content(schedule, _, { loaders }) {
-      const contentId = LegacyDB.extractRefId(schedule.content);
-      if (!contentId) throw new Error(`Unable to load a content ID for schedule ID ${schedule._id}`);
-      const node = await loaders.get('platform.Content').load(contentId);
-      return { node };
+    _edge(schedule, _, { loaders }) {
+      return {
+        async content() {
+          const contentId = LegacyDB.extractRefId(schedule.content);
+          if (!contentId) throw new Error(`Unable to load a content ID for schedule ID ${schedule._id}`);
+          const node = await loaders.get('platform.Content').load(contentId);
+          return { node };
+        },
+        async section() {
+          const sectionId = LegacyDB.extractRefId(schedule.section);
+          if (!sectionId) throw new Error(`Unable to load a section ID for schedule ID ${schedule._id}`);
+          const node = await loaders.get('email.Section').load(sectionId);
+          return { node };
+        },
+      };
     },
-    async section(schedule, _, { loaders }) {
-      const sectionId = LegacyDB.extractRefId(schedule.section);
-      if (!sectionId) throw new Error(`Unable to load a section ID for schedule ID ${schedule._id}`);
-      const node = await loaders.get('email.Section').load(sectionId);
-      return { node };
+    _sync() {
+      return {};
+    },
+    date({ deploymentDate }) {
+      return { deployed: deploymentDate };
     },
     sequence({ sequence }) {
       return parseInt(sequence, 10) || 0;
