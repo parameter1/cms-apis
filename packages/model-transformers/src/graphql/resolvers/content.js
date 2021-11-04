@@ -407,7 +407,7 @@ export default {
       const imageIds = LegacyDB.extractRefIds(content.images);
       if (!imageIds.length) return [];
       const docs = await loaders.get('platform.Image').loadMany(imageIds);
-      return sortBy(docs, '_id').map((node) => ({ node }));
+      return sortBy(docs, '_id').filter((node) => node).map((node) => ({ node }));
     },
     async relatedTo(content, _, { loaders }) {
       const relatedToIds = LegacyDB.extractRefIds(content.relatedTo);
