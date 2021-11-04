@@ -60,30 +60,25 @@ type Content {
   _id: Int!
   _type: ContentTypeEnum! @trim(field: "type")
   alias: String
-  names: ContentNames
-  teasers: ContentTeasers
   bodies: ContentBodies
-  hash: String @trim
-  notes: String @trim
-  status: Int! @formatStatus
-  dates: ContentDates
-  slug: String @trim(field: "mutations.Website.slug")
-  redirects: [String!]!
   connections: ContentConnections!
+  contact: ContentContact # was the Contactable interface: applied to company, contact, event, supplier, venue
+  dates: ContentDates
   edges: ContentEdges!
+  hash: String @trim
+  inquiry: ContentInquiry # from Inquirable
   labels: [String!]!
-  sidebars: [ContentSidebar!]!
-  # was the Contactable interface: applied to company, contact, event, supplier, venue
-  contact: ContentContact
-  # combines SocialLinkable, Contactable.website, Content.externalLinks, Company.[xxx]Url fields
-  links: ContentLinks!
-  # from ContentNews.source ContentNews.byline Contents.importSource
-  syndication: ContentSyndication
-  # from Inquirable
-  inquiry: ContentInquiry
-  # from Media plus "media-like" content fields
-  media: ContentMedia
+  links: ContentLinks! # combines SocialLinkable, Contactable.website, Content.externalLinks, Company.[xxx]Url fields
+  media: ContentMedia # from Media plus "media-like" content fields
+  names: ContentNames
+  notes: String @trim
+  redirects: [String!]!
   seo: ContentSEO
+  sidebars: [ContentSidebar!]!
+  slug: String @trim(field: "mutations.Website.slug")
+  status: Int! @formatStatus
+  syndication: ContentSyndication # from ContentNews.source ContentNews.byline Contents.importSource
+  teasers: ContentTeasers
 }
 
 type ContentBodies {
