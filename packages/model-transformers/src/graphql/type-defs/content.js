@@ -59,13 +59,13 @@ enum ContentLinkSocialProviderEnum {
 type Content {
   _id: Int!
   _type: ContentTypeEnum! @trim(field: "type")
+  _connections: ContentConnections!
+  _edges: ContentEdges!
   alias: String
   bodies: ContentBodies
-  connections: ContentConnections!
   contact: ContentContact # was the Contactable interface: applied to company, contact, event, supplier, venue
   custom: JSONObject
   dates: ContentDates
-  edges: ContentEdges!
   hash: String @trim
   inquiry: ContentInquiry # from Inquirable
   labels: [String!]!
@@ -281,10 +281,10 @@ type ContentMetaVenue {
 
 type ContentMetaVenueSpace {
   _id: Int!
+  _edges: ContentMetaVenueSpaceEdges
   name: String
   area: String
   capacity: ContentMetaVenueSpaceCapacity
-  floorPlanImage: ContentMetaVenueSpaceFloorPlanImageEdge
 }
 
 type ContentMetaVenueSpaceCapacity {
@@ -293,7 +293,11 @@ type ContentMetaVenueSpaceCapacity {
   maxStanding: String
 }
 
-type ContentMetaVenueSpaceFloorPlanImageEdge {
+type ContentMetaVenueSpaceEdges {
+  floorPlan: ContentMetaVenueSpaceFloorPlanEdge
+}
+
+type ContentMetaVenueSpaceFloorPlanEdge {
   node: ImageAsset!
 }
 

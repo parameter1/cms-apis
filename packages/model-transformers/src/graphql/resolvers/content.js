@@ -45,6 +45,12 @@ export default {
    *
    */
   Content: {
+    _connections(content) {
+      return content;
+    },
+    _edges(content) {
+      return content;
+    },
     alias(content) {
       const alias = getMutatedValue({ content, mutation: 'Website', field: 'alias' });
       if (!alias || /^http[s]?:/i.test(alias) || /^www\./i.test(alias)) return null;
@@ -58,9 +64,6 @@ export default {
         ['website', getMutatedValue({ content, mutation: 'Website', field: 'body' })],
         ['original', trim(content.bodyOriginal)],
       ]);
-    },
-    connections(content) {
-      return content;
     },
     contact(content) {
       const emails = buildObjValues([
@@ -139,9 +142,6 @@ export default {
         ['start', content.startDate],
         ['end', content.endDate],
       ]);
-    },
-    edges(content) {
-      return content;
     },
     inquiry(content) {
       // @todo determine how to generate emails. emails should only appear
@@ -283,6 +283,9 @@ export default {
           ['totalCapacity', trim(content.totalCapacity)],
           ['spaces', sortBy(spaces.map((space) => buildObjValues([
             ['_id', space._id],
+            ['_edges', buildObjValues([
+              ['floorPlan', LegacyDB.extractRefId(space.floorPlanImage)],
+            ])],
             ['name', trim(space.name)],
             ['area', trim(space.area)],
             ['capacity', buildObjValues([
@@ -290,7 +293,6 @@ export default {
               ['maxSeated', trim(space.capacityMaxSeated)],
               ['maxStanding', trim(space.capacityMaxStanding)],
             ])],
-            ['floorPlanImage', LegacyDB.extractRefId(space.floorPlanImage)],
           ])), '_id')],
         ]);
       }
@@ -459,7 +461,7 @@ export default {
   /**
    *
    */
-  ContentMetaVenueSpaceFloorPlanImageEdge: {
+  ContentMetaVenueSpaceFloorPlanEdge: {
     node(imageId, _, { loaders }) {
       if (!imageId) return null;
       return loaders.get('platform.Image').load(imageId);

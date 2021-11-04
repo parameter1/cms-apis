@@ -8,9 +8,7 @@ export default new Map([
       fragment TransformContentFragment on Content {
         _id
         _type
-        alias
-        bodies { default newsletter magazine website original }
-        connections {
+        _connections {
           contacts {
             type
             node {
@@ -25,6 +23,23 @@ export default new Map([
           relatedTo { node { _id _type names { default website short } status dates { published expired } } }
           sponsors { node { _id _type names { default website short } status dates { published expired } } }
         }
+        _edges {
+          company { node { _id names { default website short } status dates { published expired } inquiry { isEnabled } } }
+          parent { node { _id _type status names { default } dates { published expired } } }
+          primaryImage { node { ...CommonImageAssetRelFragment } }
+          primaryWebsiteSection {
+            node {
+              _id
+              name
+              alias
+              ancestors { node { _id name alias } }
+            }
+          }
+          createdBy { node { _id name username email } }
+          updatedBy { node { _id name username email } }
+        }
+        alias
+        bodies { default newsletter magazine website original }
         contact {
           address {
             street
@@ -42,21 +57,6 @@ export default new Map([
         }
         custom
         dates { expired published created updated touched start end }
-        edges {
-          company { node { _id names { default website short } status dates { published expired } inquiry { isEnabled } } }
-          parent { node { _id _type status names { default } dates { published expired } } }
-          primaryImage { node { ...CommonImageAssetRelFragment } }
-          primaryWebsiteSection {
-            node {
-              _id
-              name
-              alias
-              ancestors { node { _id name alias } }
-            }
-          }
-          createdBy { node { _id name username email } }
-          updatedBy { node { _id name username email } }
-        }
         hash
         inquiry { isEnabled }
         labels
@@ -98,10 +98,12 @@ export default new Map([
             totalCapacity
             spaces {
               _id
+              _edges {
+                floorPlan { node { ...CommonImageAssetRelFragment } }
+              }
               name
               area
               capacity { min maxSeated maxStanding }
-              floorPlanImage { node { ...CommonImageAssetRelFragment } }
             }
           }
         }
