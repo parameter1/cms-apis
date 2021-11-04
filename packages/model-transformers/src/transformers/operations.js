@@ -40,6 +40,7 @@ export default new Map([
           emails { default public }
           person { name firstName lastName title }
         }
+        custom
         dates { expired published created updated touched start end }
         edges {
           company { node { _id names { default website short } status dates { published expired } inquiry { isEnabled } } }

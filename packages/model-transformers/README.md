@@ -7,7 +7,7 @@
 - [ ] `metadata` field
 - [ ] `siteContext` object field
 - [ ] core section query field
-- [ ] `customAttributes`
+- [x] `customAttributes`
 - [ ] `userRegistration` field
 - [ ] `redirectTo` field (if needed?)
 - [ ] core canonical URL field

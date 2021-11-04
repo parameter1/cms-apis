@@ -1,5 +1,10 @@
 import { get, getAsArray } from '@cms-apis/object-path';
-import { trim, cleanPath, parseNumber } from '@cms-apis/utils';
+import {
+  isObject,
+  trim,
+  cleanPath,
+  parseNumber,
+} from '@cms-apis/utils';
 import { LegacyDB } from '@cms-apis/db';
 import { cleanWebsite } from '@cms-apis/clean-string';
 import { sortBy } from '../utils/index.js';
@@ -118,6 +123,11 @@ export default {
         ['phones', phones],
         ['person', person],
       ]);
+    },
+    custom({ customAttributes }) {
+      if (!isObject(customAttributes)) return null;
+      if (!Object.keys(customAttributes).length) return null;
+      return customAttributes;
     },
     dates(content) {
       return buildObjValues([

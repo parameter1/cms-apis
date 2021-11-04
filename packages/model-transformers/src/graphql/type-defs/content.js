@@ -63,6 +63,7 @@ type Content {
   bodies: ContentBodies
   connections: ContentConnections!
   contact: ContentContact # was the Contactable interface: applied to company, contact, event, supplier, venue
+  custom: JSONObject
   dates: ContentDates
   edges: ContentEdges!
   hash: String @trim
