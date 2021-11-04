@@ -61,7 +61,7 @@ type Content {
   _type: ContentTypeEnum! @trim(field: "type")
   _connections: ContentConnections!
   _edges: ContentEdges!
-  _sync: DateTime!
+  _sync: SyncInfo!
   alias: String
   bodies: ContentBodies
   contact: ContentContact # was the Contactable interface: applied to company, contact, event, supplier, venue

@@ -52,7 +52,7 @@ export default {
       return content;
     },
     _sync() {
-      return new Date();
+      return {};
     },
     alias(content) {
       const alias = getMutatedValue({ content, mutation: 'Website', field: 'alias' });

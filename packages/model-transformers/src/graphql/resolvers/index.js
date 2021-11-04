@@ -34,6 +34,11 @@ export default merge(
         return 'pong';
       },
     },
+    SyncInfo: {
+      date() {
+        return new Date();
+      },
+    },
   },
   content,
   imageAsset,

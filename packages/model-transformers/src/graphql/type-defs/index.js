@@ -40,6 +40,10 @@ type PageInfo {
   endCursor: Cursor
 }
 
+type SyncInfo {
+  date: DateTime!
+}
+
 input PaginatedQueryInput {
   query: EJSONObject
   after: Cursor
