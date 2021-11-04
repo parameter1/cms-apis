@@ -233,6 +233,11 @@ export default {
         ])],
         ['type', trim(content.companyType)],
         ['statesServed', statesServed.length ? statesServed : null],
+        ['youtube', buildObjValues([
+          ['username', trim(get(content, 'youtube.username'))],
+          ['channelId', trim(get(content, 'youtube.channelId'))],
+          ['playlistId', trim(get(content, 'youtube.playlistId'))],
+        ])],
         ...[
           'numberOfEmployees',
           'trainingInformation',

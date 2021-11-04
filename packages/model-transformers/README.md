@@ -9,7 +9,7 @@
 - [ ] core section query field
 - [x] `customAttributes`
 - [ ] `userRegistration` field
-- [ ] `redirectTo` field (if needed?)
+- [x] `redirectTo` field (if needed?)
 - [ ] core canonical URL field
 - [ ] core `noIndex` field
 
@@ -32,7 +32,7 @@
   - [x] `companyType` field
   - [x] `brandsCarried` and `companyCompetitors`
   - [x] custom "stats" fields, such as `numberOfEmployees`
-  - [ ] `youtube` and `youtubeVideos`
+  - [x] `youtube` and `youtubeVideos`
   - [ ] `featuredCategories`
 - [x] Contact
 - [x] Document

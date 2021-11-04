@@ -249,6 +249,7 @@ type ContentMetaCompany {
   productSummary: String
   serviceInformation: String
   warrantyInformation: String
+  youtube: ContentMetaCompanyYoutube
 }
 
 type ContentMetaCompanyConnections {
@@ -262,6 +263,13 @@ type ContentMetaCompanyBrandsCarriedEdge {
 
 type ContentMetaCompanyCompetitorsEdge {
   node: Content!
+}
+
+type ContentMetaCompanyYoutube {
+  username: String
+  channelId: String
+  playlistId: String
+  url: String
 }
 
 type ContentMetaEvent {

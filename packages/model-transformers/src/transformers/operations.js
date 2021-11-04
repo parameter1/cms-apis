@@ -84,6 +84,7 @@ export default new Map([
             productSummary
             serviceInformation
             warrantyInformation
+            youtube { username channelId playlistId }
           }
           event { type cost beneficiary allDay }
           job {
