@@ -73,10 +73,8 @@ type Content {
   edges: ContentEdges!
   labels: [String!]!
   sidebars: [ContentSidebar!]!
-  # was the Addressable interface: applied to company, contact, event, supplier, top-100, venue
-  address: ContentAddress
   # was the Contactable interface: applied to company, contact, event, supplier, venue
-  contactInfo: ContentContactInfo
+  contact: ContentContact
   # combines SocialLinkable, Contactable.website, Content.externalLinks, Company.[xxx]Url fields
   links: ContentLinks!
   # from ContentNews.source ContentNews.byline Contents.importSource
@@ -86,22 +84,6 @@ type Content {
   # from Media plus "media-like" content fields
   media: ContentMedia
   seo: ContentSEO
-}
-
-type ContentAddress {
-  street: String
-  streetExtra: String
-  city: String @trim
-  region: String @trim(field: "state")
-  postalCode: String @trim(field: "zip")
-  country: String @trim
-  location: ContentAddressLocation
-  cityRegionPostalCode: String
-}
-
-type ContentAddressLocation {
-  type: String!
-  coordinates: [Float!]!
 }
 
 type ContentBodies {
@@ -123,25 +105,43 @@ type ContentConnections {
   relatedTo: [ContentRelatedToEdge!]!
 }
 
-type ContentContactInfo {
-  phones: ContentContactInfoPhones
-  emails: ContentContactInfoEmails
-  person: ContentContactInfoPerson
+type ContentContact {
+  # was the Addressable interface: applied to company, contact, event, supplier, top-100, venue
+  address: ContentContactAddress
+  phones: ContentContactPhones
+  emails: ContentContactEmails
+  person: ContentContactPerson
 }
 
-type ContentContactInfoEmails {
+type ContentContactAddress {
+  street: String
+  streetExtra: String
+  city: String @trim
+  region: String @trim(field: "state")
+  postalCode: String @trim(field: "zip")
+  country: String @trim
+  location: ContentContactAddressLocation
+  cityRegionPostalCode: String
+}
+
+type ContentContactAddressLocation {
+  type: String!
+  coordinates: [Float!]!
+}
+
+type ContentContactEmails {
   default: String
   public: String
 }
 
-type ContentContactInfoPerson {
+type ContentContactPerson {
   name: String
   firstName: String
   lastName: String
   title: String
 }
 
-type ContentContactInfoPhones {
+type ContentContactPhones {
   default: String
   tollfree: String
   fax: String

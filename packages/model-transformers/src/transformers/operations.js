@@ -29,7 +29,7 @@ export default new Map([
               titles { default website short }
               status
               dates { published expired }
-              contactInfo { person { name firstName lastName title } }
+              contact { person { name firstName lastName title } }
             }
           }
           images { node { ...CommonImageAssetRelFragment } }
@@ -58,17 +58,17 @@ export default new Map([
           label
           sequence
         }
-        address {
-          street
-          streetExtra
-          city
-          region
-          postalCode
-          country
-          location { type coordinates }
-          cityRegionPostalCode
-        }
-        contactInfo {
+        contact {
+          address {
+            street
+            streetExtra
+            city
+            region
+            postalCode
+            country
+            location { type coordinates }
+            cityRegionPostalCode
+          }
           phones { default tollfree fax mobile }
           emails { default public }
           person { name firstName lastName title }

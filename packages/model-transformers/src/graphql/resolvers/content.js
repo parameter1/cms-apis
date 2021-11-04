@@ -34,7 +34,44 @@ export default {
    *
    */
   Content: {
-    address(content) {
+    alias(content) {
+      const alias = getMutatedValue({ content, mutation: 'Website', field: 'alias' });
+      if (!alias || /^http[s]?:/i.test(alias) || /^www\./i.test(alias)) return null;
+      return cleanPath(alias);
+    },
+    bodies(content) {
+      return buildObjValues([
+        ['default', trim(content.body)],
+        ['newsletter', getMutatedValue({ content, mutation: 'Email', field: 'body' })],
+        ['magazine', getMutatedValue({ content, mutation: 'Magazine', field: 'body' })],
+        ['website', getMutatedValue({ content, mutation: 'Website', field: 'body' })],
+        ['original', trim(content.bodyOriginal)],
+      ]);
+    },
+    connections(content) {
+      return content;
+    },
+    contact(content) {
+      const emails = buildObjValues([
+        ['default', trim(content.email)],
+        ['public', trim(content.publicEmail)],
+      ]);
+      const phones = buildObjValues([
+        ['default', trim(content.phone)],
+        ['tollfree', trim(content.tollfree)],
+        ['fax', trim(content.fax)],
+        ['mobile', trim(content.mobile)],
+      ]);
+      const firstName = trim(content.firstName);
+      const lastName = trim(content.lastName);
+      const name = [firstName, lastName].filter((v) => v).join(' ') || null;
+      const person = buildObjValues([
+        ['name', name],
+        ['firstName', firstName],
+        ['lastName', lastName],
+        ['title', trim(content.title)],
+      ]);
+
       const city = trim(content.city);
       const region = trim(content.state);
       const postalCode = trim(content.zip);
@@ -58,7 +95,7 @@ export default {
       if (location && location.longitude && location.latitude) {
         geo = { type: 'Point', coordinates: [location.longitude, location.latitude] };
       }
-      return buildObjValues([
+      const address = buildObjValues([
         ['street', trim(content.address1)],
         ['streetExtra', trim(content.address2)],
         ['city', city],
@@ -68,49 +105,12 @@ export default {
         ['location', geo],
         ['cityRegionPostalCode', cityRegionPostalCode],
       ]);
-    },
-    alias(content) {
-      const alias = getMutatedValue({ content, mutation: 'Website', field: 'alias' });
-      if (!alias || /^http[s]?:/i.test(alias) || /^www\./i.test(alias)) return null;
-      return cleanPath(alias);
-    },
-    bodies(content) {
+
       return buildObjValues([
-        ['default', trim(content.body)],
-        ['newsletter', getMutatedValue({ content, mutation: 'Email', field: 'body' })],
-        ['magazine', getMutatedValue({ content, mutation: 'Magazine', field: 'body' })],
-        ['website', getMutatedValue({ content, mutation: 'Website', field: 'body' })],
-        ['original', trim(content.bodyOriginal)],
-      ]);
-    },
-    connections(content) {
-      return content;
-    },
-    contactInfo(content) {
-      const emails = buildObjValues([
-        ['default', trim(content.email)],
-        ['public', trim(content.publicEmail)],
-      ]);
-      const phones = buildObjValues([
-        ['default', trim(content.phone)],
-        ['tollfree', trim(content.tollfree)],
-        ['fax', trim(content.fax)],
-        ['mobile', trim(content.mobile)],
-      ]);
-      const firstName = trim(content.firstName);
-      const lastName = trim(content.lastName);
-      const name = [firstName, lastName].filter((v) => v).join(' ') || null;
-      const person = buildObjValues([
-        ['name', name],
-        ['firstName', firstName],
-        ['lastName', lastName],
-        ['title', trim(content.title)],
-      ]);
-      return buildObjValues([
+        ['address', address],
         ['emails', emails],
         ['phones', phones],
         ['person', person],
-        // ['website', cleanWebsite(content.website)],
       ]);
     },
     dates(content) {
