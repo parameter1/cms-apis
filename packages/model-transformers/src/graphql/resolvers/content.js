@@ -194,6 +194,17 @@ export default {
         ['credit', trim(content.credit)],
       ]);
     },
+    names(content) {
+      return buildObjValues([
+        ['default', trim(content.name)],
+        ['short', trim(content.shortName)],
+        ['full', trim(content.fullName)],
+        ['headline', getMutatedValue({ content, mutation: 'Magazine', field: 'headline' })],
+        ['newsletter', getMutatedValue({ content, mutation: 'Email', field: 'name' })],
+        ['magazine', getMutatedValue({ content, mutation: 'Magazine', field: 'name' })],
+        ['website', getMutatedValue({ content, mutation: 'Website', field: 'name' })],
+      ]);
+    },
     redirects(content) {
       return getAsArray(content, 'mutations.Website.redirects').map(cleanPath).filter((v) => v);
     },
@@ -226,17 +237,6 @@ export default {
         ['newsletter', getMutatedValue({ content, mutation: 'Email', field: 'teaser' })],
         ['magazine', getMutatedValue({ content, mutation: 'Magazine', field: 'teaser' })],
         ['website', getMutatedValue({ content, mutation: 'Website', field: 'teaser' })],
-      ]);
-    },
-    titles(content) {
-      return buildObjValues([
-        ['default', trim(content.name)],
-        ['short', trim(content.shortName)],
-        ['full', trim(content.fullName)],
-        ['headline', getMutatedValue({ content, mutation: 'Magazine', field: 'headline' })],
-        ['newsletter', getMutatedValue({ content, mutation: 'Email', field: 'name' })],
-        ['magazine', getMutatedValue({ content, mutation: 'Magazine', field: 'name' })],
-        ['website', getMutatedValue({ content, mutation: 'Website', field: 'name' })],
       ]);
     },
   },

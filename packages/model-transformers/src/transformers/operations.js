@@ -8,7 +8,7 @@ export default new Map([
       fragment TransformContentFragment on Content {
         _id
         _type
-        titles { default newsletter magazine website short full headline }
+        names { default newsletter magazine website short full headline }
         teasers { default newsletter magazine website deck }
         bodies { default newsletter magazine website original }
         hash
@@ -26,19 +26,19 @@ export default new Map([
             type
             node {
               _id
-              titles { default website short }
+              names { default website short }
               status
               dates { published expired }
               contact { person { name firstName lastName title } }
             }
           }
           images { node { ...CommonImageAssetRelFragment } }
-          relatedTo { node { _id _type titles { default website short } status dates { published expired } } }
+          relatedTo { node { _id _type names { default website short } status dates { published expired } } }
         }
 
         edges {
-          company { node { _id titles { default website short } status dates { published expired } inquiry { isEnabled } } }
-          parent { node { _id _type status titles { default } dates { published expired } } }
+          company { node { _id names { default website short } status dates { published expired } inquiry { isEnabled } } }
+          parent { node { _id _type status names { default } dates { published expired } } }
           primaryImage { node { ...CommonImageAssetRelFragment } }
           primaryWebsiteSection {
             node {

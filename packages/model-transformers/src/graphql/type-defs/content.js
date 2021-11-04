@@ -60,7 +60,7 @@ type Content {
   _id: Int!
   _type: ContentTypeEnum! @trim(field: "type")
   alias: String
-  titles: ContentTitles
+  names: ContentNames
   teasers: ContentTeasers
   bodies: ContentBodies
   hash: String @trim
@@ -221,6 +221,15 @@ type ContentMediaSoure {
   id: String
   key: String
 }
+type ContentNames {
+  default: String
+  newsletter: String
+  magazine: String
+  website: String
+  short: String
+  full: String
+  headline: String
+}
 
 type ContentParentEdge {
   node: Content!
@@ -261,16 +270,6 @@ type ContentTeasers {
   magazine: String
   website: String
   deck: String
-}
-
-type ContentTitles {
-  default: String
-  newsletter: String
-  magazine: String
-  website: String
-  short: String
-  full: String
-  headline: String
 }
 
 type ContentUpdatedByEdge {
