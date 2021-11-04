@@ -35,6 +35,7 @@ process.on('unhandledRejection', immediatelyThrow);
   await transformers.replace({ operation: 'allContent' });
   await transformers.replace({ operation: 'magazines' });
   await transformers.replace({ operation: 'magazineIssues' });
+  await transformers.replace({ operation: 'magazineSchedules' });
   await transformers.replace({ operation: 'magazineSections' });
   await transformers.replace({ operation: 'newsletters' });
   await transformers.replace({ operation: 'newsletterCampaigns' });

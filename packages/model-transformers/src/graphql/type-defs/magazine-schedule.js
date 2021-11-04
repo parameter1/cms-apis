@@ -9,7 +9,12 @@ extend type Query {
 
 type MagazineSchedule {
   _id: ObjectID!
+  _edge: MagazineSchedule_Edge!
+  _sync: SyncInfo!
   status: Int! @formatStatus
+}
+
+type MagazineSchedule_Edge {
   content: MagazineScheduleContentEdge!
   section: MagazineScheduleSectionEdge!
 }

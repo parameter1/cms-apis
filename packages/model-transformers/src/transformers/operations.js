@@ -207,25 +207,27 @@ export default new Map([
     fragment: gql`
       fragment TransformMagazineScheduleFragment on MagazineSchedule {
         _id
+        _edge {
+          content {
+            node {
+              _id _type status
+              _edge { primaryImage { node { _id } } }
+            }
+          }
+          section {
+            node {
+              _id
+              _edge {
+                issue { node { _id name { default } status } }
+                magazine { node { _id name status } }
+              }
+              name { default full }
+              status
+            }
+          }
+        }
+        _sync { date }
         status
-        content {
-          node {
-            _id
-            _type
-            status
-            primaryImage { node { _id } }
-          }
-        }
-        section {
-          node {
-            _id
-            name
-            fullName
-            status
-            issue { node { _id name status } }
-            magazine { node { _id name status } }
-          }
-        }
       }
     `,
   }],
