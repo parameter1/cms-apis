@@ -21,7 +21,7 @@ export default new Map([
         redirects
         labels
         links {
-          primary { url label }
+          redirect { url label }
           external { key url label }
           website
           social { provider url label }

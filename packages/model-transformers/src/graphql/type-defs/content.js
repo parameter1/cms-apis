@@ -186,7 +186,7 @@ type ContentInquiry {
 }
 
 type ContentLinks {
-  primary: ContentLinkPrimary # was linkUrl and linkText fields
+  redirect: ContentLinkRedirect # combines mutations.Website.redirectTo with linkUrl and linkText fields
   external: [ContentLinkExternal!]!
   social: [ContentLinkSocial!]!
   website: String
@@ -198,9 +198,9 @@ type ContentLinkExternal {
   label: String
 }
 
-type ContentLinkPrimary {
+type ContentLinkRedirect {
   label: String # was linkText
-  url: String! # was linkUrl
+  url: String! # first tries mutations.Website.redirectTo then linkUrl
 }
 
 type ContentLinkSocial {

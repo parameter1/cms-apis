@@ -10,6 +10,12 @@ const getMutatedValue = ({ content, mutation, field }) => {
   return trim(value);
 };
 
+const cleanUrlOrPath = (value) => {
+  const cleaned = cleanPath(value);
+  if (!cleaned) return null;
+  return /^http[s]?:/i.test(cleaned) ? cleaned : `/${cleaned}`;
+};
+
 const mediaTypes = new Set(['Document', 'Infographic', 'Podcast', 'PressRelease', 'Video', 'Webinar', 'Whitepaper']);
 
 const parentFieldMap = new Map([
@@ -158,6 +164,12 @@ export default {
         external.push({ key, url, label });
       });
 
+      // handles `linkUrl` on webinars
+      const linkUrl = cleanUrlOrPath(content.linkUrl);
+      if (content.type === 'Webinar' && linkUrl) {
+        external.push({ key: 'webinar', url: linkUrl, label: 'Webinar URL' });
+      }
+
       return {
         external,
         social: getAsArray(content, 'socialLinks').map((link) => {
@@ -176,11 +188,11 @@ export default {
           return { provider, url, label };
         }).filter((v) => v),
         website: cleanWebsite(content.website),
-        primary: (() => {
-          const linkUrl = cleanPath(content.linkUrl);
-          if (!linkUrl) return null;
-          const url = /^http[s]?:/i.test(linkUrl) ? linkUrl : `/${linkUrl}`;
-          return { url, label: trim(content.linkText) };
+        redirect: (() => {
+          const label = trim(content.linkText);
+          const redirectTo = cleanUrlOrPath(get(content, 'mutations.Website.redirectTo'));
+          if (redirectTo) return { url: redirectTo, label };
+          return ['Promotion', 'TextAd'].includes(content.type) ? { url: linkUrl, label } : null;
         })(),
       };
     },
