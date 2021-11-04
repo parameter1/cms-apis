@@ -167,6 +167,14 @@ export default {
       const docs = await loaders.get('platform.Image').loadMany(imageIds);
       return sortBy(docs, '_id').map((node) => ({ node }));
     },
+    inquiry(content) {
+      // @todo determine how to generate emails. emails should only appear
+      // on "owning" rels like Company or Supplier
+      const isEnabled = get(content, 'mutations.Website.enableRmi');
+      return {
+        isEnabled: isEnabled == null || isEnabled === true,
+      };
+    },
     labels(content) {
       return getAsArray(content, 'labels').map(trim).filter((v) => v);
     },

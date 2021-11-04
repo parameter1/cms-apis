@@ -93,8 +93,10 @@ type Content {
   contacts: [ContentContactsEdge!]!
   # combines SocialLinkable, Contactable.website, Content.externalLinks, Company.[xxx]Url fields
   links: ContentLinks!
-  # From ContentNews.source ContentNews.byline Contents.importSource
+  # from ContentNews.source ContentNews.byline Contents.importSource
   syndication: ContentSyndication
+  # from Inquirable
+  inquiry: ContentInquiry
 
   # from Media plus "media-like" content fields
   media: ContentMedia
@@ -174,6 +176,12 @@ type ContentDates {
 
 type ContentImagesEdge {
   node: ImageAsset!
+}
+
+type ContentInquiry {
+  isEnabled: Boolean
+  # @todo determine how to handle inquiry emails
+  # emails: [String!]!
 }
 
 type ContentLinks {

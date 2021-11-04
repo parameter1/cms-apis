@@ -23,7 +23,7 @@ export default new Map([
 
         createdBy { node { _id name username email } }
         updatedBy { node { _id name username email } }
-        company { node { _id titles { default website short } status dates { published expired } } }
+        company { node { _id titles { default website short } status dates { published expired } inquiry { isEnabled } } }
         primaryImage { node { ...CommonImageAssetRelFragment } }
         images { node { ...CommonImageAssetRelFragment } }
         relatedTo { node { _id _type titles { default website short } status dates { published expired } } }
