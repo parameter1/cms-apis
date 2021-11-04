@@ -39,7 +39,7 @@
     "@cms-apis/object-path": "^0.0.0",
     "@cms-apis/utils": "^0.0.0",
     "@graphql-tools/schema": "^8.3.1",
-    "@graphql-tools/utils": "^8.5.1",
+    "@graphql-tools/utils": "^8.5.2",
     "graphql": "^15.7.2",
     "graphql-tag": "^2.12.5"
   }

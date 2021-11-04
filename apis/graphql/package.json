@@ -31,10 +31,10 @@
     "@cms-apis/mongodb": "^0.0.0",
     "@cms-apis/object-path": "^0.0.0",
     "@cms-apis/utils": "^0.0.0",
-    "apollo-server-core": "^3.4.0",
-    "apollo-server-fastify": "^3.4.0",
+    "apollo-server-core": "^3.4.1",
+    "apollo-server-fastify": "^3.4.1",
     "envalid": "^7.2.2",
-    "fastify": "^3.22.1",
+    "fastify": "^3.23.0",
     "graphql": "^15.7.2",
     "lodash.merge": "^4.6.2"
   },
