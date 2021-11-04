@@ -12,6 +12,12 @@ const getMutatedValue = ({ content, mutation, field }) => {
 
 const mediaTypes = new Set(['Document', 'Infographic', 'Podcast', 'PressRelease', 'Video', 'Webinar', 'Whitepaper']);
 
+const parentFieldMap = new Map([
+  ['Company', 'parentCompany'],
+  ['Supplier', 'parentSupplier'],
+  ['Venue', 'parentVenue'],
+]);
+
 const socialProviders = new Map([
   ['FACEBOOK', 'Facebook'],
   ['INSTAGRAM', 'Instagram'],
@@ -235,6 +241,15 @@ export default {
         ['embedCode', trim(content.embedCode)],
         ['credit', trim(content.credit)],
       ]);
+    },
+    async parent(content, _, { loaders }) {
+      const field = parentFieldMap.get(content.type);
+      if (!field) return null;
+      const parentId = LegacyDB.extractRefId(content[field]);
+      if (!parentId) return null;
+      const node = await loaders.get('platform.Content').load(parentId);
+      if (!node || node.type !== content.type) return null;
+      return { node };
     },
     async primaryImage(content, _, { loaders }) {
       const imageId = LegacyDB.extractRefId(content.primaryImage);

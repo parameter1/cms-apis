@@ -51,6 +51,9 @@ export default new Map([
             contactInfo { person { name firstName lastName title } }
           }
         }
+        parent {
+          node { _id _type status titles { default } dates { published expired } }
+        }
         sidebars {
           body
           name

@@ -98,6 +98,10 @@ type Content {
   # from Inquirable
   inquiry: ContentInquiry
 
+  # from ContentCompany.parentCompany, ContentSupplier.parentSupplier, ContentVenue.parentVenue
+  # must be of the same type as the root content model... might need to be restricted by type
+  parent: ContentParentEdge
+
   # from Media plus "media-like" content fields
   media: ContentMedia
 
@@ -218,6 +222,10 @@ type ContentMediaFile {
 type ContentMediaSoure {
   id: String
   key: String
+}
+
+type ContentParentEdge {
+  node: Content!
 }
 
 type ContentPrimaryImageEdge {
