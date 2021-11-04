@@ -45,10 +45,10 @@ export default {
    *
    */
   Content: {
-    _connections(content) {
+    _connection(content) {
       return content;
     },
-    _edges(content) {
+    _edge(content) {
       return content;
     },
     _sync() {
@@ -367,7 +367,7 @@ export default {
   /**
    *
    */
-  ContentConnections: {
+  Content_Connection: {
     async contacts(content, _, { loaders }) {
       const typeMap = new Map([
         ['authors', 'Author'],
@@ -426,7 +426,7 @@ export default {
   /**
    *
    */
-  ContentEdges: {
+  Content_Edge: {
     async company(content, _, { loaders }) {
       const companyId = LegacyDB.extractRefId(content.company);
       if (!companyId) return null;

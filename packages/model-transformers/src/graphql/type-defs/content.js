@@ -59,8 +59,8 @@ enum ContentLinkSocialProviderEnum {
 type Content {
   _id: Int!
   _type: ContentTypeEnum! @trim(field: "type")
-  _connections: ContentConnections!
-  _edges: ContentEdges!
+  _connection: Content_Connection!
+  _edge: Content_Edge!
   _sync: SyncInfo!
   alias: String
   bodies: ContentBodies
@@ -84,6 +84,25 @@ type Content {
   teasers: ContentTeasers
 }
 
+type Content_Connection {
+  # combines Authorable, OrganizationContactable, Media.contacts and ContentWhitepaper.editors
+  contacts: [ContentContactsEdge!]!
+  images: [ContentImagesEdge!]!
+  relatedTo: [ContentRelatedToEdge!]!
+  sponsors: [ContentSponsorsEdge!]!
+}
+
+type Content_Edge {
+  company: ContentCompanyEdge
+  createdBy: ContentCreatedByEdge
+  # from ContentCompany.parentCompany, ContentSupplier.parentSupplier, ContentVenue.parentVenue
+  # must be of the same type as the root content model... might need to be restricted by type
+  parent: ContentParentEdge
+  primaryImage: ContentPrimaryImageEdge
+  primaryWebsiteSection: ContentPrimaryWebsiteSectionEdge!
+  updatedBy: ContentUpdatedByEdge
+}
+
 type ContentBodies {
   default: String
   newsletter: String
@@ -94,14 +113,6 @@ type ContentBodies {
 
 type ContentCompanyEdge {
   node: Content!
-}
-
-type ContentConnections {
-  # combines Authorable, OrganizationContactable, Media.contacts and ContentWhitepaper.editors
-  contacts: [ContentContactsEdge!]!
-  images: [ContentImagesEdge!]!
-  relatedTo: [ContentRelatedToEdge!]!
-  sponsors: [ContentSponsorsEdge!]!
 }
 
 type ContentContact {
@@ -164,17 +175,6 @@ type ContentDates {
   touched: DateTime
   start: DateTime
   end: DateTime
-}
-
-type ContentEdges {
-  company: ContentCompanyEdge
-  createdBy: ContentCreatedByEdge
-  # from ContentCompany.parentCompany, ContentSupplier.parentSupplier, ContentVenue.parentVenue
-  # must be of the same type as the root content model... might need to be restricted by type
-  parent: ContentParentEdge
-  primaryImage: ContentPrimaryImageEdge
-  primaryWebsiteSection: ContentPrimaryWebsiteSectionEdge!
-  updatedBy: ContentUpdatedByEdge
 }
 
 type ContentImagesEdge {

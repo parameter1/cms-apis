@@ -8,7 +8,7 @@ export default new Map([
       fragment TransformContentFragment on Content {
         _id
         _type
-        _connections {
+        _connection {
           contacts {
             type
             node {
@@ -23,7 +23,7 @@ export default new Map([
           relatedTo { node { _id _type names { default website short } status dates { published expired } } }
           sponsors { node { _id _type names { default website short } status dates { published expired } } }
         }
-        _edges {
+        _edge {
           company { node { _id names { default website short } status dates { published expired } inquiry { isEnabled } } }
           parent { node { _id _type status names { default } dates { published expired } } }
           primaryImage { node { ...CommonImageAssetRelFragment } }
