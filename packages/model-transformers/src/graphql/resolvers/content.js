@@ -227,6 +227,10 @@ export default {
     async meta(content, _, { dbs }) {
       const statesServed = getAsArray(content.statesServed).map(trim).filter((v) => v);
       const company = content.type === 'Company' ? buildObjValues([
+        ['_connections', buildObjValues([
+          ['brandsCarried', LegacyDB.extractRefIds(content.brandsCarried)],
+          ['competitors', LegacyDB.extractRefIds(content.companyCompetitors)],
+        ])],
         ['type', trim(content.companyType)],
         ['statesServed', statesServed.length ? statesServed : null],
         ...[
@@ -455,6 +459,22 @@ export default {
       if (!userId) return null;
       const node = await loaders.get('platform.User').load(userId);
       return node ? { node } : null;
+    },
+  },
+
+  /**
+   *
+   */
+  ContentMetaCompanyConnections: {
+    async brandsCarried({ brandsCarried }, _, { loaders }) {
+      if (!brandsCarried.length) return [];
+      const nodes = await loaders.get('platform.Content').loadMany(brandsCarried);
+      return nodes.filter((c) => c && c.type === 'Company').map((node) => ({ node }));
+    },
+    async competitors({ competitors }, _, { loaders }) {
+      if (!competitors.length) return [];
+      const nodes = await loaders.get('platform.Content').loadMany(competitors);
+      return nodes.filter((c) => c && c.type === 'Company').map((node) => ({ node }));
     },
   },
 

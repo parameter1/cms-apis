@@ -237,6 +237,7 @@ type ContentMeta {
 }
 
 type ContentMetaCompany {
+  _connections: ContentMetaCompanyConnections!
   type: String
   statesServed: [String!]
   numberOfEmployees: String
@@ -248,6 +249,19 @@ type ContentMetaCompany {
   productSummary: String
   serviceInformation: String
   warrantyInformation: String
+}
+
+type ContentMetaCompanyConnections {
+  brandsCarried: [ContentMetaCompanyBrandsCarriedEdge!]!
+  competitors: [ContentMetaCompanyCompetitorsEdge!]!
+}
+
+type ContentMetaCompanyBrandsCarriedEdge {
+  node: Content!
+}
+
+type ContentMetaCompanyCompetitorsEdge {
+  node: Content!
 }
 
 type ContentMetaEvent {

@@ -30,7 +30,7 @@
 - [x] Blog
 - [ ] Company
   - [x] `companyType` field
-  - `brandsCarried` and `companyCompetitors`
+  - [x] `brandsCarried` and `companyCompetitors`
   - [x] custom "stats" fields, such as `numberOfEmployees`
   - [ ] `youtube` and `youtubeVideos`
   - [ ] `featuredCategories`

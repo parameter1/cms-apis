@@ -69,6 +69,10 @@ export default new Map([
         media { file { name path } source { id key } duration embedCode credit }
         meta {
           company {
+            _connections {
+              brandsCarried { node { _id _type names { default } status } }
+              competitors { node { _id _type names { default } status } }
+            }
             type
             statesServed
             numberOfEmployees
