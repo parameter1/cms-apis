@@ -30,14 +30,16 @@ export default new Map([
           primaryWebsiteSection {
             node {
               _id
-              name
+              _connection { ancestors { node { _id name { default } alias status } } }
+              _edge { website { node { _id name status } } }
+              name { default }
               alias
-              ancestors { node { _id name alias } }
             }
           }
           createdBy { node { _id name username email } }
           updatedBy { node { _id name username email } }
         }
+        _sync { date }
         alias
         bodies { default newsletter magazine website original }
         contact {
@@ -532,52 +534,33 @@ export default new Map([
     fragment: gql`
       fragment TransformWebsiteSectionFragment on WebsiteSection {
         _id
-        name
-        description
-        fullName
-        depth
-        labels
-        status
-        sequence
+        _connection {
+          ancestors {
+            node { _id name { default full } alias status }
+            depth
+          }
+          descendants {
+            node { _id name { default full } alias status }
+            depth
+          }
+        }
+        _edge {
+          coverImage { node { ...CommonImageAssetRelFragment } }
+          logo { node { ...CommonImageAssetRelFragment } }
+          parent { node { _id name { default full } alias status } }
+          website { node { _id name status } }
+        }
+        _sync { date }
         alias
+        depth
+        description
+        labels
+        metadata { title description }
+        name { default full }
         redirects
+        sequence
         slug
-        metadata {
-          title
-          description
-        }
-        ancestors {
-          node {
-            _id
-            name # commonly queried field
-            alias # commonly queried field
-            fullName
-            status #rel query input
-          }
-          depth
-        }
-        descendants {
-          node { _id name alias fullName status }
-          depth
-        }
-        parent {
-          node {
-            _id
-            name
-            alias
-            fullName
-            status # rel query input
-          }
-        }
-        website {
-          node {
-            _id
-            name # global website sort field
-            status # rel query input
-          }
-        }
-        logo { node { ...CommonImageAssetRelFragment } }
-        coverImage { node { ...CommonImageAssetRelFragment } }
+        status
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,

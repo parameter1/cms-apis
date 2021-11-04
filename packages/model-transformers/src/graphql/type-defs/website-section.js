@@ -19,40 +19,41 @@ type QueryWebsiteSectionsConnectionEdge {
 
 type WebsiteSection {
   _id: Int!
-  name: String! @trim
-  description: String @trim
-  fullName: String! @trim
-  labels: [String!]!
-
-  depth: Int!
-  status: Int! @formatStatus
-
-  sequence: Int!
-
+  _connection: WebsiteSection_Connection!
+  _edge: WebsiteSection_Edge!
+  _sync: SyncInfo!
   alias: String!
-  redirects: [String!]!
-  slug: String @trim
-
+  depth: Int!
+  description: String @trim
+  labels: [String!]!
   metadata: WebsiteSectionMetadata!
+  name: WebsiteSectionName!
+  redirects: [String!]!
+  sequence: Int!
+  slug: String @trim
+  status: Int! @formatStatus
+}
 
-  ancestors: [WebsiteSectionAncestorEdge!]!
-  descendants: [WebsiteSectionDescendantEdge!]!
+type WebsiteSection_Connection {
+  ancestors: [WebsiteSectionAncestorsEdge!]!
+  descendants: [WebsiteSectionDescendantsEdge!]!
+}
 
+type WebsiteSectionAncestorsEdge {
+  node: WebsiteSection!
+  depth: Int!
+}
+
+type WebsiteSectionDescendantsEdge {
+  node: WebsiteSection!
+  depth: Int!
+}
+
+type WebsiteSection_Edge {
+  coverImage: WebsiteSectionCoverImageEdge
+  logo: WebsiteSectionLogoEdge
   parent: WebsiteSectionParentEdge
   website: WebsiteSectionWebsiteEdge!
-
-  logo: WebsiteSectionLogoEdge
-  coverImage: WebsiteSectionCoverImageEdge
-}
-
-type WebsiteSectionAncestorEdge {
-  node: WebsiteSection!
-  depth: Int!
-}
-
-type WebsiteSectionDescendantEdge {
-  node: WebsiteSection!
-  depth: Int!
 }
 
 type WebsiteSectionLogoEdge {
@@ -66,6 +67,11 @@ type WebsiteSectionCoverImageEdge {
 type WebsiteSectionMetadata {
   title: String!
   description: String
+}
+
+type WebsiteSectionName {
+  default: String!
+  full: String!
 }
 
 type WebsiteSectionParentEdge {

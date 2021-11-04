@@ -1,7 +1,7 @@
 import { asArray, cleanPath, trim } from '@cms-apis/utils';
 import { LegacyDB } from '@cms-apis/db';
 import cleanString from '@cms-apis/clean-string';
-import findMany from './utils/find-many.js';
+import { buildObjValues, findMany } from './utils/index.js';
 import { sortBy } from '../utils/index.js';
 
 const loadAncestors = async (section, loaders, sections = []) => {
@@ -32,25 +32,51 @@ export default {
    *
    */
   WebsiteSection: {
+    _connection(section) {
+      return section;
+    },
+    _edge(section) {
+      return section;
+    },
+    _sync() {
+      return {};
+    },
     alias({ alias }) {
       return cleanPath(alias) || null;
     },
+    depth(section) {
+      return getDepthFor(section);
+    },
+    labels({ labels }) {
+      return asArray(labels).map(trim).filter((v) => v);
+    },
+    metadata(section) {
+      return section;
+    },
+    name(section) {
+      return buildObjValues([
+        ['default', trim(section.name)],
+        ['full', trim(section.fullName)],
+      ]);
+    },
+    redirects({ redirects }) {
+      return asArray(redirects).map(cleanPath).filter((v) => v);
+    },
+    sequence({ sequence }) {
+      return parseInt(sequence, 10) || 0;
+    },
+  },
+
+  /**
+   *
+   */
+  WebsiteSection_Connection: {
     async ancestors(section, _, { loaders }) {
       const sections = await loadAncestors(section, loaders, []);
       return sections.reverse().map((node) => ({
         depth: getDepthFor(node),
         node,
       }));
-    },
-    async coverImage(section, _, { loaders }) {
-      const imageId = LegacyDB.extractRefId(section.coverImage);
-      if (!imageId) return null;
-      const node = await loaders.get('platform.Image').load(imageId);
-      if (!node) return null;
-      return { node };
-    },
-    depth(section) {
-      return getDepthFor(section);
     },
     async descendants(section, _, { dbs }) {
       const currentDepth = getDepthFor(section);
@@ -60,8 +86,18 @@ export default {
         node,
       }));
     },
-    labels({ labels }) {
-      return asArray(labels).map(trim).filter((v) => v);
+  },
+
+  /**
+   *
+   */
+  WebsiteSection_Edge: {
+    async coverImage(section, _, { loaders }) {
+      const imageId = LegacyDB.extractRefId(section.coverImage);
+      if (!imageId) return null;
+      const node = await loaders.get('platform.Image').load(imageId);
+      if (!node) return null;
+      return { node };
     },
     async logo(section, _, { loaders }) {
       const imageId = LegacyDB.extractRefId(section.logo);
@@ -70,21 +106,12 @@ export default {
       if (!node) return null;
       return { node };
     },
-    metadata(section) {
-      return section;
-    },
     async parent(section, _, { loaders }) {
       const parentId = LegacyDB.extractRefId(section.parent);
       if (!parentId) return null;
       const node = await loaders.get('website.Section').load(parentId);
       if (!node) return null;
       return { node };
-    },
-    redirects({ redirects }) {
-      return asArray(redirects).map(cleanPath).filter((v) => v);
-    },
-    sequence({ sequence }) {
-      return parseInt(sequence, 10) || 0;
     },
     async website(section, _, { loaders }) {
       const siteId = LegacyDB.extractRefId(section.site);
