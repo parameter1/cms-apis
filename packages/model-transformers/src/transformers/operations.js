@@ -21,39 +21,37 @@ export default new Map([
         redirects
         labels
 
-        createdBy { node { _id name username email } }
-        updatedBy { node { _id name username email } }
-        company { node { _id titles { default website short } status dates { published expired } inquiry { isEnabled } } }
-        primaryImage { node { ...CommonImageAssetRelFragment } }
-        images { node { ...CommonImageAssetRelFragment } }
-        relatedTo { node { _id _type titles { default website short } status dates { published expired } } }
-        primaryWebsiteSection {
-          node {
-            _id
-            name
-            alias
-            ancestors {
-              node {
-                _id
-                name
-                alias
-              }
+        connections {
+          contacts {
+            type
+            node {
+              _id
+              titles { default website short }
+              status
+              dates { published expired }
+              contactInfo { person { name firstName lastName title } }
             }
           }
+          images { node { ...CommonImageAssetRelFragment } }
+          relatedTo { node { _id _type titles { default website short } status dates { published expired } } }
         }
-        contacts {
-          type
-          node {
-            _id
-            titles { default website short }
-            status
-            dates { published expired }
-            contactInfo { person { name firstName lastName title } }
+
+        edges {
+          company { node { _id titles { default website short } status dates { published expired } inquiry { isEnabled } } }
+          parent { node { _id _type status titles { default } dates { published expired } } }
+          primaryImage { node { ...CommonImageAssetRelFragment } }
+          primaryWebsiteSection {
+            node {
+              _id
+              name
+              alias
+              ancestors { node { _id name alias } }
+            }
           }
+          createdBy { node { _id name username email } }
+          updatedBy { node { _id name username email } }
         }
-        parent {
-          node { _id _type status titles { default } dates { published expired } }
-        }
+
         sidebars {
           body
           name
