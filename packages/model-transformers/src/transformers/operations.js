@@ -13,19 +13,19 @@ export default new Map([
             type
             node {
               _id
-              names { default website short }
+              name { default website short }
               status
-              dates { published expired }
+              date { published expired }
               contact { person { name firstName lastName title } }
             }
           }
           images { node { ...CommonImageAssetRelFragment } }
-          relatedTo { node { _id _type names { default website short } status dates { published expired } } }
-          sponsors { node { _id _type names { default website short } status dates { published expired } } }
+          relatedTo { node { _id _type name { default website short } status date { published expired } } }
+          sponsors { node { _id _type name { default website short } status date { published expired } } }
         }
         _edge {
-          company { node { _id names { default website short } status dates { published expired } inquiry { isEnabled } } }
-          parent { node { _id _type status names { default } dates { published expired } } }
+          company { node { _id name { default website short } status date { published expired } inquiry { isEnabled } } }
+          parent { node { _id _type status name { default } date { published expired } } }
           primaryImage { node { ...CommonImageAssetRelFragment } }
           primaryWebsiteSection {
             node {
@@ -41,7 +41,7 @@ export default new Map([
         }
         _sync { date }
         alias
-        bodies { default newsletter magazine website original }
+        body { default newsletter magazine website original }
         contact {
           address {
             street
@@ -53,12 +53,12 @@ export default new Map([
             location { type coordinates }
             cityRegionPostalCode
           }
-          phones { default tollfree fax mobile }
-          emails { default public }
+          phone { default tollfree fax mobile }
+          email { default public }
           person { name firstName lastName title }
         }
         custom
-        dates { expired published created updated touched start end }
+        date { expired published created updated touched started ended }
         hash
         inquiry { isEnabled }
         labels
@@ -71,9 +71,9 @@ export default new Map([
         media { file { name path } source { id key } duration embedCode credit }
         meta {
           company {
-            _connections {
-              brandsCarried { node { _id _type names { default } status } }
-              competitors { node { _id _type names { default } status } }
+            _connection {
+              brandsCarried { node { _id _type name { default } status } }
+              competitors { node { _id _type name { default } status } }
             }
             type
             statesServed
@@ -105,7 +105,7 @@ export default new Map([
             totalCapacity
             spaces {
               _id
-              _edges {
+              _edge {
                 floorPlan { node { ...CommonImageAssetRelFragment } }
               }
               name
@@ -114,8 +114,8 @@ export default new Map([
             }
           }
         }
-        names { default newsletter magazine website short full headline }
-        notes
+        name { default newsletter magazine website short full headline }
+        note
         redirects
         seo { title description }
         sidebars {
@@ -127,7 +127,7 @@ export default new Map([
         slug
         status
         syndication { source byline }
-        teasers { default newsletter magazine website deck }
+        teaser { default newsletter magazine website deck }
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,

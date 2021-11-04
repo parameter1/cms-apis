@@ -63,25 +63,25 @@ type Content {
   _edge: Content_Edge!
   _sync: SyncInfo!
   alias: String
-  bodies: ContentBodies
+  body: ContentBody
   contact: ContentContact # was the Contactable interface: applied to company, contact, event, supplier, venue
   custom: JSONObject
-  dates: ContentDates
+  date: ContentDate
   hash: String @trim
   inquiry: ContentInquiry # from Inquirable
   labels: [String!]!
   links: ContentLinks! # combines SocialLinkable, Contactable.website, Content.externalLinks, Company.[xxx]Url fields
   media: ContentMedia # from Media plus "media-like" content fields
   meta: ContentMeta
-  names: ContentNames
-  notes: String @trim
+  name: ContentName
+  note: String @trim(field: "notes")
   redirects: [String!]!
   seo: ContentSEO
   sidebars: [ContentSidebar!]!
   slug: String @trim(field: "mutations.Website.slug")
   status: Int! @formatStatus
   syndication: ContentSyndication # from ContentNews.source ContentNews.byline Contents.importSource
-  teasers: ContentTeasers
+  teaser: ContentTeaser
 }
 
 type Content_Connection {
@@ -103,7 +103,7 @@ type Content_Edge {
   updatedBy: ContentUpdatedByEdge
 }
 
-type ContentBodies {
+type ContentBody {
   default: String
   newsletter: String
   magazine: String
@@ -118,8 +118,8 @@ type ContentCompanyEdge {
 type ContentContact {
   # was the Addressable interface: applied to company, contact, event, supplier, top-100, venue
   address: ContentContactAddress
-  phones: ContentContactPhones
-  emails: ContentContactEmails
+  phone: ContentContactPhone
+  email: ContentContactEmail
   person: ContentContactPerson
 }
 
@@ -139,7 +139,7 @@ type ContentContactAddressLocation {
   coordinates: [Float!]!
 }
 
-type ContentContactEmails {
+type ContentContactEmail {
   default: String
   public: String
 }
@@ -151,7 +151,7 @@ type ContentContactPerson {
   title: String
 }
 
-type ContentContactPhones {
+type ContentContactPhone {
   default: String
   tollfree: String
   fax: String
@@ -167,14 +167,14 @@ type ContentCreatedByEdge {
   node: User!
 }
 
-type ContentDates {
+type ContentDate {
   expired: DateTime
   published: DateTime
   created: DateTime
   updated: DateTime
   touched: DateTime
-  start: DateTime
-  end: DateTime
+  started: DateTime
+  ended: DateTime
 }
 
 type ContentImagesEdge {
@@ -238,7 +238,7 @@ type ContentMeta {
 }
 
 type ContentMetaCompany {
-  _connections: ContentMetaCompanyConnections!
+  _connection: ContentMetaCompany_Connection!
   type: String
   statesServed: [String!]
   numberOfEmployees: String
@@ -253,7 +253,7 @@ type ContentMetaCompany {
   youtube: ContentMetaCompanyYoutube
 }
 
-type ContentMetaCompanyConnections {
+type ContentMetaCompany_Connection {
   brandsCarried: [ContentMetaCompanyBrandsCarriedEdge!]!
   competitors: [ContentMetaCompanyCompetitorsEdge!]!
 }
@@ -304,7 +304,7 @@ type ContentMetaVenue {
 
 type ContentMetaVenueSpace {
   _id: Int!
-  _edges: ContentMetaVenueSpaceEdges
+  _edge: ContentMetaVenueSpace_Edge
   name: String
   area: String
   capacity: ContentMetaVenueSpaceCapacity
@@ -316,7 +316,7 @@ type ContentMetaVenueSpaceCapacity {
   maxStanding: String
 }
 
-type ContentMetaVenueSpaceEdges {
+type ContentMetaVenueSpace_Edge {
   floorPlan: ContentMetaVenueSpaceFloorPlanEdge
 }
 
@@ -324,7 +324,7 @@ type ContentMetaVenueSpaceFloorPlanEdge {
   node: ImageAsset!
 }
 
-type ContentNames {
+type ContentName {
   default: String
   newsletter: String
   magazine: String
@@ -373,7 +373,7 @@ type ContentSyndication {
   byline: String
 }
 
-type ContentTeasers {
+type ContentTeaser {
   default: String
   newsletter: String
   magazine: String

@@ -59,7 +59,7 @@ export default {
       if (!alias || /^http[s]?:/i.test(alias) || /^www\./i.test(alias)) return null;
       return cleanPath(alias);
     },
-    bodies(content) {
+    body(content) {
       return buildObjValues([
         ['default', trim(content.body)],
         ['newsletter', getMutatedValue({ content, mutation: 'Email', field: 'body' })],
@@ -135,15 +135,15 @@ export default {
       if (!Object.keys(customAttributes).length) return null;
       return customAttributes;
     },
-    dates(content) {
+    date(content) {
       return buildObjValues([
         ['expired', content.unpublished],
         ['published', content.published],
         ['created', content.created],
         ['updated', content.updated],
         ['touched', content.touched],
-        ['start', content.startDate],
-        ['end', content.endDate],
+        ['started', content.startDate],
+        ['ended', content.endDate],
       ]);
     },
     inquiry(content) {
@@ -230,7 +230,7 @@ export default {
     async meta(content, _, { dbs }) {
       const statesServed = getAsArray(content.statesServed).map(trim).filter((v) => v);
       const company = content.type === 'Company' ? buildObjValues([
-        ['_connections', buildObjValues([
+        ['_connection', buildObjValues([
           ['brandsCarried', LegacyDB.extractRefIds(content.brandsCarried)],
           ['competitors', LegacyDB.extractRefIds(content.companyCompetitors)],
         ])],
@@ -295,7 +295,7 @@ export default {
           ['totalCapacity', trim(content.totalCapacity)],
           ['spaces', sortBy(spaces.map((space) => buildObjValues([
             ['_id', space._id],
-            ['_edges', buildObjValues([
+            ['_edge', buildObjValues([
               ['floorPlan', LegacyDB.extractRefId(space.floorPlanImage)],
             ])],
             ['name', trim(space.name)],
@@ -317,7 +317,7 @@ export default {
         ['venue', venue],
       ]);
     },
-    names(content) {
+    name(content) {
       return buildObjValues([
         ['default', trim(content.name)],
         ['short', trim(content.shortName)],
@@ -341,6 +341,8 @@ export default {
       return buildObjValues([
         ['title', title],
         ['description', description],
+        ['canonicalUrl', cleanWebsite(get(content, 'mutations.Website.canonicalUrl'), { nullOnMissingProto: true })],
+        ['noIndex', Boolean(get(content, 'mutations.Website.noIndex'))],
       ]);
     },
     sidebars(content) {
@@ -353,7 +355,7 @@ export default {
         ['byline', trim(content.byline)],
       ]);
     },
-    teasers(content) {
+    teaser(content) {
       return buildObjValues([
         ['default', trim(content.teaser)],
         ['deck', getMutatedValue({ content, mutation: 'Magazine', field: 'deck' })],
@@ -473,7 +475,7 @@ export default {
   /**
    *
    */
-  ContentMetaCompanyConnections: {
+  ContentMetaCompany_Connection: {
     async brandsCarried({ brandsCarried }, _, { loaders }) {
       if (!brandsCarried.length) return [];
       const nodes = await loaders.get('platform.Content').loadMany(brandsCarried);
