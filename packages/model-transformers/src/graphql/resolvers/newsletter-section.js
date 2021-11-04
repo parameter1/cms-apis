@@ -1,4 +1,4 @@
-import { asArray, cleanPath } from '@cms-apis/utils';
+import { trim } from '@cms-apis/utils';
 import { LegacyDB } from '@cms-apis/db';
 import findMany from './utils/find-many.js';
 
@@ -7,14 +7,21 @@ export default {
    *
    */
   NewsletterSection: {
-    async newsletter(section, _, { loaders }) {
-      const newsletterId = LegacyDB.extractRefId(section.deployment);
-      if (!newsletterId) throw new Error(`Unable to load a newsletter ID for section ID ${section._id}`);
-      const node = await loaders.get('email.Newsletter').load(newsletterId);
-      return { node };
+    _edge(section, _, { loaders }) {
+      return {
+        async newsletter() {
+          const newsletterId = LegacyDB.extractRefId(section.deployment);
+          if (!newsletterId) throw new Error(`Unable to load a newsletter ID for section ID ${section._id}`);
+          const node = await loaders.get('email.Newsletter').load(newsletterId);
+          return { node };
+        },
+      };
     },
-    redirects({ redirects }) {
-      return asArray(redirects).map(cleanPath).filter((v) => v);
+    _sync() {
+      return {};
+    },
+    name({ name, fullName }) {
+      return { default: trim(name), full: trim(fullName) };
     },
     sequence({ sequence }) {
       return parseInt(sequence, 10) || 0;

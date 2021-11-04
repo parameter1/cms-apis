@@ -268,47 +268,24 @@ export default new Map([
     fragment: gql`
       fragment TransformNewsletterFragment on Newsletter {
         _id
-        name
+        _connection {
+          sections { node { _id name { default } status } }
+        }
+        _edge {
+          website { node { _id name status } }
+        }
+        _sync { date }
         alias
-        teaser
-        tagLine
+        defaults { fromName subjectLine testers { firstName lastName email } }
         description
         logo
+        name
+        provider { type providerId attributes }
+        sourceProvider { handlerKey host path }
         status
+        tagLine
+        teaser
         usesDeploymentDates
-        defaults {
-          fromName
-          subjectLine
-          testers {
-            firstName
-            lastName
-            email
-          }
-        }
-        provider {
-          type
-          providerId
-          attributes
-        }
-        sourceProvider {
-          handlerKey
-          host
-          path
-        }
-        sections {
-          node {
-            _id
-            name
-            status
-          }
-        }
-        website {
-          node {
-            _id
-            name # global website sort field
-            status # rel query input
-          }
-        }
       }
     `,
   }],
@@ -377,22 +354,15 @@ export default new Map([
     fragment: gql`
       fragment TransformNewsletterSectionFragment on NewsletterSection {
         _id
-        name
-        description
-        fullName
-        status
-        sequence
-        seoTitle
-        alias
-        redirects
-        slug
-        newsletter {
-          node {
-            _id
-            name # global newsletter sort field
-            status # rel query input
-          }
+        _edge {
+          newsletter { node { _id name status } }
         }
+        _sync { date }
+        alias
+        description
+        name { default full }
+        sequence
+        status
       }
     `,
   }],

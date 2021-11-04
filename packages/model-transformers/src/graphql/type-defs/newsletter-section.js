@@ -9,20 +9,22 @@ extend type Query {
 
 type NewsletterSection {
   _id: Int!
-  name: String! @trim
-  description: String @trim
-  fullName: String @trim
-
-  status: Int! @formatStatus
-
-  sequence: Int!
-
-  newsletter: NewsletterSectionNewsletterEdge!
-
-  seoTitle: String @trim
+  _edge: NewsletterSection_Edge!
+  _sync: SyncInfo!
   alias: String @trim
-  redirects: [String!]!
-  slug: String @trim
+  description: String @trim
+  name: NewsletterSectionName!
+  sequence: Int!
+  status: Int! @formatStatus
+}
+
+type NewsletterSection_Edge {
+  newsletter: NewsletterSectionNewsletterEdge!
+}
+
+type NewsletterSectionName {
+  default: String!
+  full: String
 }
 
 type NewsletterSectionNewsletterEdge {

@@ -9,24 +9,28 @@ extend type Query {
 
 type Newsletter {
   _id: ObjectID!
-  name: String! @trim
-  teaser: String @trim
+  _connection: Newsletter_Connection!
+  _edge: Newsletter_Edge!
+  _sync: SyncInfo!
   alias: String! @trim
-  tagLine: String @trim
+  defaults: NewsletterDefaults!
   description: String @trim
   logo: String @trim
-
-  status: Int! @formatStatus
-
-  website: NewsletterWebsiteEdge!
-
-  sections: [NewsletterSectionEdge!]!
-
-  defaults: NewsletterDefaults!
-  usesDeploymentDates: Boolean
-
+  name: String! @trim
   provider: NewsletterProvider
   sourceProvider: NewsletterSourceProvider
+  status: Int! @formatStatus
+  tagLine: String @trim
+  teaser: String @trim
+  usesDeploymentDates: Boolean
+}
+
+type Newsletter_Connection {
+  sections: [NewsletterSectionEdge!]!
+}
+
+type Newsletter_Edge {
+  website: NewsletterWebsiteEdge!
 }
 
 type NewsletterDefaults {
@@ -42,8 +46,8 @@ type NewsletterDefaultTester {
 }
 
 type NewsletterProvider {
-  type: String @trim
-  providerId: String @trim
+  type: String
+  providerId: String
   attributes: JSONObject
 }
 
@@ -52,9 +56,9 @@ type NewsletterSectionEdge {
 }
 
 type NewsletterSourceProvider {
-  handlerKey: String @trim
-  host: String @trim
-  path: String @trim
+  handlerKey: String
+  host: String
+  path: String
 }
 
 type NewsletterWebsiteEdge {
