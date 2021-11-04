@@ -29,7 +29,7 @@ export default function clean(value, {
   return decoded;
 }
 
-export const cleanWebsite = (value, { forceSSL = false } = {}) => {
+export const cleanWebsite = (value, { forceSSL = false, nullOnMissingProto = false } = {}) => {
   const cleaned = clean(value);
   if (!cleaned) return null;
   const lowered = cleaned.toLowerCase();
@@ -39,5 +39,7 @@ export const cleanWebsite = (value, { forceSSL = false } = {}) => {
       ? lowered.replace(/^http:\/\//, 'https://')
       : lowered;
   }
+  if (/^www\./.test(lowered)) return `https://${lowered}`;
+  if (nullOnMissingProto) return null;
   return `https://${lowered}`;
 };
