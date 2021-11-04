@@ -350,7 +350,7 @@ type ContentRelatedToEdge {
 }
 
 type ContentSEO {
-  title: String!
+  title: String
   description: String
 }
 
