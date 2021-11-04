@@ -371,7 +371,13 @@ export default {
       const relatedToIds = LegacyDB.extractRefIds(content.relatedTo);
       if (!relatedToIds.length) return [];
       const docs = await loaders.get('platform.Content').loadMany(relatedToIds);
-      return sortBy(docs, '_id').map((node) => ({ node }));
+      return sortBy(docs, '_id').filter((c) => c).map((node) => ({ node }));
+    },
+    async sponsors(content, _, { loaders }) {
+      const companyIds = LegacyDB.extractRefIds(content.sponsors);
+      if (!companyIds.length) return [];
+      const docs = await loaders.get('platform.Content').loadMany(companyIds);
+      return sortBy(docs, '_id').filter((c) => c && c.type === 'Company').map((node) => ({ node }));
     },
   },
 

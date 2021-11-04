@@ -99,6 +99,7 @@ type ContentConnections {
   contacts: [ContentContactsEdge!]!
   images: [ContentImagesEdge!]!
   relatedTo: [ContentRelatedToEdge!]!
+  sponsors: [ContentSponsorsEdge!]!
 }
 
 type ContentContact {
@@ -325,6 +326,10 @@ type ContentSidebar {
   name: String @trim
   label: String @trim
   sequence: Int!
+}
+
+type ContentSponsorsEdge {
+  node: Content!
 }
 
 type ContentSyndication {

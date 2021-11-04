@@ -34,6 +34,7 @@ export default new Map([
           }
           images { node { ...CommonImageAssetRelFragment } }
           relatedTo { node { _id _type names { default website short } status dates { published expired } } }
+          sponsors { node { _id _type names { default website short } status dates { published expired } } }
         }
 
         edges {
