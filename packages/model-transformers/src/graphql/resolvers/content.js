@@ -202,7 +202,7 @@ export default {
           const label = trim(content.linkText);
           const redirectTo = cleanUrlOrPath(get(content, 'mutations.Website.redirectTo'));
           if (redirectTo) return { url: redirectTo, label };
-          return ['Promotion', 'TextAd'].includes(content.type) ? { url: linkUrl, label } : null;
+          return linkUrl && ['Promotion', 'TextAd'].includes(content.type) ? { url: linkUrl, label } : null;
         })(),
       };
     },
