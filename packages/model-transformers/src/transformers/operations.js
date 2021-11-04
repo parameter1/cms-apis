@@ -8,25 +8,8 @@ export default new Map([
       fragment TransformContentFragment on Content {
         _id
         _type
-        names { default newsletter magazine website short full headline }
-        teasers { default newsletter magazine website deck }
-        bodies { default newsletter magazine website original }
-        hash
-        notes
-        status
-        dates { expired published created updated touched start end }
-        seo { title description }
         alias
-        slug
-        redirects
-        labels
-        links {
-          redirect { url label }
-          external { key url label }
-          website
-          social { provider url label }
-        }
-
+        bodies { default newsletter magazine website original }
         connections {
           contacts {
             type
@@ -41,29 +24,6 @@ export default new Map([
           images { node { ...CommonImageAssetRelFragment } }
           relatedTo { node { _id _type names { default website short } status dates { published expired } } }
           sponsors { node { _id _type names { default website short } status dates { published expired } } }
-        }
-
-        edges {
-          company { node { _id names { default website short } status dates { published expired } inquiry { isEnabled } } }
-          parent { node { _id _type status names { default } dates { published expired } } }
-          primaryImage { node { ...CommonImageAssetRelFragment } }
-          primaryWebsiteSection {
-            node {
-              _id
-              name
-              alias
-              ancestors { node { _id name alias } }
-            }
-          }
-          createdBy { node { _id name username email } }
-          updatedBy { node { _id name username email } }
-        }
-
-        sidebars {
-          body
-          name
-          label
-          sequence
         }
         contact {
           address {
@@ -80,8 +40,31 @@ export default new Map([
           emails { default public }
           person { name firstName lastName title }
         }
-        syndication { source byline }
+        dates { expired published created updated touched start end }
+        edges {
+          company { node { _id names { default website short } status dates { published expired } inquiry { isEnabled } } }
+          parent { node { _id _type status names { default } dates { published expired } } }
+          primaryImage { node { ...CommonImageAssetRelFragment } }
+          primaryWebsiteSection {
+            node {
+              _id
+              name
+              alias
+              ancestors { node { _id name alias } }
+            }
+          }
+          createdBy { node { _id name username email } }
+          updatedBy { node { _id name username email } }
+        }
+        hash
         inquiry { isEnabled }
+        labels
+        links {
+          redirect { url label }
+          external { key url label }
+          website
+          social { provider url label }
+        }
         media { file { name path } source { id key } duration embedCode credit }
         meta {
           company {
@@ -121,6 +104,20 @@ export default new Map([
             }
           }
         }
+        names { default newsletter magazine website short full headline }
+        notes
+        redirects
+        seo { title description }
+        sidebars {
+          body
+          name
+          label
+          sequence
+        }
+        slug
+        status
+        syndication { source byline }
+        teasers { default newsletter magazine website deck }
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,
