@@ -9,18 +9,24 @@ extend type Query {
 
 type Magazine {
   _id: ObjectID!
-  name: String! @trim
-  tagLine: String @trim
+  _connection: Magazine_Connection!
+  _edge: Magazine_Edge!
+  _sync: SyncInfo!
   description: String @trim
   logo: String @trim
-
+  name: String! @trim
   status: Int! @formatStatus
+  tagLine: String @trim
+  url: MagazineUrl!
+}
 
-  urls: MagazineUrls!
-  coverImage: MagazineCoverImageEdge
-
+type Magazine_Connection {
   issues: [MagazineIssuesEdge!]!
   sections: [MagazineSectionsEdge!]!
+}
+
+type Magazine_Edge {
+  coverImage: MagazineCoverImageEdge
 }
 
 type MagazineCoverImageEdge {
@@ -35,11 +41,11 @@ type MagazineSectionsEdge {
   node: MagazineSection!
 }
 
-type MagazineUrls {
-  subscribe: String @trim
-  renewal: String @trim
-  reprints: String @trim
-  einquiry: String @trim
+type MagazineUrl {
+  subscribe: String
+  renewal: String
+  reprint: String
+  einquiry: String
 }
 
 type QueryMagazinesConnection {

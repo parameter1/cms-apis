@@ -33,6 +33,9 @@ process.on('unhandledRejection', immediatelyThrow);
 
   const transformers = new Transformers({ dbs, graphql });
   await transformers.replace({ operation: 'allContent' });
+  await transformers.replace({ operation: 'magazines' });
+  await transformers.replace({ operation: 'magazineIssues' });
+  await transformers.replace({ operation: 'magazineSections' });
   await transformers.replace({ operation: 'newsletters' });
   await transformers.replace({ operation: 'newsletterCampaigns' });
   await transformers.replace({ operation: 'newsletterSchedules' });

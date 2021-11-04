@@ -162,22 +162,20 @@ export default new Map([
     fragment: gql`
       fragment TransformMagazineFragment on Magazine {
         _id
-        name
-        tagLine
+        _connection {
+          issues { node { _id name { default } status date { mailed } _edge { coverImage { node { _id } } } } }
+          sections { node { _id name { default } status } }
+        }
+        _edge {
+          coverImage { node { ...CommonImageAssetRelFragment } }
+        }
+        _sync { date }
         description
         logo
+        name
         status
-        urls { subscribe renewal reprints einquiry }
-        coverImage { node { ...CommonImageAssetRelFragment } }
-        issues {
-          node {
-            _id
-            name
-            dates { mailed }
-            coverImage { node { _id } }
-          }
-        }
-        sections { node { _id name } }
+        tagLine
+        url { subscribe renewal reprint einquiry }
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,
@@ -187,24 +185,19 @@ export default new Map([
     fragment: gql`
       fragment TransformMagazineIssueFragment on MagazineIssue {
         _id
-        name
-        fullName
-        description
-        dedication
+        _edge {
+          coverImage { node { ...CommonImageAssetRelFragment } }
+          magazine { node { _id name status } }
+        }
+        _sync { date }
         coverDescription
         credit
-        redirects
+        date { mailed }
+        dedication
+        description
+        name { default full }
         status
-        dates { mailed }
-        urls { digitalEdition }
-        coverImage { node { ...CommonImageAssetRelFragment } }
-        magazine {
-          node {
-            _id
-            name
-            status
-          }
-        }
+        url { digitalEdition }
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,
@@ -241,25 +234,16 @@ export default new Map([
     fragment: gql`
       fragment TransformMagazineSectionFragment on MagazineSection {
         _id
-        name
-        fullName
+        _edge {
+          magazine { node { _id name status } }
+          issue { node { _id name { default } status date { mailed } } }
+        }
+        _sync { date }
         description
+        name { default full }
         isGlobal
-        status
         sequence
-        magazine {
-          node {
-            _id
-            name
-          }
-        }
-        issue {
-          node {
-            _id
-            name
-            dates { mailed }
-          }
-        }
+        status
       }
     `,
   }],

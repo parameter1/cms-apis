@@ -9,19 +9,19 @@ extend type Query {
 
 type MagazineIssue {
   _id: Int!
-  name: String! @trim
-  fullName: String!
-  description: String @trim
-  dedication: String @trim
+  _edge: MagazineIssue_Edge!
+  _sync: SyncInfo!
   coverDescription: String @trim
   credit: String @trim
-
-  redirects: [String!]!
-
+  date: MagazineIssueDate!
+  dedication: String @trim
+  description: String @trim
+  name: MagazineIssueName!
   status: Int! @formatStatus
+  url: MagazineIssueUrl
+}
 
-  dates: MagazineIssueDates!
-  urls: MagazineIssueUrls!
+type MagazineIssue_Edge {
   coverImage: MagazineIssueCoverImageEdge
   magazine: MagazineIssueMagazineEdge!
 }
@@ -30,7 +30,7 @@ type MagazineIssueCoverImageEdge {
   node: ImageAsset!
 }
 
-type MagazineIssueDates {
+type MagazineIssueDate {
   mailed: DateTime
 }
 
@@ -38,7 +38,12 @@ type MagazineIssueMagazineEdge {
   node: Magazine!
 }
 
-type MagazineIssueUrls {
+type MagazineIssueName {
+  default: String!
+  full: String!
+}
+
+type MagazineIssueUrl {
   digitalEdition: String @trim
 }
 

@@ -26,34 +26,41 @@ export default {
    *
    */
   MagazineSection: {
-    async fullName(section, _, { loaders }) {
-      const [issue, pub] = await Promise.all([
-        loadIssueFor(section, { loaders }),
-        loadPubFor(section, { loaders }),
-      ]);
-      const hasIssue = Boolean(issue);
-      const isGlobal = !hasIssue;
-      const name = `${trim(section.name) || 'Default'}${isGlobal ? '  (Global)' : ''}`;
-      const parts = [pub.name];
-      if (hasIssue) parts.push(issue.name);
-      parts.push(name);
-      return parts.map(trim).filter((v) => v).join(' > ');
+    _edge(section, _, { loaders }) {
+      return {
+        async issue() {
+          const node = await loadIssueFor(section, { loaders });
+          return node ? { node } : null;
+        },
+        async magazine() {
+          const node = await loadPubFor(section, { loaders });
+          return { node };
+        },
+      };
     },
-    async issue(section, _, { loaders }) {
-      const node = await loadIssueFor(section, { loaders });
-      return node ? { node } : null;
+    _sync() {
+      return {};
     },
     async isGlobal(section, _, { loaders }) {
       const issue = await loadIssueFor(section, { loaders });
       const hasIssue = Boolean(issue);
       return !hasIssue;
     },
-    async magazine(section, _, { loaders }) {
-      const node = await loadPubFor(section, { loaders });
-      return { node };
-    },
-    name({ name }) {
-      return trim(name) || 'Default';
+    async name(section, _, { loaders }) {
+      const name = trim(section.name) || 'Default';
+
+      const [issue, pub] = await Promise.all([
+        loadIssueFor(section, { loaders }),
+        loadPubFor(section, { loaders }),
+      ]);
+      const hasIssue = Boolean(issue);
+      const isGlobal = !hasIssue;
+
+      const parts = [trim(pub.name)];
+      if (hasIssue) parts.push(issue.name);
+      parts.push(`${name}${isGlobal ? ' (Global)' : ''}`);
+
+      return { default: name, full: parts.map(trim).filter((v) => v).join(' > ') || null };
     },
     sequence({ sequence }) {
       return parseInt(sequence, 10) || 0;

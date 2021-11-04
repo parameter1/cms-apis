@@ -9,15 +9,16 @@ extend type Query {
 
 type MagazineSection {
   _id: Int!
-  name: String!
-  fullName: String!
+  _edge: MagazineSection_Edge!
+  _sync: SyncInfo!
   description: String @trim
-  status: Int! @formatStatus
-
-  sequence: Int!
-
+  name: MagazineSectionName!
   isGlobal: Boolean!
+  sequence: Int!
+  status: Int! @formatStatus
+}
 
+type MagazineSection_Edge {
   issue: MagazineSectionIssueEdge
   magazine: MagazineSectionMagazineEdge!
 }
@@ -28,6 +29,11 @@ type MagazineSectionIssueEdge {
 
 type MagazineSectionMagazineEdge {
   node: Magazine!
+}
+
+type MagazineSectionName {
+  default: String!
+  full: String!
 }
 
 type QueryMagazineSectionsConnection {
