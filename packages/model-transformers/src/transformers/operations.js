@@ -137,23 +137,20 @@ export default new Map([
     fragment: gql`
       fragment TransformImageAssetFragment on ImageAsset {
         _id
-        name
+        _sync { date }
+        alt
+        approvedFor { website magazine }
+        body
         caption
         credit
-        isLogo
-        body
-        width
-        height
-        alt
-        primaryImageDisplay
-        dates { touched }
+        crop { dimensions { x1 x2 y1 y2 aspectRatio } rectangle { x y width height } }
+        date { touched }
         file { name path }
-        approvedFor { website magazine }
-        crop {
-          dimensions { x1 x2 y1 y2 aspectRatio }
-          rectangle { x y width height }
-        }
-        source { location name width height processed }
+        height
+        isLogo
+        name
+        primaryImageDisplay
+        width
       }
     `,
   }],
