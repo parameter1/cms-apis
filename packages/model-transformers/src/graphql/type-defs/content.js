@@ -61,6 +61,7 @@ type Content {
   _type: ContentTypeEnum! @trim(field: "type")
   _connections: ContentConnections!
   _edges: ContentEdges!
+  _sync: DateTime!
   alias: String
   bodies: ContentBodies
   contact: ContentContact # was the Contactable interface: applied to company, contact, event, supplier, venue
@@ -351,7 +352,9 @@ type ContentRelatedToEdge {
 
 type ContentSEO {
   title: String
+  canonicalUrl: String
   description: String
+  noIndex: Boolean
 }
 
 type ContentSidebar {

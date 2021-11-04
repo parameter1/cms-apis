@@ -51,6 +51,9 @@ export default {
     _edges(content) {
       return content;
     },
+    _sync() {
+      return new Date();
+    },
     alias(content) {
       const alias = getMutatedValue({ content, mutation: 'Website', field: 'alias' });
       if (!alias || /^http[s]?:/i.test(alias) || /^www\./i.test(alias)) return null;
