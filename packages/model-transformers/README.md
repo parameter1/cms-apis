@@ -2,13 +2,13 @@
 
 ## Root Content
 - [x] `taxonomy` field
-- [ ] `gating` field
-- [ ] `statusText` field (if needed?)
+- [x] `gating` field
+- [x] `statusText` field (if needed?)
 - [x] `metadata` field
 - [x] `siteContext` object field
 - [ ] core section query field
 - [x] `customAttributes`
-- [ ] `userRegistration` field
+- [x] `userRegistration` field
 - [x] `redirectTo` field (if needed?)
 - [x] core canonical URL field
 - [x] core `noIndex` field
@@ -59,8 +59,8 @@
 - [x] Venue
   - [x] `spaces` field
   - [x] `totalCapacity` field
-- [ ] Video
-  - [ ] determine if `embedSrc` needs to be added
+- [x] Video
+  - [x] determine if `embedSrc` needs to be added
 - [x] Webinar
   - [x] `sponsors` field
   - [x] `startDate` field
