@@ -5,7 +5,7 @@ import {
   cleanPath,
   parseNumber,
 } from '@cms-apis/utils';
-import { LegacyDB } from '@cms-apis/db';
+import { LegacyDB, types } from '@cms-apis/db';
 import { cleanWebsite } from '@cms-apis/clean-string';
 import { sortBy } from '../utils/index.js';
 import { buildObjValues, findMany } from './utils/index.js';
@@ -513,29 +513,7 @@ export default {
   /**
    *
    */
-  ContentTypeEnum: {
-    ARTICLE: 'Article',
-    BLOG: 'Blog',
-    COMPANY: 'Company',
-    CONTACT: 'Contact',
-    DOCUMENT: 'Document',
-    EVENT: 'Event',
-    JOB: 'Job',
-    MEDIA_GALLERY: 'MediaGallery',
-    NEWS: 'News',
-    PAGE: 'Page',
-    PODCAST: 'Podcast',
-    PRESS_RELEASE: 'PressRelease',
-    PRODUCT: 'Product',
-    PROMOTION: 'Promotion',
-    SPACE: 'Space',
-    SUPPLIER: 'Supplier',
-    TEXT_AD: 'TextAd',
-    VENUE: 'Venue',
-    VIDEO: 'Video',
-    WEBINAR: 'Webinar',
-    WHITEPAPER: 'Whitepaper',
-  },
+  ContentTypeEnum: types.get('content').toJS(),
 
   /**
    *

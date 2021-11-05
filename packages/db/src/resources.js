@@ -1,4 +1,5 @@
 import { fromJS } from '@cms-apis/immutable';
+import types from './types.js';
 
 export default fromJS([
   {
@@ -29,7 +30,11 @@ export default fromJS([
   {
     name: 'content',
     collection: 'content',
-    legacy: { namespace: 'platform', model: 'Content' },
+    legacy: {
+      namespace: 'platform',
+      model: 'Content',
+      query: { type: { $in: Object.values(types.get('content').toJS()) } },
+    },
   },
   {
     name: 'magazine',
@@ -89,7 +94,11 @@ export default fromJS([
   {
     name: 'taxonomy',
     collection: 'taxonomies',
-    legacy: { namespace: 'platform', model: 'Taxonomy' },
+    legacy: {
+      namespace: 'platform',
+      model: 'Taxonomy',
+      query: { type: { $in: Object.values(types.get('taxonomy').toJS()) } },
+    },
   },
   {
     name: 'user',

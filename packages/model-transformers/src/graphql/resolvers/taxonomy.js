@@ -1,5 +1,5 @@
 import { cleanPath, trim } from '@cms-apis/utils';
-import { LegacyDB } from '@cms-apis/db';
+import { LegacyDB, types } from '@cms-apis/db';
 import { get } from '@cms-apis/object-path';
 import { buildObjValues, findMany } from './utils/index.js';
 import { sortBy } from '../utils/index.js';
@@ -102,23 +102,7 @@ export default {
   /**
    *
    */
-  TaxonomyTypeEnum: {
-    AWARD: 'Award',
-    BADGE: 'Badge',
-    BIN: 'Bin',
-    CATEGORY: 'Category',
-    INDUSTRY: 'Industry',
-    LOCATION: 'Location',
-    MARKET: 'Market',
-    ORGANIZATION: 'Organization',
-    PERSON: 'Person',
-    PLATFORM_CHANNEL: 'PlatformChannel',
-    REGION: 'Region',
-    SYSTEM: 'System',
-    TAG: 'Tag',
-    TOPIC: 'Topic',
-    TYPE: 'Type',
-  },
+  TaxonomyTypeEnum: types.get('taxonomy').toJS(),
 
   /**
    *
