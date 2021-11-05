@@ -119,17 +119,17 @@ export default new Map([
         name { default newsletter magazine website short full headline }
         note
         redirects
-        seo { title description }
+        seo { title description canonicalUrl noIndex }
         sidebars {
           body
           name
           label
           sequence
         }
-        slug
         status
         syndication { source byline }
         teaser { default newsletter magazine website deck }
+        website { description pathSuffix slug title }
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,

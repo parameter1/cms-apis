@@ -6,9 +6,9 @@ import {
   parseNumber,
 } from '@cms-apis/utils';
 import { LegacyDB, types } from '@cms-apis/db';
-import { cleanWebsite } from '@cms-apis/clean-string';
+import cleanString, { cleanWebsite, encodeHtmlEntities } from '@cms-apis/clean-string';
 import { sortBy } from '../utils/index.js';
-import { buildObjValues, findMany } from './utils/index.js';
+import { buildObjValues, findMany, truncateWords } from './utils/index.js';
 
 const getMutatedValue = ({ content, mutation, field }) => {
   const value = get(content, `mutations.${mutation}.${field}`);
@@ -20,6 +20,11 @@ const cleanUrlOrPath = (value) => {
   if (!cleaned) return null;
   return /^http[s]?:/i.test(cleaned) ? cleaned : `/${cleaned}`;
 };
+
+const contentTypeMap = types.get('content').toArray().reduce((map, [enumKey, type]) => {
+  map.set(type, enumKey);
+  return map;
+}, new Map());
 
 const mediaTypes = new Set(['Document', 'Infographic', 'Podcast', 'PressRelease', 'Video', 'Webinar', 'Whitepaper']);
 
@@ -150,7 +155,7 @@ export default {
           const id = LegacyDB.extractRefIdFromPath(content, 'mutations.Website.primarySection');
           if (!id) return { node: defaults.websiteSection };
           const node = await loaders.get('website.Section').load(id);
-          return { node };
+          return { node: node || defaults.websiteSection };
         },
         async updatedBy() {
           const userId = LegacyDB.extractRefId(content.createdBy);
@@ -473,6 +478,9 @@ export default {
         ['website', getMutatedValue({ content, mutation: 'Website', field: 'teaser' })],
       ]);
     },
+    website(content) {
+      return content;
+    },
   },
 
   /**
@@ -529,6 +537,64 @@ export default {
     EDITOR: 'Editor',
     MEDIA: 'Media',
     OTHER: 'Other',
+  },
+
+  /**
+   *
+   */
+  ContentWebsite: {
+    description(content) {
+      const paths = [
+        'mutations.Website.seoDescription',
+        'mutations.Website.teaser',
+        'teaser',
+        'mutations.Website.body',
+        'body',
+      ];
+      return paths.reduce((value, path) => {
+        if (value) return value;
+        const v = cleanString(get(content, path));
+        if (!v) return null;
+        return encodeHtmlEntities(truncateWords({ value: v, length: 155 }));
+      }, null);
+    },
+    async pathSuffix(content, _, { loadRefOneFrom }) {
+      const primaryCategory = await loadRefOneFrom(content, {
+        model: 'platform.Taxonomy',
+        path: 'mutations.Website.primaryCategory',
+        needs: (node) => node.status === 1,
+      });
+      const type = contentTypeMap.get(trim(content.type));
+      if (!type) throw new Error(`Unable to find content type for ID ${content._id}`);
+      return [
+        cleanPath(get(primaryCategory, 'mutations.Website.urlPath')),
+        type.toLowerCase().replace(/_/g, '-'),
+        `${content._id}`,
+        cleanPath(getMutatedValue({ content, mutation: 'Website', field: 'slug' })),
+      ].filter((v) => v).join('/');
+    },
+    async title(content, _, { loadRefOneFrom }) {
+      const company = await loadRefOneFrom(content, {
+        model: 'platform.Content',
+        path: 'company',
+        needs: (node) => node.status === 1 && node.type === 'Company',
+      });
+
+      const create = (doc) => {
+        const paths = ['mutations.Website.seoTitle', 'mutations.Website.name', 'name'];
+        return paths.reduce((value, path) => {
+          if (value) return value;
+          const v = cleanString(get(doc, path));
+          if (!v) return null;
+          return encodeHtmlEntities(v);
+        }, null);
+      };
+      const title = create(content);
+      if (!title) return null;
+      if (!company) return title;
+      const companyTitle = create(company);
+      return companyTitle ? `${title} (${companyTitle})` : title;
+    },
   },
 
   /**

@@ -78,10 +78,10 @@ type Content {
   redirects: [String!]!
   seo: ContentSEO
   sidebars: [ContentSidebar!]!
-  slug: String @trim(field: "mutations.Website.slug")
   status: Int! @formatStatus
   syndication: ContentSyndication # from ContentNews.source ContentNews.byline Contents.importSource
   teaser: ContentTeaser
+  website: ContentWebsite!
 }
 
 type Content_Connection {
@@ -393,6 +393,13 @@ type ContentTeaser {
 
 type ContentUpdatedByEdge {
   node: User!
+}
+
+type ContentWebsite {
+  pathSuffix: String!
+  title: String
+  description: String
+  slug: String @trim(field: "mutations.Website.slug")
 }
 
 input QueryContentByIdInput {
