@@ -1,6 +1,11 @@
 import gql from '@cms-apis/graphql/tag';
 import { extractFragmentData } from '@cms-apis/graphql/fragments';
-import { ucFirst } from '@cms-apis/utils';
+import {
+  divZero,
+  getProfileMS,
+  round,
+  ucFirst,
+} from '@cms-apis/utils';
 import { EJSON } from 'bson';
 import createReplaceOp from './create-replace-op.js';
 
@@ -16,8 +21,11 @@ export default async function batchReplace({
   query,
   after,
   limit = 250,
+
+  batchNum = 1,
 } = {}) {
-  log(`Running ${limit} node replacement batch for ${operation}${after ? ` after cursor ${after}` : ''}${query ? ` using query ${EJSON.stringify(query)}` : ''}`);
+  const start = process.hrtime();
+  log(`Running ${limit} node replacement batch #${batchNum} for ${operation}${after ? ` after cursor ${after}` : ''}${query ? ` using query ${EJSON.stringify(query)}` : ''}`);
   const { spreadFragmentName, processedFragment } = extractFragmentData(fragment);
   const QUERY = gql`
     query Transform${ucFirst(operation)}($input: PaginatedQueryInput = {}) {
@@ -41,6 +49,7 @@ export default async function batchReplace({
   const { data } = await graphql.query({ query: QUERY, variables: { input } });
   const { connection } = data;
   const { edges, pageInfo } = connection;
+  const { totalCount } = pageInfo;
 
   const operations = [];
   edges.forEach(({ node }) => {
@@ -49,6 +58,8 @@ export default async function batchReplace({
   });
   if (operations.length) await upsertTo.bulkWrite({ operations });
 
+  const pct = round(divZero(batchNum * limit, totalCount, 1) * 100, 3);
+  log(`Batch #${batchNum} (~${pct}%) complete in ${round(getProfileMS(start))}ms\n`);
   if (pageInfo.hasNextPage) {
     await batchReplace({
       graphql,
@@ -60,6 +71,8 @@ export default async function batchReplace({
       query,
       after: pageInfo.endCursor,
       limit,
+
+      batchNum: batchNum + 1,
     });
   }
 }
