@@ -326,6 +326,37 @@ export default new Map([
       }
     `,
   }],
+  ['taxonomies', {
+    collection: 'taxonomies',
+    fragment: gql`
+      fragment TransformTaxonomyFragment on Taxonomy {
+        _id
+        _connection {
+          ancestors {
+            depth
+            node { _id name { default full } path status }
+          }
+          descendants {
+            depth
+            node { _id name { default full } path status }
+          }
+        }
+        _edge {
+          parent { node { _id name { default full } path status } }
+        }
+        _sync { date }
+        _type
+        depth
+        description
+        isHierarchical
+        name { default full }
+        path
+        sequence
+        slug
+        status
+      }
+    `,
+  }],
   ['users', {
     collection: 'users',
     fragment: gql`

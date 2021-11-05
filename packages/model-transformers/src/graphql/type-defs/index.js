@@ -10,6 +10,7 @@ import newsletter from './newsletter.js';
 import newsletterCampaign from './newsletter-campaign.js';
 import newsletterSchedule from './newsletter-schedule.js';
 import newsletterSection from './newsletter-section.js';
+import taxonomy from './taxonomy.js';
 import user from './user.js';
 import website from './website.js';
 import websiteInquirySubmission from './website-inquiry-submission.js';
@@ -60,6 +61,7 @@ ${newsletter}
 ${newsletterCampaign}
 ${newsletterSchedule}
 ${newsletterSection}
+${taxonomy}
 ${user}
 ${website}
 ${websiteInquirySubmission}

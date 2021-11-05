@@ -42,6 +42,7 @@ process.on('unhandledRejection', immediatelyThrow);
   await transformers.replace({ operation: 'newsletterCampaigns' });
   await transformers.replace({ operation: 'newsletterSchedules' });
   await transformers.replace({ operation: 'newsletterSections' });
+  await transformers.replace({ operation: 'taxonomies' });
   await transformers.replace({ operation: 'users' });
   await transformers.replace({ operation: 'websites' });
   await transformers.replace({ operation: 'websiteSections' });
