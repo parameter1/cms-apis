@@ -22,7 +22,7 @@ export default function clean(value, {
   if (!value) return defaultValue;
   const str = `${value}`;
   const trimmed = trim ? trimUtil(str, defaultValue) : str;
-  if (!trimmed) return '';
+  if (!trimmed) return defaultValue;
   const preserveTags = isArray(stripHtmlTags) ? stripHtmlTags : [];
   const stripped = stripHtmlTags ? stripTags(trimmed, preserveTags) : trimmed;
   const decoded = decodeEntities ? decode(stripped) : stripped;
