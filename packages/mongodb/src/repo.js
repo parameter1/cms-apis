@@ -136,10 +136,12 @@ export default class Repo {
    * @param {object} params.update The update criteria
    * @param {object} params.options Options to pass to the `collection.updateOne` call
    */
-  async updateOne({ query, update, options = {} } = {}) {
+  async updateOne({ query = {}, update, options = {} } = {}) {
     const collection = await this.collection();
     const { strict, ...opts } = options;
-    const result = await collection.updateOne(query, update, opts);
+    const { globalFindCriteria } = this;
+    const q = globalFindCriteria ? { $and: [query, globalFindCriteria] } : query;
+    const result = await collection.updateOne(q, update, opts);
     if (strict && !result.matchedCount) throw this.createNotFoundError();
     return result;
   }
@@ -152,9 +154,11 @@ export default class Repo {
    * @param {object} params.update The update criteria to apply to all docs
    * @param {object} params.options Options to pass to the `collection.updateMany` call
    */
-  async updateMany({ query, update, options } = {}) {
+  async updateMany({ query = {}, update, options } = {}) {
     const collection = await this.collection();
-    return collection.updateMany(query, update, options);
+    const { globalFindCriteria } = this;
+    const q = globalFindCriteria ? { $and: [query, globalFindCriteria] } : query;
+    return collection.updateMany(q, update, options);
   }
 
   /**
@@ -164,10 +168,12 @@ export default class Repo {
    * @param {object} params.query The criteria to select the document to remove
    * @param {object} params.options Options to pass to the `collection.deleteOne` call
    */
-  async deleteOne({ query, options = {} } = {}) {
+  async deleteOne({ query = {}, options = {} } = {}) {
     const { strict, ...opts } = options;
     const collection = await this.collection();
-    const result = await collection.deleteOne(query, opts);
+    const { globalFindCriteria } = this;
+    const q = globalFindCriteria ? { $and: [query, globalFindCriteria] } : query;
+    const result = await collection.deleteOne(q, opts);
     if (strict && !result.deletedCount) throw this.createNotFoundError();
     return result;
   }
@@ -179,9 +185,11 @@ export default class Repo {
    * @param {object} params.query The criteria to select the documents to remove
    * @param {object} params.options Options to pass to the `collection.deleteMany` call
    */
-  async deleteMany({ query, options } = {}) {
+  async deleteMany({ query = {}, options } = {}) {
     const collection = await this.collection();
-    return collection.deleteMany(query, options);
+    const { globalFindCriteria } = this;
+    const q = globalFindCriteria ? { $and: [query, globalFindCriteria] } : query;
+    return collection.deleteMany(q, options);
   }
 
   /**
@@ -192,9 +200,11 @@ export default class Repo {
    * @param {object} params.query The query to apply the distinct filter
    * @param {object} params.options Options to pass to the `collection.distinct` call
    */
-  async distinct({ key, query, options } = {}) {
+  async distinct({ key, query = {}, options } = {}) {
     const collection = await this.collection();
-    return collection.distinct(key, query, options);
+    const { globalFindCriteria } = this;
+    const q = globalFindCriteria ? { $and: [query, globalFindCriteria] } : query;
+    return collection.distinct(key, q, options);
   }
 
   /**
@@ -216,8 +226,10 @@ export default class Repo {
    * @param {object[]} pipeline Array containing all the aggregation framework commands
    * @param {object} options Options to pass to the `collection.aggregate` call
    */
-  async aggregate({ pipeline, options } = {}) {
+  async aggregate({ pipeline = [], options } = {}) {
     const collection = await this.collection();
+    const { globalFindCriteria } = this;
+    if (globalFindCriteria) pipeline.unshift({ $match: globalFindCriteria });
     return collection.aggregate(pipeline, options);
   }
 
@@ -228,9 +240,11 @@ export default class Repo {
    * @param {object[]} query The query for the count
    * @param {object} options Options to pass to the `collection.countDocuments` call
    */
-  async countDocuments({ query, options } = {}) {
+  async countDocuments({ query = {}, options } = {}) {
     const collection = await this.collection();
-    return collection.countDocuments(query, options);
+    const { globalFindCriteria } = this;
+    const q = globalFindCriteria ? { $and: [query, globalFindCriteria] } : query;
+    return collection.countDocuments(q, options);
   }
 
   /**
