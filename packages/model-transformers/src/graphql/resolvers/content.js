@@ -423,6 +423,12 @@ export default {
       const docs = await loaders.get('platform.Content').loadMany(companyIds);
       return sortBy(docs, '_id').filter((c) => c && c.type === 'Company').map((node) => ({ node }));
     },
+    async taxonomies(content, _, { loaders }) {
+      const taxonomyIds = LegacyDB.extractRefIds(content.taxonomy);
+      if (!taxonomyIds.length) return [];
+      const nodes = await loaders.get('platform.Taxonomy').loadMany(taxonomyIds);
+      return sortBy(nodes, '_id').filter((node) => node).map((node) => ({ node }));
+    },
   },
 
   /**

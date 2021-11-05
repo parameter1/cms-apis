@@ -22,6 +22,7 @@ export default new Map([
           images { node { ...CommonImageAssetRelFragment } }
           relatedTo { node { _id _type name { default website short } status date { published expired } } }
           sponsors { node { _id _type name { default website short } status date { published expired } } }
+          taxonomies { node { _id _type name { default full } status } }
         }
         _edge {
           company { node { _id name { default website short } status date { published expired } inquiry { isEnabled } } }

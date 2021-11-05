@@ -1,7 +1,7 @@
 # Legacy Data Model Transformers
 
 ## Root Content
-- [ ] `taxonomy` field
+- [x] `taxonomy` field
 - [ ] `gating` field
 - [ ] `statusText` field (if needed?)
 - [ ] `metadata` field

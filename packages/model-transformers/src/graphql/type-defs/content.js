@@ -90,6 +90,7 @@ type Content_Connection {
   images: [ContentImagesEdge!]!
   relatedTo: [ContentRelatedToEdge!]!
   sponsors: [ContentSponsorsEdge!]!
+  taxonomies: [ContentTaxonomiesEdge!]!
 }
 
 type Content_Edge {
@@ -371,6 +372,10 @@ type ContentSponsorsEdge {
 type ContentSyndication {
   source: String
   byline: String
+}
+
+type ContentTaxonomiesEdge {
+  node: Taxonomy!
 }
 
 type ContentTeaser {
