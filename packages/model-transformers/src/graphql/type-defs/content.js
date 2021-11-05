@@ -99,6 +99,7 @@ type Content_Edge {
   # from ContentCompany.parentCompany, ContentSupplier.parentSupplier, ContentVenue.parentVenue
   # must be of the same type as the root content model... might need to be restricted by type
   parent: ContentParentEdge
+  primaryCategory: ContentPrimaryCategoryEdge
   primaryImage: ContentPrimaryImageEdge
   primaryWebsiteSection: ContentPrimaryWebsiteSectionEdge!
   updatedBy: ContentUpdatedByEdge
@@ -337,6 +338,10 @@ type ContentName {
 
 type ContentParentEdge {
   node: Content!
+}
+
+type ContentPrimaryCategoryEdge {
+  node: Taxonomy!
 }
 
 type ContentPrimaryImageEdge {

@@ -27,6 +27,7 @@ export default new Map([
         _edge {
           company { node { _id name { default website short } status date { published expired } inquiry { isEnabled } } }
           parent { node { _id _type status name { default } date { published expired } } }
+          primaryCategory { node { _id _type status name { default full } } }
           primaryImage { node { ...CommonImageAssetRelFragment } }
           primaryWebsiteSection {
             node {

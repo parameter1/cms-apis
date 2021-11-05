@@ -457,6 +457,13 @@ export default {
       if (!node || node.type !== content.type) return null;
       return { node };
     },
+    async primaryCategory(content, _, { loaders }) {
+      const taxonomyId = LegacyDB.extractRefIdFromPath(content, 'mutations.Website.primaryCategory');
+      if (!taxonomyId) return null;
+      const node = await loaders.get('platform.Taxonomy').load(taxonomyId);
+      if (!node) return null;
+      return { node };
+    },
     async primaryImage(content, _, { loaders }) {
       const imageId = LegacyDB.extractRefId(content.primaryImage);
       if (!imageId) return null;
