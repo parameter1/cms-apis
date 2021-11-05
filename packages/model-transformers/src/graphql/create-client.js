@@ -16,7 +16,7 @@ export default async ({ dbs, loaders } = {}) => {
   const defaults = {
     website,
     websiteSection: await dbs.legacy.repo('website.Section').findOne({
-      query: { alias: 'home', 'site.$id': website._id },
+      query: { alias: 'home', 'site.$id': website._id, status: 1 },
       options: { strict: true },
     }),
   };
