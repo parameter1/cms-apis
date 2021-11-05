@@ -116,6 +116,16 @@ export default {
           const nodes = await loaders.get('platform.Taxonomy').loadMany(taxonomyIds);
           return sortBy(nodes, '_id').filter((node) => node).map((node) => ({ node }));
         },
+        websiteSchedules() {
+          return getAsArray(content.sectionQuery).map((obj) => ({
+            node: {
+              section: { oid: obj.sectionId },
+              option: { oid: obj.optionId },
+              startDate: obj.start,
+              endDate: obj.end,
+            },
+          }));
+        },
       };
     },
     _edge(content, _, { defaults, loaders }) {

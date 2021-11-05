@@ -6,7 +6,7 @@
 - [x] `statusText` field (if needed?)
 - [x] `metadata` field
 - [x] `siteContext` object field
-- [ ] core section query field
+- [x] core section query field
 - [x] `customAttributes`
 - [x] `userRegistration` field
 - [x] `redirectTo` field (if needed?)

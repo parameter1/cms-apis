@@ -91,6 +91,7 @@ type Content_Connection {
   relatedTo: [ContentRelatedToEdge!]!
   sponsors: [ContentSponsorsEdge!]!
   taxonomies: [ContentTaxonomiesEdge!]!
+  websiteSchedules: [ContentWebsiteSchedulesEdge!]!
 }
 
 type Content_Edge {
@@ -412,6 +413,10 @@ type ContentWebsite {
 type ContentWebsiteGating {
   requiredRole: String
   form: ContentWebsiteGatingForm
+}
+
+type ContentWebsiteSchedulesEdge {
+  node: WebsiteSchedule!
 }
 
 type ContentWebsiteUserRegistration {

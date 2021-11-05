@@ -23,6 +23,21 @@ export default new Map([
           relatedTo { node { _id _type name { default website short } status date { published expired } } }
           sponsors { node { _id _type name { default website short } status date { published expired } } }
           taxonomies { node { _id _type name { default full } status } }
+          websiteSchedules {
+            node {
+              _edge {
+                option { node { _id name { default } } }
+                section {
+                  node {
+                    _id alias name { default }
+                    _edge { website { node { _id name } } }
+                    _connection { descendants { node { _id } } }
+                  }
+                }
+              }
+              date { started ended }
+            }
+          }
         }
         _edge {
           company { node { _id name { default website short } status date { published expired } inquiry { isEnabled } } }
