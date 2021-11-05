@@ -1,5 +1,5 @@
 import stripTags from 'striptags';
-import { decode } from 'html-entities';
+import { decode, encode } from 'html-entities';
 import { trim as trimUtil } from '@cms-apis/utils';
 
 const { isArray } = Array;
@@ -28,6 +28,11 @@ export default function clean(value, {
   const decoded = decodeEntities ? decode(stripped) : stripped;
   return decoded;
 }
+
+export const encodeHtmlEntities = (value) => {
+  if (!value) return value;
+  return encode(value);
+};
 
 export const cleanWebsite = (value, { forceSSL = false, nullOnMissingProto = false } = {}) => {
   const cleaned = clean(value);
