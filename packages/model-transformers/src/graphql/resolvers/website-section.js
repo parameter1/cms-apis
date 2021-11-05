@@ -17,7 +17,7 @@ const loadDescendants = async (section, repo, sections = []) => {
   const cursor = await repo.find({ query: { 'parent.$id': section._id } });
   const children = await cursor.toArray();
   if (!children.length) return sections;
-  sections.push(...children);
+  sections.push(...children.map((child) => child));
   await Promise.all(children.map((child) => loadDescendants(child, repo, sections)));
   return sections;
 };
