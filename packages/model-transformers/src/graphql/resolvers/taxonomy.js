@@ -13,12 +13,11 @@ const loadAncestors = async (taxonomy, loaders, taxonomies = []) => {
   return loadAncestors(parent, loaders, taxonomies);
 };
 
-const loadDescendants = async (taxonomy, repo, taxonomies = []) => {
-  const cursor = await repo.find({ query: { 'parent.$id': taxonomy._id } });
-  const children = await cursor.toArray();
+const loadDescendants = async (taxonomy, loaders, taxonomies = []) => {
+  const children = await loaders.descendantTaxonomies.load(taxonomy._id);
   if (!children.length) return taxonomies;
   taxonomies.push(...children.map((child) => child));
-  await Promise.all(children.map((child) => loadDescendants(child, repo, taxonomies)));
+  await Promise.all(children.map((child) => loadDescendants(child, loaders, taxonomies)));
   return taxonomies;
 };
 
@@ -35,7 +34,7 @@ export default {
    *
    */
   Taxonomy: {
-    _connection(taxonomy, _, { dbs, loaders }) {
+    _connection(taxonomy, _, { loaders }) {
       return {
         async ancestors() {
           if (!isHierarchical(taxonomy)) return [];
@@ -48,7 +47,7 @@ export default {
         async descendants() {
           if (!isHierarchical(taxonomy)) return [];
           const currentDepth = getDepthFor(taxonomy);
-          const taxonomies = await loadDescendants(taxonomy, dbs.legacy.repo('platform.Taxonomy'), []);
+          const taxonomies = await loadDescendants(taxonomy, loaders, []);
           return sortBy(taxonomies, '_id').map((node) => ({
             depth: getDepthFor(node) - currentDepth,
             node,

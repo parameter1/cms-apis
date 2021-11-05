@@ -13,12 +13,11 @@ const loadAncestors = async (section, loaders, sections = []) => {
   return loadAncestors(parent, loaders, sections);
 };
 
-const loadDescendants = async (section, repo, sections = []) => {
-  const cursor = await repo.find({ query: { 'parent.$id': section._id } });
-  const children = await cursor.toArray();
+const loadDescendants = async (section, loaders, sections = []) => {
+  const children = await loaders.descendantWebsiteSections.load(section._id);
   if (!children.length) return sections;
   sections.push(...children.map((child) => child));
-  await Promise.all(children.map((child) => loadDescendants(child, repo, sections)));
+  await Promise.all(children.map((child) => loadDescendants(child, loaders, sections)));
   return sections;
 };
 
@@ -32,7 +31,7 @@ export default {
    *
    */
   WebsiteSection: {
-    _connection(section, _, { dbs, loaders }) {
+    _connection(section, _, { loaders }) {
       return {
         async ancestors() {
           const sections = await loadAncestors(section, loaders, []);
@@ -43,7 +42,7 @@ export default {
         },
         async descendants() {
           const currentDepth = getDepthFor(section);
-          const sections = await loadDescendants(section, dbs.legacy.repo('website.Section'), []);
+          const sections = await loadDescendants(section, loaders, []);
           return sortBy(sections, 'fullName').map((node) => ({
             depth: getDepthFor(node) - currentDepth,
             node,

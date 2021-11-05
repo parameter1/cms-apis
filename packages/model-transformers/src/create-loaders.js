@@ -1,4 +1,5 @@
 import DataLoader from 'dataloader';
+import { LegacyDB } from '@cms-apis/db';
 import { isFunction as isFn } from '@cms-apis/utils';
 
 const { warn } = console;
@@ -35,5 +36,38 @@ export default ({ legacyDB, logger } = {}) => {
     if (!loader) throw new Error(`No model loader for ${namespace}.${model}`);
     return loader;
   };
-  return { get };
+
+  const descendantTaxonomies = new DataLoader(async (parentIds) => {
+    const query = { 'parent.$id': { $in: parentIds } };
+    const cursor = await legacyDB.repo('platform.Taxonomy').find({ query });
+    const children = await cursor.toArray();
+    const mapped = children.reduce((map, child) => {
+      const parentId = `${LegacyDB.extractRefId(child.parent)}`;
+      if (!map.has(parentId)) map.set(parentId, []);
+      map.get(parentId).push(child);
+      return map;
+    }, new Map());
+    return parentIds.map((parentId) => {
+      const doc = mapped.get(`${parentId}`) || [];
+      return doc;
+    });
+  });
+
+  const descendantWebsiteSections = new DataLoader(async (parentIds) => {
+    const query = { 'parent.$id': { $in: parentIds } };
+    const cursor = await legacyDB.repo('website.Section').find({ query });
+    const children = await cursor.toArray();
+    const mapped = children.reduce((map, child) => {
+      const parentId = `${LegacyDB.extractRefId(child.parent)}`;
+      if (!map.has(parentId)) map.set(parentId, []);
+      map.get(parentId).push(child);
+      return map;
+    }, new Map());
+    return parentIds.map((parentId) => {
+      const doc = mapped.get(`${parentId}`) || [];
+      return doc;
+    });
+  });
+
+  return { get, descendantTaxonomies, descendantWebsiteSections };
 };
