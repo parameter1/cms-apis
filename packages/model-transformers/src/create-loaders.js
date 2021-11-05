@@ -44,6 +44,7 @@ export default ({ legacyDB, logger } = {}) => {
     const mapped = children.reduce((map, child) => {
       const parentId = `${LegacyDB.extractRefId(child.parent)}`;
       if (!map.has(parentId)) map.set(parentId, []);
+      get('platform.Taxonomy').prime(child._id, child);
       map.get(parentId).push(child);
       return map;
     }, new Map());
@@ -60,6 +61,7 @@ export default ({ legacyDB, logger } = {}) => {
     const mapped = children.reduce((map, child) => {
       const parentId = `${LegacyDB.extractRefId(child.parent)}`;
       if (!map.has(parentId)) map.set(parentId, []);
+      get('website.Section').prime(child._id, child);
       map.get(parentId).push(child);
       return map;
     }, new Map());
