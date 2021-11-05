@@ -21,19 +21,19 @@
   - `inquiryEmails` field
 - [x] Media
 - [x] OrganizationContactable
-- [ ] PrimaryCategory
+- [x] PrimaryCategory
 - [x] SidebarEnabled
 - [x] SocialLinkable
 
 ## Content Types
 - [x] Article
 - [x] Blog
-- [ ] Company
+- [x] Company
   - [x] `companyType` field
   - [x] `brandsCarried` and `companyCompetitors`
   - [x] custom "stats" fields, such as `numberOfEmployees`
   - [x] `youtube` and `youtubeVideos`
-  - [ ] `featuredCategories`
+  - [x] `featuredCategories` (removed, no longer used)
 - [x] Contact
 - [x] Document
 - [ ] Event
@@ -66,3 +66,22 @@
   - [x] `startDate` field
   - [x] `linkUrl` field
 - [x] Whitepaper
+
+## Find Field Script
+```js
+((db) => {
+  const dbPattern = /_platform$/;
+  const collection = 'Content';
+  const field = 'mutations.Website.primaryCategory';
+  const r = db.getSiblingDB('admin').runCommand({ listDatabases: 1 });
+
+  const dbNames = r.databases.filter(({ name }) => dbPattern.test(name)).map(({ name }) => name);
+  const results = dbNames.map((dbName) => {
+    const current = db.getSiblingDB(dbName);
+    const values = current.getCollection(collection)
+      .distinct(field, { [field]: { $exists: true } });
+    return { dbName, field, n: values.length };
+  });
+  print(results);
+})(db);
+```
