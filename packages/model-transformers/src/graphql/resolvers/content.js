@@ -45,11 +45,120 @@ export default {
    *
    */
   Content: {
-    _connection(content) {
-      return content;
+    _connection(content, _, { loaders }) {
+      return {
+        async contacts() {
+          const typeMap = new Map([
+            ['authors', 'Author'],
+            ['contributors', 'Contributor'],
+            ['photographers', 'Photographer'],
+            ['listingContacts', 'Listing'],
+            ['publicContacts', 'Public'],
+            ['salesContacts', 'Sales'],
+            ['marketingContacts', 'Marketing'],
+            ['contacts', 'Other'],
+            ['editors', 'Editor'],
+          ]);
+          const idMap = [...typeMap.keys()].reduce((map, field) => {
+            const ids = LegacyDB.extractRefIds(getAsArray(content, field));
+            if (!ids.length) return map;
+            ids.forEach((id) => {
+              if (!map.has(id)) map.set(id, new Set());
+              map.get(id).add(field);
+            });
+            return map;
+          }, new Map());
+
+          const ids = [...idMap.keys()];
+          if (!ids.length) return [];
+          const contacts = await loaders.get('platform.Content').loadMany(ids);
+
+          return contacts.filter((c) => c && c.type === 'Contact').reduce((arr, node) => {
+            idMap.get(node._id).forEach((field) => {
+              let type = typeMap.get(field) || 'Other';
+              if (type === 'Other' && mediaTypes.has(content.type)) type = 'Media';
+              arr.push({ type, node });
+            });
+            return arr;
+          }, []);
+        },
+        async images() {
+          const imageIds = LegacyDB.extractRefIds(content.images);
+          if (!imageIds.length) return [];
+          const docs = await loaders.get('platform.Image').loadMany(imageIds);
+          return sortBy(docs, '_id').filter((node) => node).map((node) => ({ node }));
+        },
+        async relatedTo() {
+          const relatedToIds = LegacyDB.extractRefIds(content.relatedTo);
+          if (!relatedToIds.length) return [];
+          const docs = await loaders.get('platform.Content').loadMany(relatedToIds);
+          return sortBy(docs, '_id').filter((c) => c).map((node) => ({ node }));
+        },
+        async sponsors() {
+          const companyIds = LegacyDB.extractRefIds(content.sponsors);
+          if (!companyIds.length) return [];
+          const docs = await loaders.get('platform.Content').loadMany(companyIds);
+          return sortBy(docs, '_id').filter((c) => c && c.type === 'Company').map((node) => ({ node }));
+        },
+        async taxonomies() {
+          const taxonomyIds = LegacyDB.extractRefIds(content.taxonomy);
+          if (!taxonomyIds.length) return [];
+          const nodes = await loaders.get('platform.Taxonomy').loadMany(taxonomyIds);
+          return sortBy(nodes, '_id').filter((node) => node).map((node) => ({ node }));
+        },
+      };
     },
-    _edge(content) {
-      return content;
+    _edge(content, _, { defaults, loaders }) {
+      return {
+        async company() {
+          const companyId = LegacyDB.extractRefId(content.company);
+          if (!companyId) return null;
+          const node = await loaders.get('platform.Content').load(companyId);
+          if (!node || node.type !== 'Company') return null;
+          return { node };
+        },
+        async createdBy() {
+          const userId = LegacyDB.extractRefId(content.createdBy);
+          if (!userId) return null;
+          const node = await loaders.get('platform.User').load(userId);
+          return node ? { node } : null;
+        },
+        async parent() {
+          const field = parentFieldMap.get(content.type);
+          if (!field) return null;
+          const parentId = LegacyDB.extractRefId(content[field]);
+          if (!parentId) return null;
+          const node = await loaders.get('platform.Content').load(parentId);
+          if (!node || node.type !== content.type) return null;
+          return { node };
+        },
+        async primaryCategory() {
+          const taxonomyId = LegacyDB.extractRefIdFromPath(content, 'mutations.Website.primaryCategory');
+          if (!taxonomyId) return null;
+          const node = await loaders.get('platform.Taxonomy').load(taxonomyId);
+          if (!node) return null;
+          return { node };
+        },
+        async primaryImage() {
+          const imageId = LegacyDB.extractRefId(content.primaryImage);
+          if (!imageId) return null;
+          const node = await loaders.get('platform.Image').load(imageId);
+          if (!node) return null;
+          return { node };
+        },
+        async primaryWebsiteSection() {
+          const id = LegacyDB.extractRefIdFromPath(content, 'mutations.Website.primarySection');
+          if (!id) return { node: defaults.websiteSection };
+          const node = await loaders.get('website.Section').load(id);
+          return { node };
+        },
+        async updatedBy() {
+          const userId = LegacyDB.extractRefId(content.createdBy);
+          if (!userId) return null;
+          const node = await loaders.get('platform.User').load(userId);
+          return node ? { node } : null;
+        },
+      };
     },
     _sync() {
       return {};
@@ -363,125 +472,6 @@ export default {
         ['magazine', getMutatedValue({ content, mutation: 'Magazine', field: 'teaser' })],
         ['website', getMutatedValue({ content, mutation: 'Website', field: 'teaser' })],
       ]);
-    },
-  },
-
-  /**
-   *
-   */
-  Content_Connection: {
-    async contacts(content, _, { loaders }) {
-      const typeMap = new Map([
-        ['authors', 'Author'],
-        ['contributors', 'Contributor'],
-        ['photographers', 'Photographer'],
-        ['listingContacts', 'Listing'],
-        ['publicContacts', 'Public'],
-        ['salesContacts', 'Sales'],
-        ['marketingContacts', 'Marketing'],
-        ['contacts', 'Other'],
-        ['editors', 'Editor'],
-      ]);
-      const idMap = [...typeMap.keys()].reduce((map, field) => {
-        const ids = LegacyDB.extractRefIds(getAsArray(content, field));
-        if (!ids.length) return map;
-        ids.forEach((id) => {
-          if (!map.has(id)) map.set(id, new Set());
-          map.get(id).add(field);
-        });
-        return map;
-      }, new Map());
-
-      const ids = [...idMap.keys()];
-      if (!ids.length) return [];
-      const contacts = await loaders.get('platform.Content').loadMany(ids);
-
-      return contacts.filter((c) => c && c.type === 'Contact').reduce((arr, node) => {
-        idMap.get(node._id).forEach((field) => {
-          let type = typeMap.get(field) || 'Other';
-          if (type === 'Other' && mediaTypes.has(content.type)) type = 'Media';
-          arr.push({ type, node });
-        });
-        return arr;
-      }, []);
-    },
-    async images(content, _, { loaders }) {
-      const imageIds = LegacyDB.extractRefIds(content.images);
-      if (!imageIds.length) return [];
-      const docs = await loaders.get('platform.Image').loadMany(imageIds);
-      return sortBy(docs, '_id').filter((node) => node).map((node) => ({ node }));
-    },
-    async relatedTo(content, _, { loaders }) {
-      const relatedToIds = LegacyDB.extractRefIds(content.relatedTo);
-      if (!relatedToIds.length) return [];
-      const docs = await loaders.get('platform.Content').loadMany(relatedToIds);
-      return sortBy(docs, '_id').filter((c) => c).map((node) => ({ node }));
-    },
-    async sponsors(content, _, { loaders }) {
-      const companyIds = LegacyDB.extractRefIds(content.sponsors);
-      if (!companyIds.length) return [];
-      const docs = await loaders.get('platform.Content').loadMany(companyIds);
-      return sortBy(docs, '_id').filter((c) => c && c.type === 'Company').map((node) => ({ node }));
-    },
-    async taxonomies(content, _, { loaders }) {
-      const taxonomyIds = LegacyDB.extractRefIds(content.taxonomy);
-      if (!taxonomyIds.length) return [];
-      const nodes = await loaders.get('platform.Taxonomy').loadMany(taxonomyIds);
-      return sortBy(nodes, '_id').filter((node) => node).map((node) => ({ node }));
-    },
-  },
-
-  /**
-   *
-   */
-  Content_Edge: {
-    async company(content, _, { loaders }) {
-      const companyId = LegacyDB.extractRefId(content.company);
-      if (!companyId) return null;
-      const node = await loaders.get('platform.Content').load(companyId);
-      if (!node || node.type !== 'Company') return null;
-      return { node };
-    },
-    async createdBy(content, _, { loaders }) {
-      const userId = LegacyDB.extractRefId(content.createdBy);
-      if (!userId) return null;
-      const node = await loaders.get('platform.User').load(userId);
-      return node ? { node } : null;
-    },
-    async parent(content, _, { loaders }) {
-      const field = parentFieldMap.get(content.type);
-      if (!field) return null;
-      const parentId = LegacyDB.extractRefId(content[field]);
-      if (!parentId) return null;
-      const node = await loaders.get('platform.Content').load(parentId);
-      if (!node || node.type !== content.type) return null;
-      return { node };
-    },
-    async primaryCategory(content, _, { loaders }) {
-      const taxonomyId = LegacyDB.extractRefIdFromPath(content, 'mutations.Website.primaryCategory');
-      if (!taxonomyId) return null;
-      const node = await loaders.get('platform.Taxonomy').load(taxonomyId);
-      if (!node) return null;
-      return { node };
-    },
-    async primaryImage(content, _, { loaders }) {
-      const imageId = LegacyDB.extractRefId(content.primaryImage);
-      if (!imageId) return null;
-      const node = await loaders.get('platform.Image').load(imageId);
-      if (!node) return null;
-      return { node };
-    },
-    async primaryWebsiteSection(content, _, { defaults, loaders }) {
-      const id = LegacyDB.extractRefIdFromPath(content, 'mutations.Website.primarySection');
-      if (!id) return { node: defaults.websiteSection };
-      const node = await loaders.get('website.Section').load(id);
-      return { node };
-    },
-    async updatedBy(content, _, { loaders }) {
-      const userId = LegacyDB.extractRefId(content.createdBy);
-      if (!userId) return null;
-      const node = await loaders.get('platform.User').load(userId);
-      return node ? { node } : null;
     },
   },
 
