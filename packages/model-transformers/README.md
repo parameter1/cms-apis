@@ -4,14 +4,14 @@
 - [x] `taxonomy` field
 - [ ] `gating` field
 - [ ] `statusText` field (if needed?)
-- [ ] `metadata` field
-- [ ] `siteContext` object field
+- [x] `metadata` field
+- [x] `siteContext` object field
 - [ ] core section query field
 - [x] `customAttributes`
 - [ ] `userRegistration` field
 - [x] `redirectTo` field (if needed?)
-- [ ] core canonical URL field
-- [ ] core `noIndex` field
+- [x] core canonical URL field
+- [x] core `noIndex` field
 
 ## Content Interfaces
 - [x] Addressable
