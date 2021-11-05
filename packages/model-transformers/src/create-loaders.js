@@ -23,7 +23,7 @@ export default ({ legacyDB, logger } = {}) => {
           if (!doc) warn(`WARNING: No result for ${namespace}.${name} key ${key}`);
           return doc;
         });
-      }));
+      }, { cacheKeyFn: (key) => `${key}` }));
     });
   });
 
