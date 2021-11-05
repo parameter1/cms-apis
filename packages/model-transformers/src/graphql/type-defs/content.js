@@ -397,9 +397,26 @@ type ContentUpdatedByEdge {
 
 type ContentWebsite {
   pathSuffix: String!
+  gating: ContentWebsiteGating
   title: String
   description: String
   slug: String @trim(field: "mutations.Website.slug")
+  userRegistration: ContentWebsiteUserRegistration!
+}
+
+type ContentWebsiteGating {
+  requiredRole: String
+  form: ContentWebsiteGatingForm
+}
+
+type ContentWebsiteUserRegistration {
+  isRequired: Boolean!
+  accessLevels: [String!]!
+}
+
+type ContentWebsiteGatingForm {
+  identifier: String
+  provider: String
 }
 
 input QueryContentByIdInput {

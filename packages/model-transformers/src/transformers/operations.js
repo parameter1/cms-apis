@@ -129,7 +129,11 @@ export default new Map([
         status
         syndication { source byline }
         teaser { default newsletter magazine website deck }
-        website { description pathSuffix slug title }
+        website {
+          description pathSuffix slug title
+          gating { requiredRole form { identifier provider } }
+          userRegistration { isRequired accessLevels }
+        }
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,

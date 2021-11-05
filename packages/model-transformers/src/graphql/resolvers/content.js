@@ -1,4 +1,4 @@
-import { get, getAsArray } from '@cms-apis/object-path';
+import { get, getAsArray, getAsObject } from '@cms-apis/object-path';
 import {
   isObject,
   trim,
@@ -558,6 +558,16 @@ export default {
         return encodeHtmlEntities(truncateWords({ value: v, length: 155 }));
       }, null);
     },
+    gating(content) {
+      const gating = getAsObject(content, 'mutations.Website.gating');
+      return buildObjValues([
+        ['requiredRole', trim(gating.requiredRole)],
+        ['form', buildObjValues([
+          ['identifier', trim(gating.surveyId)],
+          ['provider', trim(gating.surveyType)],
+        ])],
+      ]);
+    },
     async pathSuffix(content, _, { loadRefOneFrom }) {
       const primaryCategory = await loadRefOneFrom(content, {
         model: 'platform.Taxonomy',
@@ -594,6 +604,14 @@ export default {
       if (!company) return title;
       const companyTitle = create(company);
       return companyTitle ? `${title} (${companyTitle})` : title;
+    },
+    userRegistration(content) {
+      const isRequired = Boolean(get(content, 'mutations.Website.requiresRegistration'));
+      const accessLevels = getAsArray(content, 'mutations.Website.requiresAccessLevels').map(trim).filter((v) => v);
+      return {
+        isRequired,
+        accessLevels: isRequired ? accessLevels : [],
+      };
     },
   },
 
