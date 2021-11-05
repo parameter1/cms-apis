@@ -34,10 +34,13 @@ export const encodeHtmlEntities = (value) => {
   return encode(value);
 };
 
+const relativeProtoPattern = /^(\/\/)([^/])/i;
+
 export const cleanWebsite = (value, { forceSSL = false, nullOnMissingProto = false } = {}) => {
   const cleaned = clean(value);
   if (!cleaned) return null;
-  const lowered = cleaned.toLowerCase();
+  let lowered = cleaned.toLowerCase();
+  if (relativeProtoPattern.test(lowered)) lowered = lowered.replace(relativeProtoPattern, 'https://$2');
   if (/^http[s]?:\/\//.test(lowered)) {
     if (!forceSSL) return lowered;
     return /^http:\/\//.test(lowered)
