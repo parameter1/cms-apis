@@ -70,7 +70,7 @@ export default new Map([
           website
           social { provider url label }
         }
-        media { file { name path } source { id key } duration embedCode credit }
+        media { file { name path } source { id key } duration embed { code url } credit }
         meta {
           company {
             _connection {

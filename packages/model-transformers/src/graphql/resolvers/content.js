@@ -8,7 +8,12 @@ import {
 import { LegacyDB, types } from '@cms-apis/db';
 import cleanString, { cleanWebsite, encodeHtmlEntities } from '@cms-apis/clean-string';
 import { sortBy } from '../utils/index.js';
-import { buildObjValues, findMany, truncateWords } from './utils/index.js';
+import {
+  buildObjValues,
+  findMany,
+  getEmbedUrlFrom,
+  truncateWords,
+} from './utils/index.js';
 
 const getMutatedValue = ({ content, mutation, field }) => {
   const value = get(content, `mutations.${mutation}.${field}`);
@@ -325,6 +330,7 @@ export default {
     },
     media(content) {
       if (!mediaTypes.has(content.type)) return null;
+      const embedCode = trim(content.embedCode);
       const file = buildObjValues([
         ['name', trim(content.fileName)],
         ['path', cleanPath(content.filePath)],
@@ -337,7 +343,10 @@ export default {
         ['file', file],
         ['source', source],
         ['duration', parseNumber(content.duration, { type: 'float' })],
-        ['embedCode', trim(content.embedCode)],
+        ['embed', buildObjValues([
+          ['code', embedCode],
+          ['url', cleanWebsite(getEmbedUrlFrom(embedCode), { nullOnMissingProto: true })],
+        ])],
         ['credit', trim(content.credit)],
       ]);
     },

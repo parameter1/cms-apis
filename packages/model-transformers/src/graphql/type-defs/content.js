@@ -217,8 +217,13 @@ type ContentMedia {
   file: ContentMediaFile
   duration: Float
   source: ContentMediaSoure
-  embedCode: String
+  embed: ContentMediaEmbed
   credit: String
+}
+
+type ContentMediaEmbed {
+  code: String
+  url: String
 }
 
 type ContentMediaFile {
