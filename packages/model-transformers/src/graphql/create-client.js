@@ -1,6 +1,8 @@
 import apolloClient from 'apollo-client';
 import apolloCache from 'apollo-cache-inmemory';
 import link from 'apollo-link-schema';
+import { LegacyDB } from '@cms-apis/db';
+import { isFunction as isFn } from '@cms-apis/utils';
 import createFragmentMatcher from './create-fragment-matcher.js';
 import schema from './schema.js';
 
@@ -20,12 +22,36 @@ export default async ({ dbs, loaders } = {}) => {
       options: { strict: true },
     }),
   };
+
+  const loadRefOneFrom = async (doc, {
+    model,
+    path,
+    required = false,
+    needs = false,
+    defaultValue = null,
+  } = {}) => {
+    const refId = LegacyDB.extractRefIdFromPath(doc, path);
+    if (!refId) {
+      if (required) throw new Error(`Unable to extract a ${model} reference ID.`);
+      return defaultValue;
+    }
+    const node = await loaders.get(model).load(refId);
+    const valid = Boolean(node) && (isFn(needs) ? Boolean(node) && needs(node) : true);
+    if (required && !valid) throw new Error(`Unable to load a ${model} reference document.`);
+    return valid ? node : defaultValue;
+  };
+
   return new ApolloClient({
     ssrMode: true,
     cache: new InMemoryCache({ fragmentMatcher }),
     link: new SchemaLink({
       schema,
-      context: { dbs, defaults, loaders },
+      context: {
+        dbs,
+        defaults,
+        loaders,
+        loadRefOneFrom,
+      },
     }),
   });
 };
