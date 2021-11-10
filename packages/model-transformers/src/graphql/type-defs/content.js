@@ -14,7 +14,6 @@ enum ContentTypeEnum {
   CONTACT
   DOCUMENT
   EVENT
-  JOB
   MEDIA_GALLERY
   NEWS
   PAGE
@@ -240,7 +239,6 @@ type ContentMediaSoure {
 type ContentMeta {
   company: ContentMetaCompany
   event: ContentMetaEvent
-  job: ContentMetaJob
   product: ContentMetaProduct
   venue: ContentMetaVenue
 }
@@ -286,18 +284,6 @@ type ContentMetaEvent {
   cost: String
   beneficiary: String
   allDay: Boolean
-}
-
-type ContentMetaJob {
-  type: String
-  salary: String
-  city: String
-  state: String
-  email: String
-  information: String
-  phone: String
-  website: String
-  sourceUrl: String
 }
 
 type ContentMetaProduct {

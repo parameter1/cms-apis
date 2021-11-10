@@ -106,17 +106,6 @@ export default new Map([
             youtube { username channelId playlistId }
           }
           event { type cost beneficiary allDay }
-          job {
-            type
-            salary
-            city
-            state
-            email
-            information
-            phone
-            website
-            sourceUrl
-          }
           product { modelNumber status }
           venue {
             totalCapacity
