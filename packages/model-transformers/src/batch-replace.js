@@ -1,12 +1,6 @@
-import gql from '@cms-apis/graphql/tag';
-import { extractFragmentData } from '@cms-apis/graphql/fragments';
-import {
-  divZero,
-  getProfileMS,
-  round,
-  ucFirst,
-} from '@cms-apis/utils';
+import { divZero, getProfileMS, round } from '@cms-apis/utils';
 import { EJSON } from 'bson';
+import queryConnection from './query-connection.js';
 import createReplaceOp from './create-replace-op.js';
 
 const { log } = console;
@@ -26,29 +20,14 @@ export default async function batchReplace({
 } = {}) {
   const start = process.hrtime();
   log(`Running ${limit} node replacement batch #${batchNum} for ${operation}${after ? ` after cursor ${after}` : ''}${query ? ` using query ${EJSON.stringify(query)}` : ''}`);
-  const { spreadFragmentName, processedFragment } = extractFragmentData(fragment);
-  const QUERY = gql`
-    query Transform${ucFirst(operation)}($input: PaginatedQueryInput = {}) {
-      connection: ${operation}(input: $input) {
-        edges {
-          node {
-            ${spreadFragmentName}
-          }
-        }
-        pageInfo {
-          totalCount
-          hasNextPage
-          endCursor
-        }
-      }
-    }
-    ${processedFragment}
-  `;
-
-  const input = { query, after, limit };
-  const { data } = await graphql.query({ query: QUERY, variables: { input } });
-  const { connection } = data;
-  const { edges, pageInfo } = connection;
+  const { edges, pageInfo } = await queryConnection({
+    graphql,
+    operation,
+    fragment,
+    query,
+    after,
+    limit,
+  });
   const { totalCount } = pageInfo;
 
   const operations = [];
