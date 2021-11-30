@@ -9,6 +9,7 @@ export default async function findMany({
   requiredQuery,
   prime = true,
 } = {}, { dbs, loaders } = {}) {
+  const hasLimit = limit && limit > 0;
   const ands = { query: [], count: [] };
   const and = (q, { count = true } = {}) => {
     ands.query.push(q);
@@ -27,12 +28,15 @@ export default async function findMany({
   const repo = dbs.legacy.repo(resource);
   const cursor = await repo.find({
     query: { ...(ands.query.length && { $and: ands.query }) },
-    options: { sort: { _id: 1 }, limit: limit + 1 },
+    options: {
+      sort: { _id: 1 },
+      ...(hasLimit && { limit: limit + 1 }),
+    },
   });
   const docs = await cursor.toArray();
   if (prime) primeLoader({ loader: loaders.get(resource), docs });
 
-  const hasNextPage = docs.length > limit;
+  const hasNextPage = hasLimit ? docs.length > limit : false;
   if (hasNextPage) docs.pop(); // remove the peeked record
   return {
     edges: () => docs.map((node) => ({
