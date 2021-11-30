@@ -8,7 +8,6 @@ export default fromJS({
     CONTACT: 'Contact',
     DOCUMENT: 'Document',
     EVENT: 'Event',
-    JOB: 'Job',
     MEDIA_GALLERY: 'MediaGallery',
     NEWS: 'News',
     PAGE: 'Page',

@@ -41,8 +41,6 @@
   - [x] `allDay` flag
   - [x] `cost`, `eventType`, and `beneficiary` fields
   - [ ] `venue` and `organization` Entity references
-- [x] Job
-  - [x] job specific fields, such as `jobType`, `salary` etc...
 - [x] MediaGallery
 - [x] News
 - [x] Page

@@ -392,19 +392,6 @@ export default {
         ['beneficiary', trim(content.beneficiary)],
         ['allDay', content.allDay == null ? null : content.allDay],
       ]) : null;
-      const job = content.type === 'Job' ? buildObjValues([
-        ['type', trim(content.jobType)],
-        ...[
-          'salary',
-          'city',
-          'state',
-          'email',
-          'information',
-          'phone',
-          'website',
-          'sourceUrl',
-        ].map((field) => [field, trim(content[field])]),
-      ]) : null;
       const product = content.type === 'Product' ? buildObjValues([
         ['modelNumber', trim(content.modelNumber)],
         ['status', trim(content.contentStatus)],
@@ -445,7 +432,6 @@ export default {
       return buildObjValues([
         ['company', company],
         ['event', event],
-        ['job', job],
         ['product', product],
         ['venue', venue],
       ]);
