@@ -10,6 +10,6 @@ export default () => (req, res, next) => {
   const db = createDb({ tenant });
   res.locals.tenant = tenant;
   res.locals.db = db;
-  res.locals.graphql = createGraphQLClient({ db, tenant });
+  res.locals.graphql = createGraphQLClient({ db, req, tenant });
   next();
 };

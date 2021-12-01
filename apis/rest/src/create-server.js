@@ -20,6 +20,11 @@ export default () => {
   app.use(CORS);
   app.options('*', CORS);
 
+  app.locals.constants = {
+    API_PATH: '/api/2.0rcpi',
+    PERSISTENCE_ENDPOINT: '/persistence',
+  };
+
   app.use(tenancy());
 
   routes(app);

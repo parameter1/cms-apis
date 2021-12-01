@@ -7,13 +7,15 @@ const { ApolloClient } = apolloClient;
 const { InMemoryCache } = apolloCache;
 const { SchemaLink } = link;
 
-export default ({ db, tenant } = {}) => new ApolloClient({
+export default ({ db, req, tenant } = {}) => new ApolloClient({
   ssrMode: true,
   cache: new InMemoryCache(),
   link: new SchemaLink({
     schema,
     context: {
       db,
+      req,
+      constants: req.app.locals.constants,
       tenant,
     },
   }),

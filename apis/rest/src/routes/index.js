@@ -2,12 +2,13 @@ import { Router } from 'express';
 import persistence from './persistence.js';
 
 export default (app) => {
+  const { constants } = app.locals;
   app.get('/', (_, res) => {
     res.json({ ping: 'pong' });
   });
 
   const api = Router();
-  api.use('/persistence', persistence);
+  api.use(constants.PERSISTENCE_ENDPOINT, persistence);
 
-  app.use('/api/2.0rcpi', api);
+  app.use(constants.API_PATH, api);
 };
