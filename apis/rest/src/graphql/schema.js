@@ -1,5 +1,6 @@
 import { makeExecutableSchema } from '@cms-apis/graphql/schema';
 import {
+  arrayDirectiveTransformer,
   trimDirectiveTransformer,
 } from './directives/index.js';
 import resolvers from './resolvers/index.js';
@@ -11,5 +12,6 @@ const schema = makeExecutableSchema({
 });
 
 const withTrim = trimDirectiveTransformer(schema);
+const withArray = arrayDirectiveTransformer(withTrim);
 
-export default withTrim;
+export default withArray;
