@@ -1,5 +1,4 @@
 import { get, getAsArray } from '@cms-apis/object-path';
-import createLinks from '../../utils/create-links.js';
 
 export default {
   /**
@@ -76,13 +75,8 @@ export default {
     relatedTaxonomy() {
       return { linkage: [] };
     },
-    self(section, _, { req, tenant }) {
-      return createLinks.self({
-        id: section._id,
-        type: 'website/section',
-        req,
-        tenant,
-      });
+    self(section, _, { linkBuilder }) {
+      return linkBuilder.self({ id: section._id, type: 'website/section' });
     },
     site(section) {
       const id = get(section, '_edge.website.node._id');

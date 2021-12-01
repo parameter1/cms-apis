@@ -1,6 +1,7 @@
 import apolloClient from 'apollo-client';
 import apolloCache from 'apollo-cache-inmemory';
 import link from 'apollo-link-schema';
+import createLinkBuilder from '../utils/create-link-builder.js';
 import schema from './schema.js';
 
 const { ApolloClient } = apolloClient;
@@ -16,6 +17,7 @@ export default ({ db, req, tenant } = {}) => new ApolloClient({
       db,
       req,
       constants: req.app.locals.constants,
+      linkBuilder: createLinkBuilder({ req, tenant }),
       tenant,
     },
   }),
