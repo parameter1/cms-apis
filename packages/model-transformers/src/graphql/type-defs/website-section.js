@@ -38,6 +38,7 @@ type WebsiteSection {
 type WebsiteSection_Connection {
   ancestors: [WebsiteSectionAncestorsEdge!]!
   descendants: [WebsiteSectionDescendantsEdge!]!
+  related: [WebsiteSectionRelatedEdge!]!
 }
 
 type WebsiteSectionAncestorsEdge {
@@ -76,6 +77,10 @@ type WebsiteSectionName {
 }
 
 type WebsiteSectionParentEdge {
+  node: WebsiteSection!
+}
+
+type WebsiteSectionRelatedEdge {
   node: WebsiteSection!
 }
 

@@ -505,6 +505,7 @@ export default new Map([
             node { _id name { default full } alias status }
             depth
           }
+          related { node { _id name { default full } alias status } }
         }
         _edge {
           coverImage { node { ...CommonImageAssetRelFragment } }

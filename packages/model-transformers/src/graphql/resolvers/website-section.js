@@ -48,6 +48,12 @@ export default {
             node,
           }));
         },
+        async related() {
+          const sectionIds = LegacyDB.extractRefIds(section.relatedSections);
+          if (!sectionIds.length) return [];
+          const docs = await loaders.get('website.Section').loadMany(sectionIds);
+          return sortBy(docs, '_id').filter((node) => node).map((node) => ({ node }));
+        },
       };
     },
     _edge(section, _, { loaders }) {
