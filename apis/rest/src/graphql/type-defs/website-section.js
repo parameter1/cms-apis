@@ -18,6 +18,7 @@ type WebsiteSection {
   fullName: String @trim(field: "name.full")
   labels: [String!]! @array
   legacy: JSONObject
+  links: WebsiteSectionLinks!
   name: String @trim(field: "name.default")
   redirects: [String!]! @array
   seoDescription: String @trim(field: "seo.description")
@@ -25,6 +26,10 @@ type WebsiteSection {
   sequence: Int
   slug: String @trim
   status: Int
+}
+
+type WebsiteSectionLinks {
+  self: String!
 }
 
 input QueryWebsiteSectionByIdInput {

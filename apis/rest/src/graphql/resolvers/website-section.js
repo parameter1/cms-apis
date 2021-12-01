@@ -1,4 +1,5 @@
 import { getAsArray } from '@cms-apis/object-path';
+import createLinks from '../../utils/create-links.js';
 
 export default {
   /**
@@ -26,8 +27,25 @@ export default {
     id(section) {
       return section._id;
     },
+    links(section) {
+      return section;
+    },
     type() {
       return 'website/section';
+    },
+  },
+
+  /**
+   *
+   */
+  WebsiteSectionLinks: {
+    self(section, _, { req, tenant }) {
+      return createLinks.self({
+        id: section._id,
+        type: 'website/section',
+        req,
+        tenant,
+      });
     },
   },
 };

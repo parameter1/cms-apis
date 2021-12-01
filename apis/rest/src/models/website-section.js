@@ -13,6 +13,9 @@ const FRAGMENT = gql`
     description
     fullName
     labels
+    links {
+      self
+    }
     legacy
     name
     redirects
