@@ -18,6 +18,16 @@ type Mutation {
   ping: String!
 }
 
+type ObjectIDLinkage {
+  id: ObjectID!
+  type: String!
+}
+
+type IntegerLinkage {
+  id: Int!
+  type: String!
+}
+
 ${websiteSection}
 
 `;

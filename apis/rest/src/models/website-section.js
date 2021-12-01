@@ -15,6 +15,14 @@ const FRAGMENT = gql`
     labels
     links {
       self
+      children { linkage { id type } }
+      coverImage { linkage { id type } }
+      logo { linkage { id type } }
+      options { linkage { id type } }
+      parent { linkage { id type } }
+      relatedSections { linkage { id type } }
+      relatedTaxonomy { linkage { id type } }
+      site { linkage { id type } }
     }
     legacy
     name

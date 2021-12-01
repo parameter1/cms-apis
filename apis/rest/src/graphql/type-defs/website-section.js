@@ -30,6 +30,46 @@ type WebsiteSection {
 
 type WebsiteSectionLinks {
   self: String!
+  children: WebsiteSectionLinksChildren!
+  coverImage: WebsiteSectionLinksCoverImage!
+  logo: WebsiteSectionLinksLogo!
+  options: WebsiteSectionLinksOptions!
+  parent: WebsiteSectionLinksParent!
+  relatedSections: WebsiteSectionLinksRelatedSections!
+  relatedTaxonomy: WebsiteSectionLinksRelatedTaxonomy!
+  site: WebsiteSectionLinksSite!
+}
+
+type WebsiteSectionLinksChildren {
+  linkage: [IntegerLinkage!]!
+}
+
+type WebsiteSectionLinksCoverImage {
+  linkage: ObjectIDLinkage
+}
+
+type WebsiteSectionLinksLogo {
+  linkage: ObjectIDLinkage
+}
+
+type WebsiteSectionLinksOptions {
+  linkage: [IntegerLinkage!]!
+}
+
+type WebsiteSectionLinksParent {
+  linkage: IntegerLinkage
+}
+
+type WebsiteSectionLinksRelatedSections {
+  linkage: [IntegerLinkage!]!
+}
+
+type WebsiteSectionLinksRelatedTaxonomy {
+  linkage: [IntegerLinkage!]!
+}
+
+type WebsiteSectionLinksSite {
+  linkage: ObjectIDLinkage
 }
 
 input QueryWebsiteSectionByIdInput {

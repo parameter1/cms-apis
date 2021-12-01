@@ -1,4 +1,4 @@
-import { getAsArray } from '@cms-apis/object-path';
+import { get, getAsArray } from '@cms-apis/object-path';
 import createLinks from '../../utils/create-links.js';
 
 export default {
@@ -39,6 +39,43 @@ export default {
    *
    */
   WebsiteSectionLinks: {
+    children(section) {
+      const linkage = getAsArray(section, '_connection.descendants')
+        .filter((edge) => edge && edge.depth === 1 && edge.node)
+        .map((edge) => edge.node._id)
+        .sort()
+        .map((id) => ({ id, type: 'website/section' }));
+      return { linkage };
+    },
+    coverImage(section) {
+      const id = get(section, '_edge.coverImage.node._id');
+      const linkage = id ? { id, type: 'platform/asset/image' } : null;
+      return { linkage };
+    },
+    logo(section) {
+      const id = get(section, '_edge.logo.node._id');
+      const linkage = id ? { id, type: 'platform/asset/image' } : null;
+      return { linkage };
+    },
+    options() {
+      return { linkage: [] };
+    },
+    parent(section) {
+      const id = get(section, '_edge.parent.node._id');
+      const linkage = id ? { id, type: 'website/section' } : null;
+      return { linkage };
+    },
+    relatedSections(section) {
+      const linkage = getAsArray(section, '_connection.related')
+        .filter((edge) => edge && edge.node)
+        .map((edge) => edge.node._id)
+        .sort()
+        .map((id) => ({ id, type: 'website/section' }));
+      return { linkage };
+    },
+    relatedTaxonomy() {
+      return { linkage: [] };
+    },
     self(section, _, { req, tenant }) {
       return createLinks.self({
         id: section._id,
@@ -46,6 +83,11 @@ export default {
         req,
         tenant,
       });
+    },
+    site(section) {
+      const id = get(section, '_edge.website.node._id');
+      const linkage = id ? { id, type: 'website/site' } : null;
+      return { linkage };
     },
   },
 };
