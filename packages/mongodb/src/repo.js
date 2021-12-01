@@ -29,6 +29,17 @@ export default class Repo {
   }
 
   /**
+   * Finds a single document by an integer.
+   *
+   * @param {object} params
+   * @param {ObjectId|string} params.id The object ID to lookup
+   * @param {object} [params.options] Options to pass to the `collection.findOne` call
+   */
+  async findByIntegerId({ id, options } = {}) {
+    return this.findById({ id: parseInt(id, 10), options });
+  }
+
+  /**
    * Finds a single document by an ObjectID.
    *
    * @param {object} params
