@@ -3,6 +3,7 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import routes from './routes/index.js';
+import tenancy from './middleware/tenancy.js';
 import jsonErrorHandler from './middleware/json-error-handler.js';
 import notFoundHandler from './middleware/not-found-handler.js';
 
@@ -18,6 +19,8 @@ export default () => {
   app.use(helmet({ contentSecurityPolicy: false }));
   app.use(CORS);
   app.options('*', CORS);
+
+  app.use(tenancy());
 
   routes(app);
 
