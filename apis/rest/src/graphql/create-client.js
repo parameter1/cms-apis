@@ -7,7 +7,7 @@ const { ApolloClient } = apolloClient;
 const { InMemoryCache } = apolloCache;
 const { SchemaLink } = link;
 
-export default async ({ db, tenant } = {}) => new ApolloClient({
+export default ({ db, tenant } = {}) => new ApolloClient({
   ssrMode: true,
   cache: new InMemoryCache(),
   link: new SchemaLink({
