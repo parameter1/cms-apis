@@ -48,7 +48,7 @@ services:
 
   rest:
     <<: *node-service
-    working_dir: /cms-apis/apis/legacy-rest
+    working_dir: /cms-apis/apis/rest
     entrypoint: ["yarn"]
     command: ["dev"]
     environment:
