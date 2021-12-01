@@ -26,6 +26,6 @@
     "win32"
   ],
   "dependencies": {
-    "mongodb": "^4.2.1"
+    "mongodb": "^4.1.4"
   }
 }
