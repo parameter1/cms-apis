@@ -3,6 +3,8 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import routes from './routes/index.js';
+import jsonErrorHandler from './middleware/json-error-handler.js';
+import notFoundHandler from './middleware/not-found-handler.js';
 
 const CORS = cors({
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
@@ -18,6 +20,10 @@ export default () => {
   app.options('*', CORS);
 
   routes(app);
+
+  // error handlers
+  app.use(notFoundHandler());
+  app.use(jsonErrorHandler());
 
   return createServer(app);
 };
