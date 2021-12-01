@@ -1,8 +1,8 @@
 import gql from '@cms-apis/graphql/tag';
 import Model from './-abstract.js';
 
-const FRAGMENT = gql`
-  fragment WebsiteSectionResponseFragment on WebsiteSection {
+const ATTRIBUTE_FRAGMENT = gql`
+  fragment WebsiteSectionAttributeFragment on WebsiteSection {
     id
     type
 
@@ -13,6 +13,20 @@ const FRAGMENT = gql`
     description
     fullName
     labels
+    legacy
+    name
+    redirects
+    seoDescription
+    seoTitle
+    sequence
+    slug
+    status
+  }
+`;
+
+const FRAGMENT = gql`
+  fragment WebsiteSectionResponseFragment on WebsiteSection {
+    ...WebsiteSectionAttributeFragment
     links {
       self
       children { linkage { id type } }
@@ -24,15 +38,9 @@ const FRAGMENT = gql`
       relatedTaxonomy { linkage { id type } }
       site { linkage { id type } }
     }
-    legacy
-    name
-    redirects
-    seoDescription
-    seoTitle
-    sequence
-    slug
-    status
   }
+
+  ${ATTRIBUTE_FRAGMENT}
 `;
 
 const FIND_BY_ID = gql`
