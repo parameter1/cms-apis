@@ -18,13 +18,37 @@ type Mutation {
   ping: String!
 }
 
-type ObjectIDLinkage {
-  id: ObjectID!
-  type: String!
+type IntegerLinkOne {
+  self: String
+  related: String
+  linkage: IntegerLinkage
+}
+
+type IntegerLinkMany {
+  self: String
+  related: String
+  linkage: [IntegerLinkage!]!
+}
+
+type ObjectIDLinkOne {
+  self: String
+  related: String
+  linkage: ObjectIDLinkage
+}
+
+type ObjectIDLinkMany {
+  self: String
+  related: String
+  linkage: [ObjectIDLinkage!]!
 }
 
 type IntegerLinkage {
   id: Int!
+  type: String!
+}
+
+type ObjectIDLinkage {
+  id: ObjectID!
   type: String!
 }
 
