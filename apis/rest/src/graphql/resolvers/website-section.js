@@ -86,7 +86,7 @@ export default {
     },
     site(section) {
       const id = get(section, '_edge.website.node._id');
-      const linkage = id ? { id, type: 'website/site' } : null;
+      const linkage = id ? { id, type: 'website/product/site' } : null;
       return { linkage };
     },
   },
