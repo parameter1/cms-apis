@@ -41,7 +41,9 @@
     "helmet": "^4.6.0",
     "http-errors": "^1.8.1",
     "inflected": "^2.1.0",
-    "lodash.merge": "^4.6.2"
+    "lodash.merge": "^4.6.2",
+    "map-obj": "^5.0.0",
+    "sort-keys": "^5.0.0"
   },
   "devDependencies": {
     "@parameter1/gulp": "^1.2.0"
