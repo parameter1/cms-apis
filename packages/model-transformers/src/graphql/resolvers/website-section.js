@@ -1,6 +1,6 @@
 import { asArray, cleanPath, trim } from '@cms-apis/utils';
 import { LegacyDB } from '@cms-apis/db';
-import cleanString from '@cms-apis/clean-string';
+import cleanString, { cleanWebsite } from '@cms-apis/clean-string';
 import { buildObjValues, findMany } from './utils/index.js';
 import { sortBy } from '../utils/index.js';
 
@@ -104,6 +104,13 @@ export default {
     },
     redirects({ redirects }) {
       return asArray(redirects).map(cleanPath).filter((v) => v);
+    },
+    seo(section) {
+      return buildObjValues([
+        ['title', trim(section.seoTitle)],
+        ['description', trim(section.seoDescription)],
+        ['canonicalUrl', cleanWebsite(section.canonicalUrl, { nullOnMissingProto: true })],
+      ]);
     },
     sequence({ sequence }) {
       return parseInt(sequence, 10) || 0;

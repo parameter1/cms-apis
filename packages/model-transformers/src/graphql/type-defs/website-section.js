@@ -30,6 +30,7 @@ type WebsiteSection {
   name: WebsiteSectionName!
   redirects: [String!]!
   sequence: Int!
+  seo: WebsiteSectionSEO
   slug: String @trim
   status: Int! @formatStatus
 }
@@ -76,6 +77,12 @@ type WebsiteSectionName {
 
 type WebsiteSectionParentEdge {
   node: WebsiteSection!
+}
+
+type WebsiteSectionSEO {
+  title: String
+  canonicalUrl: String
+  description: String
 }
 
 type WebsiteSectionWebsiteEdge {

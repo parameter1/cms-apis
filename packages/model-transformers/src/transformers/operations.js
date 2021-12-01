@@ -521,6 +521,7 @@ export default new Map([
         name { default full }
         redirects
         sequence
+        seo
         slug
         status
       }
