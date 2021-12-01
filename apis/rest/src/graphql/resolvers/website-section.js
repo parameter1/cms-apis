@@ -1,3 +1,5 @@
+import { getAsArray } from '@cms-apis/object-path';
+
 export default {
   /**
    *
@@ -15,6 +17,12 @@ export default {
    *
    */
   WebsiteSection: {
+    descendantIds(section) {
+      return getAsArray(section, '_connection.descendants').reduce((arr, desc) => {
+        arr.push(desc.node._id);
+        return arr;
+      }, [section._id]).sort();
+    },
     id(section) {
       return section._id;
     },

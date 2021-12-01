@@ -13,6 +13,18 @@ type WebsiteSection {
   accessControl: [String!]! @array
   alias: String @trim
   canonicalUrl: String @trim(field: "seo.canonicalUrl")
+  descendantIds: [Int!]!
+  description: String @trim
+  fullName: String @trim(field: "name.full")
+  labels: [String!]! @array
+  legacy: JSONObject
+  name: String @trim(field: "name.default")
+  redirects: [String!]! @array
+  seoDescription: String @trim(field: "seo.description")
+  seoTitle: String @trim(field: "seo.title")
+  sequence: Int
+  slug: String @trim
+  status: Int
 }
 
 input QueryWebsiteSectionByIdInput {

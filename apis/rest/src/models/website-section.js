@@ -9,6 +9,18 @@ const FRAGMENT = gql`
     accessControl
     alias
     canonicalUrl
+    descendantIds
+    description
+    fullName
+    labels
+    legacy
+    name
+    redirects
+    seoDescription
+    seoTitle
+    sequence
+    slug
+    status
   }
 `;
 
