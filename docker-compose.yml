@@ -46,6 +46,24 @@ services:
     depends_on:
       - mongodb-legacy
 
+  rest:
+    <<: *node-service
+    working_dir: /cms-apis/apis/legacy-rest
+    entrypoint: ["yarn"]
+    command: ["dev"]
+    environment:
+      <<: *node-env
+      <<: *mongodb-env
+      EXPOSED_HOST: cms-apis-rest.dev.parameter1.com
+      EXPOSED_PORT: 11761
+      HOST: cms-apis-rest.dev.parameter1.com
+      SHUTDOWN_GRACE_PERIOD: 0
+    hostname: cms-apis-rest.dev.parameter1.com
+    ports:
+      - "11761:80"
+    depends_on:
+      - mongodb-secondary
+
   transformer-cli:
     <<: *node-service
     working_dir: /cms-apis/packages/model-transformers
