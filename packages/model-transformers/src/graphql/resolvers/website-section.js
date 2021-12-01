@@ -124,6 +124,8 @@ export default {
     async description(section, _, { loaders }) {
       const alias = cleanPath(section.alias);
       const description = cleanString(section.description);
+      const seoDescription = cleanString(section.seoDescription);
+      if (seoDescription) return seoDescription;
       if (description) return description;
       if (alias === 'home') {
         const siteId = LegacyDB.extractRefId(section.site);
