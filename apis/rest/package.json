@@ -1,14 +1,14 @@
 {
-  "name": "@cms-apis/legacy-rest-api",
+  "name": "@cms-apis/rest-api",
   "version": "0.0.0",
   "type": "module",
-  "description": "CMS Legacy REST API.",
+  "description": "CMS REST API.",
   "author": "Jacob Bare <jacob@parameter1.com>",
-  "homepage": "https://github.com/parameter1/cms-apis/tree/main/apis/legacy-rest#readme",
+  "homepage": "https://github.com/parameter1/cms-apis/tree/main/apis/rest#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/parameter1/cms-apis.git",
-    "directory": "apis/legacy-rest"
+    "directory": "apis/rest"
   },
   "private": true,
   "license": "MIT",
@@ -30,6 +30,7 @@
     "@cms-apis/db": "^0.0.0",
     "@cms-apis/graphql": "^0.0.0",
     "@cms-apis/mongodb": "^0.0.0",
+    "@cms-apis/object-path": "^0.0.0",
     "@cms-apis/utils": "^0.0.0",
     "@parameter1/terminus": "^1.10.0",
     "apollo-cache-inmemory": "^1.6.6",
@@ -40,6 +41,7 @@
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "http-errors": "^1.8.1",
+    "graphql-type-json": "^0.3.2",
     "inflected": "^2.1.0",
     "lodash.merge": "^4.6.2",
     "map-obj": "^5.0.0",
