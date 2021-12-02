@@ -12,7 +12,15 @@ export default function trimDirectiveTransformer(schema, directiveName = 'trim')
         const { astNode } = fieldConfig;
         const definedField = astNode ? astNode.name.value : null;
         const name = args.field || definedField;
-        if (!fieldConfig.resolve) fieldConfig.resolve = (obj) => trim(get(obj, name), args.default);
+
+        const { resolve: defaultFieldResolver } = fieldConfig;
+        fieldConfig.resolve = async (obj, ...rest) => {
+          if (defaultFieldResolver) {
+            const r = await defaultFieldResolver(obj, ...rest);
+            return trim(r, args.default);
+          }
+          return trim(get(obj, name), args.default);
+        };
       }
     },
   });
