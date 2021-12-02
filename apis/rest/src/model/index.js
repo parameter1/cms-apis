@@ -1,5 +1,5 @@
 import { LegacyDB } from '@cms-apis/db';
-import createByIdQueryOp from './create-by-id-query-op.js';
+import createFindByIdQuery from './create-find-by-id-query.js';
 import createModelMeta from '../utils/create-model-meta.js';
 
 /**
@@ -23,14 +23,13 @@ export default ({
 } = {}) => {
   const meta = createModelMeta(restType);
   return {
-    loadOne: async ({ graphql, id } = {}) => {
+    findById: async ({ graphql, id } = {}) => {
       const type = graphQLTypeObj.name;
-      const queryName = queryNames.get('ONE');
-      if (!queryName) throw new Error(`Unable to find load one query name for ${type}`);
+      const queryName = queryNames.get('FIND_BY_ID');
+      if (!queryName) throw new Error(`Unable to extract a FIND_BY_ID query name for ${type}`);
 
       const input = { id: LegacyDB.coerceId(id) };
-      const query = createByIdQueryOp({
-        idType,
+      const query = createFindByIdQuery({
         type,
         attributes,
         relationships,

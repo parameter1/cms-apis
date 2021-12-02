@@ -2,7 +2,7 @@
 import { mapSchema, getDirective, MapperKind } from '@cms-apis/graphql/utils';
 import getReturnType from '../utils/get-return-type.js';
 
-export default function loaderDirectiveTransformer(schema, directiveName = 'loader') {
+export default function queryDirectiveTransformer(schema, directiveName = 'query') {
   return mapSchema(schema, {
     [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
       const directive = getDirective(schema, fieldConfig, directiveName);
@@ -10,7 +10,7 @@ export default function loaderDirectiveTransformer(schema, directiveName = 'load
       const { astNode } = fieldConfig;
       if (args && astNode) {
         const returnType = getReturnType(fieldConfig.type);
-        astNode.$loader = { kind: args.kind, returnType: `${returnType}` };
+        astNode.$query = { kind: args.kind, returnType: `${returnType}` };
       }
     },
   });

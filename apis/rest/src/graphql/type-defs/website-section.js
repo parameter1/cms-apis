@@ -3,10 +3,10 @@ import gql from '@cms-apis/graphql/tag';
 export default gql`
 
 extend type Query {
-  websiteSectionById(input: QueryByIdIntInput!): WebsiteSection
-    @loader(kind: ONE)
-  websiteSections(input: QueryManyIntInput = {}): [WebsiteSection!]!
-    @loader(kind: MANY)
+  websiteSectionById(input: FindByIdQueryInput!): WebsiteSection
+    @query(kind: FIND_BY_ID)
+  websiteSections(input: FindQueryInput = {}): [WebsiteSection!]!
+    @query(kind: FIND)
 }
 
 type WebsiteSection @meta(

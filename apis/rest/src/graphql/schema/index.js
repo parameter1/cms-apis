@@ -5,7 +5,7 @@ import {
   trimDirectiveTransformer,
   metaDirectiveTransformer,
   linkageDirectiveTransformer,
-  loaderDirectiveTransformer,
+  queryDirectiveTransformer,
 } from '../directives/index.js';
 import resolvers from '../resolvers/index.js';
 import typeDefs from '../type-defs/index.js';
@@ -20,6 +20,6 @@ const withTrim = trimDirectiveTransformer(schema);
 const withArray = arrayDirectiveTransformer(withTrim);
 const withMeta = metaDirectiveTransformer(withArray);
 const withLinkage = linkageDirectiveTransformer(withMeta);
-const withLoader = loaderDirectiveTransformer(withLinkage);
+const withQuery = queryDirectiveTransformer(withLinkage);
 
-export default appendModelsToSchema(withLoader);
+export default appendModelsToSchema(withQuery);

@@ -9,8 +9,8 @@ directive @meta(
   repoName: String!
 ) on OBJECT
 
-directive @loader(
-  kind: RestLoaderKindEnum!
+directive @query(
+  kind: RestQueryKindEnum!
 ) on FIELD_DEFINITION
 
 directive @array(field: String) on FIELD_DEFINITION
@@ -26,9 +26,9 @@ directive @trim(field: String, default: String) on FIELD_DEFINITION
 scalar JSONObject
 scalar ObjectID
 
-enum RestLoaderKindEnum {
-  ONE
-  MANY
+enum RestQueryKindEnum {
+  FIND_BY_ID
+  FIND
 }
 
 type Query {
@@ -73,21 +73,29 @@ type ObjectIDLinkage {
   type: String!
 }
 
-input QueryByIdIntInput {
+input FindByIdQueryInput {
   id: Int!
 }
 
-input QueryManyIntInput {
+input FindQueryInput {
   ids: [Int!]! = []
 }
 
-input QueryByIdObjectIDInput {
-  id: Int!
-}
+# input QueryByIdIntInput {
+#   id: Int!
+# }
 
-input QueryManyObjectIDInput {
-  ids: [ObjectID!]! = []
-}
+# input QueryManyIntInput {
+#   ids: [Int!]! = []
+# }
+
+# input QueryByIdObjectIDInput {
+#   id: Int!
+# }
+
+# input QueryManyObjectIDInput {
+#   ids: [ObjectID!]! = []
+# }
 
 ${websiteSection}
 

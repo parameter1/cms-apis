@@ -3,8 +3,8 @@ export default (schema) => {
   const { Query } = schema.getTypeMap();
   Object.values(Query.getFields()).forEach((query) => {
     const { astNode } = query;
-    if (!astNode || !astNode.$loader) return;
-    const { kind, returnType } = astNode.$loader;
+    if (!astNode || !astNode.$query) return;
+    const { kind, returnType } = astNode.$query;
 
     const type = schema.getType(returnType);
     if (!type || !type.astNode || !type.astNode.$meta) return;
@@ -13,13 +13,13 @@ export default (schema) => {
     type.astNode.$queryNames.set(kind, query.name);
 
     const { $meta } = type.astNode;
-    if (kind === 'ONE') {
+    if (kind === 'FIND_BY_ID') {
       query.resolve = (_, { input }, { db }) => {
         const repo = db.repo($meta.repoName);
         return repo.findById({ id: input.id });
       };
     }
-    if (kind === 'MANY') {
+    if (kind === 'FIND') {
       query.resolve = (_, { input }, { db }) => {
         const repo = db.repo($meta.repoName);
         const { ids } = input;
