@@ -30,16 +30,16 @@ type Mutation {
   ping: String!
 }
 
-type IntegerLinkOne {
+type IntLinkOne {
   self: String
   related: String
-  linkage: IntegerLinkage
+  linkage: IntLinkage
 }
 
-type IntegerLinkMany {
+type IntLinkMany {
   self: String
   related: String
-  linkage: [IntegerLinkage!]!
+  linkage: [IntLinkage!]!
 }
 
 type ObjectIDLinkOne {
@@ -54,7 +54,7 @@ type ObjectIDLinkMany {
   linkage: [ObjectIDLinkage!]!
 }
 
-type IntegerLinkage {
+type IntLinkage {
   id: Int!
   type: String!
 }

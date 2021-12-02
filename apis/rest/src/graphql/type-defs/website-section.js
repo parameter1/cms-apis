@@ -34,7 +34,7 @@ type WebsiteSection @meta(
 
 type WebsiteSectionLinks {
   self: String!
-  children: IntegerLinkMany! @linkage(
+  children: IntLinkMany! @linkage(
     restType: "website/section"
     field: "descendants"
   )
@@ -44,18 +44,18 @@ type WebsiteSectionLinks {
   logo: ObjectIDLinkOne! @linkage(
     restType: "platform/asset/image"
   )
-  options: IntegerLinkMany! @linkage(
+  options: IntLinkMany! @linkage(
     restType: "website/option"
     empty: true
   )
-  parent: IntegerLinkOne! @linkage(
+  parent: IntLinkOne! @linkage(
     restType: "website/section"
   )
-  relatedSections: IntegerLinkMany! @linkage(
+  relatedSections: IntLinkMany! @linkage(
     restType: "website/section"
     field: "related"
   )
-  relatedTaxonomy: IntegerLinkMany! @linkage(
+  relatedTaxonomy: IntLinkMany! @linkage(
     restType: "platform/taxonomy"
     empty: true
   )
