@@ -7,7 +7,7 @@ export default ({ restType, models } = {}) => {
   const model = models.get(restType);
   if (!model) throw new Error(`Unable to find a model definition for ${restType}`);
   const router = Router();
-  const meta = { model: model.meta };
+  const meta = { model: model.getMeta() };
 
   router.get('/', (req, res) => {
     res.json({ data: [], included: [], meta });

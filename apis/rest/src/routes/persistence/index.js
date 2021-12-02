@@ -7,7 +7,7 @@ const persistance = Router();
 const models = schema.getModels();
 
 models.forEach((model) => {
-  persistance.use(model.path, createRouter({ models, restType: model.restType }));
+  persistance.use(model.getPath(), createRouter({ models, restType: model.getRestType() }));
 });
 
 export default persistance;

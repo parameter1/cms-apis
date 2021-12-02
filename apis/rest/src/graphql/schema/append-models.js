@@ -2,6 +2,7 @@
 import { isObjectType } from 'graphql';
 import getReturnType from '../utils/get-return-type.js';
 import createModelMeta from '../../utils/create-model-meta.js';
+import Model from './model.js';
 
 export default (schema) => {
   const models = new Map();
@@ -48,14 +49,14 @@ export default (schema) => {
       attrs.set(field.name, { name: field.name, type: `${getReturnType(field.type)}` });
     });
 
-    models.set(restType, {
+    models.set(restType, Model({
       ...$meta,
       path: `/${restType}`,
       meta: createModelMeta(restType),
       attrs,
       links,
-      type,
-    });
+      graphQLTypeObj: type,
+    }));
   });
 
   schema.getModels = () => models;

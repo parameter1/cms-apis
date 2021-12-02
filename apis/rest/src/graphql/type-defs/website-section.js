@@ -9,7 +9,7 @@ extend type Query {
 
 type WebsiteSection @meta(
   restType: "website/section"
-  repo: "website-sections"
+  repoName: "website-sections"
 ) {
   id: Int!
   type: String!

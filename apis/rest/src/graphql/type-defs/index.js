@@ -6,7 +6,7 @@ export default gql`
 
 directive @meta(
   restType: String!
-  repo: String!
+  repoName: String!
 ) on OBJECT
 
 directive @array(field: String) on FIELD_DEFINITION
