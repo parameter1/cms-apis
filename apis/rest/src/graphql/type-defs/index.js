@@ -23,6 +23,7 @@ directive @linkage(
 
 directive @trim(field: String, default: String) on FIELD_DEFINITION
 
+scalar BaseID
 scalar JSONObject
 scalar ObjectID
 
@@ -74,11 +75,11 @@ type ObjectIDLinkage {
 }
 
 input FindByIdQueryInput {
-  id: Int!
+  id: BaseID!
 }
 
 input FindQueryInput {
-  ids: [Int!]! = []
+  ids: [BaseID!]! = []
 }
 
 # input QueryByIdIntInput {
