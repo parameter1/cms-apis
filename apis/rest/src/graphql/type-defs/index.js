@@ -4,7 +4,10 @@ import websiteSection from './website-section.js';
 
 export default gql`
 
+directive @modelMeta(type: String!) on OBJECT
+
 directive @array(field: String) on FIELD_DEFINITION
+directive @linkage(type: String!) on FIELD_DEFINITION
 directive @trim(field: String, default: String) on FIELD_DEFINITION
 
 scalar JSONObject
