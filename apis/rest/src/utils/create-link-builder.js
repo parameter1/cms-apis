@@ -7,16 +7,16 @@ export default ({ req, tenant, endpointVar = 'PERSISTENCE_ENDPOINT' }) => {
   const endpoint = constants[endpointVar];
   const rootUrl = `${req.protocol}://${req.get('host')}${constants.API_PATH}${endpoint}`;
 
-  const linkSelf = ({ id, type, field } = {}) => `${rootUrl}/${type}/${id}/links/${dasherize(field)}?x-tenant-key=${tenant}`;
-  const linkRelated = ({ id, type, field } = {}) => `${rootUrl}/${type}/${id}/${dasherize(field)}?x-tenant-key=${tenant}`;
+  const linkSelf = ({ id, restType, field } = {}) => `${rootUrl}/${restType}/${id}/links/${dasherize(field)}?x-tenant-key=${tenant}`;
+  const linkRelated = ({ id, restType, field } = {}) => `${rootUrl}/${restType}/${id}/${dasherize(field)}?x-tenant-key=${tenant}`;
 
   return {
-    self: ({ id, type } = {}) => `${rootUrl}/${type}/${id}?x-tenant-key=${tenant}`,
+    self: ({ id, restType } = {}) => `${rootUrl}/${restType}/${id}?x-tenant-key=${tenant}`,
     linkSelf,
     linkRelated,
-    linkage: ({ id, type, field }) => ({
-      self: linkSelf({ id, type, field }),
-      related: linkRelated({ id, type, field }),
+    linkage: ({ id, restType, field }) => ({
+      self: linkSelf({ id, restType, field }),
+      related: linkRelated({ id, restType, field }),
     }),
   };
 };

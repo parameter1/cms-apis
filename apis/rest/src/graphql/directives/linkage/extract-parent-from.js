@@ -13,7 +13,7 @@ export default (info) => {
     throw new Error(`Unable to find a schema type for ${cleaned}`);
   }
   const { astNode: parentNode } = parent;
-  if (!parentNode || !parentNode.$modelMeta) {
+  if (!parentNode || !parentNode.$meta) {
     throw new Error(`Unable to extract model metadata for ${parent}`);
   }
   return parentNode;

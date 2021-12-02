@@ -25,23 +25,5 @@ export default {
         return arr;
       }, [section._id]).sort();
     },
-    id(section) {
-      return section._id;
-    },
-    links(section) {
-      return section;
-    },
-    type() {
-      return TYPE;
-    },
-  },
-
-  /**
-   *
-   */
-  WebsiteSectionLinks: {
-    self(section, _, { linkBuilder }) {
-      return linkBuilder.self({ id: section._id, type: TYPE });
-    },
   },
 };

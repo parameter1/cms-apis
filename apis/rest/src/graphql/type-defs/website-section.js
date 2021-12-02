@@ -7,7 +7,10 @@ extend type Query {
   websiteSections(input: QueryWebsiteSectionsInput = {}): [WebsiteSection!]!
 }
 
-type WebsiteSection @modelMeta(type: "website/section") {
+type WebsiteSection @meta(
+  restType: "website/section"
+  repo: "website-sections"
+) {
   id: Int!
   type: String!
 
@@ -32,32 +35,32 @@ type WebsiteSection @modelMeta(type: "website/section") {
 type WebsiteSectionLinks {
   self: String!
   children: IntegerLinkMany! @linkage(
-    type: "website/section"
+    restType: "website/section"
     field: "descendants"
   )
   coverImage: ObjectIDLinkOne! @linkage(
-    type: "platform/asset/image"
+    restType: "platform/asset/image"
   )
   logo: ObjectIDLinkOne! @linkage(
-    type: "platform/asset/image"
+    restType: "platform/asset/image"
   )
   options: IntegerLinkMany! @linkage(
-    type: "website/option"
+    restType: "website/option"
     empty: true
   )
   parent: IntegerLinkOne! @linkage(
-    type: "website/section"
+    restType: "website/section"
   )
   relatedSections: IntegerLinkMany! @linkage(
-    type: "website/section"
+    restType: "website/section"
     field: "related"
   )
   relatedTaxonomy: IntegerLinkMany! @linkage(
-    type: "platform/taxonomy"
+    restType: "platform/taxonomy"
     empty: true
   )
   site: ObjectIDLinkOne! @linkage(
-    type: "website/product/site"
+    restType: "website/product/site"
     field: "website"
   )
 }
