@@ -23,6 +23,16 @@ export default ({
 } = {}) => {
   const meta = createModelMeta(restType);
   return {
+    /**
+     *
+     * @todo Eventually create a true "loader" action that uses DLs
+     * @todo Prime the DL with the response (if found)
+     *
+     * @param {object} params
+     * @param {object} params.graphql The GraphQL client
+     * @param {number|ObjectId} params.id The ID to query for
+     * @returns {Promise<object?>}
+     */
     findById: async ({ graphql, id } = {}) => {
       const type = graphQLTypeObj.name;
       const queryName = queryNames.get('FIND_BY_ID');
