@@ -4,9 +4,10 @@ export default gql`
 
 extend type Query {
   websiteSectionById(input: QueryWebsiteSectionByIdInput!): WebsiteSection
+  websiteSections(input: QueryWebsiteSectionsInput = {}): [WebsiteSection!]!
 }
 
-type WebsiteSection {
+type WebsiteSection @modelMeta(type: "website/section") {
   id: Int!
   type: String!
 
@@ -30,18 +31,44 @@ type WebsiteSection {
 
 type WebsiteSectionLinks {
   self: String!
-  children: IntegerLinkMany!
-  coverImage: ObjectIDLinkOne!
-  logo: ObjectIDLinkOne!
-  options: IntegerLinkMany!
-  parent: IntegerLinkOne!
-  relatedSections: IntegerLinkMany!
-  relatedTaxonomy: IntegerLinkMany!
-  site: ObjectIDLinkOne!
+  children: IntegerLinkMany! @linkage(
+    type: "website/section"
+    field: "descendants"
+  )
+  coverImage: ObjectIDLinkOne! @linkage(
+    type: "platform/asset/image"
+  )
+  logo: ObjectIDLinkOne! @linkage(
+    type: "platform/asset/image"
+  )
+  options: IntegerLinkMany! @linkage(
+    type: "website/option"
+    empty: true
+  )
+  parent: IntegerLinkOne! @linkage(
+    type: "website/section"
+  )
+  relatedSections: IntegerLinkMany! @linkage(
+    type: "website/section"
+    field: "related"
+  )
+  relatedTaxonomy: IntegerLinkMany! @linkage(
+    type: "platform/taxonomy"
+    empty: true
+  )
+  site: ObjectIDLinkOne! @linkage(
+    type: "website/product/site"
+    field: "website"
+  )
 }
 
 input QueryWebsiteSectionByIdInput {
   id: Int!
+}
+
+input QueryWebsiteSectionsInput {
+  ids: [Int!]! = []
+  limit: Int = 50
 }
 
 `;
