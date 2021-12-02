@@ -8,9 +8,17 @@ export default ({
   attributes = new Map(),
   relationships = new Map(),
   selected,
+  withLinkUrls = true,
+  withLinkage = true,
 } = {}) => {
   const attrs = createAttributeFragment({ type, attributes, selected });
-  const links = createLinksFragment({ type, relationships, selected });
+  const links = createLinksFragment({
+    type,
+    relationships,
+    selected,
+    withUrls: withLinkUrls,
+    withLinkage,
+  });
 
   const name = `${type}ResponseFragment`;
 

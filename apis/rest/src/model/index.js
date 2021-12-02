@@ -31,9 +31,16 @@ export default ({
      * @param {object} params
      * @param {object} params.graphql The GraphQL client
      * @param {number|ObjectId} params.id The ID to query for
+     * @param {boolean} [params.withLinkUrls=true] Whether links should include URLs
+     * @param {boolean} [params.withLinkage=true] Whether links should linkage objects
      * @returns {Promise<object?>}
      */
-    findById: async ({ graphql, id } = {}) => {
+    findById: async ({
+      graphql,
+      id,
+      withLinkUrls = true,
+      withLinkage = true,
+    } = {}) => {
       const type = graphQLTypeObj.name;
       const queryName = queryNames.get('FIND_BY_ID');
       if (!queryName) throw new Error(`Unable to extract a FIND_BY_ID query name for ${type}`);
@@ -44,6 +51,8 @@ export default ({
         attributes,
         relationships,
         queryName,
+        withLinkUrls,
+        withLinkage,
       });
       const { data } = await graphql.query({ query, variables: { input } });
       return data[queryName];

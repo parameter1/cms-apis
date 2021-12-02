@@ -17,7 +17,11 @@ export default ({ restType, models } = {}) => {
    * Retrieve one by ID.
    */
   router.get('/:id', asyncRoute(async (req, res) => {
-    const doc = await model.findById({ graphql: res.locals.graphql, id: req.params.id });
+    const doc = await model.findById({
+      graphql: res.locals.graphql,
+      id: req.params.id,
+      withLinkUrls: false,
+    });
     if (!doc) throw createError(404, 'No models found using the criteria provided.');
     res.json({ data: cleanNode(doc), included: [], meta });
   }));

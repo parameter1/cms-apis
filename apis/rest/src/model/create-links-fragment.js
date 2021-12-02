@@ -1,7 +1,13 @@
 import gql from '@cms-apis/graphql/tag';
 import { extractFragmentData } from '@cms-apis/graphql/fragments';
 
-export default ({ type, relationships = new Map(), selected = [] } = {}) => {
+export default ({
+  type,
+  relationships = new Map(),
+  selected = [],
+  withLinkage = true,
+  withUrls = true,
+} = {}) => {
   const include = new Set(selected);
   let selections = [];
   if (include.size) {
@@ -11,7 +17,13 @@ export default ({ type, relationships = new Map(), selected = [] } = {}) => {
   } else {
     relationships.forEach((_, name) => selections.push(name));
   }
-  selections = selections.map((field) => `${field} { linkage { id type } self related }`);
+  const includeSelections = withLinkage || withUrls;
+  selections = includeSelections ? selections.map((field) => {
+    const subFields = [];
+    if (withLinkage) subFields.push('linkage { id type }');
+    if (withUrls) subFields.push('self related');
+    return `${field} { ${subFields.join(' ')} }`;
+  }) : [];
 
   const name = `${type}LinksFragment`;
   return extractFragmentData(gql`

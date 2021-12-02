@@ -6,11 +6,15 @@ export default ({
   attributes,
   relationships,
   queryName,
+  withLinkUrls = true,
+  withLinkage = true,
 } = {}) => {
   const { spreadFragmentName, processedFragment } = createFragment({
     type,
     attributes,
     relationships,
+    withLinkUrls,
+    withLinkage,
   });
   return gql`
     query ${type}ById($input: FindByIdQueryInput!) {
