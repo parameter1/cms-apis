@@ -11,7 +11,6 @@ directive @array(field: String) on FIELD_DEFINITION
 directive @linkage(
   type: String!
   field: String
-  ref: LinkageRefTypeEnum!
   empty: Boolean = false
 ) on FIELD_DEFINITION
 
@@ -19,11 +18,6 @@ directive @trim(field: String, default: String) on FIELD_DEFINITION
 
 scalar JSONObject
 scalar ObjectID
-
-enum LinkageRefTypeEnum {
-  ONE
-  MANY
-}
 
 type Query {
   ping: String!
