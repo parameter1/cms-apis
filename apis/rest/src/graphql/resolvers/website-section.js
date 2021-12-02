@@ -1,7 +1,5 @@
 import { getAsArray } from '@cms-apis/object-path';
 
-export const TYPE = 'website/section';
-
 export default {
   /**
    *
