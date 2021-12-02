@@ -41,6 +41,7 @@
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "http-errors": "^1.8.1",
+    "graphql": "^15.7.2",
     "graphql-type-json": "^0.3.2",
     "inflected": "^2.1.0",
     "lodash.merge": "^4.6.2",
