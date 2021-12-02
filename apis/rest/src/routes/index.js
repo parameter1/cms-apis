@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import persistence from './persistence.js';
+import persistence from './persistence/index.js';
 
 export default (app) => {
   const { constants } = app.locals;
