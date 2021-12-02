@@ -25,6 +25,10 @@ const createModelRouter = (model) => {
     res.json({ data: [], included: [], meta });
   });
 
+  router.post('/query', (req, res) => {
+    res.json({ data: [], included: [], meta });
+  });
+
   router.patch('/:id', (req, res) => {
     const { id } = req.params;
     res.json({ data: { id }, included: [], meta });
