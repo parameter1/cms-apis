@@ -16,12 +16,14 @@ export default (schema) => {
     const { $meta } = astNode;
     const { restType } = $meta;
 
+    let idType;
     const attrs = new Map();
     const links = new Map();
 
     Object.values(type.getFields()).forEach((field) => {
       if (field.name === 'id') {
         // auto resolve id field
+        idType = `${getReturnType(field.type)}`;
         field.resolve = (doc) => doc._id;
         return;
       }
@@ -51,6 +53,7 @@ export default (schema) => {
 
     models.set(restType, Model({
       ...$meta,
+      idType,
       path: `/${restType}`,
       meta: createModelMeta(restType),
       attrs,
