@@ -1,10 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { isObjectType } from 'graphql';
+import mapModelQueries from './map-model-queries.js';
 import getReturnType from '../utils/get-return-type.js';
-import createModelMeta from '../../utils/create-model-meta.js';
-import Model from './model.js';
+import Model from '../../model/index.js';
 
 export default (schema) => {
+  mapModelQueries(schema);
+
   const models = new Map();
   const types = schema.getTypeMap();
 
@@ -13,12 +15,12 @@ export default (schema) => {
     const { astNode } = type;
     if (!astNode || !astNode.$meta) return;
 
-    const { $meta } = astNode;
+    const { $meta, $queryNames } = astNode;
     const { restType } = $meta;
 
     let idType;
-    const attrs = new Map();
-    const links = new Map();
+    const attributes = new Map();
+    const relationships = new Map();
 
     Object.values(type.getFields()).forEach((field) => {
       if (field.name === 'id') {
@@ -41,24 +43,24 @@ export default (schema) => {
               .self({ id: doc._id, restType });
             return;
           }
-          links.set(f.name, {
+          relationships.set(f.name, {
             name: f.name,
             linkage: f.astNode.$linkage,
           });
         });
         return;
       }
-      attrs.set(field.name, { name: field.name, type: `${getReturnType(field.type)}` });
+      attributes.set(field.name, { name: field.name, type: `${getReturnType(field.type)}` });
     });
 
     models.set(restType, Model({
-      ...$meta,
       idType,
-      path: `/${restType}`,
-      meta: createModelMeta(restType),
-      attrs,
-      links,
+      restType: $meta.restType,
+      repoName: $meta.repoName,
       graphQLTypeObj: type,
+      attributes,
+      relationships,
+      queryNames: $queryNames || new Map(),
     }));
   });
 

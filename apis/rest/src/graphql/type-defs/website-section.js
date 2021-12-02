@@ -3,8 +3,10 @@ import gql from '@cms-apis/graphql/tag';
 export default gql`
 
 extend type Query {
-  websiteSectionById(input: QueryWebsiteSectionByIdInput!): WebsiteSection
-  websiteSections(input: QueryWebsiteSectionsInput = {}): [WebsiteSection!]!
+  websiteSectionById(input: QueryByIdIntInput!): WebsiteSection
+    @loader(kind: ONE)
+  websiteSections(input: QueryManyIntInput = {}): [WebsiteSection!]!
+    @loader(kind: MANY)
 }
 
 type WebsiteSection @meta(
@@ -63,15 +65,6 @@ type WebsiteSectionLinks {
     restType: "website/product/site"
     field: "website"
   )
-}
-
-input QueryWebsiteSectionByIdInput {
-  id: Int!
-}
-
-input QueryWebsiteSectionsInput {
-  ids: [Int!]! = []
-  limit: Int = 50
 }
 
 `;

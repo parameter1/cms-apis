@@ -9,6 +9,10 @@ directive @meta(
   repoName: String!
 ) on OBJECT
 
+directive @loader(
+  kind: RestLoaderKindEnum!
+) on FIELD_DEFINITION
+
 directive @array(field: String) on FIELD_DEFINITION
 
 directive @linkage(
@@ -21,6 +25,11 @@ directive @trim(field: String, default: String) on FIELD_DEFINITION
 
 scalar JSONObject
 scalar ObjectID
+
+enum RestLoaderKindEnum {
+  ONE
+  MANY
+}
 
 type Query {
   ping: String!
@@ -62,6 +71,22 @@ type IntLinkage {
 type ObjectIDLinkage {
   id: ObjectID!
   type: String!
+}
+
+input QueryByIdIntInput {
+  id: Int!
+}
+
+input QueryManyIntInput {
+  ids: [Int!]! = []
+}
+
+input QueryByIdObjectIDInput {
+  id: Int!
+}
+
+input QueryManyObjectIDInput {
+  ids: [ObjectID!]! = []
 }
 
 ${websiteSection}

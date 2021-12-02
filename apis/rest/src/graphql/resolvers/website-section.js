@@ -4,18 +4,6 @@ export default {
   /**
    *
    */
-  Query: {
-    /**
-     *
-     */
-    websiteSectionById(_, { input }, { db }) {
-      return db.repo('website-sections').findById({ id: input.id });
-    },
-  },
-
-  /**
-   *
-   */
   WebsiteSection: {
     descendantIds(section) {
       return getAsArray(section, '_connection.descendants').reduce((arr, desc) => {
