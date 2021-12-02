@@ -49,13 +49,11 @@ export default (schema) => {
     });
 
     models.set(restType, {
-      meta: {
-        ...$meta,
-        path: `/${restType}`,
-        model: createModelMeta(restType),
-        attrs,
-        links,
-      },
+      ...$meta,
+      path: `/${restType}`,
+      meta: createModelMeta(restType),
+      attrs,
+      links,
       type,
     });
   });
