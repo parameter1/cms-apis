@@ -28,8 +28,9 @@ scalar JSONObject
 scalar ObjectID
 
 enum RestQueryKindEnum {
-  FIND_BY_ID
   FIND
+  FIND_BY_ID
+  LOAD_MANY
 }
 
 type Query {
@@ -63,6 +64,10 @@ input FindByIdQueryInput {
 
 input FindQueryInput {
   ids: [BaseID!]! = []
+}
+
+input LoadManyQueryInput {
+  ids: [BaseID!]!
 }
 
 # input QueryByIdIntInput {

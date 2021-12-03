@@ -3,6 +3,8 @@ import gql from '@cms-apis/graphql/tag';
 export default gql`
 
 extend type Query {
+  loadWebsiteSections(input: LoadManyQueryInput!): [WebsiteSection!]!
+    @query(kind: LOAD_MANY)
   websiteSectionById(input: FindByIdQueryInput!): WebsiteSection
     @query(kind: FIND_BY_ID)
   websiteSections(input: FindQueryInput = {}): [WebsiteSection!]!

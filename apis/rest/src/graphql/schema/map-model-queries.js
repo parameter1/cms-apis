@@ -29,5 +29,12 @@ export default (schema) => {
         return repo.find({ query: criteria });
       };
     }
+    if (kind === 'LOAD_MANY') {
+      query.resolve = (_, { input }, { loaders }) => {
+        const loader = loaders.get($meta.repoName);
+        const { ids } = input;
+        return ids.length ? loader.loadMany(ids) : [];
+      };
+    }
   });
 };
