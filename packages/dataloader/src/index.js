@@ -1,18 +1,30 @@
 import DataLoader from 'dataloader';
-import { asObject } from '@cms-apis/utils';
+import { asObject, isFunction as isFn } from '@cms-apis/utils';
 import { createQueryMap, reduceKeys } from './utils/index.js';
 
-export default class MongoDBLoader {
+export default class MongoDBRepoLoader {
   /**
    * @param {object} params
-   * @param {Collection} params.collection The MongoDB collection to load data from
+   * @param {string} params.name The dataloader name
+   * @param {Repo} params.repo The MongoDB repo to load data from
    * @param {object} [params.options] Options to send to the data loader
+   * @param {object} [params.logger] A key logger to use when loading
+   * @param {function} [params.coercionFn] An optional identifier value coercion function
    */
-  constructor({ collection, options } = {}) {
-    this.collection = collection;
+  constructor({
+    name,
+    repo,
+    options,
+    logger,
+    coercionFn,
+  } = {}) {
+    this.name = name;
+    this.repo = repo;
+    this.logger = logger;
+    this.coercionFn = coercionFn;
     this.loader = new DataLoader(this.batchLoadFn.bind(this), {
       ...options,
-      cacheKeyFn: MongoDBLoader.cacheKeyFn,
+      cacheKeyFn: MongoDBRepoLoader.cacheKeyFn,
     });
   }
 
@@ -23,9 +35,21 @@ export default class MongoDBLoader {
    * @param {object} [params.projection] The document projection object (e.g. the fields to return)
    */
   load({ foreignField = '_id', value, projection } = {}) {
-    const { fields } = MongoDBLoader.prepare({ foreignField, projection });
+    const { fields } = MongoDBRepoLoader.prepare({ foreignField, projection });
     const key = { foreignField, value, fields };
     return this.loader.load(key);
+  }
+
+  /**
+   * @param {object} params
+   * @param {string} [params.foreignField=_id] The foreign field to query.
+   * @param {*[]} params.values The document id values to load
+   * @param {object} [params.projection] The document projection object (e.g. the fields to return)
+   */
+  loadMany({ foreignField = '_id', values, projection } = {}) {
+    const { fields } = MongoDBRepoLoader.prepare({ foreignField, projection });
+    const keys = values.map((value) => ({ foreignField, value, fields }));
+    return this.loader.loadMany(keys);
   }
 
   /**
@@ -33,14 +57,25 @@ export default class MongoDBLoader {
    * @param {array} keys
    */
   async batchLoadFn(keys) {
+    const { coercionFn, logger, name } = this;
     const idMap = reduceKeys(keys);
     const queryMap = createQueryMap(idMap);
 
     const promises = [];
     queryMap.forEach(({ foreignField, values, projection }) => {
-      const query = { [foreignField]: { $in: values } };
+      const coerced = isFn(coercionFn) ? values.map(coercionFn) : values;
+      const query = { [foreignField]: { $in: coerced } };
+      if (isFn(logger)) {
+        logger('Loader keys:', {
+          name,
+          foreignField,
+          values: coerced,
+          projection,
+        });
+      }
       promises.push((async () => {
-        const docs = await this.collection.find(query, { projection }).toArray();
+        const cursor = await this.repo.find({ query, options: { projection } });
+        const docs = await cursor.toArray();
         return { foreignField, docs };
       })());
     });
@@ -57,6 +92,7 @@ export default class MongoDBLoader {
     return keys.map(({ foreignField, value }) => {
       const key = `${foreignField}:${value}`;
       const doc = resultMap.get(key) || null;
+      if (!doc) process.emitWarning(`WARNING: No result for ${name} using key ${key}`);
       return doc;
     });
   }
