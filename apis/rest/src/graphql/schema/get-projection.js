@@ -1,4 +1,5 @@
 import { get } from '@cms-apis/graphql/projection';
+import escapeRegex from 'escape-string-regexp';
 import getSelectedFieldMap from '../utils/get-selected-fields.js';
 
 export default (info) => {
@@ -32,8 +33,20 @@ export default (info) => {
     if (field) linkSelections.push(field);
   });
 
-  return {
+  const projectKeys = new Set(Object.keys({
     ...root,
     ...get(schema, links.field.type, { selections: linkSelections }, fragments),
-  };
+  }));
+
+  // clear the "most-specific" project keys
+  projectKeys.forEach((key) => {
+    const pattern = new RegExp(`^${escapeRegex(key)}`);
+    projectKeys.forEach((toTest) => {
+      if (key === toTest) return;
+      if (pattern.test(toTest)) projectKeys.delete(toTest);
+    });
+  });
+  const projection = {};
+  projectKeys.forEach((key) => { projection[key] = 1; });
+  return projection;
 };
