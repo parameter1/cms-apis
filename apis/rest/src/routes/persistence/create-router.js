@@ -18,11 +18,12 @@ export default ({ restType, modelManager } = {}) => {
    */
   router.get('/', asyncRoute(async (req, res) => {
     const { graphql } = res.locals;
-    const params = parseQuery(req.query);
+    const query = parseQuery(req.query, model);
     const docs = await model.find({
       graphql,
-      fields: params.fields,
-      pagination: { limit: params.limit, skip: params.skip },
+      fields: query.fields,
+      pagination: { limit: query.limit, skip: query.skip },
+      sort: query.sort,
       withLinkUrls: false,
     });
     const included = await sideloadDataFor({
@@ -41,10 +42,10 @@ export default ({ restType, modelManager } = {}) => {
    */
   router.get('/:id', asyncRoute(async (req, res) => {
     const { graphql } = res.locals;
-    const params = parseQuery(req.query);
+    const query = parseQuery(req.query, model);
     const doc = await model.findById({
       graphql,
-      fields: params.fields,
+      fields: query.fields,
       id: req.params.id,
       withLinkUrls: false,
     });

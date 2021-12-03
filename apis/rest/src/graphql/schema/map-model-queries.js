@@ -26,12 +26,16 @@ export default (schema) => {
       query.resolve = async (_, { input }, { db }, info) => {
         const projection = getProjection(info);
         const repo = db.repo($meta.repoName);
-        const { pagination } = input;
+        const { pagination, sort } = input;
         const criteria = {};
         const options = {
           projection,
           limit: pagination.limit,
           skip: pagination.skip,
+          sort: sort.length ? sort.reduce((o, { field, order }) => {
+            const dir = order === 'ASC' ? 1 : -1;
+            return { ...o, [field]: dir };
+          }, {}) : undefined,
         };
         const cursor = await repo.find({ query: criteria, options });
         return cursor.toArray();

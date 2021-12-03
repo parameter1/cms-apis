@@ -13,6 +13,7 @@ export default function projectDirectiveTransformer(schema, directiveName = 'pro
         const definedField = astNode ? astNode.name.value : null;
         const name = args.field || definedField;
         if (astNode) {
+          astNode.$dbFieldName = name;
           astNode.$project = asArray(args.needs).reduce((o, key) => ({
             ...o,
             [key]: 1,

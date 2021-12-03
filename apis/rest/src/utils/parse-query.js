@@ -1,7 +1,8 @@
 import createError from 'http-errors';
 import { get } from '@cms-apis/object-path';
 
-export default (query) => {
+export default (query, model) => {
+  const attributes = model.getAttributes();
   const limit = parseInt(query.limit, 10);
   const skip = parseInt(query.skip, 10);
   const parsed = {
@@ -10,13 +11,17 @@ export default (query) => {
     exclude: new Set((get(query, 'filter.exclude') || '').split(',').map((v) => v.trim()).filter((v) => v)),
     limit: limit > 0 ? limit : 50,
     skip: skip > 0 ? skip : 0,
-    sort: (query.sort || '').split(',').reduce((o, field) => {
+    sort: (query.sort || '').split(',').reduce((arr, field) => {
       const pattern = /^-/;
       const trimmed = field.trim();
-      if (!trimmed) return o;
-      const dir = pattern.test(trimmed) ? -1 : 1;
-      return { ...o, [trimmed.replace(pattern, '')]: dir };
-    }, {}),
+      if (!trimmed) return arr;
+
+      const order = pattern.test(trimmed) ? 'DESC' : 'ASC';
+      const attr = attributes.get(trimmed.replace(pattern, ''));
+      if (!attr) return arr;
+      arr.push({ field: attr.dbFieldName, order });
+      return arr;
+    }, []),
   };
 
   if (parsed.include.size && parsed.fields.size) {

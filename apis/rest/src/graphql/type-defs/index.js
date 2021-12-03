@@ -41,6 +41,11 @@ enum RestQueryKindEnum {
   LOAD_MANY
 }
 
+enum SortOrderEnum {
+  ASC
+  DESC
+}
+
 type Query {
   ping: String!
 }
@@ -71,7 +76,8 @@ input FindByIdQueryInput {
 }
 
 input FindQueryInput {
-  pagination: PaginationInput = {}
+  pagination: PaginationInput! = {}
+  sort: [SortInput!]! = []
 }
 
 input LoadManyQueryInput {
@@ -81,6 +87,11 @@ input LoadManyQueryInput {
 input PaginationInput {
   limit: Int = 50
   skip: Int = 0
+}
+
+input SortInput {
+  field: String!
+  order: SortOrderEnum!
 }
 
 ${website}

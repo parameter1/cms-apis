@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { isObjectType } from 'graphql';
+import { get } from '@cms-apis/object-path';
 import mapModelQueries from './map-model-queries.js';
 import getReturnType from '../utils/get-return-type.js';
 import Model from '../../model/index.js';
@@ -52,7 +53,11 @@ export default (schema) => {
         });
         return;
       }
-      attributes.set(field.name, { name: field.name, type: `${getReturnType(field.type)}` });
+      attributes.set(field.name, {
+        name: field.name,
+        dbFieldName: get(field, 'astNode.$dbFieldName'),
+        type: `${getReturnType(field.type)}`,
+      });
     });
 
     models.set(restType, Model({

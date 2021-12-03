@@ -40,6 +40,7 @@ export default ({
       graphql,
       pagination,
       fields,
+      sort,
       withLinkUrls = true,
       withLinkage = true,
     } = {}) => {
@@ -47,7 +48,7 @@ export default ({
       const queryName = queryNames.get('FIND');
       if (!queryName) throw new Error(`Unable to extract a FIND query name for ${type}`);
 
-      const input = { pagination };
+      const input = { pagination, sort };
       const query = createFindQuery({
         type,
         attributes,
