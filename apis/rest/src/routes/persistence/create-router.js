@@ -20,6 +20,7 @@ export default ({ restType, modelManager } = {}) => {
     const docs = await model.find({
       graphql,
       pagination: { limit: params.limit, skip: params.skip },
+      withLinkUrls: false,
     });
     const included = await sideloadDataFor({
       graphql,
