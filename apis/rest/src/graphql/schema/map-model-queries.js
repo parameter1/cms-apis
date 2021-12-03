@@ -30,10 +30,11 @@ export default (schema) => {
       };
     }
     if (kind === 'LOAD_MANY') {
-      query.resolve = (_, { input }, { loaders }) => {
+      query.resolve = async (_, { input }, { loaders }) => {
         const loader = loaders.get($meta.repoName);
         const { ids } = input;
-        return ids.length ? loader.loadMany(ids) : [];
+        const docs = ids.length ? await loader.loadMany(ids) : [];
+        return docs.filter((doc) => doc); // prevent null nodes
       };
     }
   });
