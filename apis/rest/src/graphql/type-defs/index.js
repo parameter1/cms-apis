@@ -1,5 +1,6 @@
 import gql from '@cms-apis/graphql/tag';
 
+import website from './website.js';
 import websiteSection from './website-section.js';
 
 export default gql`
@@ -76,22 +77,7 @@ input LoadManyQueryInput {
   ids: [BaseID!]!
 }
 
-# input QueryByIdIntInput {
-#   id: Int!
-# }
-
-# input QueryManyIntInput {
-#   ids: [Int!]! = []
-# }
-
-# input QueryByIdObjectIDInput {
-#   id: Int!
-# }
-
-# input QueryManyObjectIDInput {
-#   ids: [ObjectID!]! = []
-# }
-
+${website}
 ${websiteSection}
 
 `;

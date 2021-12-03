@@ -3,6 +3,7 @@ import { GraphQLObjectID, GraphQLBaseID } from '@cms-apis/graphql/types';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { ObjectId } from '@cms-apis/db';
 
+import website from './website.js';
 import websiteSection from './website-section.js';
 
 export default merge(
@@ -21,5 +22,6 @@ export default merge(
       },
     },
   },
+  website,
   websiteSection,
 );
