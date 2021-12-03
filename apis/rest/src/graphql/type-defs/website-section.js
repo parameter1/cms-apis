@@ -36,32 +36,32 @@ type WebsiteSection @meta(
 
 type WebsiteSectionLinks {
   self: String!
-  children: IntLinkMany! @linkage(
+  children: LinkMany! @linkage(
     restType: "website/section"
     field: "descendants"
   )
-  coverImage: ObjectIDLinkOne! @linkage(
+  coverImage: LinkOne! @linkage(
     restType: "platform/asset/image"
   )
-  logo: ObjectIDLinkOne! @linkage(
+  logo: LinkOne! @linkage(
     restType: "platform/asset/image"
   )
-  options: IntLinkMany! @linkage(
+  options: LinkMany! @linkage(
     restType: "website/option"
     empty: true
   )
-  parent: IntLinkOne! @linkage(
+  parent: LinkOne! @linkage(
     restType: "website/section"
   )
-  relatedSections: IntLinkMany! @linkage(
+  relatedSections: LinkMany! @linkage(
     restType: "website/section"
     field: "related"
   )
-  relatedTaxonomy: IntLinkMany! @linkage(
+  relatedTaxonomy: LinkMany! @linkage(
     restType: "platform/taxonomy"
     empty: true
   )
-  site: ObjectIDLinkOne! @linkage(
+  site: LinkOne! @linkage(
     restType: "website/product/site"
     field: "website"
   )

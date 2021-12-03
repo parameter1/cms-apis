@@ -11,10 +11,10 @@ export default function linkageDirectiveTransformer(schema, directiveName = 'lin
       const { astNode } = fieldConfig;
       if (args && astNode) {
         const returnType = getReturnType(fieldConfig.type);
-        if (!/Link(One|Many)$/.test(returnType.name)) {
+        if (!/^Link(One|Many)$/.test(returnType.name)) {
           throw new Error('Unexptected return type encountered. Expected a LinkOne or LinkMany object.');
         }
-        const ref = /LinkOne$/.test(returnType.name) ? 'ONE' : 'MANY';
+        const ref = returnType.name === 'LinkOne' ? 'ONE' : 'MANY';
         const field = args.field || astNode.name.value;
         if (!field) throw new Error('No target linkage field was provided.');
         const target = ref === 'ONE' ? `_edge.${field}` : `_connection.${field}`;
