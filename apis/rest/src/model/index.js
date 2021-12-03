@@ -1,4 +1,5 @@
 import { LegacyDB } from '@cms-apis/db';
+import createFindQuery from './create-find-query.js';
 import createFindByIdQuery from './create-find-by-id-query.js';
 import createLoadManyQuery from './create-load-many-query.js';
 import createModelMeta from '../utils/create-model-meta.js';
@@ -24,6 +25,40 @@ export default ({
 } = {}) => {
   const meta = createModelMeta(restType);
   return {
+    /**
+     *
+     * @param {object} params
+     * @param {object} params.graphql The GraphQL client
+     * @param {paginaton} params.pagination
+     * @param {number} params.pagination.limit
+     * @param {number} params.pagination.skip
+     * @param {boolean} [params.withLinkUrls=true] Whether links should include URLs
+     * @param {boolean} [params.withLinkage=true] Whether links should linkage objects
+     * @returns {Promise<object?>}
+     */
+    find: async ({
+      graphql,
+      pagination,
+      withLinkUrls = true,
+      withLinkage = true,
+    } = {}) => {
+      const type = graphQLTypeObj.name;
+      const queryName = queryNames.get('FIND');
+      if (!queryName) throw new Error(`Unable to extract a FIND query name for ${type}`);
+
+      const input = { pagination };
+      const query = createFindQuery({
+        type,
+        attributes,
+        relationships,
+        queryName,
+        withLinkUrls,
+        withLinkage,
+      });
+      const { data } = await graphql.query({ query, variables: { input } });
+      return data[queryName];
+    },
+
     /**
      *
      * @todo Eventually create a true "loader" action that uses DLs

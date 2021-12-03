@@ -23,13 +23,18 @@ export default (schema) => {
       };
     }
     if (kind === 'FIND') {
-      query.resolve = (_, { input }, { db }) => {
+      query.resolve = async (_, { input }, { db }, info) => {
+        const projection = getProjection(info);
         const repo = db.repo($meta.repoName);
-        const { ids } = input;
-        const criteria = {
-          ...(ids.length && { _id: { $in: ids } }),
+        const { pagination } = input;
+        const criteria = {};
+        const options = {
+          projection,
+          limit: pagination.limit,
+          skip: pagination.skip,
         };
-        return repo.find({ query: criteria });
+        const cursor = await repo.find({ query: criteria, options });
+        return cursor.toArray();
       };
     }
     if (kind === 'LOAD_MANY') {

@@ -3,6 +3,7 @@ import createError from 'http-errors';
 import sideloadDataFor from './sideload-data-for.js';
 import asyncRoute from '../../utils/async-route.js';
 import cleanNode from '../../utils/clean-node.js';
+import parseQuery from '../../utils/parse-query.js';
 
 export default ({ restType, modelManager } = {}) => {
   const model = modelManager.get(restType);
@@ -10,9 +11,24 @@ export default ({ restType, modelManager } = {}) => {
   const router = Router();
   const meta = { model: model.getMeta() };
 
-  router.get('/', (req, res) => {
-    res.json({ data: [], included: [], meta });
-  });
+  /**
+   * Retrive many.
+   */
+  router.get('/', asyncRoute(async (req, res) => {
+    const { graphql } = res.locals;
+    const params = parseQuery(req.query);
+    const docs = await model.find({
+      graphql,
+      pagination: { limit: params.limit, skip: params.skip },
+    });
+    const included = await sideloadDataFor({
+      graphql,
+      docs,
+      modelManager,
+      throwOnMissingModel: false,
+    });
+    res.json({ data: docs.map(cleanNode), included, meta });
+  }));
 
   /**
    * Retrieve one by ID.

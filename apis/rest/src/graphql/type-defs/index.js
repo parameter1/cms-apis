@@ -71,11 +71,16 @@ input FindByIdQueryInput {
 }
 
 input FindQueryInput {
-  ids: [BaseID!]! = []
+  pagination: PaginationInput = {}
 }
 
 input LoadManyQueryInput {
   ids: [BaseID!]!
+}
+
+input PaginationInput {
+  limit: Int = 50
+  skip: Int = 0
 }
 
 ${website}
