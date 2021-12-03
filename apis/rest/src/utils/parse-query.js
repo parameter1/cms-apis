@@ -8,7 +8,7 @@ export default (query) => {
     fields: new Set((query.fields || '').split(',').map((v) => v.trim()).filter((v) => v)),
     include: new Set((query.include || '').split(',').map((v) => v.trim()).filter((v) => v)),
     exclude: new Set((get(query, 'filter.exclude') || '').split(',').map((v) => v.trim()).filter((v) => v)),
-    limit: limit > 0 ? limit : null,
+    limit: limit > 0 ? limit : 50,
     skip: skip > 0 ? skip : 0,
     sort: (query.sort || '').split(',').reduce((o, field) => {
       const pattern = /^-/;
