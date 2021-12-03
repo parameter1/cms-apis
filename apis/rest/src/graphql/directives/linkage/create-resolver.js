@@ -16,11 +16,19 @@ export default ({
   });
 
   if (empty) return { linkage: ref === 'ONE' ? null : [], ...links };
-  if (ref === 'ONE') {
-    const id = get(doc, `${target}.node._id`);
-    return { linkage: id ? { id, type: restType } : null, ...links };
-  }
   const filter = get(filters, `${parent.name.value}.${info.fieldName}`, () => true);
+
+  if (ref === 'ONE') {
+    const edge = get(doc, target);
+    if (!edge) return { linkage: null, ...links };
+    const id = get(doc, `${target}.node._id`);
+    if (!id) return { linkage: null, ...links };
+    const filtered = filter(edge);
+    return {
+      linkage: filtered ? { id, type: restType } : null,
+      ...links,
+    };
+  }
   return {
     linkage: getAsArray(doc, target)
       .filter((edge) => edge && edge.node && edge.node._id && filter(edge))
