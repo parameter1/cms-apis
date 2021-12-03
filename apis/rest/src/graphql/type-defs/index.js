@@ -1,6 +1,7 @@
 import gql from '@cms-apis/graphql/tag';
 
 import website from './website.js';
+import websiteScheduleOption from './website-schedule-option.js';
 import websiteSection from './website-section.js';
 
 export default gql`
@@ -78,6 +79,7 @@ input LoadManyQueryInput {
 }
 
 ${website}
+${websiteScheduleOption}
 ${websiteSection}
 
 `;
