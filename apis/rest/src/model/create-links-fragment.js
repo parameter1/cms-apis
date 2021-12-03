@@ -24,8 +24,7 @@ export default ({
     if (withUrls) subFields.push('self related');
     return `${field} { ${subFields.join(' ')} }`;
   }) : [];
-
-  const name = `${type}LinksFragment`;
+  const name = `${type}LinksFragment${withLinkage ? 'WithLinkage' : ''}${withUrls ? 'WithUrls' : ''}`;
   return extractFragmentData(gql`
     fragment ${name} on ${type} {
       links {

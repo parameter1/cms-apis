@@ -20,7 +20,7 @@ export default ({
     withLinkage,
   });
 
-  const name = `${type}ResponseFragment`;
+  const name = `${type}ResponseFragment${withLinkage ? 'WithLinkage' : ''}${withLinkUrls ? 'WithLinkUrls' : ''}`;
 
   return extractFragmentData(gql`
     fragment ${name} on ${type} {
