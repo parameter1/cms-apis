@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { mapSchema, getDirective, MapperKind } from '@cms-apis/graphql/utils';
 import { getAsObject } from '@cms-apis/object-path';
+import { asObject } from '@cms-apis/utils';
 
 export default function objectDirectiveTransformer(schema, directiveName = 'object') {
   return mapSchema(schema, {
@@ -11,7 +12,15 @@ export default function objectDirectiveTransformer(schema, directiveName = 'obje
         const { astNode } = fieldConfig;
         const definedField = astNode ? astNode.name.value : null;
         const name = args.field || definedField;
-        if (!fieldConfig.resolve) fieldConfig.resolve = (obj) => getAsObject(obj, name);
+
+        const { resolve: defaultFieldResolver } = fieldConfig;
+        fieldConfig.resolve = async (obj, ...rest) => {
+          if (defaultFieldResolver) {
+            const r = await defaultFieldResolver(obj, ...rest);
+            return asObject(r);
+          }
+          return getAsObject(obj, name);
+        };
       }
     },
   });

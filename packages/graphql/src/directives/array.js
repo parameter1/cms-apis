@@ -1,8 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { mapSchema, getDirective, MapperKind } from '@cms-apis/graphql/utils';
 import { getAsArray } from '@cms-apis/object-path';
+import { asArray } from '@cms-apis/utils';
 
-export default function trimDirectiveTransformer(schema, directiveName = 'array') {
+export default function arrayDirectiveTransformer(schema, directiveName = 'array') {
   return mapSchema(schema, {
     [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
       const directive = getDirective(schema, fieldConfig, directiveName);
@@ -11,7 +12,15 @@ export default function trimDirectiveTransformer(schema, directiveName = 'array'
         const { astNode } = fieldConfig;
         const definedField = astNode ? astNode.name.value : null;
         const name = args.field || definedField;
-        if (!fieldConfig.resolve) fieldConfig.resolve = (obj) => getAsArray(obj, name);
+
+        const { resolve: defaultFieldResolver } = fieldConfig;
+        fieldConfig.resolve = async (obj, ...rest) => {
+          if (defaultFieldResolver) {
+            const r = await defaultFieldResolver(obj, ...rest);
+            return asArray(r);
+          }
+          return getAsArray(obj, name);
+        };
       }
     },
   });
