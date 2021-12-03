@@ -7,8 +7,11 @@ const createError = (value) => new TypeError(`The provided value "${value}" is n
 
 export default (ObjectId) => {
   const createFromString = (value) => {
+    if (typeof value === 'object' && pattern.test(`${value}`)) return `${value}`;
+
     if (typeof value !== 'string') throw createError(value);
     if (pattern.test(value)) return ObjectId.createFromHexString(value);
+
     const int = parseInt(value, 10);
     if (int == null || Number.isNaN(int)) throw createError(value);
     return int;
