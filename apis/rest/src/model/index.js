@@ -39,6 +39,7 @@ export default ({
     find: async ({
       graphql,
       pagination,
+      fields,
       withLinkUrls = true,
       withLinkage = true,
     } = {}) => {
@@ -51,6 +52,7 @@ export default ({
         type,
         attributes,
         relationships,
+        selected: fields,
         queryName,
         withLinkUrls,
         withLinkage,
@@ -60,9 +62,6 @@ export default ({
     },
 
     /**
-     *
-     * @todo Eventually create a true "loader" action that uses DLs
-     * @todo Prime the DL with the response (if found)
      *
      * @param {object} params
      * @param {object} params.graphql The GraphQL client
@@ -74,6 +73,7 @@ export default ({
     findById: async ({
       graphql,
       id,
+      fields,
       withLinkUrls = true,
       withLinkage = true,
     } = {}) => {
@@ -86,6 +86,7 @@ export default ({
         type,
         attributes,
         relationships,
+        selected: fields,
         queryName,
         withLinkUrls,
         withLinkage,

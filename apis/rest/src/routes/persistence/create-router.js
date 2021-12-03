@@ -13,12 +13,15 @@ export default ({ restType, modelManager } = {}) => {
 
   /**
    * Retrive many.
+   *
+   * @todo handle include, exclude, and sort
    */
   router.get('/', asyncRoute(async (req, res) => {
     const { graphql } = res.locals;
     const params = parseQuery(req.query);
     const docs = await model.find({
       graphql,
+      fields: params.fields,
       pagination: { limit: params.limit, skip: params.skip },
       withLinkUrls: false,
     });
@@ -33,11 +36,15 @@ export default ({ restType, modelManager } = {}) => {
 
   /**
    * Retrieve one by ID.
+   *
+   * @todo handle include, exclude
    */
   router.get('/:id', asyncRoute(async (req, res) => {
     const { graphql } = res.locals;
+    const params = parseQuery(req.query);
     const doc = await model.findById({
       graphql,
+      fields: params.fields,
       id: req.params.id,
       withLinkUrls: false,
     });
