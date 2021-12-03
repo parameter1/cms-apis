@@ -37,6 +37,7 @@
     "apollo-client": "^2.6.10",
     "apollo-link-schema": "^1.2.5",
     "cors": "^2.8.5",
+    "dataloader": "^2.0.0",
     "envalid": "^7.2.2",
     "express": "^4.17.1",
     "helmet": "^4.6.0",

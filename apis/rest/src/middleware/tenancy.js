@@ -1,8 +1,10 @@
 import createError from 'http-errors';
 import createDb from '../mongodb/create-db.js';
 import createGraphQLClient from '../graphql/create-client.js';
+import createLoaders from '../mongodb/create-loaders.js';
 
 const param = 'x-tenant-key';
+const { log } = console;
 
 export default () => (req, res, next) => {
   const tenant = req.headers[param] || req.query[param];
@@ -10,6 +12,16 @@ export default () => (req, res, next) => {
   const db = createDb({ tenant });
   res.locals.tenant = tenant;
   res.locals.db = db;
-  res.locals.graphql = createGraphQLClient({ db, req, tenant });
+  const loaders = createLoaders({
+    db,
+    logger: process.env.NODE_ENV === 'development' ? log : null,
+  });
+  res.locals.loaders = loaders;
+  res.locals.graphql = createGraphQLClient({
+    db,
+    loaders,
+    req,
+    tenant,
+  });
   next();
 };
