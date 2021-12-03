@@ -14,6 +14,7 @@ directive @query(
 ) on FIELD_DEFINITION
 
 directive @array(field: String) on FIELD_DEFINITION
+directive @object(field: String) on FIELD_DEFINITION
 
 directive @linkage(
   restType: String!

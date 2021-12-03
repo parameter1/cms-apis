@@ -2,6 +2,7 @@
 import { makeExecutableSchema } from '@cms-apis/graphql/schema';
 import {
   arrayDirectiveTransformer,
+  objectDirectiveTransformer,
   trimDirectiveTransformer,
   metaDirectiveTransformer,
   linkageDirectiveTransformer,
@@ -18,7 +19,8 @@ const schema = makeExecutableSchema({
 
 const withTrim = trimDirectiveTransformer(schema);
 const withArray = arrayDirectiveTransformer(withTrim);
-const withMeta = metaDirectiveTransformer(withArray);
+const withObject = objectDirectiveTransformer(withArray);
+const withMeta = metaDirectiveTransformer(withObject);
 const withLinkage = linkageDirectiveTransformer(withMeta);
 const withQuery = queryDirectiveTransformer(withLinkage);
 
