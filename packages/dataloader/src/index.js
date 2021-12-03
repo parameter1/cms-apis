@@ -1,5 +1,6 @@
 import DataLoader from 'dataloader';
 import { asObject, isFunction as isFn } from '@cms-apis/utils';
+import escapeRegex from 'escape-string-regexp';
 import { createQueryMap, reduceKeys } from './utils/index.js';
 
 export default class MongoDBRepoLoader {
@@ -113,6 +114,16 @@ export default class MongoDBRepoLoader {
    */
   static prepare({ foreignField, projection } = {}) {
     const projectKeys = new Set(Object.keys(asObject(projection)));
+
+    // clear the "most-specific" project keys
+    projectKeys.forEach((key) => {
+      const pattern = new RegExp(`^${escapeRegex(key)}`);
+      projectKeys.forEach((toTest) => {
+        if (key === toTest) return;
+        if (pattern.test(toTest)) projectKeys.delete(toTest);
+      });
+    });
+
     // ensure `_id` is added when projected fields are set
     // this ensures that the project cache key will be consistent
     // also ensure the foreign field is projected
