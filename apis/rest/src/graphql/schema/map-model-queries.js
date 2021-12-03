@@ -14,9 +14,9 @@ export default (schema) => {
 
     const { $meta } = type.astNode;
     if (kind === 'FIND_BY_ID') {
-      query.resolve = (_, { input }, { db }) => {
-        const repo = db.repo($meta.repoName);
-        return repo.findById({ id: input.id });
+      query.resolve = (_, { input }, { loaders }) => {
+        const loader = loaders.get($meta.repoName);
+        return loader.load(input.id);
       };
     }
     if (kind === 'FIND') {
