@@ -3,7 +3,7 @@ import { mapSchema, getDirective, MapperKind } from '@graphql-tools/utils';
 import { asArray } from '@cms-apis/utils';
 import { get } from '@cms-apis/object-path';
 
-export default function projectDirectiveTransformer(schema, directiveName) {
+export default function projectDirectiveTransformer(schema, directiveName = 'project') {
   return mapSchema(schema, {
     [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
       const directive = getDirective(schema, fieldConfig, directiveName);

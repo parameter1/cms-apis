@@ -17,16 +17,15 @@ type WebsiteSection @meta(
 ) {
   id: Int!
   type: String!
+  links: WebsiteSectionLinks!
 
   accessControl: [String!]! @array
-  alias: String @trim
-  canonicalUrl: String @trim(field: "seo.canonicalUrl")
-  descendantIds: [Int!]!
+  alias: String @project @trim
+  descendantIds: [Int!]! @project(field: "_connection.descendants.node._id")
   description: String @trim
   fullName: String @trim(field: "name.full")
   labels: [String!]! @array
   legacy: JSONObject
-  links: WebsiteSectionLinks!
   name: String @trim(field: "name.default")
   redirects: [String!]! @array
   seoDescription: String @trim(field: "seo.description")
@@ -59,6 +58,7 @@ type WebsiteSectionLinks {
     restType: "website/section"
     field: "related"
   )
+  # no longer used
   relatedTaxonomy: LinkMany! @linkage(
     restType: "platform/taxonomy"
     empty: true

@@ -7,6 +7,7 @@ import {
   metaDirectiveTransformer,
   linkageDirectiveTransformer,
   queryDirectiveTransformer,
+  projectDirectiveTransformer,
 } from '../directives/index.js';
 import resolvers from '../resolvers/index.js';
 import typeDefs from '../type-defs/index.js';
@@ -17,7 +18,10 @@ const schema = makeExecutableSchema({
   typeDefs,
 });
 
-const withTrim = trimDirectiveTransformer(schema);
+// project must be first
+const withProject = projectDirectiveTransformer(schema);
+
+const withTrim = trimDirectiveTransformer(withProject);
 const withArray = arrayDirectiveTransformer(withTrim);
 const withObject = objectDirectiveTransformer(withArray);
 const withMeta = metaDirectiveTransformer(withObject);

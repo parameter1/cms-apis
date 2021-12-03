@@ -1,3 +1,5 @@
+import getProjection from './get-projection.js';
+
 /* eslint-disable no-param-reassign */
 export default (schema) => {
   const { Query } = schema.getTypeMap();
@@ -14,9 +16,10 @@ export default (schema) => {
 
     const { $meta } = type.astNode;
     if (kind === 'FIND_BY_ID') {
-      query.resolve = (_, { input }, { loaders }) => {
+      query.resolve = (_, { input }, { loaders }, info) => {
+        const projection = getProjection(info);
         const loader = loaders.get($meta.repoName);
-        return loader.load({ value: input.id });
+        return loader.load({ value: input.id, projection });
       };
     }
     if (kind === 'FIND') {
@@ -30,10 +33,11 @@ export default (schema) => {
       };
     }
     if (kind === 'LOAD_MANY') {
-      query.resolve = async (_, { input }, { loaders }) => {
+      query.resolve = async (_, { input }, { loaders }, info) => {
+        const projection = getProjection(info);
         const loader = loaders.get($meta.repoName);
         const { ids } = input;
-        const docs = ids.length ? await loader.loadMany({ values: ids }) : [];
+        const docs = ids.length ? await loader.loadMany({ values: ids, projection }) : [];
         return docs.filter((doc) => doc); // prevent null nodes
       };
     }

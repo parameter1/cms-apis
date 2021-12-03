@@ -18,6 +18,7 @@ export default function linkageDirectiveTransformer(schema, directiveName = 'lin
         const field = args.field || astNode.name.value;
         if (!field) throw new Error('No target linkage field was provided.');
         const target = ref === 'ONE' ? `_edge.${field}` : `_connection.${field}`;
+        if (!args.empty) astNode.$project = { [target]: 1 };
         const linkage = {
           ...args,
           field,

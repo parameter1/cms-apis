@@ -16,6 +16,11 @@ directive @query(
 directive @array(field: String) on FIELD_DEFINITION
 directive @object(field: String) on FIELD_DEFINITION
 
+directive @project(
+  field: String
+  needs: [String!]! = []
+) on FIELD_DEFINITION
+
 directive @linkage(
   restType: String!
   field: String

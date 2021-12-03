@@ -5,8 +5,8 @@ const { isArray } = Array;
 const getFields = (schema, type, selectionSet, fragments, fields = []) => {
   if (!isObject(selectionSet)) return fields;
   const { selections = [] } = selectionSet;
-  selections.forEach((s) => {
-    const { kind, name, typeCondition } = s;
+  selections.forEach((set) => {
+    const { kind, name, typeCondition } = set;
     switch (kind) {
       case 'Field':
         fields.push({ type, value: name.value });
@@ -15,7 +15,7 @@ const getFields = (schema, type, selectionSet, fragments, fields = []) => {
         getFields(
           schema,
           schema.getType(typeCondition.name.value),
-          s.selectionSet,
+          set.selectionSet,
           fragments,
           fields,
         );
