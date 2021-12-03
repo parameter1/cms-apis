@@ -6,8 +6,8 @@ export default ({ db, logger } = {}) => {
   const loaders = new Map();
   db.repos.forEach((repo, name) => {
     loaders.set(name, new DataLoader(async (keys) => {
-      if (isFn(logger)) logger('Loader keys:', { name, keys });
       const ids = keys.map((key) => LegacyDB.coerceId(key));
+      if (isFn(logger)) logger('Loader keys:', { name, ids });
       const query = { _id: { $in: ids } };
       const cursor = await repo.find({ query });
       const docs = await cursor.toArray();
