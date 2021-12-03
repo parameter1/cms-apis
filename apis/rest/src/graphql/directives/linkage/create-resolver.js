@@ -9,14 +9,21 @@ export default ({
   ref,
 }) => async (doc, _, { linkBuilder }, info) => {
   const parent = extractParentFrom(info);
+  const { $meta } = parent;
   const links = linkBuilder.linkage({
     id: doc._id,
-    restType: parent.$meta.restType,
+    restType: $meta.restType,
     field: info.fieldName,
   });
 
   if (empty) return { linkage: ref === 'ONE' ? null : [], ...links };
-  const filter = get(filters, `${parent.name.value}.${info.fieldName}`, () => true);
+
+  const filter = (edge) => {
+    // exclude status enabled models when status is zero
+    if ($meta.statusEnabled && get(edge, 'node.status') === 0) return false;
+    const fn = get(filters, `${parent.name.value}.${info.fieldName}`, () => true);
+    return fn(edge);
+  };
 
   if (ref === 'ONE') {
     const edge = get(doc, target);
