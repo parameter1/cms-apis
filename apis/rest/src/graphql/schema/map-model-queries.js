@@ -16,7 +16,7 @@ export default (schema) => {
     if (kind === 'FIND_BY_ID') {
       query.resolve = (_, { input }, { loaders }) => {
         const loader = loaders.get($meta.repoName);
-        return loader.load(input.id);
+        return loader.load({ value: input.id });
       };
     }
     if (kind === 'FIND') {
@@ -33,7 +33,7 @@ export default (schema) => {
       query.resolve = async (_, { input }, { loaders }) => {
         const loader = loaders.get($meta.repoName);
         const { ids } = input;
-        const docs = ids.length ? await loader.loadMany(ids) : [];
+        const docs = ids.length ? await loader.loadMany({ values: ids }) : [];
         return docs.filter((doc) => doc); // prevent null nodes
       };
     }
