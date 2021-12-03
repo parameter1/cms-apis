@@ -22,4 +22,12 @@ export default ({ db, logger } = {}) => {
       });
     }));
   }, { cacheKeyFn: (key) => `${key}` });
+
+  const get = (name) => {
+    const loader = loaders.get(name);
+    if (!loader) throw new Error(`No loader found for ${name}`);
+    return loader;
+  };
+
+  return { get };
 };
