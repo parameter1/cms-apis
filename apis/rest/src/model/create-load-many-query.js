@@ -17,7 +17,7 @@ export default ({
     withLinkage,
   });
   return gql`
-    query Find${type}ById($input: FindByIdQueryInput!) {
+    query Load${type}s($input: LoadManyQueryInput!) {
       ${queryName}(input: $input) {
         ${spreadFragmentName}
       }

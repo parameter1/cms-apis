@@ -1,5 +1,6 @@
 import { LegacyDB } from '@cms-apis/db';
 import createFindByIdQuery from './create-find-by-id-query.js';
+import createLoadManyQuery from './create-load-many-query.js';
 import createModelMeta from '../utils/create-model-meta.js';
 
 /**
@@ -47,6 +48,38 @@ export default ({
 
       const input = { id: LegacyDB.coerceId(id) };
       const query = createFindByIdQuery({
+        type,
+        attributes,
+        relationships,
+        queryName,
+        withLinkUrls,
+        withLinkage,
+      });
+      const { data } = await graphql.query({ query, variables: { input } });
+      return data[queryName];
+    },
+
+    /**
+     *
+     * @param {object} params
+     * @param {object} params.graphql The GraphQL client
+     * @param {number[]|ObjectId[]} params.ids The IDs to query for using dataloader
+     * @param {boolean} [params.withLinkUrls=true] Whether links should include URLs
+     * @param {boolean} [params.withLinkage=true] Whether links should linkage objects
+     * @returns {Promise<object?>}
+     */
+    loadMany: async ({
+      graphql,
+      ids,
+      withLinkUrls = true,
+      withLinkage = true,
+    } = {}) => {
+      const type = graphQLTypeObj.name;
+      const queryName = queryNames.get('LOAD_MANY');
+      if (!queryName) throw new Error(`Unable to extract a LOAD_MANY query name for ${type}`);
+
+      const input = { ids };
+      const query = createLoadManyQuery({
         type,
         attributes,
         relationships,

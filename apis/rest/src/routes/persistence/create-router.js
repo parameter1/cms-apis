@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import createError from 'http-errors';
+import sideloadDataFor from './sideload-data-for.js';
 import asyncRoute from '../../utils/async-route.js';
 import cleanNode from '../../utils/clean-node.js';
 
-export default ({ restType, models } = {}) => {
-  const model = models.get(restType);
+export default ({ restType, modelManager } = {}) => {
+  const model = modelManager.get(restType);
   if (!model) throw new Error(`Unable to find a model definition for ${restType}`);
   const router = Router();
   const meta = { model: model.getMeta() };
@@ -17,13 +18,20 @@ export default ({ restType, models } = {}) => {
    * Retrieve one by ID.
    */
   router.get('/:id', asyncRoute(async (req, res) => {
+    const { graphql } = res.locals;
     const doc = await model.findById({
-      graphql: res.locals.graphql,
+      graphql,
       id: req.params.id,
       withLinkUrls: false,
     });
     if (!doc) throw createError(404, 'No models found using the criteria provided.');
-    res.json({ data: cleanNode(doc), included: [], meta });
+    const included = await sideloadDataFor({
+      graphql,
+      docs: [doc],
+      modelManager,
+      throwOnMissingModel: false,
+    });
+    res.json({ data: cleanNode(doc), included, meta });
   }));
 
   router.post('/', (req, res) => {
