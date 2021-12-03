@@ -19,20 +19,20 @@ type WebsiteSection @meta(
   type: String!
   links: WebsiteSectionLinks!
 
-  accessControl: [String!]! @array
+  accessControl: [String!]! @array # no longer used
   alias: String @project @trim
   descendantIds: [Int!]! @project(field: "_connection.descendants.node._id")
-  description: String @trim
-  fullName: String @trim(field: "name.full")
-  labels: [String!]! @array
-  legacy: JSONObject
-  name: String @trim(field: "name.default")
-  redirects: [String!]! @array
-  seoDescription: String @trim(field: "seo.description")
-  seoTitle: String @trim(field: "seo.title")
-  sequence: Int
-  slug: String @trim
-  status: Int
+  description: String @project @trim
+  fullName: String @project(field: "name.full") @trim
+  labels: [String!]! @project @array
+  legacy: JSONObject # no longer used
+  name: String @project(field: "name.default") @trim
+  redirects: [String!]! @project @array
+  seoDescription: String @project(field: "seo.description") @trim
+  seoTitle: String @project(field: "seo.title") @trim
+  sequence: Int @project
+  slug: String @project @trim
+  status: Int @project
 }
 
 type WebsiteSectionLinks {
