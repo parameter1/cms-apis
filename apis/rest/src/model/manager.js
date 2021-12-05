@@ -1,7 +1,6 @@
 import schema from '../graphql/schema/index.js';
 import Query from './query/index.js';
 import extractLinkages from './utils/extract-linkages.js';
-import cleanNode from '../utils/clean-node.js';
 
 const models = schema.getModels();
 
@@ -28,7 +27,7 @@ export default ({ graphql } = {}) => {
       }
       const related = await getQueryFor(model.getRestType())
         .loadMany({ graphql, ids, withLinkage: false });
-      sideloaded.push(...related.map(cleanNode));
+      sideloaded.push(...related);
     }));
     return sideloaded;
   };

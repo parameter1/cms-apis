@@ -2,6 +2,7 @@ import { LegacyDB } from '@cms-apis/db';
 import createFindQuery from './create-find-query.js';
 import createFindByIdQuery from './create-find-by-id-query.js';
 import createLoadManyQuery from './create-load-many-query.js';
+import cleanNode from '../../utils/clean-node.js';
 
 export default ({
   model,
@@ -46,7 +47,7 @@ export default ({
         withLinkage,
       });
       const { data } = await graphql.query({ query, variables: { input } });
-      return data[queryName];
+      return data[queryName].map(cleanNode);
     },
 
     /**
@@ -78,7 +79,8 @@ export default ({
         withLinkage,
       });
       const { data } = await graphql.query({ query, variables: { input } });
-      return data[queryName];
+      const node = data[queryName];
+      return node ? cleanNode(node) : null;
     },
 
     /**
@@ -108,7 +110,7 @@ export default ({
         withLinkage,
       });
       const { data } = await graphql.query({ query, variables: { input } });
-      return data[queryName];
+      return data[queryName].map(cleanNode);
     },
   };
 };

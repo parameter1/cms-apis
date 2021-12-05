@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import createError from 'http-errors';
 import asyncRoute from '../../utils/async-route.js';
-import cleanNode from '../../utils/clean-node.js';
 import parseQuery from '../../utils/parse-query.js';
 
 export default ({ model } = {}) => {
@@ -27,7 +26,7 @@ export default ({ model } = {}) => {
       docs,
       throwOnMissingModel: false,
     });
-    res.json({ data: docs.map(cleanNode), included, meta });
+    res.json({ data: docs, included, meta });
   }));
 
   /**
@@ -48,7 +47,7 @@ export default ({ model } = {}) => {
       docs: [doc],
       throwOnMissingModel: false,
     });
-    res.json({ data: cleanNode(doc), included, meta });
+    res.json({ data: doc, included, meta });
   }));
 
   router.post('/', (req, res) => {
