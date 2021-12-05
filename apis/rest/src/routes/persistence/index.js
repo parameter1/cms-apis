@@ -4,10 +4,10 @@ import createRouter from './create-router.js';
 
 const persistance = Router();
 
-const modelManager = schema.getModels();
+const models = schema.getModels();
 
-modelManager.forEach((model) => {
-  persistance.use(model.getPath(), createRouter({ modelManager, restType: model.getRestType() }));
+models.forEach((model) => {
+  persistance.use(model.getPath(), createRouter({ model }));
 });
 
 export default persistance;

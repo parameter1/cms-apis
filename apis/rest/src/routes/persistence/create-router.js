@@ -1,35 +1,30 @@
 import { Router } from 'express';
 import createError from 'http-errors';
-import sideloadDataFor from './sideload-data-for.js';
 import asyncRoute from '../../utils/async-route.js';
 import cleanNode from '../../utils/clean-node.js';
 import parseQuery from '../../utils/parse-query.js';
 
-export default ({ restType, modelManager } = {}) => {
-  const model = modelManager.get(restType);
-  if (!model) throw new Error(`Unable to find a model definition for ${restType}`);
+export default ({ model } = {}) => {
+  const restType = model.getRestType();
   const router = Router();
   const meta = { model: model.getMeta() };
 
   /**
-   * Retrive many.
+   * Retrieve many.
    *
-   * @todo handle include, exclude, and sort
+   * @todo handle include, exclude
    */
   router.get('/', asyncRoute(async (req, res) => {
-    const { graphql } = res.locals;
+    const { modelManager } = res.locals;
     const query = parseQuery(req.query, model);
-    const docs = await model.find({
-      graphql,
+    const docs = await modelManager.getQueryFor(restType).find({
       fields: query.fields,
       pagination: { limit: query.limit, skip: query.skip },
       sort: query.sort,
       withLinkUrls: false,
     });
-    const included = await sideloadDataFor({
-      graphql,
+    const included = await modelManager.sideloadDataFor({
       docs,
-      modelManager,
       throwOnMissingModel: false,
     });
     res.json({ data: docs.map(cleanNode), included, meta });
@@ -41,19 +36,16 @@ export default ({ restType, modelManager } = {}) => {
    * @todo handle include, exclude
    */
   router.get('/:id', asyncRoute(async (req, res) => {
-    const { graphql } = res.locals;
+    const { modelManager } = res.locals;
     const query = parseQuery(req.query, model);
-    const doc = await model.findById({
-      graphql,
+    const doc = await modelManager.getQueryFor(restType).findById({
       fields: query.fields,
       id: req.params.id,
       withLinkUrls: false,
     });
     if (!doc) throw createError(404, 'No models found using the criteria provided.');
-    const included = await sideloadDataFor({
-      graphql,
+    const included = await modelManager.sideloadDataFor({
       docs: [doc],
-      modelManager,
       throwOnMissingModel: false,
     });
     res.json({ data: cleanNode(doc), included, meta });
