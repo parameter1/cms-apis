@@ -450,6 +450,9 @@ export default new Map([
     fragment: gql`
       fragment TransformWebsiteScheduleFragment on WebsiteSchedule {
         _id
+        _connection {
+          taxonomies { node { _id _type name { default full } status } }
+        }
         _edge {
           content {
             node {

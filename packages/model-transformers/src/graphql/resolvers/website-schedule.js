@@ -1,11 +1,22 @@
 import { LegacyDB } from '@cms-apis/db';
 import findMany from './utils/find-many.js';
+import { sortBy } from '../utils/index.js';
 
 export default {
   /**
    *
    */
   WebsiteSchedule: {
+    _connection(schedule, _, { loaders }) {
+      return {
+        async taxonomies() {
+          const taxonomyIds = LegacyDB.extractRefIds(schedule.categories);
+          if (!taxonomyIds.length) return [];
+          const nodes = await loaders.get('platform.Taxonomy').loadMany(taxonomyIds);
+          return sortBy(nodes, '_id').filter((node) => node).map((node) => ({ node }));
+        },
+      };
+    },
     _edge(schedule, _, { loaders }) {
       return {
         async content() {
