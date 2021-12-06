@@ -1,6 +1,6 @@
-import { createHash } from 'crypto';
 import gql from '@cms-apis/graphql/tag';
 import { extractFragmentData } from '@cms-apis/graphql/fragments';
+import sha1 from '../../utils/sha1.js';
 
 export default ({
   type,
@@ -35,7 +35,7 @@ export default ({
     if (subFields.length) arr.push(`${field} { ${subFields.join(' ')} }`);
     return arr;
   }, []);
-  const hash = createHash('sha1').update(selections.join('')).digest('hex');
+  const hash = sha1(selections.join(''));
   const name = `${type}LinksFragment${withLinkage ? 'WithLinkage' : ''}${withUrls ? 'WithUrls' : ''}_${hash}`;
   return extractFragmentData(gql`
     fragment ${name} on ${type} {

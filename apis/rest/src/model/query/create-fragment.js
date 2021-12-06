@@ -2,6 +2,7 @@ import gql from '@cms-apis/graphql/tag';
 import { extractFragmentData } from '@cms-apis/graphql/fragments';
 import createAttributeFragment from './create-attribute-fragment.js';
 import createLinksFragment from './create-links-fragment.js';
+import sha1 from '../../utils/sha1.js';
 
 export default ({
   type,
@@ -22,7 +23,8 @@ export default ({
     withLinkage,
   });
 
-  const name = `${type}ResponseFragment${withLinkage ? 'WithLinkage' : ''}${withLinkUrls ? 'WithLinkUrls' : ''}`;
+  const hash = sha1(`${attrs.spreadFragmentName}.${links.spreadFragmentName}`);
+  const name = `${type}ResponseFragment${withLinkage ? 'WithLinkage' : ''}${withLinkUrls ? 'WithLinkUrls' : ''}_${hash}`;
 
   return extractFragmentData(gql`
     fragment ${name} on ${type} {
