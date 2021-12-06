@@ -10,6 +10,7 @@ export default gql`
 directive @meta(
   restType: String!
   repoName: String!
+  isPolymorphic: Boolean! = false
 ) on OBJECT
 
 directive @query(

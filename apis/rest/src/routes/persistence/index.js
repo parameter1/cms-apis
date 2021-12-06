@@ -8,6 +8,9 @@ const models = schema.getModels();
 
 models.forEach((model) => {
   persistance.use(model.getPath(), createRouter({ model }));
+
+  // also mount the "root class" router (when applicable)
+  if (model.getIsPolymorphic()) persistance.use(`/${model.getRestType()}`, createRouter({ model }));
 });
 
 export default persistance;

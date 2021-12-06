@@ -34,7 +34,7 @@ export default (schema) => {
       }
       if (field.name === 'type') {
         // auto resolve type field
-        field.resolve = () => restType;
+        field.resolve = (doc) => models.get(restType).getPolymorphicTypeFor(doc);
         return;
       }
       if (field.name === 'links') {
@@ -43,7 +43,7 @@ export default (schema) => {
         Object.values(linksType.getFields()).forEach((f) => {
           if (f.name === 'self') {
             f.resolve = (doc, _, { linkBuilder }) => linkBuilder
-              .self({ id: doc._id, restType });
+              .self({ id: doc._id, restType: models.get(restType).getPolymorphicTypeFor(doc) });
             return;
           }
           relationships.set(f.name, {
@@ -65,6 +65,7 @@ export default (schema) => {
       idType,
       restType: $meta.restType,
       repoName: $meta.repoName,
+      isPolymorphic: $meta.isPolymorphic,
       graphQLTypeObj: type,
       attributes,
       relationships,

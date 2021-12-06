@@ -1,3 +1,4 @@
+import { dasherize } from 'inflected';
 import createModelMeta from '../utils/create-model-meta.js';
 
 /**
@@ -14,6 +15,7 @@ export default ({
   idType,
   restType,
   repoName,
+  isPolymorphic,
   graphQLTypeObj,
   attributes,
   relationships,
@@ -41,6 +43,22 @@ export default ({
 
     /**
      *
+     * @returns {boolean}
+     */
+    getIsPolymorphic: () => isPolymorphic,
+
+    /**
+     *
+     * @returns {string}
+     */
+    getPolymorphicTypeFor: (doc) => {
+      if (!isPolymorphic) return restType;
+      if (!doc._type) throw new Error(`The ${restType} model is listed as polymorphic but no linkage type was found.`);
+      return `${restType}/${dasherize(doc._type.toLowerCase())}`;
+    },
+
+    /**
+     *
      * @returns {object}
      */
     getMeta: () => meta,
@@ -49,7 +67,7 @@ export default ({
      *
      * @returns {string}
      */
-    getPath: () => `/${restType}`,
+    getPath: () => (isPolymorphic ? `/${restType}/:subtype([a-z-]+)` : `/${restType}`),
 
     /**
      *

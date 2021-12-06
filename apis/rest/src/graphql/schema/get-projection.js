@@ -38,6 +38,9 @@ export default (info) => {
     ...get(schema, links.field.type, { selections: linkSelections }, fragments),
   }));
 
+  // always include the _type field
+  if (projectKeys.size) projectKeys.add('_type');
+
   // clear the "most-specific" project keys
   projectKeys.forEach((key) => {
     const pattern = new RegExp(`^${escapeRegex(key)}`);
