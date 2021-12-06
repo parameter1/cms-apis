@@ -38,12 +38,29 @@ type Taxonomy @meta(
 
   description: String @project @trim
   external: JSONObject # no longer used
-  fullName: String @project(field: "name.full") @trim
-  name: String @project(field: "name.default") @trim
+  fullName: String! @project(field: "name.full") @trim
+  hierarchyIndex: Int! @project(field: "depth")
+  name: String! @project(field: "name.default") @trim
+  redirects: [String!]! @array # no longer used
+  sequence: Int! @project
+  status: Int! @project
+  urlNameWebsite: String! @project(field: "slug")
+  urlPathWebsite: String! @project(field: "path")
 }
 
 type TaxonomyLinks {
   self: String!
+  children: LinkMany! @linkage(
+    restType: "platform/taxonomy"
+    field: "descendants"
+  )
+  image: LinkOne! @linkage(
+    restType: "platform/asset/image"
+    empty: true
+  )
+  parent: LinkOne! @linkage(
+    restType: "platform/taxonomy"
+  )
 }
 
 `;

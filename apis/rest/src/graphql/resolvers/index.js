@@ -5,6 +5,7 @@ import { ObjectId } from '@cms-apis/db';
 import GraphQLDateTime from '../types/date-time.js';
 
 import imageAsset from './image-asset.js';
+import taxonomy from './taxonomy.js';
 import website from './website.js';
 import websiteSchedule from './website-schedule.js';
 import websiteSection from './website-section.js';
@@ -27,6 +28,7 @@ export default merge(
     },
   },
   imageAsset,
+  taxonomy,
   website,
   websiteSchedule,
   websiteSection,
