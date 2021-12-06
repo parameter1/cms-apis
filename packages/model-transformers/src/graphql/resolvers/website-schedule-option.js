@@ -46,7 +46,6 @@ export default {
         after,
         limit,
         query,
-        requiredFields: ['name', 'site.$id'],
       }, { dbs, loaders });
     },
   },

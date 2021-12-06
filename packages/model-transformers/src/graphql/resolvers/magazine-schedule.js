@@ -38,16 +38,12 @@ export default {
 
     async magazineSchedules(_, { input }, { dbs, loaders }) {
       const { after, limit, query } = input;
-      const [sectionIds] = await Promise.all([
-        dbs.legacy.repo('magazine.Section').distinct({ key: '_id' }),
-      ]);
       return findMany({
         resource: 'magazine.Schedule',
         after,
         limit,
         query,
         prime: false,
-        requiredQuery: { section: { $in: sectionIds } },
       }, { dbs, loaders });
     },
   },

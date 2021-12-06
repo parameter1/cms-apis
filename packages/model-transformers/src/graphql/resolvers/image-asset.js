@@ -94,7 +94,6 @@ export default {
         after,
         limit,
         query,
-        requiredFields: ['filePath', 'fileName'],
         prime: false,
       }, { dbs, loaders });
     },

@@ -44,17 +44,12 @@ export default {
 
     async newsletterSchedules(_, { input }, { dbs, loaders }) {
       const { after, limit, query } = input;
-      const [sectionIds, contentIds] = await Promise.all([
-        dbs.legacy.repo('email.Section').distinct({ key: '_id' }),
-        dbs.legacy.repo('platform.Content').distinct({ key: '_id' }),
-      ]);
       return findMany({
         resource: 'email.Schedule',
         after,
         limit,
         query,
         prime: false,
-        requiredQuery: { section: { $in: sectionIds }, 'content.$id': { $in: contentIds } },
       }, { dbs, loaders });
     },
   },
