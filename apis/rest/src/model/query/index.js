@@ -19,6 +19,7 @@ export default ({
     * @param {paginaton} params.pagination
     * @param {number} params.pagination.limit
     * @param {number} params.pagination.skip
+    * @param {string[]} [params.subTypes]
     * @param {boolean} [params.withLinkUrls=true] Whether links should include URLs
     * @param {boolean} [params.withLinkage=true] Whether links should linkage objects
     * @returns {Promise<object?>}
@@ -28,12 +29,13 @@ export default ({
       fields,
       include,
       sort,
+      subTypes,
       withLinkUrls = true,
       withLinkage = true,
     } = {}) => {
       const queryName = queryNames.get('FIND');
       if (!queryName) throw new Error(`Unable to extract a FIND query name for ${type}`);
-      const input = { pagination, sort };
+      const input = { pagination, sort, subTypes };
 
       const query = createFindQuery({
         type,
@@ -54,6 +56,7 @@ export default ({
      * @param {object} params
      * @param {object} params.graphql The GraphQL client
      * @param {number|ObjectId} params.id The ID to query for
+    * @param {string[]} [params.subTypes]
      * @param {boolean} [params.withLinkUrls=true] Whether links should include URLs
      * @param {boolean} [params.withLinkage=true] Whether links should linkage objects
      * @returns {Promise<object?>}
@@ -62,13 +65,14 @@ export default ({
       id,
       fields,
       include,
+      subTypes,
       withLinkUrls = true,
       withLinkage = true,
     } = {}) => {
       const queryName = queryNames.get('FIND_BY_ID');
       if (!queryName) throw new Error(`Unable to extract a FIND_BY_ID query name for ${type}`);
 
-      const input = { id: LegacyDB.coerceId(id) };
+      const input = { id: LegacyDB.coerceId(id), subTypes };
       const query = createFindByIdQuery({
         type,
         attributes: model.getAttributes(),

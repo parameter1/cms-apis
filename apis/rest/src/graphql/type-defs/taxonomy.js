@@ -14,12 +14,31 @@ extend type Query {
 type Taxonomy @meta(
   restType: "platform/taxonomy"
   repoName: "taxonomies"
-  isPolymorphic: true
+  subTypes: [
+    "AWARD"
+    "BADGE"
+    "BIN"
+    "CATEGORY"
+    "INDUSTRY"
+    "LOCATION"
+    "MARKET"
+    "ORGANIZATION"
+    "PERSON"
+    "PLATFORM_CHANNEL"
+    "REGION"
+    "SYSTEM"
+    "TAG"
+    "TOPIC"
+    "TYPE"
+  ]
 ) {
   id: Int!
   type: String!
   links: TaxonomyLinks!
 
+  description: String @project @trim
+  external: JSONObject # no longer used
+  fullName: String @project(field: "name.full") @trim
   name: String @project(field: "name.default") @trim
 }
 

@@ -15,7 +15,7 @@ export default gql`
 directive @meta(
   restType: String!
   repoName: String!
-  isPolymorphic: Boolean! = false
+  subTypes: [String!]! = []
 ) on OBJECT
 
 directive @query(
@@ -81,11 +81,15 @@ type Linkage {
 
 input FindByIdQueryInput {
   id: BaseID!
+  # polymorphic subtypes to filter by
+  subTypes: [String!]! = []
 }
 
 input FindQueryInput {
   pagination: PaginationInput! = {}
   sort: [SortInput!]! = []
+  # polymorphic subtypes to filter by
+  subTypes: [String!]! = []
 }
 
 input LoadManyQueryInput {

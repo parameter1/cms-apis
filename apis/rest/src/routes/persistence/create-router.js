@@ -5,7 +5,7 @@ import parseQuery from '../../utils/parse-query.js';
 
 export default ({ model } = {}) => {
   const restType = model.getRestType();
-  const router = Router();
+  const router = Router({ mergeParams: true });
   const meta = { model: model.getMeta() };
 
   /**
@@ -14,6 +14,7 @@ export default ({ model } = {}) => {
    * @todo handle include, exclude
    */
   router.get('/', asyncRoute(async (req, res) => {
+    const { subtype } = req.params;
     const { modelManager } = res.locals;
     const query = parseQuery(req.query, model);
     const docs = await modelManager.getQueryFor(restType).find({
@@ -21,6 +22,7 @@ export default ({ model } = {}) => {
       include: query.include,
       pagination: { limit: query.limit, skip: query.skip },
       sort: query.sort,
+      ...(subtype && { subTypes: [subtype] }),
       withLinkUrls: false,
     });
     const included = await modelManager.sideloadDataFor({
@@ -36,12 +38,14 @@ export default ({ model } = {}) => {
    * @todo handle include, exclude
    */
   router.get('/:id', asyncRoute(async (req, res) => {
+    const { subtype } = req.params;
     const { modelManager } = res.locals;
     const query = parseQuery(req.query, model);
     const doc = await modelManager.getQueryFor(restType).findById({
       fields: query.fields,
       include: query.include,
       id: req.params.id,
+      ...(subtype && { subTypes: [subtype] }),
       withLinkUrls: false,
     });
     if (!doc) throw createError(404, 'No models found using the criteria provided.');

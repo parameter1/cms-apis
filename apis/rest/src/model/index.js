@@ -1,4 +1,4 @@
-import { dasherize } from 'inflected';
+import { dasherize, underscore } from 'inflected';
 import createModelMeta from '../utils/create-model-meta.js';
 
 /**
@@ -10,6 +10,7 @@ import createModelMeta from '../utils/create-model-meta.js';
  * @param {Map} params.attributes The model attribute map
  * @param {Map} params.relationships The model relationship map
  * @param {Map} params.queryNames A map of query names for ONE and MANY operations
+ * @param {Set} [params.subTypes] A set of polymorphic sub types
  */
 export default ({
   idType,
@@ -20,8 +21,10 @@ export default ({
   attributes,
   relationships,
   queryNames,
+  subTypes,
 } = {}) => {
   const meta = createModelMeta(restType);
+
   return {
     /**
      *
@@ -87,11 +90,23 @@ export default ({
      */
     getRestType: () => restType,
 
+    getSubTypes: () => subTypes,
+
     /**
      *
      * @returns {string[]}
      */
     getQueryNames: () => queryNames,
+
+    /**
+     *
+     * @param {string} type
+     * @returns {boolean}
+     */
+    hasSubTypePath: (type) => {
+      if (!isPolymorphic) return false;
+      return subTypes.has(underscore(type).toUpperCase());
+    },
 
     get [Symbol.toStringTag]() {
       return 'RESTModel';

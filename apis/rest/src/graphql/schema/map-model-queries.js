@@ -1,3 +1,5 @@
+import { underscore } from 'inflected';
+import { LegacyDB } from '@cms-apis/db';
 import getProjection from './get-projection.js';
 
 /* eslint-disable no-param-reassign */
@@ -16,18 +18,30 @@ export default (schema) => {
 
     const { $meta } = type.astNode;
     if (kind === 'FIND_BY_ID') {
-      query.resolve = (_, { input }, { loaders }, info) => {
+      query.resolve = (_, { input }, { db }, info) => {
         const projection = getProjection(info);
-        const loader = loaders.get($meta.repoName);
-        return loader.load({ value: input.id, projection });
+        const repo = db.repo($meta.repoName);
+        const { subTypes } = input;
+        const criteria = {
+          _id: LegacyDB.coerceId(input.id),
+          ...(subTypes.length && {
+            _type: { $in: subTypes.map((subType) => underscore(subType).toUpperCase()) },
+          }),
+        };
+        const options = { projection };
+        return repo.findOne({ query: criteria, options });
       };
     }
     if (kind === 'FIND') {
       query.resolve = async (_, { input }, { db }, info) => {
         const projection = getProjection(info);
         const repo = db.repo($meta.repoName);
-        const { pagination, sort } = input;
-        const criteria = {};
+        const { pagination, sort, subTypes } = input;
+        const criteria = {
+          ...(subTypes.length && {
+            _type: { $in: subTypes.map((subType) => underscore(subType).toUpperCase()) },
+          }),
+        };
         const options = {
           projection,
           limit: pagination.limit,

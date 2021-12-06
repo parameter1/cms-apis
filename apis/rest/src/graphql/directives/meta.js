@@ -7,8 +7,13 @@ export default function metaDirectiveTransformer(schema, directiveName = 'meta')
       const directive = getDirective(schema, objConfig, directiveName);
       const args = directive && directive[0] ? directive[0] : null;
       const { astNode } = objConfig;
-      // console.log(objConfig, Object.keys(objConfig.getFields()));
-      if (args && astNode) astNode.$meta = { ...args };
+      if (args && astNode) {
+        astNode.$meta = {
+          ...args,
+          isPolymorphic: Boolean(args.subTypes.length),
+          subTypes: new Set(args.subTypes),
+        };
+      }
     },
   });
 }
