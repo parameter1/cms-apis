@@ -17,8 +17,15 @@ export default {
     isEnabled({ enabled }) {
       return Boolean(enabled);
     },
-    name({ firstName, lastName }) {
-      return [trim(firstName), trim(lastName)].filter((v) => v).join(' ') || null;
+    name(user) {
+      const firstName = trim(user.firstName);
+      const lastName = trim(user.lastName);
+      const full = [firstName, lastName].filter((v) => v).join(' ') || null;
+      return buildObjValues([
+        ['first', firstName],
+        ['last', lastName],
+        ['full', full],
+      ]);
     },
     mustChangePassword({ mustChange }) {
       return Boolean(mustChange);

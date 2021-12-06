@@ -53,8 +53,8 @@ export default new Map([
               alias
             }
           }
-          createdBy { node { _id name username email } }
-          updatedBy { node { _id name username email } }
+          createdBy { node { _id name { full } username email } }
+          updatedBy { node { _id name { full } username email } }
         }
         _sync { date }
         alias
@@ -290,7 +290,7 @@ export default new Map([
       fragment TransformNewsletterCampaignFragment on NewsletterCampaign {
         _id
         _edge {
-          createdBy { node { _id name email username } }
+          createdBy { node { _id name { full } email username } }
           newsletter { node { _id name status _edge { website { node { _id name } } }  } }
         }
         _sync { date }
@@ -377,11 +377,9 @@ export default new Map([
         _sync { date }
         date { lastLoggedIn }
         email
-        firstName
         isEnabled
-        lastName
         mustChangePassword
-        name
+        name { first last full }
         password
         roles
         username

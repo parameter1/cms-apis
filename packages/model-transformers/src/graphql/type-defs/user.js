@@ -30,7 +30,7 @@ type User {
   isEnabled: Boolean!
   lastName: String @trim
   mustChangePassword: Boolean!
-  name: String
+  name: UserName
   password: String @trim
   roles: [String!]!
   username: String @trim
@@ -38,6 +38,12 @@ type User {
 
 type UserDate {
   lastLoggedIn: DateTime
+}
+
+type UserName {
+  first: String
+  last: String
+  full: String
 }
 
 `;
