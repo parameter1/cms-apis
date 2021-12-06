@@ -18,6 +18,7 @@ export default ({ model } = {}) => {
     const query = parseQuery(req.query, model);
     const docs = await modelManager.getQueryFor(restType).find({
       fields: query.fields,
+      include: query.include,
       pagination: { limit: query.limit, skip: query.skip },
       sort: query.sort,
       withLinkUrls: false,
@@ -39,6 +40,7 @@ export default ({ model } = {}) => {
     const query = parseQuery(req.query, model);
     const doc = await modelManager.getQueryFor(restType).findById({
       fields: query.fields,
+      include: query.include,
       id: req.params.id,
       withLinkUrls: false,
     });

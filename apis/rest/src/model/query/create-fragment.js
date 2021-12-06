@@ -8,6 +8,7 @@ export default ({
   attributes = new Map(),
   relationships = new Map(),
   selected,
+  included,
   withLinkUrls = true,
   withLinkage = true,
 } = {}) => {
@@ -16,6 +17,7 @@ export default ({
     type,
     relationships,
     selected,
+    included,
     withUrls: withLinkUrls,
     withLinkage,
   });

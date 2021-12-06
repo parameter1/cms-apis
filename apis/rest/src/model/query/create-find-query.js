@@ -6,6 +6,7 @@ export default ({
   attributes,
   relationships,
   selected,
+  included,
   queryName,
   withLinkUrls = true,
   withLinkage = true,
@@ -15,6 +16,7 @@ export default ({
     attributes,
     relationships,
     selected,
+    included,
     withLinkUrls,
     withLinkage,
   });

@@ -26,13 +26,13 @@ export default ({
     find: async ({
       pagination,
       fields,
+      include,
       sort,
       withLinkUrls = true,
       withLinkage = true,
     } = {}) => {
       const queryName = queryNames.get('FIND');
       if (!queryName) throw new Error(`Unable to extract a FIND query name for ${type}`);
-
       const input = { pagination, sort };
 
       // pass included/excluded links fields here...
@@ -42,6 +42,7 @@ export default ({
         attributes: model.getAttributes(),
         relationships: model.getRelationships(),
         selected: fields,
+        included: include,
         queryName,
         withLinkUrls,
         withLinkage,
@@ -62,6 +63,7 @@ export default ({
     findById: async ({
       id,
       fields,
+      include,
       withLinkUrls = true,
       withLinkage = true,
     } = {}) => {
@@ -74,6 +76,7 @@ export default ({
         attributes: model.getAttributes(),
         relationships: model.getRelationships(),
         selected: fields,
+        included: include,
         queryName,
         withLinkUrls,
         withLinkage,
