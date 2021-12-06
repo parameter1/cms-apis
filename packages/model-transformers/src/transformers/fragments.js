@@ -4,7 +4,7 @@ import gql from '@cms-apis/graphql/tag';
 export const COMMON_IMAGE_ASSET_REL = gql`
   fragment CommonImageAssetRelFragment on ImageAsset {
     _id
-    name
+    name { default display }
     caption
     credit
     alt

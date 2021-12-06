@@ -157,8 +157,10 @@ export default new Map([
         date { touched }
         file { name path }
         height
+        inCarousel
         isLogo
-        name
+        name { default display }
+        note
         primaryImageDisplay
         width
       }

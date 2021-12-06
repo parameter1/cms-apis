@@ -24,7 +24,8 @@ export default {
     approvedFor(image) {
       return buildObjValues([
         ['magazine', get(image, 'mutations.Magazine.approved')],
-        ['website', get(image, 'mutations.Website.approved')],
+        // website approval was/is defaulted to true
+        ['website', get(image, 'mutations.Website.approved') || true],
       ]);
     },
     crop(image) {
@@ -53,6 +54,20 @@ export default {
     },
     height({ height }) {
       return parseNumber(height, { type: 'integer' });
+    },
+    inCarousel({ inCarousel }) {
+      // force null/undefined values to false. this is/was the default
+      return Boolean(inCarousel);
+    },
+    isLogo({ isLogo }) {
+      // force null/undefined values to false. this is/was the default
+      return Boolean(isLogo);
+    },
+    name(content) {
+      return buildObjValues([
+        ['default', trim(content.name)],
+        ['display', trim(content.displayName)],
+      ]);
     },
     primaryImageDisplay({ primaryImageDisplay }) {
       if (['left', 'right', 'center', 'none'].includes(primaryImageDisplay)) return primaryImageDisplay;
