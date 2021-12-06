@@ -4,6 +4,7 @@ import content from './content.js';
 import imageAsset from './image-asset.js';
 import taxonomy from './taxonomy.js';
 import website from './website.js';
+import websiteInquirySubmission from './website-inquiry-submission.js';
 import websiteSchedule from './website-schedule.js';
 import websiteScheduleOption from './website-schedule-option.js';
 import websiteSection from './website-section.js';
@@ -104,6 +105,7 @@ ${content}
 ${imageAsset}
 ${taxonomy}
 ${website}
+${websiteInquirySubmission}
 ${websiteSchedule}
 ${websiteScheduleOption}
 ${websiteSection}
