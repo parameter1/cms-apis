@@ -32,6 +32,7 @@ directive @linkage(
 directive @trim(field: String, default: String) on FIELD_DEFINITION
 
 scalar BaseID
+scalar DateTime
 scalar JSONObject
 scalar ObjectID
 
