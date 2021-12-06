@@ -4,6 +4,7 @@ import { GraphQLJSONObject } from 'graphql-type-json';
 import { ObjectId } from '@cms-apis/db';
 import GraphQLDateTime from '../types/date-time.js';
 
+import imageAsset from './image-asset.js';
 import website from './website.js';
 import websiteSection from './website-section.js';
 
@@ -24,6 +25,7 @@ export default merge(
       },
     },
   },
+  imageAsset,
   website,
   websiteSection,
 );

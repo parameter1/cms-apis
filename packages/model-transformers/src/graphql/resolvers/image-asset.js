@@ -50,10 +50,12 @@ export default {
       return {
         name: trim(image.fileName),
         path: cleanPath(image.filePath),
+        original: trim(get(image, 'source.name')),
       };
     },
-    height({ height }) {
-      return parseNumber(height, { type: 'integer' });
+    height(image) {
+      return parseNumber(image.height, { type: 'integer' })
+        || parseNumber(get(image, 'source.width'), { type: 'integer' });
     },
     inCarousel({ inCarousel }) {
       // force null/undefined values to false. this is/was the default
@@ -63,18 +65,19 @@ export default {
       // force null/undefined values to false. this is/was the default
       return Boolean(isLogo);
     },
-    name(content) {
+    name(image) {
       return buildObjValues([
-        ['default', trim(content.name)],
-        ['display', trim(content.displayName)],
+        ['default', trim(image.name)],
+        ['display', trim(image.displayName)],
       ]);
     },
     primaryImageDisplay({ primaryImageDisplay }) {
       if (['left', 'right', 'center', 'none'].includes(primaryImageDisplay)) return primaryImageDisplay;
       return 'center';
     },
-    width({ width }) {
-      return parseNumber(width, { type: 'integer' });
+    width(image) {
+      return parseNumber(image.width, { type: 'integer' })
+        || parseNumber(get(image, 'source.width'), { type: 'integer' });
     },
   },
 

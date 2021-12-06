@@ -34,7 +34,7 @@ type ImageAsset @meta(
   name: String @project(field: "name.default") @trim
   notes: String @project(field: "note") @trim
   primaryImageDisplay: String! @project @trim
-  source: JSONObject! @object # no longer used
+  source: ImageAssetSource @project(field: "file.original" needs: ["width", "height"])
   touched: DateTime @project(field: "date.touched")
 }
 
@@ -49,6 +49,15 @@ type ImageAssetCropDimensions {
 
 type ImageAssetLinks {
   self: String!
+}
+
+type ImageAssetSource {
+  height: Int
+  location: String @trim
+  name: String @trim
+  processed: Boolean
+  type: String!
+  width: Int
 }
 
 `;

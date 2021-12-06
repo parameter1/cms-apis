@@ -64,6 +64,7 @@ type ImageAssetDate {
 type ImageAssetFile {
   name: String!
   path: String!
+  original: String
 }
 
 type ImageAssetName {

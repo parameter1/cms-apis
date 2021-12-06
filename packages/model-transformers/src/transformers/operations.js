@@ -155,7 +155,7 @@ export default new Map([
         credit
         crop { dimensions { x1 x2 y1 y2 aspectRatio } rectangle { x y width height } }
         date { touched }
-        file { name path }
+        file { name path original }
         height
         inCarousel
         isLogo
