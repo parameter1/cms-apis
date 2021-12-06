@@ -11,6 +11,7 @@ export default class MongoDBRepoLoader {
    * @param {object} [params.options] Options to send to the data loader
    * @param {object} [params.logger] A key logger to use when loading
    * @param {function} [params.coercionFn] An optional identifier value coercion function
+   * @param {object?} [params.criteria] Global query criteria to add to all lookups
    */
   constructor({
     name,
@@ -18,11 +19,13 @@ export default class MongoDBRepoLoader {
     options,
     logger,
     coercionFn,
+    criteria,
   } = {}) {
     this.name = name;
     this.repo = repo;
     this.logger = logger;
     this.coercionFn = coercionFn;
+    this.criteria = criteria;
     this.loader = new DataLoader(this.batchLoadFn.bind(this), {
       ...options,
       cacheKeyFn: MongoDBRepoLoader.cacheKeyFn,
@@ -58,20 +61,29 @@ export default class MongoDBRepoLoader {
    * @param {array} keys
    */
   async batchLoadFn(keys) {
-    const { coercionFn, logger, name } = this;
+    const {
+      coercionFn,
+      logger,
+      name,
+      criteria,
+    } = this;
     const idMap = reduceKeys(keys);
     const queryMap = createQueryMap(idMap);
 
     const promises = [];
     queryMap.forEach(({ foreignField, values, projection }) => {
       const coerced = isFn(coercionFn) ? values.map(coercionFn) : values;
-      const query = { [foreignField]: { $in: coerced } };
+      const query = {
+        [foreignField]: { $in: coerced },
+        ...(criteria && { $and: [criteria] }),
+      };
       if (isFn(logger)) {
         logger('Loader keys:', {
           name,
           foreignField,
           values: coerced,
           projection,
+          criteria,
         });
       }
       promises.push((async () => {
