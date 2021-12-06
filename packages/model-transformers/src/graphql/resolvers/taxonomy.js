@@ -79,12 +79,13 @@ export default {
     async name(taxonomy, _, { loaders }) {
       const name = trim(taxonomy.name);
       const ancestors = await loadAncestors(taxonomy, loaders, []);
-      const full = [...ancestors.reverse().map((ancestor) => trim(ancestor.name)), name]
+      const hierarchical = [...ancestors.reverse().map((ancestor) => trim(ancestor.name)), name]
         .filter((v) => v)
         .join(' > ');
       return buildObjValues([
         ['default', name],
-        ['full', full],
+        ['full', `${taxonomy.type}: ${hierarchical} (${taxonomy._id})`],
+        ['hierarchical', hierarchical],
       ]);
     },
     path(taxonomy) {

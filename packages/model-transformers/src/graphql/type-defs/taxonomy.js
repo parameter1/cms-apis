@@ -63,6 +63,7 @@ type TaxonomyDescendantsEdge {
 type TaxonomyName {
   default: String!
   full: String!
+  hierarchical: String!
 }
 
 type TaxonomyParentEdge {

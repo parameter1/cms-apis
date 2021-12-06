@@ -22,7 +22,7 @@ export default new Map([
           images { node { ...CommonImageAssetRelFragment } }
           relatedTo { node { _id _type name { default website short } status date { published expired } } }
           sponsors { node { _id _type name { default website short } status date { published expired } } }
-          taxonomies { node { _id _type name { default full } status } }
+          taxonomies { node { _id _type name { default hierarchical } status } }
           websiteSchedules {
             node {
               _edge {
@@ -346,22 +346,22 @@ export default new Map([
         _connection {
           ancestors {
             depth
-            node { _id name { default full } path status }
+            node { _id name { default hierarchical } path status }
           }
           descendants {
             depth
-            node { _id name { default full } path status }
+            node { _id name { default hierarchical } path status }
           }
         }
         _edge {
-          parent { node { _id name { default full } path status } }
+          parent { node { _id name { default hierarchical } path status } }
         }
         _sync { date }
         _type
         depth
         description
         isHierarchical
-        name { default full }
+        name { default full hierarchical }
         path
         sequence
         slug
@@ -451,7 +451,7 @@ export default new Map([
       fragment TransformWebsiteScheduleFragment on WebsiteSchedule {
         _id
         _connection {
-          taxonomies { node { _id _type name { default full } status } }
+          taxonomies { node { _id _type name { default hierarchical } status } }
         }
         _edge {
           content {
