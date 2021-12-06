@@ -346,15 +346,15 @@ export default new Map([
         _connection {
           ancestors {
             depth
-            node { _id name { default hierarchical } path status }
+            node { _id _type name { default hierarchical } path status }
           }
           descendants {
             depth
-            node { _id name { default hierarchical } path status }
+            node { _id _type name { default hierarchical } path status }
           }
         }
         _edge {
-          parent { node { _id name { default hierarchical } path status } }
+          parent { node { _id _type name { default hierarchical } path status } }
         }
         _sync { date }
         _type
