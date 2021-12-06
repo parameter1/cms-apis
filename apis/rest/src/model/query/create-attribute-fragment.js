@@ -5,12 +5,22 @@ import sha1 from '../../utils/sha1.js';
 export default ({ type, attributes = new Map(), selected = [] } = {}) => {
   const include = new Set(selected);
   const selections = [];
+
+  const push = (name) => {
+    const attr = attributes.get(name);
+    if (attr.fields.length) {
+      selections.push(`${name} { ${attr.fields.map((f) => f.name).join(' ')} }`);
+    } else {
+      selections.push(name);
+    }
+  };
+
   if (include.size) {
     include.forEach((name) => {
-      if (attributes.has(name)) selections.push(name);
+      if (attributes.has(name)) push(name);
     });
   } else {
-    attributes.forEach((_, name) => selections.push(name));
+    attributes.forEach((_, name) => push(name));
   }
 
   const hash = sha1(selections.join(''));

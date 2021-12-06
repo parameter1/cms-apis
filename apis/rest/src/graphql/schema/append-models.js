@@ -57,6 +57,7 @@ export default (schema) => {
         name: field.name,
         dbFieldName: get(field, 'astNode.$dbFieldName'),
         type: `${getReturnType(field.type)}`,
+        fields: isObjectType(field.type) ? Object.values(field.type.getFields()) : [],
       });
     });
 
