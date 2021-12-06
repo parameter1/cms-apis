@@ -13,16 +13,16 @@ export default ({
 
   const models = info.schema.getModels();
   const model = models.get($meta.restType);
-  const relatedModel = models.get(restType);
-  if (!relatedModel) throw new Error('Cannot find related model!');
 
   const links = linkBuilder.linkage({
     id: doc._id,
     restType: model.getPolymorphicTypeFor(doc),
     field: info.fieldName,
   });
-
   if (empty) return { linkage: ref === 'ONE' ? null : [], ...links };
+
+  const relatedModel = models.get(restType);
+  if (!relatedModel) throw new Error(`Cannot find related linkage model for ${restType}`);
 
   const filter = (edge) => {
     // exclude status enabled models when status is zero
