@@ -1,5 +1,6 @@
 import gql from '@cms-apis/graphql/tag';
 
+import content from './content.js';
 import imageAsset from './image-asset.js';
 import taxonomy from './taxonomy.js';
 import website from './website.js';
@@ -98,6 +99,7 @@ input SortInput {
   order: SortOrderEnum!
 }
 
+${content}
 ${imageAsset}
 ${taxonomy}
 ${website}
