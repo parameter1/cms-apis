@@ -20,20 +20,20 @@ type ImageAsset @meta(
   links: ImageAssetLinks!
 
   approvedMagazine: Boolean @project(field: "approvedFor.magazine")
-  approvedWebsite: Boolean @project(field: "approvedFor.website")
+  approvedWebsite: Boolean! @project(field: "approvedFor.website")
   body: String @project @trim
   caption: String @project @trim
   credit: String @project @trim
   cropDimensions: ImageAssetCropDimensions @project(field: "crop.dimensions")
   displayName: String @project(field: "name.display") @trim
-  fileName: String @project(field: "file.name") @trim
-  filePath: String @project(field: "file.path") @trim
+  fileName: String! @project(field: "file.name") @trim
+  filePath: String! @project(field: "file.path") @trim
 
-  inCarousel: Boolean @project
-  isLogo: Boolean @project
+  inCarousel: Boolean! @project
+  isLogo: Boolean! @project
   name: String @project(field: "name.default") @trim
   notes: String @project(field: "note") @trim
-  primaryImageDisplay: String @project @trim
+  primaryImageDisplay: String! @project @trim
   source: JSONObject! @object # no longer used
   touched: DateTime @project(field: "date.touched")
 }
