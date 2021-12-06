@@ -35,8 +35,6 @@ export default ({
       if (!queryName) throw new Error(`Unable to extract a FIND query name for ${type}`);
       const input = { pagination, sort };
 
-      // pass included/excluded links fields here...
-      // this should remove the linkage, where applicable, then sideload will ignore
       const query = createFindQuery({
         type,
         attributes: model.getAttributes(),
