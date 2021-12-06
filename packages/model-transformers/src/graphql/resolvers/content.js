@@ -7,7 +7,7 @@ import {
 } from '@cms-apis/utils';
 import { LegacyDB, types } from '@cms-apis/db';
 import cleanString, { cleanWebsite, encodeHtmlEntities } from '@cms-apis/clean-string';
-import { sortBy } from '../utils/index.js';
+import { formatStatus, sortBy } from '../utils/index.js';
 import {
   buildObjValues,
   findMany,
@@ -466,6 +466,11 @@ export default {
     },
     sidebars(content) {
       return getAsArray(content, 'sidebars');
+    },
+    status(content) {
+      const status = formatStatus(content.status);
+      // force empty status to 2 (draft), just like the legacy event subscriber did
+      return status == null ? 2 : status;
     },
     syndication(content) {
       if (content.type !== 'News') return null;
