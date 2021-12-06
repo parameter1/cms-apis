@@ -6,6 +6,7 @@ import GraphQLDateTime from '../types/date-time.js';
 
 import imageAsset from './image-asset.js';
 import taxonomy from './taxonomy.js';
+import user from './user.js';
 import website from './website.js';
 import websiteSchedule from './website-schedule.js';
 import websiteSection from './website-section.js';
@@ -29,6 +30,7 @@ export default merge(
   },
   imageAsset,
   taxonomy,
+  user,
   website,
   websiteSchedule,
   websiteSection,

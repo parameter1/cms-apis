@@ -3,6 +3,7 @@ import gql from '@cms-apis/graphql/tag';
 import content from './content.js';
 import imageAsset from './image-asset.js';
 import taxonomy from './taxonomy.js';
+import user from './user.js';
 import website from './website.js';
 import websiteInquirySubmission from './website-inquiry-submission.js';
 import websiteRedirect from './website-redirect.js';
@@ -109,6 +110,7 @@ input SortInput {
 ${content}
 ${imageAsset}
 ${taxonomy}
+${user}
 ${website}
 ${websiteInquirySubmission}
 ${websiteRedirect}
