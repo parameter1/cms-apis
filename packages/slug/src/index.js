@@ -9,7 +9,7 @@ slug.extend({
   '&': 'and',
 });
 
-export default (value, options) => {
+export default function sluggify(value, options) {
   if (Number.isNaN(value)) return null;
 
   let v = value;
@@ -29,4 +29,9 @@ export default (value, options) => {
   const dashesTrimmed = repetitiveRemoved.replace(/^-+/, '').replace(/-+$/, '');
   // return null when empty
   return dashesTrimmed || null;
-};
+}
+
+export function createPath(parts, sep = '/') {
+  if (!Array.isArray(parts)) throw new Error('The path parts must be an array');
+  return parts.map(sluggify).filter((v) => v).join(sep) || null;
+}
