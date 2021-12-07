@@ -1,1 +1,1 @@
-# Legacy REST API
+# REST API
