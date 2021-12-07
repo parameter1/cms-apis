@@ -76,4 +76,41 @@ describe('str', () => {
       });
     });
   });
+
+  describe('when given a multi-line string', () => {
+    it('should collapse into a single line by default', () => {
+      expect(Joi.attempt(`
+        Foo
+        Bar
+      `, Schema.str())).to.eq('Foo Bar');
+
+      expect(Joi.attempt('\nFoo\r\nBar\n\nBaz\r\rDill\n', Schema.str())).to.eq('Foo Bar Baz Dill');
+    });
+    it('should preserve multi-line strings when multiline() is enabled', () => {
+      expect(Joi.attempt('Foo\nBar', Schema.str().multiline())).to.eq('Foo\nBar');
+    });
+  });
+
+  describe('when given a string with HTML encoded entities', () => {
+    it('should decode all entities', () => {
+      expect(Joi.attempt('&gt;foo&copy;&#162;a&#769;', Schema.str())).to.eq('>foo©¢á');
+    });
+  });
+
+  describe('when given an HTML string', () => {
+    it('should strip HTML tags by default', () => {
+      expect(Joi.attempt('<body>foo</body>', Schema.str())).to.eq('foo');
+      expect(Joi.attempt('<body><p><non-standard>foo</non-standard></p></body>', Schema.str())).to.eq('foo');
+    });
+    it('should preserve all HTML tags when html() is enabled', () => {
+      expect(Joi.attempt('<body><p>foo</p></body>', Schema.str().html())).to.eq('<body><p>foo</p></body>');
+    });
+    it('should preserve HTML decoded tags when html() is enabled', () => {
+      expect(Joi.attempt('<body>&lt;p&gt;foo</p></body>', Schema.str().html())).to.eq('<body><p>foo</p></body>');
+    });
+    it('should preserve only specific HTML tags when html() with tags are specified', () => {
+      expect(Joi.attempt('<body><p><em><a href="/foo">foo</a></em></p><strong>bar</strong></body>', Schema.str().html({ tags: ['em', 'strong'] }))).to
+        .eq('<em>foo</em><strong>bar</strong>');
+    });
+  });
 });
