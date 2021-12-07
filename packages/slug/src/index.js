@@ -10,10 +10,15 @@ slug.extend({
 });
 
 export default (value, options) => {
-  if (!value) return null;
-  if (isObject(value)) throw new Error('Object values cannot be sluggified');
-  if (isFunction(value)) throw new Error('Function values cannot be sluggified');
-  const trimmed = trim(Array.isArray(value) ? value.join('-') : value);
+  if (Number.isNaN(value)) return null;
+
+  let v = value;
+  if (typeof v === 'number') v = `${v}`;
+
+  if (isObject(v)) throw new Error('Object values cannot be sluggified');
+  if (isFunction(v)) throw new Error('Function values cannot be sluggified');
+
+  const trimmed = trim(v);
   if (!trimmed) return null;
 
   const sluggified = slug(trimmed, options);

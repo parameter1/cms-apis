@@ -9,17 +9,26 @@ describe('slug', () => {
     expect(slug(null)).to.be.null;
   });
 
+  it('should convert NaN to null', () =>{
+    expect(slug(Number.NaN)).to.be.null;
+    expect(slug(NaN)).to.be.null;
+  });
+
   it('should convert undefined value to null', () => {
     expect(slug()).to.be.null;
+    expect(slug(undefined)).to.be.null;
   });
 
   it('should convert empty string value to null', () => {
     expect(slug('')).to.be.null;
   });
 
-  it('should throw an error when value is an object', () => {
+  it('should throw an error when value is an object or an array', () => {
     expect(() => {
       slug({});
+    }).to.throw();
+    expect(() => {
+      slug([]);
     }).to.throw();
   });
 
@@ -32,6 +41,12 @@ describe('slug', () => {
   it('should convert strings with only spaces to null', () => {
     expect(slug(' ')).to.be.null;
     expect(slug('  ')).to.be.null;
+  });
+
+  it('should convert numbers to strings', () =>{
+    expect(slug(1)).to.eq('1');
+    expect(slug(0)).to.eq('0');
+    expect(slug(-1)).to.eq('1');
   });
 
   it('should trim whitepace', () => {
