@@ -1,0 +1,31 @@
+{
+  "name": "@cms-apis/slug",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Slug package.",
+  "author": "Jacob Bare <jacob@parameter1.com>",
+  "homepage": "https://github.com/parameter1/cms-apis/tree/main/packages/slug#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parameter1/cms-apis.git",
+    "directory": "packages/slug"
+  },
+  "private": true,
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint --ignore-path ../../.eslintignore --ext .js ./",
+    "test": "yarn lint && mocha ./test/*.spec.js ./test/**/*.spec.js"
+  },
+  "engines": {
+    "node": ">=14.0"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "dependencies": {
+    "slug": "^5.1.0"
+  }
+}
