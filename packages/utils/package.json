@@ -14,8 +14,8 @@
   "license": "MIT",
   "main": "src/index.js",
   "scripts": {
-    "lint": "eslint --ext .js ./",
-    "test": "yarn lint"
+    "lint": "eslint --ignore-path ../../.eslintignore --ext .js ./",
+    "test": "yarn lint && mocha ./test/*.spec.js ./test/**/*.spec.js"
   },
   "engines": {
     "node": ">=14.0"
