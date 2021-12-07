@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import createError from 'http-errors';
+import bodyParser from 'body-parser';
 import asyncRoute from '../../utils/async-route.js';
 import parseQuery from '../../utils/parse-query.js';
+
+const { json } = bodyParser;
 
 export default ({ model } = {}) => {
   const restType = model.getRestType();
@@ -11,7 +14,6 @@ export default ({ model } = {}) => {
   /**
    * Retrieve many.
    *
-   * @todo handle include, exclude
    */
   router.get('/', asyncRoute(async (req, res) => {
     const { subtype } = req.params;
@@ -35,7 +37,6 @@ export default ({ model } = {}) => {
   /**
    * Retrieve one by ID.
    *
-   * @todo handle include, exclude
    */
   router.get('/:id', asyncRoute(async (req, res) => {
     const { subtype } = req.params;
@@ -56,7 +57,16 @@ export default ({ model } = {}) => {
     res.json({ data: doc, included, meta });
   }));
 
-  router.post('/', (req, res) => {
+  /**
+   * Create one.
+   */
+  router.post('/', json(), (req, res) => {
+    const { body } = req;
+    if (!body.data) throw createError(400, 'The root request body must contain the "data" key.');
+    const { data } = body;
+    const { type } = data;
+    if (!type) throw createError(400, 'Model data must contain the "type" key.');
+    if (!model.isValidRestType(type)) throw createError(400, 'This endpoint does not support creation of this model type.');
     res.json({ data: [], included: [], meta });
   });
 

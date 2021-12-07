@@ -25,6 +25,11 @@ export default ({
 } = {}) => {
   const meta = createModelMeta(restType);
 
+  const hasSubTypePath = (type) => {
+    if (!isPolymorphic) return false;
+    return subTypes.has(underscore(type).toUpperCase());
+  };
+
   return {
     /**
      *
@@ -103,9 +108,13 @@ export default ({
      * @param {string} type
      * @returns {boolean}
      */
-    hasSubTypePath: (type) => {
-      if (!isPolymorphic) return false;
-      return subTypes.has(underscore(type).toUpperCase());
+    hasSubTypePath,
+
+    isValidRestType: (type) => {
+      if (!isPolymorphic) return restType === type;
+      const subType = type.split('/').pop();
+      console.log({ subType });
+      return type.startsWith(type) && hasSubTypePath(subType);
     },
 
     get [Symbol.toStringTag]() {
