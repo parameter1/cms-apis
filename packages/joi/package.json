@@ -26,6 +26,8 @@
     "win32"
   ],
   "dependencies": {
+    "@cms-apis/clean-string": "^0.0.0",
+    "@cms-apis/object-path": "^0.0.0",
     "joi": "^17.5.0"
   }
 }
