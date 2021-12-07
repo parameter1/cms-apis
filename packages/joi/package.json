@@ -1,0 +1,31 @@
+{
+  "name": "@cms-apis/joi",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Wrapper for Joi with custom types.",
+  "author": "Jacob Bare <jacob@parameter1.com>",
+  "homepage": "https://github.com/parameter1/cms-apis/tree/main/packages/joi#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parameter1/cms-apis.git",
+    "directory": "packages/joi"
+  },
+  "private": true,
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint --ignore-path ../../.eslintignore --ext .js ./",
+    "test": "yarn lint && mocha ./test/*.spec.js ./test/**/*.spec.js"
+  },
+  "engines": {
+    "node": ">=14.0"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "dependencies": {
+    "joi": "^17.5.0"
+  }
+}
