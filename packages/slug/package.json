@@ -26,6 +26,7 @@
     "win32"
   ],
   "dependencies": {
+    "@cms-apis/utils": "^0.0.0",
     "slug": "^5.1.0"
   }
 }
