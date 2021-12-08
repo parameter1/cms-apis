@@ -29,7 +29,7 @@ export default new Map([
                 option { node { _id name { default } } }
                 section {
                   node {
-                    _id alias name { default }
+                    _id alias name { default } deleted
                     _edge { website { node { _id name } } }
                     _connection { descendants { node { _id } } }
                   }
@@ -47,9 +47,10 @@ export default new Map([
           primaryWebsiteSection {
             node {
               _id
-              _connection { ancestors { node { _id name { default } alias status } } }
+              _connection { ancestors { node { _id name { default } alias deleted } } }
               _edge { website { node { _id name status } } }
               name { default }
+              deleted
               alias
             }
           }
@@ -398,7 +399,7 @@ export default new Map([
               alias # rel query input
               name { default full } # global website section sort field
               sequence # global website section sort field
-              status # rel query input
+              deleted # rel query input
               depth # rel query input
             }
           }
@@ -457,7 +458,7 @@ export default new Map([
               _id
               _edge {
                 primaryImage { node { _id } }
-                primaryWebsiteSection { node { _id name { default full } alias status } }
+                primaryWebsiteSection { node { _id name { default full } alias deleted } }
               }
               _type
               date { published expired }
@@ -471,7 +472,7 @@ export default new Map([
               _edge { website { node { _id name } } }
               alias
               name { default full }
-              status
+              deleted
             }
           }
         }
@@ -501,23 +502,24 @@ export default new Map([
         _id
         _connection {
           ancestors {
-            node { _id name { default full } alias status }
+            node { _id name { default full } alias deleted }
             depth
           }
           descendants {
-            node { _id name { default full } alias status }
+            node { _id name { default full } alias deleted }
             depth
           }
-          related { node { _id name { default full } alias status } }
+          related { node { _id name { default full } alias deleted } }
         }
         _edge {
           coverImage { node { ...CommonImageAssetRelFragment } }
           logo { node { ...CommonImageAssetRelFragment } }
-          parent { node { _id name { default full } alias status } }
+          parent { node { _id name { default full } alias deleted } }
           website { node { _id name status } }
         }
         _sync { date }
         alias
+        deleted
         depth
         description
         labels
@@ -527,7 +529,6 @@ export default new Map([
         sequence
         seo
         slug
-        status
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,

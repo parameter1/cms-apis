@@ -23,6 +23,7 @@ type WebsiteSection {
   _edge: WebsiteSection_Edge!
   _sync: SyncInfo!
   alias: String!
+  deleted: Boolean! @formatDeleted
   depth: Int!
   description: String @trim
   labels: [String!]!
@@ -32,7 +33,6 @@ type WebsiteSection {
   sequence: Int!
   seo: WebsiteSectionSEO
   slug: String!
-  status: Int! @formatStatus
 }
 
 type WebsiteSection_Connection {
