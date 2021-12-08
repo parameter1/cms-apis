@@ -121,6 +121,12 @@ export default {
     sequence({ sequence }) {
       return parseInt(sequence, 10) || 0;
     },
+    slug(section) {
+      const alias = cleanPath(section.alias) || null;
+      if (!alias) return null;
+      const parts = alias.split('/');
+      return parts.pop() || null;
+    },
   },
 
   /**

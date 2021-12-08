@@ -31,7 +31,7 @@ type WebsiteSection {
   redirects: [String!]!
   sequence: Int!
   seo: WebsiteSectionSEO
-  slug: String @trim
+  slug: String!
   status: Int! @formatStatus
 }
 
