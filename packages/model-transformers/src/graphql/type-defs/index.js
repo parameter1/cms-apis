@@ -21,6 +21,7 @@ import websiteSection from './website-section.js';
 
 export default gql`
 
+directive @formatDeleted on FIELD_DEFINITION
 directive @formatStatus(field: String) on FIELD_DEFINITION
 directive @interfaceFields on OBJECT
 directive @trim(field: String, default: String) on FIELD_DEFINITION

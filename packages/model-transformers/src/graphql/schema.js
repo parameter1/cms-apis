@@ -1,5 +1,6 @@
 import { makeExecutableSchema } from '@cms-apis/graphql/schema';
 import {
+  formatDeletedDirectiveTransformer,
   formatStatusDirectiveTransformer,
   interfaceFieldsDirectiveTransformer,
   trimDirectiveTransformer,
@@ -16,5 +17,6 @@ const schema = makeExecutableSchema({
 const withInterfaceFields = interfaceFieldsDirectiveTransformer(schema);
 const withTrim = trimDirectiveTransformer(withInterfaceFields);
 const withFormatStatus = formatStatusDirectiveTransformer(withTrim);
+const withFormatDeleted = formatDeletedDirectiveTransformer(withFormatStatus);
 
-export default withFormatStatus;
+export default withFormatDeleted;
