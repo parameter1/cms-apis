@@ -30,6 +30,7 @@ export default (joi) => ({
     let v = value;
     if (!helpers.schema.$_getRule('html')) {
       // no html rule set. strip all tags
+      // @todo only deconding entities because platform was; re-examine
       v = clean(v, { stripHtmlTags: true, decodeEntities: true });
     }
 
