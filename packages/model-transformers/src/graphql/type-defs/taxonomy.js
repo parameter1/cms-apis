@@ -38,7 +38,6 @@ type Taxonomy {
   path: String!
   sequence: Int!
   slug: String!
-  status: Int! @formatStatus
 }
 
 type Taxonomy_Connection {

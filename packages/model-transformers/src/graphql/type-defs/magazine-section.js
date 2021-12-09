@@ -15,7 +15,6 @@ type MagazineSection {
   name: MagazineSectionName!
   isGlobal: Boolean!
   sequence: Int!
-  status: Int! @formatStatus
 }
 
 type MagazineSection_Edge {

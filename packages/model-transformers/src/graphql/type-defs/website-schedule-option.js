@@ -13,7 +13,6 @@ type WebsiteScheduleOption {
   _sync: SyncInfo!
   description: String @trim
   name: WebsiteScheduleOptionName!
-  status: Int! @formatStatus
 }
 
 type WebsiteScheduleOption_Edge {

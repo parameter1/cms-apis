@@ -19,7 +19,6 @@ type Newsletter {
   name: String! @trim
   provider: NewsletterProvider
   sourceProvider: NewsletterSourceProvider
-  status: Int! @formatStatus
   tagLine: String @trim
   teaser: String @trim
   usesDeploymentDates: Boolean

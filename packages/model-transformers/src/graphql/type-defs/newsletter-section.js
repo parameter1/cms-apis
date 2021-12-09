@@ -15,7 +15,6 @@ type NewsletterSection {
   description: String @trim
   name: NewsletterSectionName!
   sequence: Int!
-  status: Int! @formatStatus
 }
 
 type NewsletterSection_Edge {

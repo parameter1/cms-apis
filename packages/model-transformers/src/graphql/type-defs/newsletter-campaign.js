@@ -17,7 +17,6 @@ type NewsletterCampaign {
   isLocked: Boolean
   list: NewsletterCampaignList
   name: NewsletterCampaignName!
-  status: Int! @formatStatus
   subjectLine: String @trim
 }
 

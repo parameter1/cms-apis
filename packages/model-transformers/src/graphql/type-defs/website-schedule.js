@@ -13,7 +13,6 @@ type WebsiteSchedule {
   _edge: WebsiteSchedule_Edge!
   _sync: SyncInfo!
   date: WebsiteScheduleDate!
-  status: Int! @formatStatus
 }
 
 type WebsiteSchedule_Connection {

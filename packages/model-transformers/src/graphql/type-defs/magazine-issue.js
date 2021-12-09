@@ -17,7 +17,6 @@ type MagazineIssue {
   dedication: String @trim
   description: String @trim
   name: MagazineIssueName!
-  status: Int! @formatStatus
   url: MagazineIssueUrl
 }
 

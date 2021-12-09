@@ -13,7 +13,6 @@ type NewsletterSchedule {
   _sync: SyncInfo!
   date: NewsletterScheduleDate!
   sequence: Int!
-  status: Int! @formatStatus
 }
 
 type NewsletterSchedule_Edge {

@@ -11,7 +11,6 @@ type MagazineSchedule {
   _id: ObjectID!
   _edge: MagazineSchedule_Edge!
   _sync: SyncInfo!
-  status: Int! @formatStatus
 }
 
 type MagazineSchedule_Edge {

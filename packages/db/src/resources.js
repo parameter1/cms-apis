@@ -43,23 +43,23 @@ export default fromJS([
       namespace: 'platform',
       model: 'Product',
       target: { namespace: 'magazine', model: 'Publication' },
-      query: { type: 'Publication' },
+      query: { type: 'Publication', status: 1 },
     },
   },
   {
     name: 'magazine issue',
     collection: 'magazine-issues',
-    legacy: { namespace: 'magazine', model: 'Issue' },
+    legacy: { namespace: 'magazine', model: 'Issue', query: { status: 1 } },
   },
   {
     name: 'magazine schedule',
     collection: 'magazine-schedules',
-    legacy: { namespace: 'magazine', model: 'Schedule' },
+    legacy: { namespace: 'magazine', model: 'Schedule', query: { status: 1 } },
   },
   {
     name: 'magazine section',
     collection: 'magazine-sections',
-    legacy: { namespace: 'magazine', model: 'Section' },
+    legacy: { namespace: 'magazine', model: 'Section', query: { status: 1 } },
   },
   {
     name: 'model history',
@@ -69,17 +69,17 @@ export default fromJS([
   {
     name: 'newsletter campaign',
     collection: 'newsletter-campaigns',
-    legacy: { namespace: 'email', model: 'Campaign' },
+    legacy: { namespace: 'email', model: 'Campaign', query: { status: 1 } },
   },
   {
     name: 'newsletter schedule',
     collection: 'newsletter-schedules',
-    legacy: { namespace: 'email', model: 'Schedule' },
+    legacy: { namespace: 'email', model: 'Schedule', query: { status: 1 } },
   },
   {
     name: 'newsletter section',
     collection: 'newsletter-sections',
-    legacy: { namespace: 'email', model: 'Section' },
+    legacy: { namespace: 'email', model: 'Section', query: { status: 1 } },
   },
   {
     name: 'newsletter',
@@ -88,7 +88,7 @@ export default fromJS([
       namespace: 'platform',
       model: 'Product',
       target: { namespace: 'email', model: 'Newsletter' },
-      query: { type: 'Newsletter' },
+      query: { type: 'Newsletter', status: 1 },
     },
   },
   {
@@ -97,7 +97,7 @@ export default fromJS([
     legacy: {
       namespace: 'platform',
       model: 'Taxonomy',
-      query: { type: { $in: Object.values(types.get('taxonomy').toJS()) } },
+      query: { type: { $in: Object.values(types.get('taxonomy').toJS()) }, status: 1 },
     },
   },
   {
@@ -118,17 +118,17 @@ export default fromJS([
   {
     name: 'website schedule',
     collection: 'website-schedules',
-    legacy: { namespace: 'website', model: 'Schedule' },
+    legacy: { namespace: 'website', model: 'Schedule', query: { status: 1 } },
   },
   {
     name: 'website section',
     collection: 'website-sections',
-    legacy: { namespace: 'website', model: 'Section' },
+    legacy: { namespace: 'website', model: 'Section', query: { status: 1 } },
   },
   {
     name: 'website schedule option',
     collection: 'website-schedule-options',
-    legacy: { namespace: 'website', model: 'Option' },
+    legacy: { namespace: 'website', model: 'Option', query: { status: 1 } },
   },
   {
     name: 'website',
@@ -137,7 +137,7 @@ export default fromJS([
       namespace: 'platform',
       model: 'Product',
       target: { namespace: 'website', model: 'Site' },
-      query: { type: 'Site' },
+      query: { type: 'Site', status: 1 },
     },
   },
 ]);

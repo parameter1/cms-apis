@@ -22,14 +22,14 @@ export default new Map([
           images { node { ...CommonImageAssetRelFragment } }
           relatedTo { node { _id _type name { default website short } status date { published expired } } }
           sponsors { node { _id _type name { default website short } status date { published expired } } }
-          taxonomies { node { _id _type name { default hierarchical } status } }
+          taxonomies { node { _id _type name { default hierarchical } } }
           websiteSchedules {
             node {
               _edge {
                 option { node { _id name { default } } }
                 section {
                   node {
-                    _id alias name { default } deleted
+                    _id alias name { default }
                     _edge { website { node { _id name } } }
                     _connection { descendants { node { _id } } }
                   }
@@ -42,15 +42,14 @@ export default new Map([
         _edge {
           company { node { _id name { default website short } status date { published expired } inquiry { isEnabled } } }
           parent { node { _id _type status name { default } date { published expired } } }
-          primaryCategory { node { _id _type status name { default full } } }
+          primaryCategory { node { _id _type name { default full } } }
           primaryImage { node { ...CommonImageAssetRelFragment } }
           primaryWebsiteSection {
             node {
               _id
-              _connection { ancestors { node { _id name { default } alias deleted } } }
-              _edge { website { node { _id name status } } }
+              _connection { ancestors { node { _id name { default } alias } } }
+              _edge { website { node { _id name } } }
               name { default }
-              deleted
               alias
             }
           }
@@ -173,8 +172,8 @@ export default new Map([
       fragment TransformMagazineFragment on Magazine {
         _id
         _connection {
-          issues { node { _id name { default } status date { mailed } _edge { coverImage { node { _id } } } } }
-          sections { node { _id name { default } status } }
+          issues { node { _id name { default } date { mailed } _edge { coverImage { node { _id } } } } }
+          sections { node { _id name { default } } }
         }
         _edge {
           coverImage { node { ...CommonImageAssetRelFragment } }
@@ -183,7 +182,6 @@ export default new Map([
         description
         logo
         name
-        status
         tagLine
         url { subscribe renewal reprint einquiry }
       }
@@ -197,7 +195,7 @@ export default new Map([
         _id
         _edge {
           coverImage { node { ...CommonImageAssetRelFragment } }
-          magazine { node { _id name status } }
+          magazine { node { _id name } }
         }
         _sync { date }
         coverDescription
@@ -206,7 +204,6 @@ export default new Map([
         dedication
         description
         name { default full }
-        status
         url { digitalEdition }
       }
       ${COMMON_IMAGE_ASSET_REL}
@@ -228,16 +225,14 @@ export default new Map([
             node {
               _id
               _edge {
-                issue { node { _id name { default } status } }
-                magazine { node { _id name status } }
+                issue { node { _id name { default } } }
+                magazine { node { _id name } }
               }
               name { default full }
-              status
             }
           }
         }
         _sync { date }
-        status
       }
     `,
   }],
@@ -247,15 +242,14 @@ export default new Map([
       fragment TransformMagazineSectionFragment on MagazineSection {
         _id
         _edge {
-          magazine { node { _id name status } }
-          issue { node { _id name { default } status date { mailed } } }
+          magazine { node { _id name } }
+          issue { node { _id name { default } date { mailed } } }
         }
         _sync { date }
         description
         name { default full }
         isGlobal
         sequence
-        status
       }
     `,
   }],
@@ -265,10 +259,10 @@ export default new Map([
       fragment TransformNewsletterFragment on Newsletter {
         _id
         _connection {
-          sections { node { _id name { default } status } }
+          sections { node { _id name { default } } }
         }
         _edge {
-          website { node { _id name status } }
+          website { node { _id name } }
         }
         _sync { date }
         alias
@@ -278,7 +272,6 @@ export default new Map([
         name
         provider { type providerId attributes }
         sourceProvider { handlerKey host path }
-        status
         tagLine
         teaser
         usesDeploymentDates
@@ -292,7 +285,7 @@ export default new Map([
         _id
         _edge {
           createdBy { node { _id name { full } email username } }
-          newsletter { node { _id name status _edge { website { node { _id name } } }  } }
+          newsletter { node { _id name _edge { website { node { _id name } } }  } }
         }
         _sync { date }
         date { created updated touched deployed scheduled htmlUpdated }
@@ -301,7 +294,6 @@ export default new Map([
         isLocked
         list { identifier message status }
         name { default from }
-        status
         subjectLine
       }
     `,
@@ -313,12 +305,11 @@ export default new Map([
         _id
         _edge {
           content { node { _id _type status } }
-          section { node { _id name { default } status _edge { newsletter { node { _id name status } } } } }
+          section { node { _id name { default } _edge { newsletter { node { _id name } } } } }
         }
         _sync { date }
         date { deployed }
         sequence
-        status
       }
     `,
   }],
@@ -328,14 +319,13 @@ export default new Map([
       fragment TransformNewsletterSectionFragment on NewsletterSection {
         _id
         _edge {
-          newsletter { node { _id name status } }
+          newsletter { node { _id name } }
         }
         _sync { date }
         alias
         description
         name { default full }
         sequence
-        status
       }
     `,
   }],
@@ -347,15 +337,15 @@ export default new Map([
         _connection {
           ancestors {
             depth
-            node { _id _type name { default hierarchical } path status }
+            node { _id _type name { default hierarchical } path }
           }
           descendants {
             depth
-            node { _id _type name { default hierarchical } path status }
+            node { _id _type name { default hierarchical } path }
           }
         }
         _edge {
-          parent { node { _id _type name { default hierarchical } path status } }
+          parent { node { _id _type name { default hierarchical } path } }
         }
         _sync { date }
         _type
@@ -366,7 +356,6 @@ export default new Map([
         path
         sequence
         slug
-        status
       }
     `,
   }],
@@ -399,11 +388,10 @@ export default new Map([
               alias # rel query input
               name { default full } # global website section sort field
               sequence # global website section sort field
-              deleted # rel query input
               depth # rel query input
             }
           }
-          scheduleOptions { node { _id name { default } status } }
+          scheduleOptions { node { _id name { default } } }
         }
         _sync { date }
         abbreviation
@@ -413,7 +401,6 @@ export default new Map([
         name
         origin
         settings { date { timezone format locale } language { code primaryCode subCode } }
-        status
         tagLine
       }
     `,
@@ -450,7 +437,7 @@ export default new Map([
       fragment TransformWebsiteScheduleFragment on WebsiteSchedule {
         _id
         _connection {
-          taxonomies { node { _id _type name { default hierarchical } status } }
+          taxonomies { node { _id _type name { default hierarchical } } }
         }
         _edge {
           content {
@@ -458,27 +445,25 @@ export default new Map([
               _id
               _edge {
                 primaryImage { node { _id } }
-                primaryWebsiteSection { node { _id name { default full } alias deleted } }
+                primaryWebsiteSection { node { _id name { default full } alias } }
               }
               _type
               date { published expired }
               status
             }
           }
-          option { node { _id name { default } status } }
+          option { node { _id name { default } } }
           section {
             node {
               _id
               _edge { website { node { _id name } } }
               alias
               name { default full }
-              deleted
             }
           }
         }
         _sync { date }
         date { started ended }
-        status
       }
     `,
   }],
@@ -487,11 +472,10 @@ export default new Map([
     fragment: gql`
       fragment TransformWebsiteScheduleOptionFragment on WebsiteScheduleOption {
         _id
-        _edge { website { node { _id name status } } }
+        _edge { website { node { _id name } } }
         _sync { date }
         description
         name { default full }
-        status
       }
     `,
   }],
@@ -502,24 +486,23 @@ export default new Map([
         _id
         _connection {
           ancestors {
-            node { _id name { default full } alias deleted }
+            node { _id name { default full } alias }
             depth
           }
           descendants {
-            node { _id name { default full } alias deleted }
+            node { _id name { default full } alias }
             depth
           }
-          related { node { _id name { default full } alias deleted } }
+          related { node { _id name { default full } alias } }
         }
         _edge {
           coverImage { node { ...CommonImageAssetRelFragment } }
           logo { node { ...CommonImageAssetRelFragment } }
-          parent { node { _id name { default full } alias deleted } }
-          website { node { _id name status } }
+          parent { node { _id name { default full } alias } }
+          website { node { _id name } }
         }
         _sync { date }
         alias
-        deleted
         depth
         description
         labels
