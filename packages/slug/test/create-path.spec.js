@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies, no-unused-expressions */
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { createPath } from '../src/index.js';

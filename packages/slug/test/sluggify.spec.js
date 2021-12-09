@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies, no-unused-expressions */
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { sluggify } from '../src/index.js';
@@ -9,7 +10,7 @@ describe('sluggify', () => {
     expect(sluggify(null)).to.be.null;
   });
 
-  it('should convert NaN to null', () =>{
+  it('should convert NaN to null', () => {
     expect(sluggify(Number.NaN)).to.be.null;
     expect(sluggify(NaN)).to.be.null;
   });
@@ -43,7 +44,7 @@ describe('sluggify', () => {
     expect(sluggify('  ')).to.be.null;
   });
 
-  it('should convert numbers to strings', () =>{
+  it('should convert numbers to strings', () => {
     expect(sluggify(1)).to.eq('1');
     expect(sluggify(0)).to.eq('0');
     expect(sluggify(-1)).to.eq('1');

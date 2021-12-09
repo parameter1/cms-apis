@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies, no-unused-expressions */
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import Joi from 'joi';
@@ -10,7 +11,7 @@ describe('str', () => {
   describe('when given an undefined value', () => {
     it('should throw a validation error when required', () => {
       expect(() => {
-        Joi.attempt(undefined, Schema.str().required())
+        Joi.attempt(undefined, Schema.str().required());
       }).to.throw(ValidationError, '"value" is required');
     });
 
@@ -23,7 +24,7 @@ describe('str', () => {
   describe('when given a null value', () => {
     it('should throw a validation error when required', () => {
       expect(() => {
-        Joi.attempt(null, Schema.str().required())
+        Joi.attempt(null, Schema.str().required());
       }).to.throw(ValidationError, '"value" is required');
     });
 
@@ -36,7 +37,7 @@ describe('str', () => {
   describe('when given an empty string value', () => {
     it('should throw a validation error when required', () => {
       expect(() => {
-        Joi.attempt('', Schema.str().required())
+        Joi.attempt('', Schema.str().required());
       }).to.throw(ValidationError, '"value" is required');
     });
 
@@ -49,7 +50,7 @@ describe('str', () => {
   describe('when given a value that will resolve to an empty string', () => {
     it('should throw a validation error when required', () => {
       expect(() => {
-        Joi.attempt('   ', Schema.str().required())
+        Joi.attempt('   ', Schema.str().required());
       }).to.throw(ValidationError, '"value" is required');
     });
 
