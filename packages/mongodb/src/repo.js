@@ -285,7 +285,7 @@ export default class Repo {
     const { indexes } = this;
     if (!Array.isArray(indexes) || !indexes.length) return null;
     const collection = await this.collection();
-    return collection.createIndexes(this.indexes);
+    return collection.createIndexes(indexes);
   }
 
   /**
