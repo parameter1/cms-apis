@@ -19,6 +19,11 @@ describe('str', () => {
       const result = Joi.attempt(undefined, Schema.str());
       expect(result).to.be.undefined;
     });
+
+    it('should return a default value when specified', () => {
+      const result = Joi.attempt(undefined, Schema.str().default('Foo'));
+      expect(result).to.eq('Foo');
+    });
   });
 
   describe('when given a null value', () => {
@@ -31,6 +36,11 @@ describe('str', () => {
     it('should return null when not required', () => {
       const result = Joi.attempt(null, Schema.str());
       expect(result).to.be.null;
+    });
+
+    it('should return a default value when specified', () => {
+      const result = Joi.attempt(null, Schema.str().default('Foo'));
+      expect(result).to.eq('Foo');
     });
   });
 
@@ -45,6 +55,11 @@ describe('str', () => {
       const result = Joi.attempt('', Schema.str());
       expect(result).to.be.null;
     });
+
+    it('should return a default value when specified', () => {
+      const result = Joi.attempt('', Schema.str().default('Foo'));
+      expect(result).to.eq('Foo');
+    });
   });
 
   describe('when given a value that will resolve to an empty string', () => {
@@ -57,6 +72,11 @@ describe('str', () => {
     it('should return null when not required', () => {
       const result = Joi.attempt('   ', Schema.str());
       expect(result).to.be.null;
+    });
+
+    it('should return a default value when specified', () => {
+      const result = Joi.attempt('   ', Schema.str().default('Foo'));
+      expect(result).to.eq('Foo');
     });
   });
 

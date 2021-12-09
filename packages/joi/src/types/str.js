@@ -6,24 +6,33 @@ const isRequired = (helpers) => {
   return presence === 'required';
 };
 
+const getDefaultValue = (helpers) => helpers.schema.$_getFlag('default');
+
 export default (joi) => ({
   type: 'str',
   // always trim and allow null and empty strings
   base: joi.string().trim().allow(null, ''),
-  prepare(value) {
+  prepare(value, helpers) {
+    // handle default value
+    const defaultValue = getDefaultValue(helpers);
+    const v = value == null ? defaultValue : value;
+
     // return null-like values as strings
-    return { value: value == null ? '' : value };
+    return { value: v == null ? '' : v };
   },
   coerce(value, helpers) {
     // return error on non-strings
     if (typeof value !== 'string') return { errors: helpers.error('string.base') };
     const required = isRequired(helpers);
 
-    // after value is trimmed, always return null when empty
+    const defaultValue = getDefaultValue(helpers);
+    const v = value || defaultValue;
+
+    // after value is trimmed, try default again when empty, otherwise always return null
     // if also required, error when empty
     return {
-      value: value || null,
-      ...(required && !value && { errors: helpers.error('any.required') }),
+      value: v || null,
+      ...(required && !v && { errors: helpers.error('any.required') }),
     };
   },
   validate(value, helpers) {
