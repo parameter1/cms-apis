@@ -24,6 +24,13 @@ process.on('unhandledRejection', immediatelyThrow);
 
   const tenant = 'acbm_fcp';
   const dbs = createDBs({ tenant });
+
+  if (process.env.NODE_ENV === 'development') {
+    log('Creating MongoDB indexes...');
+    await dbs.main.createIndexes();
+    log('Indexes created.');
+  }
+
   const loaders = createLoaders({
     legacyDB: dbs.legacy,
     // logger: log,

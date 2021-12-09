@@ -8,6 +8,7 @@ export default class Repo {
    * @param {MongoDBClient} params.client The MongoDB client
    * @param {string} params.dbName The database to use
    * @param {string} params.collectionName The collection to use
+   * @param {object[]} params.indexes Indexes defined for this collection
    * @param {object} [params.globalFindCriteria] Query criteria to apply to all _find_ methods
    */
   constructor({
@@ -15,6 +16,7 @@ export default class Repo {
     client,
     dbName,
     collectionName,
+    indexes,
     globalFindCriteria,
   } = {}) {
     if (!name) throw new Error('The repository `name` param is required');
@@ -25,6 +27,7 @@ export default class Repo {
     this.client = client;
     this.dbName = dbName;
     this.collectionName = collectionName;
+    this.indexes = indexes;
     this.globalFindCriteria = globalFindCriteria;
   }
 
@@ -272,6 +275,17 @@ export default class Repo {
   async collection(options) {
     const { dbName, collectionName } = this;
     return this.client.collection({ dbName, name: collectionName, options });
+  }
+
+  /**
+   * Creates the defined indexes for this repo/collection, if present.
+   *
+   */
+  async createIndexes() {
+    const { indexes } = this;
+    if (!Array.isArray(indexes) || !indexes.length) return null;
+    const collection = await this.collection();
+    return collection.createIndexes(this.indexes);
   }
 
   /**

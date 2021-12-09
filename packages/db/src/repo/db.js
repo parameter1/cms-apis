@@ -15,11 +15,13 @@ export default class DB {
     this.client = client;
     this.repos = new Map();
     resources.forEach((resource) => {
+      const indexes = resource.get('indexes');
       this.repos.set(resource.get('collection'), new Repo({
         client: this.client,
         name: resource.get('name'),
         dbName: `cms-${this.tenant}`,
         collectionName: resource.get('collection'),
+        ...(indexes && { indexes: indexes.toJS() }),
       }));
     });
   }
@@ -34,5 +36,12 @@ export default class DB {
     const repo = this.repos.get(key);
     if (!repo) throw new Error(`No repository found for ${key}`);
     return repo;
+  }
+
+  /**
+   * Creates indexes for all repos, where defined for each repo
+   */
+  createIndexes() {
+    return Promise.all(Array.from(this.repos).map(([, repo]) => repo.createIndexes()));
   }
 }
