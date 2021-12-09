@@ -113,7 +113,6 @@ export default ({
     isValidRestType: (type) => {
       if (!isPolymorphic) return restType === type;
       const subType = type.split('/').pop();
-      console.log({ subType });
       return type.startsWith(type) && hasSubTypePath(subType);
     },
 
