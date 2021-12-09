@@ -124,6 +124,12 @@ export default fromJS([
     name: 'website section',
     collection: 'website-sections',
     legacy: { namespace: 'website', model: 'Section', query: { status: 1 } },
+    indexes: [
+      {
+        key: { alias: 1, '_edge.website.node._id': 1 },
+        unique: true,
+      },
+    ],
   },
   {
     name: 'website schedule option',
