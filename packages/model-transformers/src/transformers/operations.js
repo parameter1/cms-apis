@@ -176,14 +176,12 @@ export default new Map([
           sections { node { _id name { default } } }
         }
         _edge {
-          coverImage { node { ...CommonImageAssetRelFragment } }
+          image { node { ...CommonImageAssetRelFragment } }
         }
         _sync { date }
         description
-        logo
         name
-        tagLine
-        url { subscribe renewal reprint einquiry }
+        links { subscribe renewal reprint einquiry social { provider url label } }
       }
       ${COMMON_IMAGE_ASSET_REL}
     `,
@@ -268,11 +266,9 @@ export default new Map([
         alias
         defaults { fromName subjectLine testers { firstName lastName email } }
         description
-        logo
         name
         provider { type providerId attributes }
         sourceProvider { handlerKey host path }
-        tagLine
         teaser
         usesDeploymentDates
       }
@@ -397,7 +393,6 @@ export default new Map([
         abbreviation
         description
         host { root asset image }
-        logo
         name
         origin
         settings { date { timezone format locale } language { code primaryCode subCode } }

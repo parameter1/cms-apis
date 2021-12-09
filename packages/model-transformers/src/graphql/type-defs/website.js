@@ -24,12 +24,10 @@ type Website {
   abbreviation: String @trim(field: "shortName")
   description: String @trim
   host: WebsiteHost!
-  logo: String @trim
   name: String! @trim
   origin: String!
   settings: WebsiteSettings!
   status: Int! @formatStatus
-  tagLine: String @trim
 }
 
 type Website_Connection {

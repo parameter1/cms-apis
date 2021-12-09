@@ -12,6 +12,7 @@ import {
   buildObjValues,
   findMany,
   getEmbedUrlFrom,
+  socialProviders,
   truncateWords,
 } from './utils/index.js';
 
@@ -37,17 +38,6 @@ const parentFieldMap = new Map([
   ['Company', 'parentCompany'],
   ['Supplier', 'parentSupplier'],
   ['Venue', 'parentVenue'],
-]);
-
-const socialProviders = new Map([
-  ['FACEBOOK', 'Facebook'],
-  ['INSTAGRAM', 'Instagram'],
-  ['LINKEDIN', 'LinkedIn'],
-  ['PINTEREST', 'Pinterest'],
-  ['TIKTOK', 'TikTok'],
-  ['TWITTER', 'Twitter'],
-  ['YOUTUBE', 'YouTube'],
-  ['OTHER', 'Other'],
 ]);
 
 export default {

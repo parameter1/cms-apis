@@ -1,7 +1,7 @@
 import { LegacyDB } from '@cms-apis/db';
 import { trim } from '@cms-apis/utils';
 import { primeLoader, sortBy } from '../utils/index.js';
-import { buildObjValues, findMany } from './utils/index.js';
+import { buildObjValues, findMany, resolveSocialLinks } from './utils/index.js';
 
 export default {
   /**
@@ -30,7 +30,7 @@ export default {
     },
     _edge(magazine, _, { loaders }) {
       return {
-        async coverImage() {
+        async image() {
           const imageId = LegacyDB.extractRefId(magazine.coverImage);
           if (!imageId) return null;
           const node = await loaders.get('platform.Image').load(imageId);
@@ -42,8 +42,9 @@ export default {
     _sync() {
       return {};
     },
-    url(magazine) {
+    links(magazine) {
       return buildObjValues([
+        ['social', resolveSocialLinks(magazine)],
         ['subscribe', trim(magazine.subscribeUrl)],
         ['renewal', trim(magazine.renewalUrl)],
         ['reprint', trim(magazine.reprintsUrl)],

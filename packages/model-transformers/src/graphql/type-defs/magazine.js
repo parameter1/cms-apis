@@ -7,17 +7,28 @@ extend type Query {
   magazines(input: PaginatedQueryInput = {}): QueryMagazinesConnection!
 }
 
+enum MagazineLinkSocialProviderEnum {
+  FACEBOOK
+  INSTAGRAM
+  LINKEDIN
+  PINTEREST
+  TIKTOK
+  TWITTER
+  YOUTUBE
+  OTHER
+}
+
+
 type Magazine {
   _id: ObjectID!
   _connection: Magazine_Connection!
   _edge: Magazine_Edge!
   _sync: SyncInfo!
   description: String @trim
-  logo: String @trim
+  links: MagazineLinks! # combines root urls with social
   name: String! @trim
   status: Int! @formatStatus
   tagLine: String @trim
-  url: MagazineUrl!
 }
 
 type Magazine_Connection {
@@ -26,12 +37,27 @@ type Magazine_Connection {
 }
 
 type Magazine_Edge {
-  coverImage: MagazineCoverImageEdge
+  image: MagazineCoverImageEdge
 }
 
 type MagazineCoverImageEdge {
   node: ImageAsset!
 }
+
+type MagazineLinks {
+  subscribe: String
+  renewal: String
+  reprint: String
+  social: [MagazineLinkSocial!]!
+  einquiry: String
+}
+
+type MagazineLinkSocial {
+  provider: MagazineLinkSocialProviderEnum!
+  url: String!
+  label: String
+}
+
 
 type MagazineIssuesEdge {
   node: MagazineIssue!
@@ -39,13 +65,6 @@ type MagazineIssuesEdge {
 
 type MagazineSectionsEdge {
   node: MagazineSection!
-}
-
-type MagazineUrl {
-  subscribe: String
-  renewal: String
-  reprint: String
-  einquiry: String
 }
 
 type QueryMagazinesConnection {

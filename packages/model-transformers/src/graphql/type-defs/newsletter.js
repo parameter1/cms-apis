@@ -15,11 +15,9 @@ type Newsletter {
   alias: String! @trim
   defaults: NewsletterDefaults!
   description: String @trim
-  logo: String @trim
   name: String! @trim
   provider: NewsletterProvider
   sourceProvider: NewsletterSourceProvider
-  tagLine: String @trim
   teaser: String @trim
   usesDeploymentDates: Boolean
 }
