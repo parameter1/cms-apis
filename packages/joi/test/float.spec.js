@@ -83,4 +83,15 @@ describe('float', () => {
       expect(r2).to.eq(-2);
     });
   });
+
+  describe('when given any other value', () => {
+    it('should throw a validation error', () => {
+      const values = [{}, [], true, false, NaN, 'foo'];
+      values.forEach((value) => {
+        expect(() => {
+          Joi.attempt(value, Schema.float());
+        }).to.throw(ValidationError, '"value" must be a number');
+      });
+    });
+  });
 });

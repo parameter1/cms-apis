@@ -81,4 +81,15 @@ describe('integer', () => {
       }).to.throw(ValidationError, '"value" must be an integer');
     });
   });
+
+  describe('when given any other value', () => {
+    it('should throw a validation error', () => {
+      const values = [{}, [], true, false, NaN, 'foo'];
+      values.forEach((value) => {
+        expect(() => {
+          Joi.attempt(value, Schema.integer());
+        }).to.throw(ValidationError, '"value" must be a number');
+      });
+    });
+  });
 });
