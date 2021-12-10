@@ -37,6 +37,7 @@ directive @linkage(
   empty: Boolean = false
 ) on FIELD_DEFINITION
 
+directive @status on FIELD_DEFINITION
 directive @trim(field: String, default: String) on FIELD_DEFINITION
 
 scalar BaseID

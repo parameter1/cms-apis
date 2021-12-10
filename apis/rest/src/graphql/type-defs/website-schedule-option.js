@@ -22,7 +22,7 @@ type WebsiteScheduleOption @meta(
   description: String @project @trim
   legacy: JSONObject # no longer used
   name: String @project(field: "name.default") @trim
-  status: Int @project
+  status: Int! @status # no longer used
 }
 
 type WebsiteScheduleOptionLinks {

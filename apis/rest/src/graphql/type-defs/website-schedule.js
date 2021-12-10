@@ -25,7 +25,7 @@ type WebsiteSchedule @meta(
   hasPrimaryImage: Boolean @project(field: "_edge.content.node._edge.primaryImage.node._id")
   published: DateTime @project(field: "_edge.content.node.date.published")
   startDate: DateTime @project(field: "date.started")
-  status: Int @project
+  status: Int! @status # no longer used
 }
 
 

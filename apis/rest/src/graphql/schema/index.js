@@ -8,6 +8,7 @@ import {
   linkageDirectiveTransformer,
   queryDirectiveTransformer,
   projectDirectiveTransformer,
+  statusDirectiveTransformer,
 } from '../directives/index.js';
 import resolvers from '../resolvers/index.js';
 import typeDefs from '../type-defs/index.js';
@@ -27,5 +28,6 @@ const withObject = objectDirectiveTransformer(withArray);
 const withMeta = metaDirectiveTransformer(withObject);
 const withLinkage = linkageDirectiveTransformer(withMeta);
 const withQuery = queryDirectiveTransformer(withLinkage);
+const withStatus = statusDirectiveTransformer(withQuery);
 
-export default appendModelsToSchema(withQuery);
+export default appendModelsToSchema(withStatus);

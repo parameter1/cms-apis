@@ -30,7 +30,7 @@ type Website @meta(
   redirects: JSONObject! @object # no longer used
   sequence: Int @project # no longer used
   socialFollow: [String!]! @array # no longer used
-  status: Int @project
+  status: Int! @status # no longer used
   tagLine: String @trim # no longer used
   url: String @project(field: "host.root") @trim # no longer used
 }

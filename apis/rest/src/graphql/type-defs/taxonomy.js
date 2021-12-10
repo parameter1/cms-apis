@@ -43,7 +43,7 @@ type Taxonomy @meta(
   name: String! @project(field: "name.default") @trim
   redirects: [String!]! @array # no longer used
   sequence: Int! @project
-  status: Int! @project
+  status: Int! @status # no longer used
   urlNameWebsite: String! @project(field: "slug")
   urlPathWebsite: String! @project(field: "path")
 }

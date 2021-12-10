@@ -32,7 +32,7 @@ type WebsiteSection @meta(
   seoTitle: String @project(field: "seo.title") @trim
   sequence: Int @project
   slug: String @project @trim
-  status: Int @project
+  status: Int! @status # no longer used
 }
 
 type WebsiteSectionLinks {
