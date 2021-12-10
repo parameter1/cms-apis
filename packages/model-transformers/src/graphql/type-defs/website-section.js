@@ -40,6 +40,13 @@ type WebsiteSection_Connection {
   related: [WebsiteSectionRelatedEdge!]!
 }
 
+type WebsiteSection_Edge {
+  coverImage: WebsiteSectionCoverImageEdge
+  logo: WebsiteSectionLogoEdge
+  parent: WebsiteSectionParentEdge
+  website: WebsiteSectionWebsiteEdge!
+}
+
 type WebsiteSectionAncestorsEdge {
   node: WebsiteSection!
   depth: Int!
@@ -48,13 +55,6 @@ type WebsiteSectionAncestorsEdge {
 type WebsiteSectionDescendantsEdge {
   node: WebsiteSection!
   depth: Int!
-}
-
-type WebsiteSection_Edge {
-  coverImage: WebsiteSectionCoverImageEdge
-  logo: WebsiteSectionLogoEdge
-  parent: WebsiteSectionParentEdge
-  website: WebsiteSectionWebsiteEdge!
 }
 
 type WebsiteSectionLogoEdge {
