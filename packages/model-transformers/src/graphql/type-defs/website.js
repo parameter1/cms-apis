@@ -27,7 +27,6 @@ type Website {
   name: String! @trim
   origin: String!
   settings: WebsiteSettings!
-  status: Int! @formatStatus
 }
 
 type Website_Connection {

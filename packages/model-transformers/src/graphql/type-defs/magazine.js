@@ -27,7 +27,6 @@ type Magazine {
   description: String @trim
   links: MagazineLinks! # combines root urls with social
   name: String! @trim
-  status: Int! @formatStatus
   tagLine: String @trim
 }
 
