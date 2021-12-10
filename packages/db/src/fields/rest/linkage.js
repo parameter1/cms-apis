@@ -1,6 +1,6 @@
 import Joi from '@cms-apis/joi';
-import integerId from './integer-id.js';
-import objectId from './object-id.js';
+import integerId from '../integer-id.js';
+import objectId from '../object-id.js';
 
 export const oidLinkage = Joi.object({
   id: objectId.required(),

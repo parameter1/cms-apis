@@ -8,7 +8,7 @@ import {
   intLinkage,
   oidArrayLinkage,
   oidLinkage,
-} from '../../src/fields/linkage.js';
+} from '../../../src/fields/rest/linkage.js';
 
 const { ValidationError } = Joi;
 
