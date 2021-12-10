@@ -3,15 +3,14 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import Joi from '@cms-apis/joi';
 import { ObjectId } from '@cms-apis/mongodb';
-import fields from '../../src/fields/linkage.js';
-
-const { ValidationError } = Joi;
-const {
+import {
   intArrayLinkage,
   intLinkage,
   oidArrayLinkage,
   oidLinkage,
-} = fields;
+} from '../../src/fields/linkage.js';
+
+const { ValidationError } = Joi;
 
 describe('fields/linkage', () => {
   describe('arrayLinkage', () => {
