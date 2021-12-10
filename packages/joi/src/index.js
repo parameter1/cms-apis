@@ -1,8 +1,13 @@
 import Joi from 'joi';
 
-import { integer, objectId, str } from './types/index.js';
+import {
+  float,
+  integer,
+  objectId,
+  str,
+} from './types/index.js';
 
 export { default as validateAsync } from './validate-async.js';
 export { default as validate } from './validate.js';
 
-export default Joi.extend(integer).extend(objectId).extend(str);
+export default Joi.extend(float).extend(integer).extend(objectId).extend(str);
