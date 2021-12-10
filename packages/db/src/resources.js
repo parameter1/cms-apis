@@ -139,6 +139,9 @@ export default fromJS([
   {
     name: 'website',
     collection: 'websites',
+    indexes: [
+      { key: { 'host.root': 1 }, unique: true },
+    ],
     legacy: {
       namespace: 'platform',
       model: 'Product',
