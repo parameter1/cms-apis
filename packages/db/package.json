@@ -15,7 +15,8 @@
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint --ext .js ./",
-    "test": "yarn lint"
+    "test": "yarn lint && yarn test-nolint",
+    "test-nolint": "mocha ./test/*.spec.js ./test/**/*.spec.js"
   },
   "engines": {
     "node": ">=14.0"
@@ -27,6 +28,7 @@
   ],
   "dependencies": {
     "@cms-apis/immutable": "^0.0.0",
+    "@cms-apis/joi": "^0.0.0",
     "@cms-apis/mongodb": "^0.0.0",
     "@cms-apis/object-path": "^0.0.0",
     "@cms-apis/utils": "^0.0.0"
