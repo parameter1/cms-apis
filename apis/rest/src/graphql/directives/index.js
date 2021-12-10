@@ -6,4 +6,5 @@ export {
 } from '@cms-apis/graphql/directives';
 export { default as metaDirectiveTransformer } from './meta.js';
 export { default as linkageDirectiveTransformer } from './linkage.js';
+export { default as statusDirectiveTransformer } from './status.js';
 export { default as queryDirectiveTransformer } from './query.js';
