@@ -16,7 +16,7 @@
   "scripts": {
     "lint": "eslint --ext .js ./",
     "test": "yarn lint && yarn test-nolint",
-    "test-nolint": "mocha ./test/*.spec.js ./test/**/*.spec.js"
+    "test-nolint": "mocha ./test --extension spec.js --recursive"
   },
   "engines": {
     "node": ">=14.0"
@@ -27,10 +27,12 @@
     "win32"
   ],
   "dependencies": {
+    "@cms-apis/clean-string": "^0.0.0",
     "@cms-apis/immutable": "^0.0.0",
     "@cms-apis/joi": "^0.0.0",
     "@cms-apis/mongodb": "^0.0.0",
     "@cms-apis/object-path": "^0.0.0",
+    "@cms-apis/slug": "^0.0.0",
     "@cms-apis/utils": "^0.0.0"
   }
 }
