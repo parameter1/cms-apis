@@ -3,4 +3,8 @@ export default class AbstractDataSource {
     this.repo = repo;
     this.dataSources = dataSources;
   }
+
+  findById(...args) {
+    return this.repo.findById(...args);
+  }
 }
