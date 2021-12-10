@@ -9,6 +9,10 @@ const { ValidationError } = Joi;
 const Schema = Joi.extend(objectId);
 
 describe('objectId', () => {
+  it('should allow null default values', () => {
+    const result = Joi.attempt(undefined, Schema.objectId().default(null));
+    expect(result).to.be.null;
+  });
   describe('when given an undefined value', () => {
     it('should throw a validation error when required', () => {
       expect(() => {
