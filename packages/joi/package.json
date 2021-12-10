@@ -19,7 +19,8 @@
   },
   "scripts": {
     "lint": "eslint --ignore-path ../../.eslintignore --ext .js ./",
-    "test": "yarn lint && mocha ./test/*.spec.js ./test/**/*.spec.js"
+    "test": "yarn lint && yarn test-nolint",
+    "test-nolint": "mocha ./test/*.spec.js ./test/**/*.spec.js"
   },
   "engines": {
     "node": ">=14.0"
