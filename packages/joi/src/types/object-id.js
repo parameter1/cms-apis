@@ -1,11 +1,7 @@
 import { ObjectId } from '@cms-apis/mongodb';
+import { isRequired } from './utils/index.js';
 
 const pattern = /[0-9a-f]{24}/i;
-
-const isRequired = (helpers) => {
-  const presence = helpers.schema.$_getFlag('presence');
-  return presence === 'required';
-};
 
 export default (joi) => ({
   type: 'objectId',

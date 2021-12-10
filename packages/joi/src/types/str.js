@@ -1,12 +1,6 @@
 import clean from '@cms-apis/clean-string';
 import { getAsArray } from '@cms-apis/object-path';
-
-const isRequired = (helpers) => {
-  const presence = helpers.schema.$_getFlag('presence');
-  return presence === 'required';
-};
-
-const getDefaultValue = (helpers) => helpers.schema.$_getFlag('default');
+import { getDefaultValue, isRequired } from './utils/index.js';
 
 export default (joi) => ({
   type: 'str',
