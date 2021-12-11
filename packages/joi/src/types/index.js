@@ -3,6 +3,7 @@ export { default as htmlExpanded } from './html/expanded.js';
 export { default as htmlFull } from './html/full.js';
 export { default as htmlLimited } from './html/limited.js';
 export { default as integer } from './integer.js';
+export { default as integerId } from './integer-id.js';
 export { default as number } from './number.js';
 export { default as object } from './object.js';
 export { default as objectId } from './object-id.js';

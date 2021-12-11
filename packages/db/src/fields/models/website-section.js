@@ -1,9 +1,8 @@
 import Joi from '@cms-apis/joi';
-import integerId from '../integer-id.js';
 import sequence from '../sequence.js';
 
 export default {
-  id: integerId,
+  id: Joi.integerId(),
   description: Joi.fullHtml(),
   name: Joi.limitedHtml(),
   seo: Joi.object({

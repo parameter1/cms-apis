@@ -7,6 +7,7 @@ import {
   htmlLimited,
   number,
   integer,
+  integerId,
   object,
   objectId,
   slug,
@@ -20,6 +21,7 @@ export default Joi
   .extend(any)
   .extend(number)
   .extend(integer)
+  .extend(integerId)
   .extend(object)
   .extend(objectId)
   .extend(string)
