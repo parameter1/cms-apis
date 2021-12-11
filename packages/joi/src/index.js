@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import objectCollapsible from './rules/object.collapsible.js';
+import { objectCollapsible, stringSingleline } from './rules/index.js';
 
 import {
   float,
@@ -15,6 +15,7 @@ export { default as validate } from './validate.js';
 
 export default Joi
   .extend(objectCollapsible)
+  .extend(stringSingleline)
   .extend(float)
   .extend(integer)
   .extend(objectId)
