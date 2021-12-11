@@ -1,6 +1,7 @@
 import Joi from '@cms-apis/joi';
+import objectId from '../object-id.js';
 
 export default {
-  id: Joi.objectId(),
+  id: objectId,
   name: Joi.str(),
 };
