@@ -1,52 +1,48 @@
 /* eslint-disable import/no-extraneous-dependencies, no-unused-expressions */
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import Joi from 'joi';
-import collapsible from '../../src/rules/object.collapsible.js';
-import str from '../../src/types/str.js';
-
-const Schema = Joi.extend(collapsible).extend(str);
+import Joi from '../../src/index.js';
 
 describe('rules/object.collapsible', () => {
   it('should collapse to undefined (by default) when all keys are nullish', () => {
-    expect(Joi.attempt({}, Schema.object().collapsible())).to.be.undefined;
+    expect(Joi.attempt({}, Joi.object().collapsible())).to.be.undefined;
   });
   it('should respect and use the default value when all keys are nullish', () => {
-    expect(Joi.attempt({}, Schema.object().collapsible().default(null))).to.be.null;
-    expect(Joi.attempt({}, Schema.object().collapsible().default({}))).to.deep.equal({});
+    expect(Joi.attempt({}, Joi.object().collapsible().default(null))).to.be.null;
+    expect(Joi.attempt({}, Joi.object().collapsible().default({}))).to.deep.equal({});
   });
   it('should return the object as-is when at least one key is non-nullish', () => {
-    expect(Joi.attempt({ foo: 1, bar: null }, Schema.object().collapsible()))
+    expect(Joi.attempt({ foo: 1, bar: null }, Joi.object().collapsible()))
       .to.deep.equal({ foo: 1, bar: null });
   });
   it('should rollup on deep object values', () => {
-    const schema = Schema.object({
-      foo: Schema.object({
-        a: Schema.any(),
-        b: Schema.any(),
-        c: Schema.str(),
+    const schema = Joi.object({
+      foo: Joi.object({
+        a: Joi.any(),
+        b: Joi.any(),
+        c: Joi.str(),
       }).collapsible(),
     }).collapsible();
 
-    expect(Schema.attempt({ foo: {} }, schema))
+    expect(Joi.attempt({ foo: {} }, schema))
       .to.be.undefined;
-    expect(Schema.attempt({ foo: { a: undefined, b: null, c: ' ' } }, schema))
+    expect(Joi.attempt({ foo: { a: undefined, b: null, c: ' ' } }, schema))
       .to.be.undefined;
   });
 
   it('should respect deep object values', () => {
-    const schema = Schema.object({
-      foo: Schema.object({
-        a: Schema.any(),
-        b: Schema.any(),
-        c: Schema.str(),
+    const schema = Joi.object({
+      foo: Joi.object({
+        a: Joi.any(),
+        b: Joi.any(),
+        c: Joi.str(),
       }).collapsible(),
-      bar: Schema.object({
-        a: Schema.any(),
+      bar: Joi.object({
+        a: Joi.any(),
       }),
     }).collapsible();
 
-    expect(Schema.attempt({ foo: {}, bar: { a: 1 } }, schema))
+    expect(Joi.attempt({ foo: {}, bar: { a: 1 } }, schema))
       .to.deep.equal({ bar: { a: 1 } });
   });
 });

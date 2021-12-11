@@ -3,7 +3,8 @@ import Joi from 'joi';
 import { objectCollapsible, stringSingleline } from './rules/index.js';
 
 import {
-  float,
+  any,
+  number,
   integer,
   objectId,
   slug,
@@ -13,10 +14,13 @@ import {
 export { default as validateAsync } from './validate-async.js';
 export { default as validate } from './validate.js';
 
-export default Joi
+const withRules = Joi
   .extend(objectCollapsible)
-  .extend(stringSingleline)
-  .extend(float)
+  .extend(stringSingleline);
+
+export default withRules
+  .extend(any)
+  .extend(number)
   .extend(integer)
   .extend(objectId)
   .extend(str)

@@ -1,27 +1,25 @@
 /* eslint-disable import/no-extraneous-dependencies, no-unused-expressions */
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import Joi from 'joi';
 import { ObjectId } from '@cms-apis/mongodb';
-import objectId from '../src/types/object-id.js';
+import Joi from '../src/index.js';
 
 const { ValidationError } = Joi;
-const Schema = Joi.extend(objectId);
 
 describe('objectId', () => {
   it('should allow null default values', () => {
-    const result = Joi.attempt(undefined, Schema.objectId().default(null));
+    const result = Joi.attempt(undefined, Joi.objectId().default(null));
     expect(result).to.be.null;
   });
   describe('when given an undefined value', () => {
     it('should throw a validation error when required', () => {
       expect(() => {
-        Joi.attempt(undefined, Schema.objectId().required());
+        Joi.attempt(undefined, Joi.objectId().required());
       }).to.throw(ValidationError, '"value" is required');
     });
 
     it('should return undefined when not required', () => {
-      const result = Joi.attempt(undefined, Schema.objectId());
+      const result = Joi.attempt(undefined, Joi.objectId());
       expect(result).to.be.undefined;
     });
   });
@@ -29,26 +27,26 @@ describe('objectId', () => {
   describe('when given a null value', () => {
     it('should throw a validation error when required', () => {
       expect(() => {
-        Joi.attempt(null, Schema.objectId().required());
+        Joi.attempt(null, Joi.objectId().required());
       }).to.throw(ValidationError, '"value" is required');
     });
 
     it('should return null when not required', () => {
-      const result = Joi.attempt(null, Schema.objectId());
+      const result = Joi.attempt(null, Joi.objectId());
       expect(result).to.be.null;
     });
   });
 
   describe('when given an ObjectId instance', () => {
     it('should return an ObjectId instance', () => {
-      const result = Joi.attempt(new ObjectId(), Schema.objectId());
+      const result = Joi.attempt(new ObjectId(), Joi.objectId());
       expect(result).to.be.an.instanceOf(ObjectId);
     });
   });
 
   describe('when given a hex string that matches the pattern', () => {
     it('should return an ObjectId instance', () => {
-      const result = Joi.attempt('53ca8d671784f8066eb2c949', Schema.objectId());
+      const result = Joi.attempt('53ca8d671784f8066eb2c949', Joi.objectId());
       expect(result).to.be.an.instanceOf(ObjectId);
       expect(`${result}`).to.eq('53ca8d671784f8066eb2c949');
     });
@@ -57,7 +55,7 @@ describe('objectId', () => {
   describe('when given an object with a toString response that matches the pattern', () => {
     it('should return an ObjectId instance', () => {
       const obj = { toString: () => '53ca8d671784f8066eb2c949' };
-      const result = Joi.attempt(obj, Schema.objectId());
+      const result = Joi.attempt(obj, Joi.objectId());
       expect(result).to.be.an.instanceOf(ObjectId);
       expect(`${result}`).to.eq('53ca8d671784f8066eb2c949');
     });
@@ -68,7 +66,7 @@ describe('objectId', () => {
       const values = [{}, [], 1, true, false, NaN, 0, '', '123'];
       values.forEach((value) => {
         expect(() => {
-          Joi.attempt(value, Schema.objectId());
+          Joi.attempt(value, Joi.objectId());
         }).to.throw(ValidationError, '"value" must be an ObjectId');
       });
     });
