@@ -101,16 +101,16 @@ describe('types/string', () => {
   });
 
   describe('when given a multi-line string', () => {
-    it('should collapse into a single line when singleline() is enabled', () => {
+    it('should collapse into a single line by default', () => {
       expect(Joi.attempt(`
         Foo
         Bar
-      `, Joi.string().singleline())).to.eq('Foo Bar');
+      `, Joi.string())).to.eq('Foo Bar');
 
-      expect(Joi.attempt('\nFoo\r\nBar\n\nBaz\r\rDill\n', Joi.string().singleline())).to.eq('Foo Bar Baz Dill');
+      expect(Joi.attempt('\nFoo\r\nBar\n\nBaz\r\rDill\n', Joi.string())).to.eq('Foo Bar Baz Dill');
     });
-    it('should preserve multi-line strings by default', () => {
-      expect(Joi.attempt('Foo\nBar', Joi.string())).to.eq('Foo\nBar');
+    it('should preserve multi-line strings when multiline() is enabled', () => {
+      expect(Joi.attempt('Foo\nBar', Joi.string().multiline())).to.eq('Foo\nBar');
     });
   });
 
