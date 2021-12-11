@@ -6,7 +6,7 @@ import Joi from '../src/index.js';
 
 const { ValidationError } = Joi;
 
-describe('objectId', () => {
+describe('types/objectId', () => {
   it('should allow null default values', () => {
     const result = Joi.attempt(undefined, Joi.objectId().default(null));
     expect(result).to.be.null;
