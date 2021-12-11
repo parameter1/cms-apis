@@ -31,6 +31,7 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
       description,
       name,
       parentId,
+      seo,
       sequence,
       slug,
       websiteId,
@@ -38,10 +39,11 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
       description: sectionFields.description.default(null),
       name: sectionFields.name.required(),
       parentId: sectionFields.id.default(null),
+      seo: sectionFields.seo,
       sequence: sectionFields.sequence,
       slug: sectionFields.slug.required(),
       websiteId: websiteFields.id.required(),
-    }), {
+    }).required(), {
       ...params,
       ...(!params.slug && params.name && { slug: generateSlugFrom(params.name) }),
     });
@@ -101,7 +103,7 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
         full: parent ? `${parent.name.full} > ${name}` : name,
       },
       redirects: [], // @todo
-      seo: null, // @todo
+      seo,
       sequence,
       slug,
     };
@@ -120,12 +122,15 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
   async createFromRestPayload(params = {}) {
     const obj = await validateAsync(restPayload({
       name: sectionFields.name.required(),
-      alias: Joi.string().trim(),
+      alias: Joi.string(),
+      canonicalUrl: sectionFields.seo.canonicalUrl,
       links: createLinks({
         parent: intLinkage,
         site: oidLinkage.required(),
       }),
-      sequence: Joi.integer(),
+      seoTitle: sectionFields.seo.title,
+      seoDescription: sectionFields.seo.description,
+      sequence: sectionFields.sequence,
     }), params);
 
     const { links } = obj;
@@ -134,6 +139,11 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
     return this.create({
       name: obj.name,
       parentId: get(links, 'parent.linkage.id'),
+      seo: {
+        title: obj.seoTitle,
+        description: obj.seoDescription,
+        canonicalUrl: obj.canonicalUrl,
+      },
       slug,
       sequence: obj.sequence,
       websiteId: get(links, 'site.linkage.id'),
