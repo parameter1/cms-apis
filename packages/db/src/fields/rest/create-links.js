@@ -12,7 +12,7 @@ export default (obj) => {
       link.required();
     }
     return { ...o, [key]: link };
-  }, {}));
+  }, {})).unknown();
   if (isRequired) links.required();
   return links;
 };
