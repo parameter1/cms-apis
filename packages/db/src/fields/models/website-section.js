@@ -1,4 +1,5 @@
 import Joi from '@cms-apis/joi';
+import seoFields from '../seo.js';
 import sequence from '../sequence.js';
 
 export default {
@@ -6,9 +7,7 @@ export default {
   description: Joi.fullHtml(),
   name: Joi.limitedHtml(),
   seo: Joi.object({
-    canonicalUrl: Joi.string().uri({ scheme: ['http', 'https'], domain: { tlds: { allow: true } } }),
-    description: Joi.string(),
-    title: Joi.string(),
+    ...seoFields,
   }).collapsible().default(null),
   sequence,
   slug: Joi.slug(),

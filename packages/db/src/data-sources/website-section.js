@@ -10,6 +10,7 @@ import {
   payload as restPayload,
 } from '../fields/rest/index.js';
 import sectionFields from '../fields/models/website-section.js';
+import seoFields from '../fields/seo.js';
 import websiteFields from '../fields/models/website.js';
 import generateSlugFrom from '../fields/utils/generate-slug-from.js';
 
@@ -123,13 +124,13 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
     const obj = await validateAsync(restPayload({
       name: sectionFields.name.required(),
       alias: Joi.string(),
-      canonicalUrl: sectionFields.seo.canonicalUrl,
+      canonicalUrl: seoFields.canonicalUrl,
       links: createLinks({
         parent: intLinkage,
         site: oidLinkage.required(),
       }),
-      seoTitle: sectionFields.seo.title,
-      seoDescription: sectionFields.seo.description,
+      seoTitle: seoFields.title,
+      seoDescription: seoFields.description,
       sequence: sectionFields.sequence,
     }), params);
 
