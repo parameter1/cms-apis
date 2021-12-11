@@ -31,12 +31,14 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
       description,
       name,
       parentId,
+      sequence,
       slug,
       websiteId,
     } = await validateAsync(Joi.object({
       description: sectionFields.description.default(null),
       name: sectionFields.name.required(),
       parentId: sectionFields.id.default(null),
+      sequence: sectionFields.sequence,
       slug: sectionFields.slug.required(),
       websiteId: websiteFields.id.required(),
     }), {
@@ -100,7 +102,7 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
       },
       redirects: [], // @todo
       seo: null, // @todo
-      sequence: 0, // @todo
+      sequence,
       slug,
     };
 
@@ -123,6 +125,7 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
         parent: intLinkage,
         site: oidLinkage.required(),
       }),
+      sequence: Joi.integer(),
     }), params);
 
     const { links } = obj;
@@ -132,6 +135,7 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
       name: obj.name,
       parentId: get(links, 'parent.linkage.id'),
       slug,
+      sequence: obj.sequence,
       websiteId: get(links, 'site.linkage.id'),
     });
   }
