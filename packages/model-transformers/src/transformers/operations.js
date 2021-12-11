@@ -396,7 +396,6 @@ export default new Map([
         name
         origin
         settings { date { timezone format locale } language { code primaryCode subCode } }
-        tagLine
       }
     `,
   }],
