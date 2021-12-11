@@ -3,8 +3,7 @@ import { getAsArray } from '@cms-apis/object-path';
 import { getDefaultValue, isRequired } from './utils/index.js';
 
 export default (joi) => ({
-  type: 'str',
-  // always trim and allow null and empty strings
+  type: 'string',
   base: joi.string().trim().allow(null, ''),
   prepare(value, helpers) {
     // handle default value
@@ -36,15 +35,6 @@ export default (joi) => ({
       // @todo only deconding entities because platform was; re-examine
       v = clean(v, { stripHtmlTags: true, decodeEntities: true });
     }
-
-    if (!helpers.schema.$_getFlag('multiline')) {
-      // strip multi-line fields when multiline isn't set
-      v = v.replace(/[\r\n]/g, '__NEW-LINE__')
-        .split('__NEW-LINE__')
-        .map((l) => l.trim())
-        .filter((l) => l)
-        .join(' ');
-    }
     return { value: v };
   },
   rules: {
@@ -64,11 +54,6 @@ export default (joi) => ({
         const tags = getAsArray(params, 'tags');
         // @todo only deconding entities because platform was; re-examine
         return clean(value, { stripHtmlTags: tags.length ? tags : false, decodeEntities: true });
-      },
-    },
-    multiline: {
-      method() {
-        return this.$_setFlag('multiline', true);
       },
     },
   },

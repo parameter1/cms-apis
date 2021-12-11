@@ -1,6 +1,7 @@
 export default (joi) => ({
   type: 'slug',
-  base: joi.str()
+  base: joi.string()
+    .singleline()
     .lowercase()
     .pattern(/^[a-z0-9-]+$/, 'lowercase alpha-numeric with dashes')
     .pattern(/--+/, { name: 'more than one consecutive dash', invert: true })

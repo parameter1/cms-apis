@@ -8,7 +8,7 @@ import {
   integer,
   objectId,
   slug,
-  str,
+  string,
 } from './types/index.js';
 
 export { default as validateAsync } from './validate-async.js';
@@ -23,5 +23,5 @@ export default withRules
   .extend(number)
   .extend(integer)
   .extend(objectId)
-  .extend(str)
+  .extend(string)
   .extend(slug);

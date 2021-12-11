@@ -20,7 +20,7 @@ describe('rules/object.collapsible', () => {
       foo: Joi.object({
         a: Joi.any(),
         b: Joi.any(),
-        c: Joi.str(),
+        c: Joi.string(),
       }).collapsible(),
     }).collapsible();
 
@@ -35,7 +35,7 @@ describe('rules/object.collapsible', () => {
       foo: Joi.object({
         a: Joi.any(),
         b: Joi.any(),
-        c: Joi.str(),
+        c: Joi.string(),
       }).collapsible(),
       bar: Joi.object({
         a: Joi.any(),
