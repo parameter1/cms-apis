@@ -2,6 +2,9 @@ import Joi from 'joi';
 
 import {
   any,
+  htmlExpanded,
+  htmlFull,
+  htmlLimited,
   number,
   integer,
   object,
@@ -20,4 +23,7 @@ export default Joi
   .extend(object)
   .extend(objectId)
   .extend(string)
+  .extend(htmlExpanded)
+  .extend(htmlFull)
+  .extend(htmlLimited)
   .extend(slug);
