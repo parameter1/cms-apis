@@ -1,7 +1,8 @@
 import Joi from '@cms-apis/joi';
+import url from './url.js';
 
 export default {
-  canonicalUrl: Joi.string().uri({ scheme: ['http', 'https'], domain: { tlds: { allow: true } } }),
+  canonicalUrl: url,
   description: Joi.string(),
   title: Joi.string(),
 };
