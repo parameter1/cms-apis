@@ -1,6 +1,5 @@
 import Joi, { validateAsync } from '@cms-apis/joi';
 import { get } from '@cms-apis/object-path';
-import { inspect } from 'util';
 import AbstractDataSource from './-abstract.js';
 import { createLinks, oidLinkage, payload as restPayload } from '../fields/rest/index.js';
 import optionFields from '../fields/models/website-schedule-option.js';
@@ -36,18 +35,38 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
       options: { strict: true, projection: { name: 1 } },
     });
 
-    const doc = {
-      _edge: {
-        website: { node: website },
-      },
-      description,
-      name: { default: name, full: `${website.name} > ${name}` },
-      slug,
-    };
+    const session = await this.repo.client.startSession();
+    session.startTransaction();
+    try {
+      const doc = {
+        _id: await this.repo.generateIntegerId(),
+        _edge: {
+          website: { node: website },
+        },
+        description,
+        name: { default: name, full: `${website.name} > ${name}` },
+        slug,
+      };
 
-    console.log(inspect(doc, { colors: true, depth: 5 }));
-
-    return this;
+      await this.repo.insertOne({ doc, options: { session } });
+      await this.dataSources.get('websites').repo.updateOne({
+        query: { _id: website._id },
+        update: {
+          $addToSet: {
+            '_connection.scheduleOptions': {
+              node: { _id: doc._id, name: { default: doc.name.default }, slug: doc.slug },
+            },
+          },
+        },
+      });
+      await session.commitTransaction();
+      return doc;
+    } catch (e) {
+      await session.abortTransaction();
+      throw e;
+    } finally {
+      session.endSession();
+    }
   }
 
   /**
