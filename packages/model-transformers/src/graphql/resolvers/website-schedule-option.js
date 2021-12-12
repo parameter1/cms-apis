@@ -1,5 +1,6 @@
 import { LegacyDB } from '@cms-apis/db';
 import { trim } from '@cms-apis/utils';
+import { sluggify } from '@cms-apis/slug';
 import findMany from './utils/find-many.js';
 
 export default {
@@ -27,6 +28,9 @@ export default {
       const node = await loaders.get('website.Site').load(siteId);
       const full = [trim(node.name), trim(option.name)].filter((v) => v).join(' > ');
       return { default: name, full };
+    },
+    slug({ name }) {
+      return sluggify(name);
     },
   },
 

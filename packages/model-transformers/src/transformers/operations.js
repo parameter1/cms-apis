@@ -26,7 +26,7 @@ export default new Map([
           websiteSchedules {
             node {
               _edge {
-                option { node { _id name { default } } }
+                option { node { _id name { default } slug } }
                 section {
                   node {
                     _id alias name { default }
@@ -387,7 +387,7 @@ export default new Map([
               depth # rel query input
             }
           }
-          scheduleOptions { node { _id name { default } } }
+          scheduleOptions { node { _id name { default } slug } }
         }
         _sync { date }
         abbreviation
@@ -446,7 +446,7 @@ export default new Map([
               status
             }
           }
-          option { node { _id name { default } } }
+          option { node { _id name { default } slug } }
           section {
             node {
               _id
@@ -470,6 +470,7 @@ export default new Map([
         _sync { date }
         description
         name { default full }
+        slug
       }
     `,
   }],

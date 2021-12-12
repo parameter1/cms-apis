@@ -135,6 +135,12 @@ export default fromJS([
     name: 'website schedule option',
     collection: 'website-schedule-options',
     legacy: { namespace: 'website', model: 'Option', query: { status: 1 } },
+    indexes: [
+      {
+        key: { slug: 1, '_edge.website.node._id': 1 },
+        unique: true,
+      },
+    ],
   },
   {
     name: 'website',
