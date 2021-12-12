@@ -1,4 +1,5 @@
 import createError from 'http-errors';
+import { DataSources } from '@cms-apis/db';
 import createDb from '../mongodb/create-db.js';
 import createGraphQLClient from '../graphql/create-client.js';
 import createLoaders from '../mongodb/create-loaders.js';
@@ -13,6 +14,10 @@ export default () => (req, res, next) => {
   const db = createDb({ tenant });
   res.locals.tenant = tenant;
   res.locals.db = db;
+
+  const dataSources = new DataSources({ db });
+  res.locals.dataSources = dataSources;
+
   const loaders = createLoaders({
     db,
     logger: process.env.NODE_ENV === 'development' ? log : null,
