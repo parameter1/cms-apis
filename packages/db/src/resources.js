@@ -30,6 +30,7 @@ export default fromJS([
   {
     name: 'content',
     collection: 'content',
+    integerId: { enabled: true, start: 22000000 },
     legacy: {
       namespace: 'platform',
       model: 'Content',
@@ -49,6 +50,7 @@ export default fromJS([
   {
     name: 'magazine issue',
     collection: 'magazine-issues',
+    integerId: { enabled: true, start: 50000 },
     legacy: { namespace: 'magazine', model: 'Issue', query: { status: 1 } },
   },
   {
@@ -59,6 +61,7 @@ export default fromJS([
   {
     name: 'magazine section',
     collection: 'magazine-sections',
+    integerId: { enabled: true, start: 90000 },
     legacy: { namespace: 'magazine', model: 'Section', query: { status: 1 } },
   },
   {
@@ -79,6 +82,7 @@ export default fromJS([
   {
     name: 'newsletter section',
     collection: 'newsletter-sections',
+    integerId: { enabled: true, start: 90000 },
     legacy: { namespace: 'email', model: 'Section', query: { status: 1 } },
   },
   {
@@ -94,6 +98,7 @@ export default fromJS([
   {
     name: 'taxonomy',
     collection: 'taxonomies',
+    integerId: { enabled: true, start: 3400000 },
     legacy: {
       namespace: 'platform',
       model: 'Taxonomy',
@@ -123,6 +128,7 @@ export default fromJS([
   {
     name: 'website section',
     collection: 'website-sections',
+    integerId: { enabled: true, start: 90000 },
     legacy: { namespace: 'website', model: 'Section', query: { status: 1 } },
     indexes: [
       {
@@ -134,6 +140,7 @@ export default fromJS([
   {
     name: 'website schedule option',
     collection: 'website-schedule-options',
+    integerId: { enabled: true, start: 45000 },
     legacy: { namespace: 'website', model: 'Option', query: { status: 1 } },
     indexes: [
       {

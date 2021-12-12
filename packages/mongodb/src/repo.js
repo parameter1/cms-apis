@@ -10,6 +10,7 @@ export default class Repo {
    * @param {string} params.collectionName The collection to use
    * @param {object[]} params.indexes Indexes defined for this collection
    * @param {object} [params.globalFindCriteria] Query criteria to apply to all _find_ methods
+   * @param {pbject} [params.integerId={}] Whether this collection requires integer IDs
    */
   constructor({
     name,
@@ -18,6 +19,7 @@ export default class Repo {
     collectionName,
     indexes,
     globalFindCriteria,
+    integerId = { enabled: false, start: 0 },
   } = {}) {
     if (!name) throw new Error('The repository `name` param is required');
     if (!dbName || !collectionName) throw new Error('The `dbName` and `collectionName` params are required.');
@@ -29,6 +31,7 @@ export default class Repo {
     this.collectionName = collectionName;
     this.indexes = indexes;
     this.globalFindCriteria = globalFindCriteria;
+    this.integerId = integerId;
   }
 
   /**
@@ -259,6 +262,25 @@ export default class Repo {
     const { globalFindCriteria } = this;
     const q = globalFindCriteria ? { $and: [query, globalFindCriteria] } : query;
     return collection.countDocuments(q, options);
+  }
+
+  /**
+   * Generates one or more integer IDs (when enabled).
+   *
+   * @param {number} [n=1] The number of IDs to genereate
+   */
+  async generateIntegerId(n = 1) {
+    const { integerId } = this;
+    if (!integerId || !integerId.enabled) throw new Error(`The ${this.name} repo does not have integer IDs enabled.`);
+    if (!n || n < 1) throw new Error('The number to generate must be greater than 0');
+    const collection = await this.client.collection({ dbName: 'cms', name: 'integer-ids' });
+    const { value } = await collection.findOneAndUpdate({ _id: this.collectionName }, {
+      $inc: { sequence: n },
+      $setOnInsert: { start: integerId.start || 0 },
+    }, { upsert: true, returnOriginal: false });
+    const id = value.start + value.sequence;
+    if (n === 1) return id;
+    return [...Array(n).keys()].map((i) => id - i).reverse();
   }
 
   /**
