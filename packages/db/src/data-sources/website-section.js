@@ -1,6 +1,7 @@
 import { Repo } from '@cms-apis/mongodb';
 import Joi, { validateAsync } from '@cms-apis/joi';
 import { get, getAsArray } from '@cms-apis/object-path';
+import cleanString from '@cms-apis/clean-string';
 import { inspect } from 'util';
 import AbstractDataSource from './-abstract.js';
 import {
@@ -53,7 +54,7 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
     const [website, parent] = await Promise.all([
       this.dataSources.get('websites').findById({
         id: websiteId,
-        options: { strict: true, projection: { name: 1 } },
+        options: { strict: true, projection: { name: 1, description: 1 } },
       }),
       parentId ? this.findById({
         id: parentId,
@@ -71,20 +72,25 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
       }) : null,
     ]);
 
+    const nodes = {
+      parent: parent ? { _id: parent._id, alias: parent.alias, name: parent.name } : null,
+      website: { _id: website._id, name: website.name },
+    };
+
     if (parent) {
       const parentWebsiteId = get(parent, '_edge.website.node._id');
       if (`${parentWebsiteId}` !== `${website._id}`) {
         throw Repo.createError(400, `The parent section's website ID (${parentWebsiteId}) does not match this section's website ID (${website._id})`);
       }
     }
-    const parentNode = parent ? { _id: parent._id, alias: parent.alias, name: parent.name } : null;
+    const fullName = parent ? `${parent.name.full} > ${name}` : name;
 
     // @todo do incoming values need to be sanitized/hydrated???
     const doc = {
       _connection: {
         ancestors: parent ? [
           ...getAsArray(parent, '_connection.ancestors'),
-          { depth: parent.alias.split('/').length, node: parentNode },
+          { depth: parent.alias.split('/').length, node: nodes.parent },
         ] : [],
         descendants: [],
         related: [],
@@ -92,17 +98,26 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
       _edge: {
         coverImage: null, // @todo
         logo: null, // @todo
-        parent: parent ? { node: parentNode } : null,
-        website: { node: website },
+        parent: parent ? { node: nodes.parent } : null,
+        website: { node: nodes.website },
       },
       alias: parent ? `${parent.alias}/${slug}` : slug,
       depth: parent ? parent.depth + 1 : 1,
       description,
-      metadata: {}, // @todo
-      name: {
-        default: name,
-        full: parent ? `${parent.name.full} > ${name}` : name,
+      // all metadata fields need html stripped (since these are used in html tags)
+      metadata: {
+        title: (() => {
+          const values = [get(seo, 'title'), fullName, name].map(cleanString).filter((v) => v);
+          return values[0];
+        })(),
+        description: (() => {
+          if (seo && seo.description) return cleanString(seo.description);
+          if (description) return cleanString(description);
+          if (website.description) return cleanString(website.description);
+          return `Articles, news, products, blogs and videos from ${cleanString(website.name)}.`;
+        })(),
       },
+      name: { default: name, full: fullName },
       redirects: [], // @todo
       seo,
       sequence,
