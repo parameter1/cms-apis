@@ -60,15 +60,30 @@ export default ({ model } = {}) => {
   /**
    * Create one.
    */
-  router.post('/', json(), (req, res) => {
+  router.post('/', json(), asyncRoute(async (req, res) => {
+    const { modelManager } = res.locals;
     const { body } = req;
     if (!body.data) throw createError(400, 'The root request body must contain the "data" key.');
     const { data } = body;
     const { type } = data;
     if (!type) throw createError(400, 'Model data must contain the "type" key.');
     if (!model.isValidRestType(type)) throw createError(400, 'This endpoint does not support creation of this model type.');
-    res.json({ data: [], included: [], meta });
-  });
+
+    const dataSource = res.locals.dataSources.get(model.getRepoName());
+    if (!dataSource) throw createError(500, `No data source found for ${model.getRepoName()}`);
+
+    const created = await dataSource.createFromRestPayload(data);
+
+    const doc = await modelManager.getQueryFor(restType).findById({
+      id: created._id,
+      withLinkUrls: false,
+    });
+    const included = await modelManager.sideloadDataFor({
+      docs: [doc],
+      throwOnMissingModel: false,
+    });
+    res.json({ data: doc, included, meta });
+  }));
 
   router.post('/query', (req, res) => {
     res.json({ data: [], included: [], meta });
