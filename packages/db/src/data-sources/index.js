@@ -1,4 +1,5 @@
 import WebsiteDataSource from './website.js';
+import WebsiteScheduleOption from './website-schedule-option.js';
 import WebsiteSectionDataSource from './website-section.js';
 
 export default class DataSources {
@@ -6,8 +7,9 @@ export default class DataSources {
     this.db = db;
     this.dataSources = new Map();
 
-    this.add('websites', WebsiteDataSource);
+    this.add('website-schedule-options', WebsiteScheduleOption);
     this.add('website-sections', WebsiteSectionDataSource);
+    this.add('websites', WebsiteDataSource);
   }
 
   add(key, DataSource) {
