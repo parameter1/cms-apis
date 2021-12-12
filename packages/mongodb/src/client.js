@@ -90,4 +90,15 @@ export default class MongoDBClient {
       coll.updateOne({ _id: id }, { $set: { last: new Date() } }, { upsert: true }),
     ]);
   }
+
+  /**
+   * Starts a new session on the server.
+   *
+   * @param {mongodb.SessionOptions} options
+   * @return {Promise<mongodb.ClientSession>}
+   */
+  async startSession(options) {
+    await this.connect();
+    return this.client.startSession(options);
+  }
 }
