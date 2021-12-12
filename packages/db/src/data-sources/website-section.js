@@ -137,6 +137,7 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
    */
   async createFromRestPayload(params = {}) {
     const obj = await validateAsync(restPayload({
+      description: sectionFields.description,
       name: sectionFields.name.required(),
       alias: Joi.string(),
       canonicalUrl: seoFields.canonicalUrl,
@@ -153,6 +154,7 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
     const slug = obj.alias ? obj.alias.split('/').pop() : null;
 
     return this.create({
+      description: obj.description,
       name: obj.name,
       parentId: get(links, 'parent.linkage.id'),
       seo: {
