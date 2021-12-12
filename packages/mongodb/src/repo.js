@@ -117,8 +117,7 @@ export default class Repo {
     } = options;
     const payload = withDates ? { ...doc, createdAt: now, updatedAt: now } : doc;
     try {
-      const { ops } = await collection.insertOne(payload, opts);
-      return ops[0];
+      return collection.insertOne(payload, opts);
     } catch (e) {
       if (e.code === 11000) throw Repo.createError(dupeKeyStatusCode, `Unable to create ${this.name}: a record already exists with the provided criteria.`);
       throw e;
