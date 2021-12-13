@@ -29,10 +29,10 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
       ...(!params.slug && params.name && { slug: generateSlugFrom(params.name) }),
     });
 
-    // @todo dataloader?
-    const website = await this.dataSources.get('websites').findById({
-      id: websiteId,
-      options: { strict: true, projection: { name: 1 } },
+    const website = await this.dataSources.get('websites').load({
+      value: websiteId,
+      projection: { name: 1 },
+      strict: true,
     });
 
     const session = await this.repo.client.startSession();

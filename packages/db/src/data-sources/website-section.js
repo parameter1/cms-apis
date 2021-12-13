@@ -50,25 +50,23 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
       ...(!params.slug && params.name && { slug: generateSlugFrom(params.name) }),
     });
 
-    // @todo dataloader?
     const [website, parent] = await Promise.all([
-      this.dataSources.get('websites').findById({
-        id: websiteId,
-        options: { strict: true, projection: { name: 1, description: 1 } },
+      this.dataSources.get('websites').load({
+        value: websiteId,
+        projection: { name: 1, description: 1 },
+        strict: true,
       }),
-      parentId ? this.findById({
-        id: parentId,
-        options: {
-          strict: true,
-          projection: {
-            name: 1,
-            slug: 1,
-            alias: 1,
-            depth: 1,
-            '_edge.website.node._id': 1,
-            '_connection.ancestors': 1,
-          },
+      parentId ? this.load({
+        value: parentId,
+        projection: {
+          name: 1,
+          slug: 1,
+          alias: 1,
+          depth: 1,
+          '_edge.website.node._id': 1,
+          '_connection.ancestors': 1,
         },
+        strict: true,
       }) : null,
     ]);
 
