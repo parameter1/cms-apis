@@ -28,6 +28,7 @@
   ],
   "dependencies": {
     "@cms-apis/clean-string": "^0.0.0",
+    "@cms-apis/dataloader": "^0.0.0",
     "@cms-apis/immutable": "^0.0.0",
     "@cms-apis/joi": "^0.0.0",
     "@cms-apis/mongodb": "^0.0.0",
