@@ -26,7 +26,6 @@ export default ({
 
   const filter = (edge) => {
     // exclude status enabled models when status is zero
-    if ($meta.statusEnabled && get(edge, 'node.status') === 0) return false;
     const fn = get(filters, `${parent.name.value}.${info.fieldName}`, () => true);
     return fn(edge);
   };

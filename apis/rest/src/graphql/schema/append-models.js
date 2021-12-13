@@ -20,12 +20,10 @@ export default (schema) => {
     const { restType } = $meta;
 
     let idType;
-    $meta.statusEnabled = false;
     const attributes = new Map();
     const relationships = new Map();
 
     Object.values(type.getFields()).forEach((field) => {
-      if (field.name === 'status') $meta.statusEnabled = true;
       if (field.name === 'id') {
         // auto resolve id field
         idType = `${getReturnType(field.type)}`;
