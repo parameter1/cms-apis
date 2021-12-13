@@ -15,7 +15,8 @@ export default class DataSources {
   add(key, DataSource) {
     if (this.dataSources.has(key)) return this;
     const repo = this.db.repo(key);
-    this.dataSources.set(key, new DataSource({ repo, dataSources: this }));
+    const loader = this.db.loader(key);
+    this.dataSources.set(key, new DataSource({ repo, loader, dataSources: this }));
     return this;
   }
 
