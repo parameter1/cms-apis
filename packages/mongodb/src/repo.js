@@ -10,7 +10,8 @@ export default class Repo {
    * @param {string} params.collectionName The collection to use
    * @param {object[]} params.indexes Indexes defined for this collection
    * @param {object} [params.globalFindCriteria] Query criteria to apply to all _find_ methods
-   * @param {pbject} [params.integerId={}] Whether this collection requires integer IDs
+   * @param {object} [params.integerId={}] Whether this collection requires integer IDs
+   * @param {function} [params.logger] An optional logging function.
    */
   constructor({
     name,
@@ -20,6 +21,7 @@ export default class Repo {
     indexes,
     globalFindCriteria,
     integerId = { enabled: false, start: 0 },
+    logger,
   } = {}) {
     if (!name) throw new Error('The repository `name` param is required');
     if (!dbName || !collectionName) throw new Error('The `dbName` and `collectionName` params are required.');
@@ -32,6 +34,7 @@ export default class Repo {
     this.indexes = indexes;
     this.globalFindCriteria = globalFindCriteria;
     this.integerId = integerId;
+    this.logger = typeof logger === 'function' ? logger : null;
   }
 
   /**
@@ -80,6 +83,7 @@ export default class Repo {
     const collection = await this.collection();
     const { globalFindCriteria } = this;
     const q = globalFindCriteria ? { $and: [query, globalFindCriteria] } : query;
+    this.log('findOne', q, opts);
     const doc = await collection.findOne(q, opts);
     if (strict && !doc) throw this.createNotFoundError();
     return doc;
@@ -96,6 +100,7 @@ export default class Repo {
     const collection = await this.collection();
     const { globalFindCriteria } = this;
     const q = globalFindCriteria ? { $and: [query, globalFindCriteria] } : query;
+    this.log('find', q, options);
     return collection.find(q, options);
   }
 
@@ -280,6 +285,11 @@ export default class Repo {
     const id = value.start + value.sequence;
     if (n === 1) return id;
     return [...Array(n).keys()].map((i) => id - i).reverse();
+  }
+
+  log(...args) {
+    const { logger } = this;
+    if (logger) logger(...args);
   }
 
   /**
