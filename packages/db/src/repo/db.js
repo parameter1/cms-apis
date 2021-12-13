@@ -31,6 +31,7 @@ export default class DB {
         client: this.client,
         name: resource.get('name'),
         dbName: `cms-${this.tenant}`,
+        logger,
         collectionName: resource.get('collection'),
         ...(integerId && { integerId: integerId.toJS() }),
         ...(indexes && { indexes: indexes.toJS() }),
