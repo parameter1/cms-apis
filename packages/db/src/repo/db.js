@@ -1,6 +1,6 @@
 import { MongoDBClient, Repo, ObjectId } from '@cms-apis/mongodb';
 import MongoDBRepoLoader from '@cms-apis/dataloader';
-import resources from '../resources.js';
+import resources, { resourceMap } from '../resources.js';
 
 export default class DB {
   /**
@@ -95,5 +95,9 @@ export default class DB {
     if (/^[a-f0-9]{24}$/.test(id)) return new ObjectId(id);
     if (/^\d+$/.test(id)) return parseInt(id, 10);
     return id;
+  }
+
+  static resourceMap() {
+    return resourceMap;
   }
 }

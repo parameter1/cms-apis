@@ -1,7 +1,7 @@
 import { fromJS } from '@cms-apis/immutable';
 import types from './types.js';
 
-export default fromJS([
+const resources = fromJS([
   {
     name: 'document asset',
     collection: 'document-assets',
@@ -165,3 +165,11 @@ export default fromJS([
     },
   },
 ]);
+
+const map = new Map();
+resources.forEach((resource) => {
+  map.set(resource.get('collection'), resource);
+});
+
+export const resourceMap = fromJS(map);
+export default resources;
