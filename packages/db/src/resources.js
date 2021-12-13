@@ -31,6 +31,7 @@ export default fromJS([
     name: 'content',
     collection: 'content',
     integerId: { enabled: true, start: 22000000 },
+    types: Object.keys(types.get('content').toJS()),
     legacy: {
       namespace: 'platform',
       model: 'Content',
@@ -99,6 +100,7 @@ export default fromJS([
     name: 'taxonomy',
     collection: 'taxonomies',
     integerId: { enabled: true, start: 3400000 },
+    types: Object.keys(types.get('taxonomy').toJS()),
     legacy: {
       namespace: 'platform',
       model: 'Taxonomy',
