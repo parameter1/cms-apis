@@ -37,10 +37,21 @@ export default class MongoDBRepoLoader {
    * @param {string} [params.foreignField=_id] The foreign field to query.
    * @param {*} params.value The document id value to load
    * @param {object} [params.projection] The document projection object (e.g. the fields to return)
+   * @param {boolean} [params.strict=false] Whether to throw an error when the document is not found
    */
-  load({ foreignField = '_id', value, projection } = {}) {
+  load({
+    foreignField = '_id',
+    value,
+    projection,
+    strict = false,
+  } = {}) {
     const { fields } = MongoDBRepoLoader.prepare({ foreignField, projection });
-    const key = { foreignField, value, fields };
+    const key = {
+      foreignField,
+      value,
+      fields,
+      strict,
+    };
     return this.loader.load(key);
   }
 
@@ -49,10 +60,21 @@ export default class MongoDBRepoLoader {
    * @param {string} [params.foreignField=_id] The foreign field to query.
    * @param {*[]} params.values The document id values to load
    * @param {object} [params.projection] The document projection object (e.g. the fields to return)
+   * @param {boolean} [params.strict=false] Whether to throw an error when the document is not found
    */
-  loadMany({ foreignField = '_id', values, projection } = {}) {
+  loadMany({
+    foreignField = '_id',
+    values,
+    projection,
+    strict = false,
+  } = {}) {
     const { fields } = MongoDBRepoLoader.prepare({ foreignField, projection });
-    const keys = values.map((value) => ({ foreignField, value, fields }));
+    const keys = values.map((value) => ({
+      foreignField,
+      value,
+      fields,
+      strict,
+    }));
     return this.loader.loadMany(keys);
   }
 
@@ -94,10 +116,15 @@ export default class MongoDBRepoLoader {
         resultMap.set(key, doc);
       });
     });
-    return keys.map(({ foreignField, value }) => {
+    return keys.map(({ foreignField, value, strict }) => {
       const key = `${foreignField}:${value}`;
       const doc = resultMap.get(key) || null;
-      if (!doc) process.emitWarning(`WARNING: No result for ${name} using key ${key}`);
+      if (!doc) {
+        const error = new Error(`No ${name} record was found for ${key}`);
+        error.status = 404;
+        if (strict) throw error;
+        process.emitWarning(`WARNING: ${error.message}`);
+      }
       return doc;
     });
   }
