@@ -289,7 +289,7 @@ export default class Repo {
 
   log(...args) {
     const { logger } = this;
-    if (logger) logger(...args);
+    if (logger) logger(`${this.dbName}.${this.collectionName}`, ...args);
   }
 
   /**
