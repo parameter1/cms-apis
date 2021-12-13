@@ -27,7 +27,6 @@
     "win32"
   ],
   "dependencies": {
-    "@cms-apis/dataloader": "^0.0.0",
     "@cms-apis/db": "^0.0.0",
     "@cms-apis/graphql": "^0.0.0",
     "@cms-apis/mongodb": "^0.0.0",
