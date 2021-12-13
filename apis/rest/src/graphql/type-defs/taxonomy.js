@@ -14,23 +14,6 @@ extend type Query {
 type Taxonomy @meta(
   restType: "platform/taxonomy"
   repoName: "taxonomies"
-  subTypes: [
-    "AWARD"
-    "BADGE"
-    "BIN"
-    "CATEGORY"
-    "INDUSTRY"
-    "LOCATION"
-    "MARKET"
-    "ORGANIZATION"
-    "PERSON"
-    "PLATFORM_CHANNEL"
-    "REGION"
-    "SYSTEM"
-    "TAG"
-    "TOPIC"
-    "TYPE"
-  ]
 ) {
   id: Int!
   type: String!

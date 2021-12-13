@@ -16,7 +16,6 @@ export default gql`
 directive @meta(
   restType: String!
   repoName: String!
-  subTypes: [String!]! = []
 ) on OBJECT
 
 directive @query(

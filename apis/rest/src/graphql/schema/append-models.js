@@ -63,8 +63,6 @@ export default (schema) => {
       idType,
       restType: $meta.restType,
       repoName: $meta.repoName,
-      isPolymorphic: $meta.isPolymorphic,
-      subTypes: $meta.subTypes,
       graphQLTypeObj: type,
       attributes,
       relationships,

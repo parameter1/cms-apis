@@ -14,29 +14,6 @@ extend type Query {
 type Content @meta(
   restType: "platform/content"
   repoName: "content"
-  subTypes: [
-    "ARTICLE"
-    "BLOG"
-    "COMPANY"
-    "CONTACT"
-    "DOCUMENT"
-    "EVENT"
-    "MEDIA_GALLERY"
-    "NEWS"
-    "PAGE"
-    "PODCAST"
-    "PRESS_RELEASE"
-    "PRODUCT"
-    "PROMOTION"
-    "SPACE"
-    "SUPPLIER"
-    "TOP_LIST"
-    "TEXT_AD"
-    "VENUE"
-    "VIDEO"
-    "WEBINAR"
-    "WHITEPAPER"
-  ]
 ) {
   id: Int!
   type: String!

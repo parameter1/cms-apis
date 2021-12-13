@@ -1,4 +1,5 @@
 import { dasherize, underscore } from 'inflected';
+import { DB } from '@cms-apis/db';
 import createModelMeta from '../utils/create-model-meta.js';
 
 /**
@@ -10,20 +11,23 @@ import createModelMeta from '../utils/create-model-meta.js';
  * @param {Map} params.attributes The model attribute map
  * @param {Map} params.relationships The model relationship map
  * @param {Map} params.queryNames A map of query names for ONE and MANY operations
- * @param {Set} [params.subTypes] A set of polymorphic sub types
  */
 export default ({
   idType,
   restType,
   repoName,
-  isPolymorphic,
   graphQLTypeObj,
   attributes,
   relationships,
   queryNames,
-  subTypes,
 } = {}) => {
   const meta = createModelMeta(restType);
+
+  const resource = DB.resourceMap().get(repoName);
+  if (!resource) throw new Error(`No database resource found for model repo ${repoName}`);
+
+  const isPolymorphic = Boolean(resource.get('types'));
+  const subTypes = isPolymorphic ? new Set(resource.get('types').toJS()) : null;
 
   const hasSubTypePath = (type) => {
     if (!isPolymorphic) return false;
