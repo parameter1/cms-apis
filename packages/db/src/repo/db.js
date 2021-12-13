@@ -13,18 +13,26 @@ export default class DB {
     if (!(client instanceof MongoDBClient)) throw new Error('A MongoDBClient instance is required.');
     this.tenant = tenant.trim().replace('_', '-');
     this.client = client;
+
     this.repos = new Map();
+    this.loaders = new Map();
+
     resources.forEach((resource) => {
       const indexes = resource.get('indexes');
       const integerId = resource.get('integerId');
-      this.repos.set(resource.get('collection'), new Repo({
+      const types = resource.get('types');
+
+      const repo = new Repo({
         client: this.client,
         name: resource.get('name'),
         dbName: `cms-${this.tenant}`,
         collectionName: resource.get('collection'),
         ...(integerId && { integerId: integerId.toJS() }),
         ...(indexes && { indexes: indexes.toJS() }),
-      }));
+        ...(types && { globalFindCriteria: { _type: { $in: types.toJS() } } }),
+      });
+
+      this.repos.set(resource.get('collection'), repo);
     });
   }
 
