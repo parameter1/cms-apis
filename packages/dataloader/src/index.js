@@ -77,15 +77,7 @@ export default class MongoDBRepoLoader {
         [foreignField]: { $in: coerced },
         ...(criteria && { $and: [criteria] }),
       };
-      if (isFn(logger)) {
-        logger('Loader keys:', {
-          name,
-          foreignField,
-          values: coerced,
-          projection,
-          criteria,
-        });
-      }
+      if (isFn(logger)) logger('Loader keys:', { name, query, projection });
       promises.push((async () => {
         const cursor = await this.repo.find({ query, options: { projection } });
         const docs = await cursor.toArray();
