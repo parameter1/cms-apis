@@ -17,6 +17,11 @@ describe('types/string', () => {
       }).to.throw(ValidationError, '"value" is required');
     });
 
+    it('should return undefined when required when defined', () => {
+      const result = Joi.attempt(undefined, Joi.string().requiredWhenDefined());
+      expect(result).to.be.undefined;
+    });
+
     it('should return undefined when not required', () => {
       const result = Joi.attempt(undefined, Joi.string());
       expect(result).to.be.undefined;
@@ -32,6 +37,12 @@ describe('types/string', () => {
     it('should throw a validation error when required', () => {
       expect(() => {
         Joi.attempt(null, Joi.string().required());
+      }).to.throw(ValidationError, '"value" is required');
+    });
+
+    it('should throw a validation error when required when defined', () => {
+      expect(() => {
+        Joi.attempt(null, Joi.string().requiredWhenDefined());
       }).to.throw(ValidationError, '"value" is required');
     });
 
@@ -53,6 +64,12 @@ describe('types/string', () => {
       }).to.throw(ValidationError, '"value" is required');
     });
 
+    it('should throw a validation error when required when defined', () => {
+      expect(() => {
+        Joi.attempt('', Joi.string().requiredWhenDefined());
+      }).to.throw(ValidationError, '"value" is required');
+    });
+
     it('should return null when not required', () => {
       const result = Joi.attempt('', Joi.string());
       expect(result).to.be.null;
@@ -68,6 +85,12 @@ describe('types/string', () => {
     it('should throw a validation error when required', () => {
       expect(() => {
         Joi.attempt('   ', Joi.string().required());
+      }).to.throw(ValidationError, '"value" is required');
+    });
+
+    it('should throw a validation error when required when defined', () => {
+      expect(() => {
+        Joi.attempt('   ', Joi.string().requiredWhenDefined());
       }).to.throw(ValidationError, '"value" is required');
     });
 

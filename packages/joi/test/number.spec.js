@@ -17,6 +17,11 @@ describe('types/number', () => {
       }).to.throw(ValidationError, '"value" is required');
     });
 
+    it('should return undefined when required when defined', () => {
+      const result = Joi.attempt(undefined, Joi.number().requiredWhenDefined());
+      expect(result).to.be.undefined;
+    });
+
     it('should return undefined when not required', () => {
       const result = Joi.attempt(undefined, Joi.number());
       expect(result).to.be.undefined;
@@ -32,6 +37,12 @@ describe('types/number', () => {
     it('should throw a validation error when required', () => {
       expect(() => {
         Joi.attempt(null, Joi.number().required());
+      }).to.throw(ValidationError, '"value" is required');
+    });
+
+    it('should throw a validation error when required when defined', () => {
+      expect(() => {
+        Joi.attempt(null, Joi.number().requiredWhenDefined());
       }).to.throw(ValidationError, '"value" is required');
     });
 

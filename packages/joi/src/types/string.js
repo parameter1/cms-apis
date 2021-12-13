@@ -34,6 +34,11 @@ export default (joi) => ({
     return { value: v };
   },
   rules: {
+    requiredWhenDefined: {
+      method() {
+        return this.$_setFlag('requiredWhenDefined', true);
+      },
+    },
     html: {
       args: [
         {

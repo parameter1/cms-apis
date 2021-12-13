@@ -6,4 +6,11 @@ export default (joi) => ({
   prepare(value, helpers) {
     return prepareValue(value, helpers);
   },
+  rules: {
+    requiredWhenDefined: {
+      method() {
+        return this.$_setFlag('requiredWhenDefined', true);
+      },
+    },
+  },
 });
