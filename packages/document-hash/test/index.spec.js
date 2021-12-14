@@ -1,5 +1,4 @@
 /* eslint-disable import/no-extraneous-dependencies, no-unused-expressions */
-import { ObjectId } from '@cms-apis/db';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import hash from '../src/index.js';
@@ -38,5 +37,14 @@ describe('index', () => {
 
     const r2 = hash(v2, ['b.c', 'b.a', 'a', 'c']);
     expect(r2).to.equal(expected);
+  });
+  it('should be type aware', () => {
+    const r1 = hash({ _id: 1, a: 1 }, ['a']);
+    const r2 = hash({ _id: 1, a: '1' }, ['a']);
+    expect(r1).to.not.equal(r2);
+
+    const r3 = hash({ _id: 1, a: true }, ['a']);
+    const r4 = hash({ _id: 1, a: 'true' }, ['a']);
+    expect(r3).to.not.equal(r4);
   });
 });
