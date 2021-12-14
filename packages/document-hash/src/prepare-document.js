@@ -1,5 +1,10 @@
 import { DB, ObjectId } from '@cms-apis/db';
-import { get, set, getAsObject } from '@cms-apis/object-path';
+import {
+  get,
+  set,
+  getAsObject,
+  getAsArray,
+} from '@cms-apis/object-path';
 import sortKeys from 'sort-keys';
 import mapObject, { mapObjectSkip } from 'map-obj';
 import is from '@sindresorhus/is';
@@ -11,20 +16,30 @@ export default (doc, paths = []) => {
   if (!doc) throw new Error('No document was provided');
   const toHash = preparePathsToHash(paths);
 
+  const connections = getAsObject(doc, '_connection');
   const edges = getAsObject(doc, '_edge');
 
   const o = {
     _id: DB.coerceId(doc._id),
+    _connection: keys(connections).reduce((obj, key) => {
+      const connection = getAsArray(connections, key);
+      const nodes = connection.filter((edge) => get(edge, 'node._id')).map((edge) => {
+        const { node, ...rest } = edge;
+        return { ...rest, _id: edge.node._id };
+      });
+      if (!nodes.length) return obj;
+      return { ...obj, [key]: nodes };
+    }, {}),
     _edge: keys(edges).reduce((obj, key) => {
       const edge = edges[key];
       if (!edge) return obj;
       // must have a node ID
       const nodeId = get(edge, 'node._id');
       if (!nodeId) return obj;
-      delete edge.node;
+      const { node, ...rest } = edge;
       return {
         ...obj,
-        [key]: { ...edge, _id: nodeId },
+        [key]: { ...rest, _id: nodeId },
       };
     }, {}),
   };
@@ -47,7 +62,16 @@ export default (doc, paths = []) => {
       ) {
         return [key, filtered.sort()];
       }
-      throw new Error('Sorting non-scalar or mixed typed arrays is not yet supported');
+      if (is.array(filtered, is.plainObject)) {
+        return [key, filtered.sort((a, b) => {
+          const jsonA = JSON.stringify(sortKeys(a));
+          const jsonB = JSON.stringify(sortKeys(b));
+          if (jsonA > jsonB) return 1;
+          if (jsonA < jsonB) return -1;
+          return 0;
+        })];
+      }
+      throw new Error('Sorting non-scalar, non-plain object or mixed typed arrays is not supported');
     }
     if (is.function(value.toString) && /^[a-f0-9]{24}$/.test(`${value}`)) return [key, `${value}`];
     if (is.plainObject(value)) {

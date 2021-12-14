@@ -106,6 +106,24 @@ describe('prepare-document', () => {
     const result = prepare({ _id: 1, v, o: { v } }, ['v', 'o.v']);
     expect(result).to.deep.equal({ _id: 1, v: expected, o: { v: expected } });
   });
+  it('should sort arrays with objects', () => {
+    const v = [
+      { b: 1, a: 1 },
+      { a: 1, b: 1 },
+      { a: 3, b: -2 },
+      { a: 2, b: -1 },
+    ];
+    const result = prepare({ _id: 1, v }, ['v']);
+    expect(result).to.deep.equal({
+      _id: 1,
+      v: [
+        { a: 1, b: 1 },
+        { a: 1, b: 1 },
+        { a: 2, b: -1 },
+        { a: 3, b: -2 },
+      ],
+    });
+  });
   it('should throw an error when a non-supported type is encountered', () => {
     expect(() => {
       prepare({ _id: 1, v: () => {} }, ['v']);
@@ -122,11 +140,8 @@ describe('prepare-document', () => {
   });
   it('should throw an error when non-string, number, or boolean arrays are encountered', () => {
     expect(() => {
-      prepare({ _id: 1, v: [{ _id: 2 }] }, ['v']);
-    }).to.throw('Sorting non-scalar or mixed typed arrays is not yet supported');
-    expect(() => {
       prepare({ _id: 1, v: [1, '2', false] }, ['v']);
-    }).to.throw('Sorting non-scalar or mixed typed arrays is not yet supported');
+    }).to.throw('Sorting non-scalar, non-plain object or mixed typed arrays is not supported');
   });
   it('should sort the keys', () => {
     const value = {
@@ -180,6 +195,43 @@ describe('prepare-document', () => {
     const result = prepare(value);
     expect(result).to.deep.equal({ _id: 1 });
   });
+  it('should format _connection values', () => {
+    const value = {
+      _id: 1,
+      _connection: {
+        a: { node: { bar: 'baz' } },
+        b: null,
+        c: [],
+        d: [{}],
+        e: [{ node: {} }],
+
+        ancestors: [
+          { depth: 1, foo: 'bar', node: { _id: 67015, name: 'Foo' } },
+          { depth: 1, node: { _id: 67014, name: 'Bar' } },
+          { depth: 2, node: { _id: 67013, name: 'Baz' } },
+        ],
+        descendants: [
+          { depth: 1, node: { _id: new ObjectId('5ed294c6c13a4626008b4569'), name: 'Dill' } },
+          { depth: 0, node: { _id: new ObjectId('5ed294c6c13a4626008b4568'), name: 'Dill' } },
+        ],
+      },
+    };
+    const result = prepare(value);
+    expect(result).to.deep.equal({
+      _connection: {
+        ancestors: [
+          { _id: 67013, depth: 2 },
+          { _id: 67014, depth: 1 },
+          { _id: 67015, depth: 1, foo: 'bar' },
+        ],
+        descendants: [
+          { _id: '5ed294c6c13a4626008b4568', depth: 0 },
+          { _id: '5ed294c6c13a4626008b4569', depth: 1 },
+        ],
+      },
+      _id: 1,
+    });
+  });
 
   it('should handle the kitchen sink', () => {
     const result = prepare({
@@ -207,6 +259,23 @@ describe('prepare-document', () => {
           node: { _id: 2, name: 'Foo' },
         },
       },
+      _connection: {
+        a: { node: { bar: 'baz' } },
+        b: null,
+        c: [],
+        d: [{}],
+        e: [{ node: {} }],
+
+        ancestors: [
+          { depth: 1, foo: 'bar', node: { _id: 67015, name: 'Foo' } },
+          { depth: 1, node: { _id: 67014, name: 'Bar' } },
+          { depth: 2, node: { _id: 67013, name: 'Baz' } },
+        ],
+        descendants: [
+          { depth: 1, node: { _id: new ObjectId('5ed294c6c13a4626008b4569'), name: 'Dill' } },
+          { depth: 0, node: { _id: new ObjectId('5ed294c6c13a4626008b4568'), name: 'Dill' } },
+        ],
+      },
     }, [
       'date',
       'name',
@@ -221,6 +290,17 @@ describe('prepare-document', () => {
       '_import',
     ]);
     expect(result).to.deep.equal({
+      _connection: {
+        ancestors: [
+          { _id: 67013, depth: 2 },
+          { _id: 67014, depth: 1 },
+          { _id: 67015, depth: 1, foo: 'bar' },
+        ],
+        descendants: [
+          { _id: '5ed294c6c13a4626008b4568', depth: 0 },
+          { _id: '5ed294c6c13a4626008b4569', depth: 1 },
+        ],
+      },
       _edge: {
         parent: { _id: 2, depth: 1 },
         website: { _id: '5ed294c6c13a4626008b4568' },
