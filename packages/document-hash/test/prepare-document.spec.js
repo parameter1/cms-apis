@@ -168,6 +168,18 @@ describe('prepare-document', () => {
       _id: 1,
     });
   });
+  it('should completely strip empty edges', () => {
+    const value = {
+      _id: 1,
+      _edge: {
+        foo: { node: { bar: 'baz' } },
+        coverImage: null,
+        logo: { node: null },
+      },
+    };
+    const result = prepare(value);
+    expect(result).to.deep.equal({ _id: 1 });
+  });
 
   it('should handle the kitchen sink', () => {
     const result = prepare({
