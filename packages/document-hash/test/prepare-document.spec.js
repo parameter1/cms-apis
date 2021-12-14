@@ -36,10 +36,28 @@ describe('prepare-document', () => {
     const result = prepare({ _id: 1, v, o: { v } }, ['v', 'o.v']);
     expect(result).to.deep.equal({ _id: 1 });
   });
+  it('should omit empty arrays with only null or undefined values', () => {
+    const v = [null, undefined];
+    const result = prepare({ _id: 1, v, o: { v } }, ['v', 'o.v']);
+    expect(result).to.deep.equal({ _id: 1 });
+  });
   it('should omit empty objects', () => {
     const v = {};
     const result = prepare({ _id: 1, v, o: { v } }, ['v', 'o.v']);
     expect(result).to.deep.equal({ _id: 1 });
+  });
+  it('should omit empty values consistently', () => {
+    const expected = { _id: 1, foo: 'bar' };
+    ([
+      { _id: 1, v: null, foo: 'bar' },
+      { _id: 1, v: undefined, foo: 'bar' },
+      { _id: 1, v: [], foo: 'bar' },
+      { _id: 1, v: [null, undefined], foo: 'bar' },
+      { _id: 1, v: {}, foo: 'bar' },
+    ]).forEach((value) => {
+      const r = prepare(value, ['v', 'foo']);
+      expect(r).to.deep.equal(expected);
+    });
   });
   it('should convert dates', () => {
     const v = new Date(1639508844407);
@@ -71,19 +89,19 @@ describe('prepare-document', () => {
     expect(result).to.deep.equal({ _id: 1, v, o: { v } });
   });
   it('should sort arrays with numbers', () => {
-    const v = [3, 1, 5, 75, -1];
+    const v = [null, 3, 1, 5, 75, -1, undefined];
     const expected = [-1, 1, 3, 5, 75];
     const result = prepare({ _id: 1, v, o: { v } }, ['v', 'o.v']);
     expect(result).to.deep.equal({ _id: 1, v: expected, o: { v: expected } });
   });
   it('should sort arrays with strings', () => {
-    const v = ['3', '1', '5', '75', '-1'];
+    const v = [null, '3', '1', '5', '75', '-1', undefined];
     const expected = ['-1', '1', '3', '5', '75'];
     const result = prepare({ _id: 1, v, o: { v } }, ['v', 'o.v']);
     expect(result).to.deep.equal({ _id: 1, v: expected, o: { v: expected } });
   });
   it('should sort arrays with booleans', () => {
-    const v = [false, true, false];
+    const v = [undefined, false, true, false, null];
     const expected = [false, false, true];
     const result = prepare({ _id: 1, v, o: { v } }, ['v', 'o.v']);
     expect(result).to.deep.equal({ _id: 1, v: expected, o: { v: expected } });
@@ -134,7 +152,7 @@ describe('prepare-document', () => {
       date: new Date(1639508844407),
       obj: { b: 1, a: 2, c: null },
       deep: {
-        arr2: [3, 1, 5, 75, -1],
+        arr2: [3, 1, 5, null, 75, -1],
         arr1: [],
         arr3: [],
         o: {},

@@ -22,8 +22,14 @@ export default (doc, paths = []) => {
     if (is.string(value) || is.number(value) || is.boolean(value)) return [key, value];
     if (is.array(value)) {
       if (!value.length) return mapObjectSkip;
-      if (is.array(value, is.number) || is.array(value, is.string) || is.array(value, is.boolean)) {
-        return [key, value.sort()];
+      // filter null and undefined
+      const filtered = value.filter((v) => v != null);
+      if (!filtered.length) return mapObjectSkip;
+      if (is.array(filtered, is.number)
+        || is.array(filtered, is.string)
+        || is.array(filtered, is.boolean)
+      ) {
+        return [key, filtered.sort()];
       }
       throw new Error('Sorting non-scalar or mixed typed arrays is not yet supported');
     }
