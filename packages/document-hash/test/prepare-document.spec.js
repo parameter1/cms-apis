@@ -36,8 +36,8 @@ describe('prepare-document', () => {
     const result = prepare({ _id: 1, v, o: { v } }, ['v', 'o.v']);
     expect(result).to.deep.equal({ _id: 1 });
   });
-  it('should omit empty arrays with only null or undefined values', () => {
-    const v = [null, undefined];
+  it('should omit empty arrays with only null, undefined or empty object values', () => {
+    const v = [null, undefined, {}];
     const result = prepare({ _id: 1, v, o: { v } }, ['v', 'o.v']);
     expect(result).to.deep.equal({ _id: 1 });
   });
@@ -112,6 +112,7 @@ describe('prepare-document', () => {
       { a: 1, b: 1 },
       { a: 3, b: -2 },
       { a: 2, b: -1 },
+      { foo: undefined },
     ];
     const result = prepare({ _id: 1, v }, ['v']);
     expect(result).to.deep.equal({

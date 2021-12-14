@@ -54,7 +54,11 @@ export default (doc, paths = []) => {
     if (is.array(value)) {
       if (!value.length) return mapObjectSkip;
       // filter null and undefined
-      const filtered = value.filter((v) => v != null);
+      const filtered = value.filter((v) => {
+        if (v == null) return false;
+        if (is.plainObject(v) && is.emptyObject(v)) return false;
+        return true;
+      });
       if (!filtered.length) return mapObjectSkip;
       if (is.array(filtered, is.number)
         || is.array(filtered, is.string)
@@ -89,6 +93,10 @@ export default (doc, paths = []) => {
   // need to run map again to clear any empty objects that were created from dot access
   return sortKeys(mapObject(mapped, (key, value) => {
     if (is.emptyObject(value)) return mapObjectSkip;
+    if (is.array(value, is.plainObject)) {
+      // remove any remaining empty objects.
+      return [key, value.filter((v) => !is.emptyObject(v))];
+    }
     return [key, value];
   }, { deep: true }), { deep: true });
 };
