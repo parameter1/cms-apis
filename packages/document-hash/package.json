@@ -27,7 +27,9 @@
     "win32"
   ],
   "dependencies": {
-    "@cms-apis/utils": "^0.0.0",
+    "@cms-apis/db": "^0.0.0",
+    "@cms-apis/object-path": "^0.0.0",
+    "@sindresorhus/is": "^4.2.0",
     "map-obj": "^5.0.0",
     "sort-keys": "^5.0.0"
   }
