@@ -143,6 +143,31 @@ describe('prepare-document', () => {
       c: 3,
     });
   });
+  it('should format _edge values', () => {
+    const value = {
+      _id: 1,
+      _edge: {
+        foo: { node: { bar: 'baz' } },
+        coverImage: null,
+        logo: { node: null },
+        website: {
+          node: { _id: new ObjectId('5ed294c6c13a4626008b4568'), name: 'Sandbox' },
+        },
+        parent: {
+          depth: 1,
+          node: { _id: 2, name: 'Foo' },
+        },
+      },
+    };
+    const result = prepare(value);
+    expect(result).to.deep.equal({
+      _edge: {
+        parent: { _id: 2, depth: 1 },
+        website: { _id: '5ed294c6c13a4626008b4568' },
+      },
+      _id: 1,
+    });
+  });
 
   it('should handle the kitchen sink', () => {
     const result = prepare({
@@ -157,6 +182,19 @@ describe('prepare-document', () => {
         arr3: [],
         o: {},
       },
+      _import: { foo: 'bar' },
+      _edge: {
+        foo: { node: { bar: 'baz' } },
+        coverImage: null,
+        logo: { node: null },
+        website: {
+          node: { _id: new ObjectId('5ed294c6c13a4626008b4568'), name: 'Sandbox' },
+        },
+        parent: {
+          depth: 1,
+          node: { _id: 2, name: 'Foo' },
+        },
+      },
     }, [
       'date',
       'name',
@@ -168,8 +206,13 @@ describe('prepare-document', () => {
       'deep.arr2',
       'deep.arr1',
       'deep.o.foo',
+      '_import',
     ]);
     expect(result).to.deep.equal({
+      _edge: {
+        parent: { _id: 2, depth: 1 },
+        website: { _id: '5ed294c6c13a4626008b4568' },
+      },
       _id: 1234,
       date: 1639508844407,
       deep: { arr2: [-1, 1, 3, 5, 75] },

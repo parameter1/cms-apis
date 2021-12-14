@@ -1,20 +1,36 @@
 import { DB, ObjectId } from '@cms-apis/db';
-import { get, set } from '@cms-apis/object-path';
+import { get, set, getAsObject } from '@cms-apis/object-path';
 import sortKeys from 'sort-keys';
 import mapObject, { mapObjectSkip } from 'map-obj';
 import is from '@sindresorhus/is';
 import preparePathsToHash from './prepare-paths-to-hash.js';
 
+const { keys } = Object;
+
 export default (doc, paths = []) => {
   if (!doc) throw new Error('No document was provided');
   const toHash = preparePathsToHash(paths);
+
+  const edges = getAsObject(doc, '_edge');
+
   const o = {
     _id: DB.coerceId(doc._id),
+    _edge: keys(edges).reduce((obj, key) => {
+      const edge = edges[key];
+      if (!edge) return obj;
+      // must have a node ID
+      const nodeId = get(edge, 'node._id');
+      if (!nodeId) return obj;
+      delete edge.node;
+      return {
+        ...obj,
+        [key]: { ...edge, _id: nodeId },
+      };
+    }, {}),
   };
+
   if (!o._id) throw new Error('Unable to extract a document _id value');
-  toHash.forEach((path) => {
-    set(o, path, get(doc, path));
-  });
+  toHash.forEach((path) => set(o, path, get(doc, path)));
 
   const mapped = mapObject(o, (key, value, source) => {
     if (value == null) return mapObjectSkip;
