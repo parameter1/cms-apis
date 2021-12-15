@@ -1,3 +1,4 @@
+import ImageAssetDataSource from './image-asset.js';
 import WebsiteDataSource from './website.js';
 import WebsiteScheduleOption from './website-schedule-option.js';
 import WebsiteSectionDataSource from './website-section.js';
@@ -7,6 +8,7 @@ export default class DataSources {
     this.db = db;
     this.dataSources = new Map();
 
+    this.add('image-assets', ImageAssetDataSource);
     this.add('website-schedule-options', WebsiteScheduleOption);
     this.add('website-sections', WebsiteSectionDataSource);
     this.add('websites', WebsiteDataSource);
