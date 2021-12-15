@@ -13,6 +13,7 @@ import {
   objectId,
   slug,
   string,
+  url,
 } from './types/index.js';
 
 export { default as validateAsync } from './validate-async.js';
@@ -27,6 +28,7 @@ export default Joi
   .extend(objectId)
   .extend(string)
   .extend(hostname)
+  .extend(url)
   .extend(htmlExpanded)
   .extend(htmlFull)
   .extend(htmlLimited)

@@ -10,3 +10,4 @@ export { default as object } from './object.js';
 export { default as objectId } from './object-id.js';
 export { default as slug } from './slug.js';
 export { default as string } from './string.js';
+export { default as url } from './url.js';
