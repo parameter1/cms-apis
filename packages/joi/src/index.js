@@ -5,6 +5,7 @@ import {
   htmlExpanded,
   htmlFull,
   htmlLimited,
+  hostname,
   number,
   integer,
   integerId,
@@ -25,6 +26,7 @@ export default Joi
   .extend(object)
   .extend(objectId)
   .extend(string)
+  .extend(hostname)
   .extend(htmlExpanded)
   .extend(htmlFull)
   .extend(htmlLimited)
