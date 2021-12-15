@@ -1,9 +1,9 @@
-import { LegacyDB } from '@cms-apis/db';
-import mapObject, { mapObjectSkip } from 'map-obj';
-import sortKeys from 'sort-keys';
+import { DB, cleanDocument, mapObjectSkip } from '@cms-apis/db';
 
-export default (node) => sortKeys(mapObject(node, (key, value) => {
-  if (key === '__typename') return mapObjectSkip;
-  if (key === '_id') return [key, LegacyDB.coerceId(value), { shouldRecurse: false }];
-  return [key, value];
-}, { deep: true }), { deep: true });
+export default (node) => cleanDocument(node, {
+  mapper: (key, value) => {
+    if (key === '__typename') return mapObjectSkip;
+    if (key === '_id') return [key, DB.coerceId(value), { shouldRecurse: false }];
+    return undefined;
+  },
+});
