@@ -4,16 +4,19 @@ import { get, getAsArray } from '@cms-apis/object-path';
 import cleanString from '@cms-apis/clean-string';
 import { inspect } from 'util';
 import AbstractDataSource from './-abstract.js';
+import generateSlugFrom from '../fields/utils/generate-slug-from.js';
+import getLinkId from '../fields/utils/get-link-id.js';
+
 import {
   createLinks,
   intLinkage,
   oidLinkage,
   payload as restPayload,
 } from '../fields/rest/index.js';
+
 import sectionFields from '../fields/models/website-section.js';
 import seoFields from '../fields/seo.js';
 import websiteFields from '../fields/models/website.js';
-import generateSlugFrom from '../fields/utils/generate-slug-from.js';
 
 export default class WebsiteSectionDataSource extends AbstractDataSource {
   /**
@@ -140,6 +143,8 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
       alias: Joi.string(),
       canonicalUrl: seoFields.canonicalUrl,
       links: createLinks({
+        coverImage: oidLinkage,
+        logo: oidLinkage,
         parent: intLinkage,
         site: oidLinkage.required(),
       }),
@@ -152,9 +157,11 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
     const slug = obj.alias ? obj.alias.split('/').pop() : null;
 
     return this.create({
+      coverImageId: getLinkId(links, 'coverImage'),
       description: obj.description,
+      logoId: getLinkId(links, 'logo'),
       name: obj.name,
-      parentId: get(links, 'parent.linkage.id'),
+      parentId: getLinkId(links, 'parent'),
       seo: {
         title: obj.seoTitle,
         description: obj.seoDescription,
@@ -162,7 +169,7 @@ export default class WebsiteSectionDataSource extends AbstractDataSource {
       },
       slug,
       sequence: obj.sequence,
-      websiteId: get(links, 'site.linkage.id'),
+      websiteId: getLinkId(links, 'site'),
     });
   }
 }
