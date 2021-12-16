@@ -19,11 +19,10 @@ enum MagazineLinkSocialProviderEnum {
 }
 
 
-type Magazine {
+type Magazine implements UnderscoreFieldsInterface @interfaceFields {
   _id: ObjectID!
   _connection: Magazine_Connection!
   _edge: Magazine_Edge!
-  _sync: SyncInfo!
   description: String @trim
   links: MagazineLinks! # combines root urls with social
   name: String! @trim

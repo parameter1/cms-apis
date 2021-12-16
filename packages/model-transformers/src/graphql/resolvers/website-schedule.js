@@ -39,9 +39,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     date({ startDate, endDate }) {
       return { started: startDate, ended: endDate };
     },

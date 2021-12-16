@@ -7,10 +7,9 @@ extend type Query {
   newsletterSchedules(input: PaginatedQueryInput = {}): QueryNewsletterSchedulesConnection!
 }
 
-type NewsletterSchedule {
+type NewsletterSchedule implements UnderscoreFieldsInterface @interfaceFields {
   _id: ObjectID!
   _edge: NewsletterSchedule_Edge!
-  _sync: SyncInfo!
   date: NewsletterScheduleDate!
   sequence: Int!
 }

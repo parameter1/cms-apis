@@ -38,9 +38,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     async isGlobal(section, _, { loaders }) {
       const issue = await loadIssueFor(section, { loaders });
       const hasIssue = Boolean(issue);

@@ -7,10 +7,9 @@ extend type Query {
   magazineSections(input: PaginatedQueryInput = {}): QueryMagazineSectionsConnection!
 }
 
-type MagazineSection {
+type MagazineSection implements UnderscoreFieldsInterface @interfaceFields {
   _id: Int!
   _edge: MagazineSection_Edge!
-  _sync: SyncInfo!
   description: String @trim
   name: MagazineSectionName!
   isGlobal: Boolean!

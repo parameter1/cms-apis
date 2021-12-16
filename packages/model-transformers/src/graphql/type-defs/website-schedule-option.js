@@ -7,10 +7,9 @@ extend type Query {
   websiteScheduleOptions(input: PaginatedQueryInput = {}): QueryWebsiteScheduleOptionsConnection!
 }
 
-type WebsiteScheduleOption {
+type WebsiteScheduleOption implements UnderscoreFieldsInterface @interfaceFields {
   _id: Int!
   _edge: WebsiteScheduleOption_Edge!
-  _sync: SyncInfo!
   description: String @trim
   name: WebsiteScheduleOptionName!
   slug: String!

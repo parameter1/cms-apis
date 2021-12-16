@@ -17,10 +17,9 @@ type QueryWebsitesConnectionEdge {
   cursor: Cursor!
 }
 
-type Website {
+type Website implements UnderscoreFieldsInterface @interfaceFields {
   _id: ObjectID!
   _connection: Website_Connection!
-  _sync: SyncInfo!
   abbreviation: String @trim(field: "shortName")
   description: String @trim
   host: WebsiteHost!

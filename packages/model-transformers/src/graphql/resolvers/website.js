@@ -38,9 +38,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     host(site) {
       const image = trim(site.imageHost);
       const asset = trim(site.assetHost);

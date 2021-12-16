@@ -7,10 +7,9 @@ extend type Query {
   newsletterCampaigns(input: PaginatedQueryInput = {}): QueryNewsletterCampaignsConnection!
 }
 
-type NewsletterCampaign {
+type NewsletterCampaign implements UnderscoreFieldsInterface @interfaceFields {
   _id: ObjectID!
   _edge: NewsletterCampaign_Edge!
-  _sync: SyncInfo!
   date: NewsletterCampaignDate!
   externalId: String @trim
   html: String @trim

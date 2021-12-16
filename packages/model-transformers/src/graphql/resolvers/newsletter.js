@@ -29,9 +29,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     defaults(newsletter) {
       return {
         fromName: trim(newsletter.defaultFromName),

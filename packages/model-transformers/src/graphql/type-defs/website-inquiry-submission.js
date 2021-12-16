@@ -7,10 +7,9 @@ extend type Query {
   websiteInquirySubmissions(input: PaginatedQueryInput = {}): QueryWebsiteInquirySubmissionsConnection!
 }
 
-type WebsiteInquirySubmission {
+type WebsiteInquirySubmission implements UnderscoreFieldsInterface @interfaceFields {
   _id: ObjectID!
   _edge: WebsiteInquirySubmission_Edge!
-  _sync: SyncInfo!
   addresses: WebsiteInquirySubmissionAddresses!
   date: WebsiteInquirySubmissionDate!
   payload: JSONObject

@@ -7,10 +7,9 @@ extend type Query {
   magazineSchedules(input: PaginatedQueryInput = {}): QueryMagazineSchedulesConnection!
 }
 
-type MagazineSchedule {
+type MagazineSchedule implements UnderscoreFieldsInterface @interfaceFields {
   _id: ObjectID!
   _edge: MagazineSchedule_Edge!
-  _sync: SyncInfo!
 }
 
 type MagazineSchedule_Edge {

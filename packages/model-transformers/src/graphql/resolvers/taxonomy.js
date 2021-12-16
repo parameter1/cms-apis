@@ -67,9 +67,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     isHierarchical(taxonomy) {
       return isHierarchical(taxonomy);
     },

@@ -6,9 +6,6 @@ export default {
    *
    */
   User: {
-    _sync() {
-      return {};
-    },
     date({ lastLoggedIn }) {
       return buildObjValues([
         ['lastLoggedIn', lastLoggedIn],

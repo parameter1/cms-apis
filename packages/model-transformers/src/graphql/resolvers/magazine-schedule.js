@@ -22,9 +22,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
   },
 
   /**

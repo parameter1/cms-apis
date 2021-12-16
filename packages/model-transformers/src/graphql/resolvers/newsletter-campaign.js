@@ -7,9 +7,6 @@ export default {
    *
    */
   NewsletterCampaign: {
-    _sync() {
-      return {};
-    },
     _edge(campaign, _, { loaders }) {
       return {
         async createdBy() {

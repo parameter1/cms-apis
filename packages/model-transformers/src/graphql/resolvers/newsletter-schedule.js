@@ -22,9 +22,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     date({ deploymentDate }) {
       return { deployed: deploymentDate };
     },

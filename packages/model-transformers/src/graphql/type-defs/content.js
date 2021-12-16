@@ -55,12 +55,11 @@ enum ContentLinkSocialProviderEnum {
   OTHER
 }
 
-type Content {
+type Content implements UnderscoreFieldsInterface @interfaceFields {
   _id: Int!
   _type: ContentTypeEnum! @trim(field: "type")
   _connection: Content_Connection!
   _edge: Content_Edge!
-  _sync: SyncInfo!
   alias: String
   body: ContentBody
   contact: ContentContact # was the Contactable interface: applied to company, contact, event, supplier, venue

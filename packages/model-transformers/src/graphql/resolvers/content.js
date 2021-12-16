@@ -170,9 +170,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     alias(content) {
       const alias = getMutatedValue({ content, mutation: 'Website', field: 'alias' });
       if (!alias || /^http[s]?:/i.test(alias) || /^www\./i.test(alias)) return null;

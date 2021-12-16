@@ -16,9 +16,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     code({ code }) {
       return [301, 302].includes(code) ? code : 301;
     },

@@ -25,11 +25,10 @@ enum TaxonomyTypeEnum {
   TYPE
 }
 
-type Taxonomy {
+type Taxonomy implements UnderscoreFieldsInterface @interfaceFields {
   _id: Int!
   _connection: Taxonomy_Connection!
   _edge: Taxonomy_Edge
-  _sync: SyncInfo!
   _type: TaxonomyTypeEnum! @trim(field: "type")
   depth: Int!
   description: String @trim

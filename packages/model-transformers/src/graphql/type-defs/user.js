@@ -21,9 +21,8 @@ input QueryUserByIdInput {
   id: Int!
 }
 
-type User {
+type User implements UnderscoreFieldsInterface @interfaceFields {
   _id: ObjectID!
-  _sync: SyncInfo!
   date: UserDate
   email: String @trim
   firstName: String @trim

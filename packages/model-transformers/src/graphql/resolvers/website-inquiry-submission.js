@@ -17,9 +17,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     addresses(submission) {
       return getAsObject(submission, 'addresses');
     },

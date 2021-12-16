@@ -18,9 +18,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     async name(option, _, { loaders }) {
       const name = trim(option.name);
       const siteId = LegacyDB.extractRefId(option.site);

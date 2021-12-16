@@ -7,10 +7,9 @@ extend type Query {
   websiteRedirects(input: PaginatedQueryInput = {}): QueryWebsiteRedirectsConnection!
 }
 
-type WebsiteRedirect {
+type WebsiteRedirect implements UnderscoreFieldsInterface @interfaceFields {
   _id: ObjectID!
   _edge: WebsiteRedirect_Edge
-  _sync: SyncInfo!
   code: Int!
   from: String!
   to: String!

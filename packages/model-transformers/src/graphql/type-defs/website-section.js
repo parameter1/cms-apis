@@ -17,11 +17,10 @@ type QueryWebsiteSectionsConnectionEdge {
   cursor: Cursor!
 }
 
-type WebsiteSection {
+type WebsiteSection implements UnderscoreFieldsInterface @interfaceFields {
   _id: Int!
   _connection: WebsiteSection_Connection!
   _edge: WebsiteSection_Edge!
-  _sync: SyncInfo!
   alias: String!
   depth: Int!
   description: String @trim

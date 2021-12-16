@@ -39,9 +39,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     links(magazine) {
       return buildObjValues([
         ['social', resolveSocialLinks(magazine)],

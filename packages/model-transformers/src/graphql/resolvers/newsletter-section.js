@@ -17,9 +17,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     name({ name, fullName }) {
       return { default: trim(name), full: trim(fullName) };
     },

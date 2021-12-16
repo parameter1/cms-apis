@@ -87,9 +87,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     alias({ alias }) {
       return cleanPath(alias) || null;
     },

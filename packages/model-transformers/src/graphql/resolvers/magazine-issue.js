@@ -28,9 +28,6 @@ export default {
         },
       };
     },
-    _sync() {
-      return {};
-    },
     date({ mailDate }) {
       return { mailed: mailDate };
     },
