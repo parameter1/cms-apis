@@ -24,9 +24,6 @@ type NewsletterCampaign_Edge {
 }
 
 type NewsletterCampaignDate {
-  created: DateTime
-  touched: DateTime
-  updated: DateTime
   deployed: DateTime
   scheduled: DateTime
   htmlUpdated: DateTime

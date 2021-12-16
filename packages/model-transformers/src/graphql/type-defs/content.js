@@ -165,9 +165,6 @@ type ContentContactsEdge {
 type ContentDate {
   expired: DateTime
   published: DateTime
-  created: DateTime
-  updated: DateTime
-  touched: DateTime
   started: DateTime
   ended: DateTime
 }

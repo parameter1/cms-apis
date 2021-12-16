@@ -17,7 +17,6 @@ type ImageAsset implements UnderscoreFieldsInterface @interfaceFields {
   caption: String @trim
   credit: String @trim
   crop: ImageAssetCrop
-  date: ImageAssetDate
   file: ImageAssetFile!
   height: Int
   # this should really be a field on the rel between content and the image
@@ -54,10 +53,6 @@ type ImageAssetCropRectangle {
   y: Int!
   width: Int!
   height: Int!
-}
-
-type ImageAssetDate {
-  touched: DateTime
 }
 
 type ImageAssetFile {

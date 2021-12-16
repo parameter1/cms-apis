@@ -38,11 +38,6 @@ export default {
         })()],
       ]);
     },
-    date({ touched }) {
-      return buildObjValues([
-        ['touched', touched],
-      ]);
-    },
     file(image) {
       return {
         name: trim(image.fileName),

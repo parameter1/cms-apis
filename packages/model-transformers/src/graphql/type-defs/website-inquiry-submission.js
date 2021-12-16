@@ -11,7 +11,6 @@ type WebsiteInquirySubmission implements UnderscoreFieldsInterface @interfaceFie
   _id: ObjectID!
   _edge: WebsiteInquirySubmission_Edge!
   addresses: WebsiteInquirySubmissionAddresses!
-  date: WebsiteInquirySubmissionDate!
   payload: JSONObject
 }
 
@@ -28,10 +27,6 @@ type WebsiteInquirySubmissionAddresses {
 
 type WebsiteInquirySubmissionContentEdge {
   node: Content!
-}
-
-type WebsiteInquirySubmissionDate {
-  created: DateTime
 }
 
 type QueryWebsiteInquirySubmissionsConnection {

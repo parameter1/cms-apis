@@ -243,9 +243,6 @@ export default {
       return buildObjValues([
         ['expired', content.unpublished],
         ['published', content.published],
-        ['created', content.created],
-        ['updated', content.updated],
-        ['touched', content.touched],
         ['started', content.startDate],
         ['ended', content.endDate],
       ]);

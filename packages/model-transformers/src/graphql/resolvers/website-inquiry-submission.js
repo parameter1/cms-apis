@@ -20,9 +20,6 @@ export default {
     addresses(submission) {
       return getAsObject(submission, 'addresses');
     },
-    async date({ created }) {
-      return { created };
-    },
     payload(submission) {
       return getAsObject(submission, 'payload');
     },

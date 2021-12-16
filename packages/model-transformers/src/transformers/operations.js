@@ -53,8 +53,6 @@ export default new Map([
               alias
             }
           }
-          createdBy { node { _id name { full } username email } }
-          updatedBy { node { _id name { full } username email } }
         }
         ...UnderscoreFieldsFragment
         alias
@@ -75,7 +73,7 @@ export default new Map([
           person { name firstName lastName title }
         }
         custom
-        date { expired published created updated touched started ended }
+        date { expired published started ended }
         hash
         inquiry { isEnabled }
         labels
@@ -155,7 +153,6 @@ export default new Map([
         caption
         credit
         crop { dimensions { x1 x2 y1 y2 aspectRatio } rectangle { x y width height } }
-        date { touched }
         file { name path original }
         height
         inCarousel
@@ -287,11 +284,10 @@ export default new Map([
       fragment TransformNewsletterCampaignFragment on NewsletterCampaign {
         _id
         _edge {
-          createdBy { node { _id name { full } email username } }
           newsletter { node { _id name _edge { website { node { _id name } } }  } }
         }
         ...UnderscoreFieldsFragment
-        date { created updated touched deployed scheduled htmlUpdated }
+        date { deployed scheduled htmlUpdated }
         externalId
         html
         isLocked
@@ -420,7 +416,6 @@ export default new Map([
         _edge { content { node { _id _type status } } }
         ...UnderscoreFieldsFragment
         addresses { from to cc bcc }
-        date { created }
         payload
       }
       ${UNDERSCORE_FIELDS}

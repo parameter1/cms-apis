@@ -19,9 +19,6 @@ export default {
     },
     date(campaign) {
       return {
-        created: campaign.created,
-        touched: campaign.touched,
-        updated: campaign.updated,
         deployed: campaign.deploymentDate,
         scheduled: campaign.scheduled,
         htmlUpdated: campaign.htmlDate,
