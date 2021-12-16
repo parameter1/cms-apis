@@ -20,7 +20,7 @@ type WebsiteInquirySubmission @meta(
   links: WebsiteInquirySubmissionLinks!
 
   addresses: JSONObject @project @object
-  created: DateTime @project(field: "date.created")
+  created: DateTime @project(field: "_meta.created.date")
   payload: JSONObject @project @object
 }
 

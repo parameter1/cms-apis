@@ -35,7 +35,7 @@ type ImageAsset @meta(
   notes: String @project(field: "note") @trim
   primaryImageDisplay: String! @project @trim
   source: ImageAssetSource @project(field: "file.original" needs: ["width", "height"])
-  touched: DateTime @project(field: "date.touched")
+  touched: DateTime @project(field: "_meta.updated.date")
 }
 
 type ImageAssetCropDimensions {
