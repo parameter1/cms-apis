@@ -148,11 +148,11 @@ describe('types/string', () => {
       expect(Joi.attempt('<body>foo</body>', Joi.string())).to.eq('foo');
       expect(Joi.attempt('<body><p><non-standard>foo</non-standard></p></body>', Joi.string())).to.eq('foo');
     });
-    it('should preserve all HTML tags when html() is enabled', () => {
-      expect(Joi.attempt('<body><p>foo</p></body>', Joi.string().html())).to.eq('<body><p>foo</p></body>');
+    it('should preserve all (applicable) HTML tags when html() is enabled', () => {
+      expect(Joi.attempt('<body><p>foo</p></body>', Joi.string().html())).to.eq('<p>foo</p>');
     });
     it('should preserve HTML decoded tags when html() is enabled', () => {
-      expect(Joi.attempt('<body>&lt;p&gt;foo</p></body>', Joi.string().html())).to.eq('<body><p>foo</p></body>');
+      expect(Joi.attempt('<body>&lt;p&gt;foo</p></body>', Joi.string().html())).to.eq('&lt;p&gt;foo<p></p>');
     });
     it('should preserve only specific HTML tags when html() with tags are specified', () => {
       expect(Joi.attempt('<body><p><em><a href="/foo">foo</a></em></p><strong>bar</strong></body>', Joi.string().html({ tags: ['em', 'strong'] }))).to

@@ -1,4 +1,4 @@
-import clean from '@cms-apis/clean-string';
+import { cleanHtml } from '@cms-apis/clean-string/html';
 import { getAsArray } from '@cms-apis/object-path';
 import prepareValue from './utils/prepare-value.js';
 
@@ -18,8 +18,7 @@ export default (joi) => ({
     let v = value;
     if (!helpers.schema.$_getRule('html')) {
       // no html rule set. strip all tags
-      // @todo only deconding entities because platform was; re-examine
-      v = clean(v, { stripHtmlTags: true, decodeEntities: true });
+      v = cleanHtml(v, { allowedTags: [] });
     }
 
     if (!helpers.schema.$_getFlag('multiline')) {
@@ -54,8 +53,7 @@ export default (joi) => ({
       },
       validate(value, helpers, { params }) {
         const tags = getAsArray(params, 'tags');
-        // @todo only deconding entities because platform was; re-examine
-        return clean(value, { stripHtmlTags: tags.length ? tags : false, decodeEntities: true });
+        return cleanHtml(value, { allowedTags: tags.length ? tags : true });
       },
     },
     multiline: {
