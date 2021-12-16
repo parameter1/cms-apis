@@ -17,3 +17,14 @@ export const COMMON_IMAGE_ASSET_REL = gql`
     }
   }
 `;
+
+export const UNDERSCORE_FIELDS = gql`
+  fragment UnderscoreFieldsFragment on UnderscoreFieldsInterface {
+    _meta {
+      created { date by { _id name { full } username email  } }
+      updated { date by { _id name { full } username email  } }
+    }
+    _sync { date }
+    _version { n history { date by { _id } } }
+  }
+`;

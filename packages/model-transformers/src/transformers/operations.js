@@ -1,5 +1,5 @@
 import gql from '@cms-apis/graphql/tag';
-import { COMMON_IMAGE_ASSET_REL } from './fragments.js';
+import { COMMON_IMAGE_ASSET_REL, UNDERSCORE_FIELDS } from './fragments.js';
 
 export default new Map([
   ['allContent', {
@@ -56,7 +56,7 @@ export default new Map([
           createdBy { node { _id name { full } username email } }
           updatedBy { node { _id name { full } username email } }
         }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         alias
         body { default newsletter magazine website original }
         contact {
@@ -139,6 +139,7 @@ export default new Map([
           userRegistration { isRequired accessLevels }
         }
       }
+      ${UNDERSCORE_FIELDS}
       ${COMMON_IMAGE_ASSET_REL}
     `,
   }],
@@ -147,7 +148,7 @@ export default new Map([
     fragment: gql`
       fragment TransformImageAssetFragment on ImageAsset {
         _id
-        _sync { date }
+        ...UnderscoreFieldsFragment
         alt
         approvedFor { website magazine }
         body
@@ -164,6 +165,7 @@ export default new Map([
         primaryImageDisplay
         width
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['magazines', {
@@ -178,11 +180,12 @@ export default new Map([
         _edge {
           image { node { ...CommonImageAssetRelFragment } }
         }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         description
         name
         links { subscribe renewal reprint einquiry social { provider url label } }
       }
+      ${UNDERSCORE_FIELDS}
       ${COMMON_IMAGE_ASSET_REL}
     `,
   }],
@@ -195,7 +198,7 @@ export default new Map([
           coverImage { node { ...CommonImageAssetRelFragment } }
           magazine { node { _id name } }
         }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         coverDescription
         credit
         date { mailed }
@@ -204,6 +207,7 @@ export default new Map([
         name { default full }
         url { digitalEdition }
       }
+      ${UNDERSCORE_FIELDS}
       ${COMMON_IMAGE_ASSET_REL}
     `,
   }],
@@ -230,8 +234,9 @@ export default new Map([
             }
           }
         }
-        _sync { date }
+        ...UnderscoreFieldsFragment
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['magazineSections', {
@@ -243,12 +248,13 @@ export default new Map([
           magazine { node { _id name } }
           issue { node { _id name { default } date { mailed } } }
         }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         description
         name { default full }
         isGlobal
         sequence
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['newsletters', {
@@ -262,7 +268,7 @@ export default new Map([
         _edge {
           website { node { _id name } }
         }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         alias
         defaults { fromName subjectLine testers { firstName lastName email } }
         description
@@ -272,6 +278,7 @@ export default new Map([
         teaser
         usesDeploymentDates
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['newsletterCampaigns', {
@@ -283,7 +290,7 @@ export default new Map([
           createdBy { node { _id name { full } email username } }
           newsletter { node { _id name _edge { website { node { _id name } } }  } }
         }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         date { created updated touched deployed scheduled htmlUpdated }
         externalId
         html
@@ -292,6 +299,7 @@ export default new Map([
         name { default from }
         subjectLine
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['newsletterSchedules', {
@@ -303,10 +311,11 @@ export default new Map([
           content { node { _id _type status } }
           section { node { _id name { default } _edge { newsletter { node { _id name } } } } }
         }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         date { deployed }
         sequence
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['newsletterSections', {
@@ -317,12 +326,13 @@ export default new Map([
         _edge {
           newsletter { node { _id name } }
         }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         alias
         description
         name { default full }
         sequence
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['taxonomies', {
@@ -343,7 +353,7 @@ export default new Map([
         _edge {
           parent { node { _id _type name { default hierarchical } path } }
         }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         _type
         depth
         description
@@ -353,6 +363,7 @@ export default new Map([
         sequence
         slug
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['users', {
@@ -360,7 +371,7 @@ export default new Map([
     fragment: gql`
       fragment TransformUserFragment on User {
         _id
-        _sync { date }
+        ...UnderscoreFieldsFragment
         date { lastLoggedIn }
         email
         isEnabled
@@ -370,6 +381,7 @@ export default new Map([
         roles
         username
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['websites', {
@@ -389,7 +401,7 @@ export default new Map([
           }
           scheduleOptions { node { _id name { default } slug } }
         }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         abbreviation
         description
         host { root asset image }
@@ -397,6 +409,7 @@ export default new Map([
         origin
         settings { date { timezone format locale } language { code primaryCode subCode } }
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['websiteInquirySubmissions', {
@@ -405,11 +418,12 @@ export default new Map([
       fragment TransformWebsiteInquirySubmissionFragment on WebsiteInquirySubmission {
         _id
         _edge { content { node { _id _type status } } }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         addresses { from to cc bcc }
         date { created }
         payload
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['websiteRedirects', {
@@ -418,11 +432,12 @@ export default new Map([
       fragment TransformWebsiteRedirectFragment on WebsiteRedirect {
         _id
         _edge { website { node { _id name } } }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         code
         from
         to
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['websiteSchedules', {
@@ -456,9 +471,10 @@ export default new Map([
             }
           }
         }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         date { started ended }
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['websiteScheduleOptions', {
@@ -467,11 +483,12 @@ export default new Map([
       fragment TransformWebsiteScheduleOptionFragment on WebsiteScheduleOption {
         _id
         _edge { website { node { _id name } } }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         description
         name { default full }
         slug
       }
+      ${UNDERSCORE_FIELDS}
     `,
   }],
   ['websiteSections', {
@@ -496,7 +513,7 @@ export default new Map([
           parent { node { _id name { default full } alias } }
           website { node { _id name } }
         }
-        _sync { date }
+        ...UnderscoreFieldsFragment
         alias
         depth
         description
@@ -508,6 +525,7 @@ export default new Map([
         seo
         slug
       }
+      ${UNDERSCORE_FIELDS}
       ${COMMON_IMAGE_ASSET_REL}
     `,
   }],
