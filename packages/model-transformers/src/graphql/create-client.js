@@ -11,11 +11,18 @@ const { InMemoryCache } = apolloCache;
 const { SchemaLink } = link;
 
 export default async ({ dbs, loaders } = {}) => {
-  const [fragmentMatcher, website] = await Promise.all([
+  const [fragmentMatcher, website, oldestContent] = await Promise.all([
     createFragmentMatcher({ schema }),
     dbs.legacy.repo('website.Site').findOne({ options: { strict: true } }),
+    dbs.legacy.repo('platform.Content').findOne({
+      options: {
+        projection: { created: 1 },
+        sort: { created: 1 },
+      },
+    }),
   ]);
   const defaults = {
+    oldestCreatedDate: oldestContent.created,
     website,
     websiteSection: await dbs.legacy.repo('website.Section').findOne({
       query: { alias: 'home', 'site.$id': website._id, status: 1 },
