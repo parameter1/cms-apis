@@ -1,5 +1,6 @@
 import { trim } from '@cms-apis/utils';
 import cheerio from 'cheerio';
+import { decode } from 'html-entities';
 import stripTags from './strip-tags.js';
 
 const { isArray } = Array;
@@ -15,10 +16,15 @@ const { isArray } = Array;
  * @param {boolean} [options.fragment=true] Whether to treat the HMTL as a fragment (not a document)
  */
 export default (value, { allowedTags = true, defaultValue = null, fragment = true } = {}) => {
-  const tags = isArray(allowedTags) ? allowedTags : [];
-  const html = allowedTags === true
-    ? trim(value, defaultValue)
-    : stripTags(value, { allowedTags: !allowedTags ? false : tags, defaultValue });
+  if (!allowedTags || (isArray(allowedTags) && !allowedTags.length)) {
+    const stripped = stripTags(value, { defaultValue });
+    const r = stripped ? decode(stripped) : stripped;
+    return r;
+  }
+
+  const html = isArray(allowedTags)
+    ? stripTags(value, { allowedTags, defaultValue })
+    : trim(value, defaultValue);
   if (!html) return html;
   const $ = cheerio.load(html);
   const cleaned = fragment ? $('body').html() : $.html();

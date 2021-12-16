@@ -23,17 +23,31 @@ describe('html/clean', () => {
   });
   it('should encode/handle html entities', () => {
     ['<p>Hello & World</p>', '<p>Hello &amp; World</p>'].forEach((value) => {
-      expect(clean(value)).to.equal('<p>Hello &amp; World</p>', { allowedTags: true });
+      expect(clean(value, { allowedTags: true })).to.equal('<p>Hello &amp; World</p>');
       expect(clean(value)).to.equal('<p>Hello &amp; World</p>');
     });
     ['<p>&gt;foo&copy;&#162;a&#769;</p>', '<p>>foo©¢á</p>'].forEach((value) => {
-      expect(clean(value)).to.equal('<p>&gt;foo©¢á</p>', { allowedTags: true });
+      expect(clean(value, { allowedTags: true })).to.equal('<p>&gt;foo©¢á</p>');
       expect(clean(value)).to.equal('<p>&gt;foo©¢á</p>');
     });
   });
+  it('should decode html entities when all tags are stripped', () => {
+    ['<p>Hello & World</p>', '<p>Hello &amp; World</p>'].forEach((value) => {
+      expect(clean(value, { allowedTags: null })).to.equal('Hello & World');
+      expect(clean(value, { allowedTags: false })).to.equal('Hello & World');
+      expect(clean(value, { allowedTags: [] })).to.equal('Hello & World');
+    });
+    ['<p>&gt;foo&copy;&#162;a&#769;</p>', '<p>>foo©¢á</p>'].forEach((value) => {
+      expect(clean(value, { allowedTags: null })).to.equal('>foo©¢á');
+      expect(clean(value, { allowedTags: false })).to.equal('>foo©¢á');
+      expect(clean(value, { allowedTags: [] })).to.equal('>foo©¢á');
+    });
+  });
   it('should strip all tags when specified', () => {
-    const result = clean(html, { allowedTags: false });
-    expect(result).to.equal('Bold LinkItalicHelloWorldSubStrike');
+    [false, null, []].forEach((allowedTags) => {
+      const result = clean(html, { allowedTags });
+      expect(result).to.equal('Bold LinkItalicHelloWorldSubStrike');
+    });
   });
   it('should strip all tags except allowed tags', () => {
     const result = clean(html, { allowedTags: ['i', 'b', 'em', 'strong', 'del', 's'] });
