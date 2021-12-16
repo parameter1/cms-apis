@@ -47,9 +47,9 @@ const buildMetaFields = async (doc, { defaults, loaders }) => {
   if (doc.updated) updated.date = doc.updated;
 
   if (!created.date) {
-    created.date = typeof doc._id === 'object' ? doc._id.getTimestamp() : defaults.oldestCreatedDate;
+    created.date = typeof doc._id === 'object' ? doc._id.getTimestamp() : doc.touched || defaults.oldestCreatedDate;
   }
-  if (!updated.date) updated.date = created.date;
+  if (!updated.date) updated.date = doc.touched || created.date;
   return { created, updated };
 };
 
