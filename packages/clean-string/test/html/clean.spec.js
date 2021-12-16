@@ -43,6 +43,17 @@ describe('html/clean', () => {
       expect(clean(value, { allowedTags: [] })).to.equal('>foo©¢á');
     });
   });
+  it('should preserve embedded tags', () => {
+    const v = '<p>%{[ data-embed-type="image" data-embed-id="58e7ce5a710bfc0ef08e8a40" data-embed-element="span" data-embed-size="640w" contenteditable="false" ]}%<br></p>';
+    [false, null, []].forEach((allowedTags) => {
+      const result = clean(v, { allowedTags });
+      expect(result).to.equal('%{[ data-embed-type="image" data-embed-id="58e7ce5a710bfc0ef08e8a40" data-embed-element="span" data-embed-size="640w" contenteditable="false" ]}%');
+    });
+    [true, ['p', 'br']].forEach((allowedTags) => {
+      const result = clean(v, { allowedTags });
+      expect(result).to.equal(v);
+    });
+  });
   it('should strip all tags when specified', () => {
     [false, null, []].forEach((allowedTags) => {
       const result = clean(html, { allowedTags });
