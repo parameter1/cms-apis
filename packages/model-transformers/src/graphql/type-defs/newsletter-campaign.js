@@ -20,12 +20,7 @@ type NewsletterCampaign implements UnderscoreFieldsInterface @interfaceFields {
 }
 
 type NewsletterCampaign_Edge {
-  createdBy: NewsletterCampaignCreatedByEdge
   newsletter: NewsletterCampaignNewsletterEdge!
-}
-
-type NewsletterCampaignCreatedByEdge {
-  node: User!
 }
 
 type NewsletterCampaignDate {

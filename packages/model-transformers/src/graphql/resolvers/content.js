@@ -127,12 +127,6 @@ export default {
           if (!node || node.type !== 'Company') return null;
           return { node };
         },
-        async createdBy() {
-          const userId = LegacyDB.extractRefId(content.createdBy);
-          if (!userId) return null;
-          const node = await loaders.get('platform.User').load(userId);
-          return node ? { node } : null;
-        },
         async parent() {
           const field = parentFieldMap.get(content.type);
           if (!field) return null;
@@ -161,12 +155,6 @@ export default {
           if (!id) return { node: defaults.websiteSection };
           const node = await loaders.get('website.Section').load(id);
           return { node: node || defaults.websiteSection };
-        },
-        async updatedBy() {
-          const userId = LegacyDB.extractRefId(content.createdBy);
-          if (!userId) return null;
-          const node = await loaders.get('platform.User').load(userId);
-          return node ? { node } : null;
         },
       };
     },

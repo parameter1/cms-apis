@@ -9,12 +9,6 @@ export default {
   NewsletterCampaign: {
     _edge(campaign, _, { loaders }) {
       return {
-        async createdBy() {
-          const userId = LegacyDB.extractRefId(campaign.createdBy);
-          if (!userId) return null;
-          const node = await loaders.get('platform.User').load(userId);
-          return node ? { node } : null;
-        },
         async newsletter() {
           const productId = LegacyDB.extractRefId(campaign.product);
           if (!productId) throw new Error(`Unable to load a product ID for campaign ID ${campaign._id}`);

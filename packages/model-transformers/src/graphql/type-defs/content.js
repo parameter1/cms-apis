@@ -94,14 +94,12 @@ type Content_Connection {
 
 type Content_Edge {
   company: ContentCompanyEdge
-  createdBy: ContentCreatedByEdge
   # from ContentCompany.parentCompany, ContentSupplier.parentSupplier, ContentVenue.parentVenue
   # must be of the same type as the root content model... might need to be restricted by type
   parent: ContentParentEdge
   primaryCategory: ContentPrimaryCategoryEdge
   primaryImage: ContentPrimaryImageEdge
   primaryWebsiteSection: ContentPrimaryWebsiteSectionEdge!
-  updatedBy: ContentUpdatedByEdge
 }
 
 type ContentBody {
@@ -162,10 +160,6 @@ type ContentContactPhone {
 type ContentContactsEdge {
   type: ContentContactTypeEnum!
   node: Content!
-}
-
-type ContentCreatedByEdge {
-  node: User!
 }
 
 type ContentDate {
@@ -380,10 +374,6 @@ type ContentTeaser {
   magazine: String
   website: String
   deck: String
-}
-
-type ContentUpdatedByEdge {
-  node: User!
 }
 
 type ContentWebsite {
