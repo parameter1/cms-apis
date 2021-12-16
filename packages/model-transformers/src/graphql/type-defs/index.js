@@ -32,6 +32,12 @@ scalar EJSONObject
 scalar JSONObject
 scalar ObjectID
 
+interface UnderscoreFieldsInterface {
+  _meta: Meta!
+  _sync: SyncInfo!
+  _version: Version!
+}
+
 type Query {
   ping: String!
 }
@@ -44,6 +50,26 @@ type PageInfo {
 
 type SyncInfo {
   date: DateTime!
+}
+
+type Version {
+  n: Int!
+  history: [VersionHistory!]!
+}
+
+type VersionHistory {
+  date: DateTime!
+  by: User
+}
+
+type Meta {
+  created: MetaDate!
+  updated: MetaDate!
+}
+
+type MetaDate {
+  date: DateTime!
+  by: User
 }
 
 input PaginatedQueryInput {

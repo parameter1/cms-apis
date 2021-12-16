@@ -1,7 +1,7 @@
 import merge from 'lodash.merge';
 import { GraphQLObjectID } from '@cms-apis/graphql/types';
 import { GraphQLJSONObject } from 'graphql-type-json';
-import { ObjectId } from '@cms-apis/db';
+import { ObjectId, LegacyDB } from '@cms-apis/db';
 import { GraphQLCursor, GraphQLDateTime, GraphQLEJSONObject } from '../types/index.js';
 
 import content from './content.js';
@@ -23,6 +23,36 @@ import websiteSchedule from './website-schedule.js';
 import websiteScheduleOption from './website-schedule-option.js';
 import websiteSection from './website-section.js';
 
+const buildMetaFields = async (doc, { defaults, loaders }) => {
+  const created = {};
+  const updated = {};
+
+  let createdByUser;
+  if (doc.createdBy) {
+    const userId = LegacyDB.extractRefId(doc.createdBy);
+    if (userId) createdByUser = await loaders.get('platform.User').load(userId);
+  }
+
+  let updatedByUser;
+  if (doc.updatedBy) {
+    const userId = LegacyDB.extractRefId(doc.updatedBy);
+    if (userId) updatedByUser = await loaders.get('platform.User').load(userId);
+  }
+
+  if (createdByUser) created.by = createdByUser;
+  if (updatedByUser) updated.by = updatedByUser;
+  if (!updatedByUser && createdByUser) updated.by = createdByUser;
+
+  if (doc.created) created.date = doc.created;
+  if (doc.updated) updated.date = doc.updated;
+
+  if (!created.date) {
+    created.date = typeof doc._id === 'object' ? doc._id.getTimestamp() : defaults.oldestCreatedDate;
+  }
+  if (!updated.date) updated.date = created.date;
+  return { created, updated };
+};
+
 export default merge(
   {
     Cursor: GraphQLCursor,
@@ -38,6 +68,18 @@ export default merge(
     SyncInfo: {
       date() {
         return new Date();
+      },
+    },
+    UnderscoreFieldsInterface: {
+      _meta(doc, _, { defaults, loaders }) {
+        return buildMetaFields(doc, { defaults, loaders });
+      },
+      _sync() {
+        return {};
+      },
+      async _version(doc, _, { defaults, loaders }) {
+        const meta = await buildMetaFields(doc, { defaults, loaders });
+        return { n: 1, history: [meta.updated] };
       },
     },
   },
