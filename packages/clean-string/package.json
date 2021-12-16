@@ -28,6 +28,7 @@
   ],
   "dependencies": {
     "@cms-apis/utils": "^0.0.0",
+    "cheerio": "^1.0.0-rc.10",
     "html-entities": "^2.3.2",
     "striptags": "^3.2.0"
   }
