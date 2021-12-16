@@ -15,7 +15,8 @@
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint --ext .js ./",
-    "test": "yarn lint"
+    "test": "yarn lint",
+    "test-nolint": "mocha ./test --extension spec.js --recursive"
   },
   "engines": {
     "node": ">=14.0"
