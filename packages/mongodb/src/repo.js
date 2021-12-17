@@ -272,6 +272,7 @@ export default class Repo {
    * Generates one or more integer IDs (when enabled).
    *
    * @param {number} [n=1] The number of IDs to genereate
+   * @returns {number[]}
    */
   async generateIntegerId(n = 1) {
     const { integerId } = this;
@@ -283,7 +284,7 @@ export default class Repo {
       $setOnInsert: { start: integerId.start || 0 },
     }, { upsert: true, returnOriginal: false });
     const id = value.start + value.sequence;
-    if (n === 1) return id;
+    if (n === 1) return [id];
     return [...Array(n).keys()].map((i) => id - i).reverse();
   }
 
