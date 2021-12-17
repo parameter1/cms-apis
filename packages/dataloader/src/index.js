@@ -39,7 +39,7 @@ export default class MongoDBRepoLoader {
    * @param {object} [params.projection] The document projection object (e.g. the fields to return)
    * @param {boolean} [params.strict=false] Whether to throw an error when the document is not found
    */
-  load({
+  async load({
     foreignField = '_id',
     value,
     projection,
@@ -52,7 +52,9 @@ export default class MongoDBRepoLoader {
       fields,
       strict,
     };
-    return this.loader.load(key);
+    const result = await this.loader.load(key);
+    if (result instanceof Error) throw result;
+    return result;
   }
 
   /**
@@ -62,7 +64,7 @@ export default class MongoDBRepoLoader {
    * @param {object} [params.projection] The document projection object (e.g. the fields to return)
    * @param {boolean} [params.strict=false] Whether to throw an error when the document is not found
    */
-  loadMany({
+  async loadMany({
     foreignField = '_id',
     values,
     projection,
@@ -75,7 +77,11 @@ export default class MongoDBRepoLoader {
       fields,
       strict,
     }));
-    return this.loader.loadMany(keys);
+    const results = await this.loader.loadMany(keys);
+    return results.map((result) => {
+      if (result instanceof Error) throw result;
+      return result;
+    });
   }
 
   /**
@@ -117,12 +123,13 @@ export default class MongoDBRepoLoader {
       });
     });
     return keys.map(({ foreignField, value, strict }) => {
+      console.log({ strict });
       const key = `${foreignField}:${value}`;
       const doc = resultMap.get(key) || null;
       if (!doc) {
         const error = new Error(`No ${name} record was found for ${key}`);
         error.status = 404;
-        if (strict) throw error;
+        if (strict) return error;
         process.emitWarning(`WARNING: ${error.message}`);
       }
       return doc;
